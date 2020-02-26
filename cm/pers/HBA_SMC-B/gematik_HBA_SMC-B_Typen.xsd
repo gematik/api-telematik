@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\1" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\3" -->
 <!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n (Gematik GmbH) -->
 <!-- Stand 2013-06-17: Version 1.0 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gematik="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:lat="http://xoev.de/latinchars/1_1/datatypes" targetNamespace="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gematik="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:lat="http://xoev.de/latinchars/1_1/datatypes" targetNamespace="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
 	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
 	<import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="http://www.w3.org/TR/2013/REC-xmlenc-core1-20130411/xenc-schema.xsd"/>
 	<import namespace="http://xoev.de/latinchars/1_1/datatypes" schemaLocation="..\..\..\ext\latinchars.xsd"/>
@@ -17,15 +17,6 @@
 	Beschreibung: Definition der gematik Datentypen für die Datenübergabe zwischen attribubestätigender Stelle und TSP
 		</documentation>
 	</annotation>
-	<!-- === Elementare Basis-Typen -->
-	<simpleType name="EMailType">
-		<annotation>
-			<documentation>Darstellung einer E-Mail-Adresse</documentation>
-		</annotation>
-		<restriction base="string">
-			<pattern value="[a-zA-Z0-9_.\-]*@[a-zA-Z0-9_\-]*.[a-zA-Z0-9_\-]*"/>
-		</restriction>
-	</simpleType>
 	<simpleType name="EFN_Type">
 		<annotation>
 			<documentation>zur Abbildung der elektronischen Forbildungsnummer</documentation>
@@ -55,16 +46,6 @@
 		<restriction base="string">
 			<length value="20"/>
 			<pattern value="80276[0-9]{15}"/>
-		</restriction>
-	</simpleType>
-	<simpleType name="IKType">
-		<annotation>
-			<documentation xml:lang="de">Zur Abbildung eines Institutskennzeichens</documentation>
-		</annotation>
-		<restriction base="string">
-			<maxLength value="10"/>
-			<minLength value="9"/>
-			<pattern value="[0-9]{9,10}"/>
 		</restriction>
 	</simpleType>
 	<simpleType name="LandType">
@@ -280,6 +261,16 @@
 			<element name="Zeile3" type="gematik:StringLat51Type" minOccurs="0"/>
 		</sequence>
 	</complexType>
+		<complexType name="ErklaerungType">
+		<sequence>
+			<element name="Titel" type="string"/>
+			<element name="Erklaerungstext" type="string" minOccurs="0"/>
+			<choice>
+				<element name="Zustimmung" type="boolean" default="false"/>
+				<element name="NachrichtAS" type="string"/>
+			</choice>
+		</sequence>
+	</complexType>
 	<complexType name="ExtCertType">
 		<annotation>
 			<documentation>Zertifikat mit Seriennummer und Issuer</documentation>
@@ -417,7 +408,7 @@
 							<documentation>Name und Anschrift des Verantwortlichen der Institution (gesetzlicher Vertreter)</documentation>
 						</annotation>
 					</element>
-					<element name="InstID" type="gematik:IKType" minOccurs="0">
+					<element name="InstID" type="gematik:String20Type" minOccurs="0">
 						<annotation>
 							<documentation>identifizierendes Merkmal für die Institution </documentation>
 						</annotation>
@@ -469,7 +460,7 @@
 			<element name="TelefonNummer" type="gematik:String40Type" minOccurs="0"/>
 			<element name="FaxNummer" type="gematik:String40Type" minOccurs="0"/>
 			<element name="MobilNummer" type="gematik:String40Type" minOccurs="0"/>
-			<element name="EMail" type="gematik:EMailType" minOccurs="0">
+			<element name="EMail" type="string" minOccurs="0">
 				<annotation>
 					<documentation>E-Mail-Adresse für sonstige Kommunikation</documentation>
 				</annotation>

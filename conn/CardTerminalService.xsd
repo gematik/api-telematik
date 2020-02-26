@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\1" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\2" -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
             version: V1.1.0
-			===========
-			*** CardService: Update von 8.0 auf 8.1
+			* CardService: Update von 8.0 auf 8.1
+            version: V1.1.1
+			* C_4788: Anpassung Element DisplayMsg
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CT="http://ws.gematik.de/conn/CardTerminalService/v1.1" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns1="http://ws.gematik.de/conn/CardService/v8.1" targetNamespace="http://ws.gematik.de/conn/CardTerminalService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CT="http://ws.gematik.de/conn/CardTerminalService/v1.1" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns1="http://ws.gematik.de/conn/CardService/v8.1" targetNamespace="http://ws.gematik.de/conn/CardTerminalService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.1">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2014, gematik - Gesellschaft für
@@ -73,7 +74,7 @@
 	<element name="DisplayMsg">
 		<simpleType>
 			<restriction base="string">
-				<length value="200"/>
+				<maxLength value="48"/>
 			</restriction>
 		</simpleType>
 	</element>

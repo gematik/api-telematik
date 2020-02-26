@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\1" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\4" -->
 <!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n (Gematik GmbH) -->
 <!-- Stand 2013-06-17: Version 1.0 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gematik="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gematik="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
 	<include schemaLocation="gematik_HBA_SMC-B_Typen.xsd"/>
 	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
 	<annotation>
@@ -202,17 +202,17 @@
 						<documentation>Änd. gegenüber Vorbefüllg.</documentation>
 					</annotation>
 				</element>
-				<element name="AntragsStatus"/>
+				<element name="AntragsStatus" type="gematik:AntragStatusKey">
+					<annotation>
+						<documentation>aktueller Status des Antrags</documentation>
+					</annotation>
+				</element>
 				<element name="AntragsStatusHistorie" type="gematik:AntragsStatusHistoryType">
 					<annotation>
 						<documentation>Bearbeitungshistorie</documentation>
 					</annotation>
 				</element>
-				<element name="DatNutzTI" minOccurs="0">
-					<!--<annotation>
-						<documentation>Einverständnis mit Aufnahme der Zertifikate in Verzeichnis innerhalb der TI</documentation>
-					</annotation>-->
-				</element>
+				<element name="ErklaerungAntragsteller" type="gematik:ErklaerungType" minOccurs="0" maxOccurs="unbounded"/>
 				<choice minOccurs="0">
 					<element name="Freigabedaten">
 						<annotation>
@@ -284,9 +284,9 @@
 									<documentation>Praxis, Krankenhaus, Betriebsstätte etc., deren Zertifikate zu sperren sind.</documentation>
 								</annotation>
 							</element>
-							<element name="InstID" type="gematik:IKType" minOccurs="0">
+							<element name="InstID" type="gematik:String20Type" minOccurs="0">
 								<annotation>
-									<documentation>Institutskennzeichen, Betriebsstättennummer,  Abrechnungsnummer, PraxisID o.ä.</documentation>
+									<documentation>Institutskennzei- chen, Betriebs- stättennummer,  Abrechnungsnummer, PraxisID o.ä.</documentation>
 								</annotation>
 							</element>
 							<choice>
