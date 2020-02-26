@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_opb1\4" -->
+<!-- gematik revision="\main\rel_online\rel_opb1\rel_ors2\1" -->
 <!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n (Gematik GmbH) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsdm/vsd/v5.2" targetNamespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.2.0">
 	<xs:element name="UC_AllgemeineVersicherungsdatenXML">
@@ -367,7 +367,10 @@ Inland, Abrechnung nach Aufwand,
 3 = Koronare Herzkrankheit, 
 4 = Diabetes mellitus Typ 1, 
 5 = Asthma bronchiale, 
-6 = COPD (chronic obstructive pulmonary disease)
+6 = COPD (chronic obstructive pulmonary disease), 
+7 = Chronische Herzinsuffizienz, 
+8 = Depression, 
+9 = Rückenschmerz
 Das DMP-Kennzeichen findet derzeit aufgrund bilateraler vertraglicher Verpflichtungen von einzelnen Kostenträgern und Leistungserbringern noch Verwendung. Zur Abbildung dieser Verträge zu Disease-Management-Programmen kann das DMP-Kennzeichen weiterhin gemäß §291 Abs. 2a Satz 3 SGB V auf der eGK gespeichert werden, da es sich dabei um Angaben nach § 53 SGB V bzw. Angaben zum Nachweis von zusätzlichen Vertragsverhältnissen handelt.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
