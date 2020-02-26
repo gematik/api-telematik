@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors1\1" -->
+<!--
+  Copyright (c) 2001, Health Level Seven. All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in the
+     documentation and/or other materials provided with the distribution.
+  3. All advertising materials mentioning features or use of this software
+     must display the following acknowledgement:
+       This product includes software developed by Health Level Seven.
+ 
+  THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  SUCH DAMAGE.
+  -->
+<!--
+    This schema is generated from a Generic Schema Definition (GSD)
+    by gsd2xsl. Better not edit this file.
+  -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:complexType name="ANY" abstract="true">
+		<xsd:attribute name="nullFlavor" type="cs_NullFlavor" use="optional"/>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_NullFlavor">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="NI"/>
+			<xsd:enumeration value="MSK"/>
+			<xsd:enumeration value="NA"/>
+			<xsd:enumeration value="UNK"/>
+			<xsd:enumeration value="NASK"/>
+			<xsd:enumeration value="ASKU"/>
+			<xsd:enumeration value="NAV"/>
+			<xsd:enumeration value="OTH"/>
+			<xsd:enumeration value="PINF"/>
+			<xsd:enumeration value="NINF"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="bl">
+		<xsd:restriction base="xsd:boolean">
+			<xsd:pattern value="true|false"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="BL">
+		<xsd:complexContent>
+			<xsd:extension base="ANY">
+				<xsd:attribute name="value" type="bl" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="bn">
+		<xsd:restriction base="bl"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="bin">
+		<xsd:restriction base="xsd:base64Binary"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="cs_BinaryDataEncoding">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="B64"/>
+			<xsd:enumeration value="TXT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="BIN" abstract="true" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="ANY">
+				<xsd:attribute name="representation" type="cs_BinaryDataEncoding" use="optional" default="TXT"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_CompressionAlgorithm">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="DF"/>
+			<xsd:enumeration value="GZ"/>
+			<xsd:enumeration value="ZL"/>
+			<xsd:enumeration value="Z"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="cs_IntegrityCheckAlgorithm">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="SHA-1"/>
+			<xsd:enumeration value="SHA-256"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ED" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="BIN">
+				<xsd:sequence>
+					<xsd:element name="reference" type="TEL" minOccurs="0"/>
+					<xsd:element name="thumbnail" type="thumbnail" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="mediaType" type="cs" use="optional" default="text/plain"/>
+				<xsd:attribute name="language" type="cs" use="optional"/>
+				<xsd:attribute name="compression" type="cs_CompressionAlgorithm" use="optional"/>
+				<xsd:attribute name="integrityCheck" type="bin" use="optional"/>
+				<xsd:attribute name="integrityCheckAlgorithm" type="cs_IntegrityCheckAlgorithm" use="optional" default="SHA-1"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="thumbnail">
+		<xsd:complexContent>
+			<xsd:restriction base="ED">
+				<xsd:sequence>
+					<xsd:element name="reference" type="TEL" minOccurs="0"/>
+					<xsd:element name="thumbnail" type="thumbnail" minOccurs="0" maxOccurs="0"/>
+				</xsd:sequence>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="st">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ST" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="ED">
+				<xsd:sequence>
+					<xsd:element name="reference" type="TEL" minOccurs="0" maxOccurs="0"/>
+					<xsd:element name="thumbnail" type="ED" minOccurs="0" maxOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="representation" type="cs_BinaryDataEncoding" fixed="TXT"/>
+				<xsd:attribute name="mediaType" type="cs" fixed="text/plain"/>
+				<xsd:attribute name="language" type="cs" use="optional"/>
+				<xsd:attribute name="compression" type="cs_CompressionAlgorithm" use="prohibited"/>
+				<xsd:attribute name="integrityCheck" type="bin" use="prohibited"/>
+				<xsd:attribute name="integrityCheckAlgorithm" type="cs_IntegrityCheckAlgorithm" use="prohibited"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs">
+		<xsd:restriction base="xsd:token">
+			<xsd:pattern value="[^\s]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="CD">
+		<xsd:complexContent>
+			<xsd:extension base="ANY">
+				<xsd:sequence>
+					<xsd:element name="originalText" type="ED" minOccurs="0"/>
+					<xsd:element name="qualifier" type="CR" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="translation" type="CD" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="code" type="cs" use="optional"/>
+				<xsd:attribute name="codeSystem" type="uid" use="optional"/>
+				<xsd:attribute name="codeSystemName" type="st" use="optional"/>
+				<xsd:attribute name="codeSystemVersion" type="st" use="optional"/>
+				<xsd:attribute name="displayName" type="st" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- requires ref='schema-CV'/>
+       FIXME: This dependency is cyclic, but it shouldn't hurt.
+       Make sure it doesn't hurt. -->
+	<xsd:complexType name="CE">
+		<xsd:complexContent>
+			<xsd:restriction base="CD">
+				<xsd:sequence>
+					<xsd:element name="qualifier" type="CR" minOccurs="0" maxOccurs="0"/>
+					<xsd:element name="originalText" type="ED" minOccurs="0"/>
+					<xsd:element name="translation" type="CD" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="code" type="cs" use="optional"/>
+				<xsd:attribute name="codeSystem" type="uid" use="optional"/>
+				<xsd:attribute name="codeSystemName" type="st" use="optional"/>
+				<xsd:attribute name="codeSystemVersion" type="st" use="optional"/>
+				<xsd:attribute name="displayName" type="st" use="optional"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CV">
+		<xsd:complexContent>
+			<xsd:restriction base="CE">
+				<xsd:sequence>
+					<xsd:element name="originalText" type="ED" minOccurs="0"/>
+					<xsd:element name="translation" type="CD" minOccurs="0" maxOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="code" type="cs" use="optional"/>
+				<xsd:attribute name="codeSystem" type="uid" use="optional"/>
+				<xsd:attribute name="codeSystemName" type="st" use="optional"/>
+				<xsd:attribute name="codeSystemVersion" type="st" use="optional"/>
+				<xsd:attribute name="displayName" type="st" use="optional"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CS">
+		<xsd:complexContent>
+			<xsd:restriction base="CV">
+				<xsd:sequence/>
+				<xsd:attribute name="code" type="cs" use="optional"/>
+				<xsd:attribute name="codeSystem" type="uid"/>
+				<xsd:attribute name="codeSystemName" type="st"/>
+				<xsd:attribute name="codeSystemVersion" type="st"/>
+				<xsd:attribute name="displayName" type="st" use="prohibited"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CO">
+		<xsd:complexContent>
+			<xsd:extension base="CV"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CR">
+		<xsd:complexContent>
+			<xsd:extension base="CD">
+				<xsd:sequence>
+					<xsd:element name="name" type="CV" minOccurs="0"/>
+					<xsd:element name="value" type="CD" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="inverted" type="bl" use="optional" default="false"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SC" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="ST">
+				<xsd:attribute name="code" type="cs" use="optional"/>
+				<xsd:attribute name="codeSystem" type="uid" use="optional"/>
+				<xsd:attribute name="codeSystemName" type="st" use="optional"/>
+				<xsd:attribute name="codeSystemVersion" type="st" use="optional"/>
+				<xsd:attribute name="displayName" type="st" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="uid">
+		<xsd:union memberTypes="oid uuid ruid"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="oid">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([0-9]*)(\.[0-9]*)*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="uuid">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ruid">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Za-z][A-Za-z0-9\-]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="II">
+		<xsd:complexContent>
+			<xsd:extension base="ANY">
+				<xsd:attribute name="root" type="uid" use="optional"/>
+				<xsd:attribute name="extension" type="st" use="optional"/>
+				<xsd:attribute name="assigningAuthorityName" type="st" use="optional"/>
+				<xsd:attribute name="displayable" type="bl" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="url">
+		<xsd:restriction base="xsd:anyURI"/>
+	</xsd:simpleType>
+	<xsd:complexType name="URL">
+		<xsd:complexContent>
+			<xsd:extension base="ANY">
+				<xsd:attribute name="value" type="url" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="ts">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9]{1,8}|([0-9]{9,14}|[0-9]{14,14}\.[0-9]+)([+\-][0-9]{1,4})?"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TS">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<diff>PQ</diff>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="QTY">
+				<xsd:attribute name="value" type="ts" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_TelecommunicationAddressUse">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="H"/>
+			<xsd:enumeration value="HP"/>
+			<xsd:enumeration value="HV"/>
+			<xsd:enumeration value="WP"/>
+			<xsd:enumeration value="AS"/>
+			<xsd:enumeration value="EC"/>
+			<xsd:enumeration value="PG"/>
+			<xsd:enumeration value="MC"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TEL">
+		<xsd:complexContent>
+			<xsd:extension base="URL">
+				<xsd:sequence>
+					<xsd:element name="useablePeriod" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded">
+						<!-- FIXME: one would expect the name "GTS" here but it's not
+          SXCM does ALL the right things, it's just not the right NAME. -->
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="use" type="set_cs_TelecommunicationAddressUse" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_AddressPartType">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="DEL"/>
+			<xsd:enumeration value="CNT"/>
+			<xsd:enumeration value="STA"/>
+			<xsd:enumeration value="CPA"/>
+			<xsd:enumeration value="CTY"/>
+			<xsd:enumeration value="ZIP"/>
+			<xsd:enumeration value="SAL"/>
+			<xsd:enumeration value="BNR"/>
+			<xsd:enumeration value="BNN"/>
+			<xsd:enumeration value="DIR"/>
+			<xsd:enumeration value="STR"/>
+			<xsd:enumeration value="STB"/>
+			<xsd:enumeration value="STTYP"/>
+			<xsd:enumeration value="ADL"/>
+			<xsd:enumeration value="UNID"/>
+			<xsd:enumeration value="UNIT"/>
+			<xsd:enumeration value="CAR"/>
+			<xsd:enumeration value="CEN"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ADXP" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="ST">
+				<xsd:attribute name="partType" type="cs_AddressPartType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_PostalAddressUse">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="PHYS"/>
+			<xsd:enumeration value="PST"/>
+			<xsd:enumeration value="TMP"/>
+			<xsd:enumeration value="BAD"/>
+			<xsd:enumeration value="H"/>
+			<xsd:enumeration value="HP"/>
+			<xsd:enumeration value="HV"/>
+			<xsd:enumeration value="WP"/>
+			<xsd:enumeration value="ABC"/>
+			<xsd:enumeration value="SYL"/>
+			<xsd:enumeration value="IDE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AD" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="ANY">
+				<xsd:sequence>
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<!-- This was supposed to be the generic part. The formally
+               correct schema way of doing that would involve defining
+               all the special part elements as substitution group
+               members for part. But that entails global elements
+               is unsafe scoping. So, we don't get into that here.
+               
+               xsd:element name='part' type='ADXP'/ -->
+						<xsd:element name="delimiter">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="DEL"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="country">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="CNT"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="state">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="STA"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="county">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="CPA"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="city">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="CTY"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="postalCode">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="ZIP"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="streetAddressLine">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="SAL"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="houseNumber">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="BNR"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="houseNumberNumeric">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="BNN"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="direction">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="DIR"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="streetName">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="STR"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="streetNameBase">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="STB"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<!--
+                jaxb implementors note: the jaxb code generator (v1.0.?) will fail to
+                append "Type" to streetNameType so that there will be duplicate
+                definitions in the java source for streetNameType.  You will have
+                to fix this manually.
+              -->
+						<xsd:element name="streetNameType">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="STTYP"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="additionalLocator">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="ADL"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="unitID">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="UNID"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="unitType">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="UNIT"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="carrier">
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="CAR"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="censusTract">
+							<!-- VOTE: negativ minor: this will not be interoperable because
+  there are many census tract definitions. Needs to be coded. This
+  should be a location specification (Place class). -->
+							<xsd:complexType mixed="true">
+								<xsd:complexContent mixed="true">
+									<xsd:restriction base="ADXP">
+										<xsd:attribute name="partType" type="cs_AddressPartType" fixed="CEN"/>
+									</xsd:restriction>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:choice>
+					<xsd:element name="useablePeriod" type="SXCM_TS" minOccurs="0" maxOccurs="unbounded">
+						<!-- FIXME: one would expect the name "GTS" here but it's not
+          SXCM does ALL the right things, it's just not the right NAME. -->
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="use" type="set_cs_PostalAddressUse" use="optional"/>
+				<xsd:attribute name="isNotOrdered" type="bl" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_EntityNamePartQualifier">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="BR"/>
+			<xsd:enumeration value="SP"/>
+			<xsd:enumeration value="VV"/>
+			<xsd:enumeration value="AC"/>
+			<xsd:enumeration value="PR"/>
+			<xsd:enumeration value="NB"/>
+			<xsd:enumeration value="LS"/>
+			<xsd:enumeration value="CL"/>
+			<xsd:enumeration value="IN"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ENXP" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="ST">
+				<xsd:attribute name="partType" type="cs_EntityNamePartType"/>
+				<xsd:attribute name="qualifier" type="set_cs_EntityNamePartQualifier" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_EntityNamePartType">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="FAM"/>
+			<xsd:enumeration value="GIV"/>
+			<xsd:enumeration value="PFX"/>
+			<xsd:enumeration value="SFX"/>
+			<xsd:enumeration value="DEL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="en.delimiter" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="ENXP">
+				<xsd:attribute name="partType" type="cs_EntityNamePartType" fixed="DEL"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="en.family" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="ENXP">
+				<xsd:attribute name="partType" type="cs_EntityNamePartType" fixed="FAM"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="en.given" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="ENXP">
+				<xsd:attribute name="partType" type="cs_EntityNamePartType" fixed="GIV"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="en.prefix" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="ENXP">
+				<xsd:attribute name="partType" type="cs_EntityNamePartType" fixed="PFX"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="en.suffix" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="ENXP">
+				<xsd:attribute name="partType" type="cs_EntityNamePartType" fixed="SFX"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_EntityNameUse">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="L"/>
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="I"/>
+			<xsd:enumeration value="R"/>
+			<xsd:enumeration value="ABC"/>
+			<xsd:enumeration value="SYL"/>
+			<xsd:enumeration value="IDE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="EN" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="ANY">
+				<xsd:sequence>
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="delimiter" type="en.delimiter"/>
+						<xsd:element name="family" type="en.family"/>
+						<xsd:element name="given" type="en.given"/>
+						<xsd:element name="prefix" type="en.prefix"/>
+						<xsd:element name="suffix" type="en.suffix"/>
+					</xsd:choice>
+					<xsd:element name="validTime" type="IVL_TS" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="use" type="set_cs_EntityNameUse" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PN" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:extension base="EN"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ON" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="EN">
+				<xsd:sequence>
+					<xsd:choice minOccurs="0" maxOccurs="unbounded">
+						<xsd:element name="delimiter" type="en.delimiter"/>
+						<xsd:element name="prefix" type="en.prefix"/>
+						<xsd:element name="suffix" type="en.suffix"/>
+					</xsd:choice>
+					<xsd:element name="validTime" type="IVL_TS" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="use" type="set_cs_EntityNameUse" use="optional"/>
+			</xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TN" mixed="true">
+		<xsd:complexContent mixed="true">
+			<xsd:restriction base="EN">
+				<xsd:sequence>
+					<!-- see note in schema-ED's part element, that's commented
+               out for now.
+
+              xsd:choice minOccurs='0' maxOccurs='0'>
+                <xsd:element name='part' type='ENXP'/>
+              </xsd:choice -->
+				</xsd:sequence>
+			</xsd:restriction>
+			<!-- FIXME: how do I specify that this sequence is constraint
+	     to be void? -->
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="QTY" abstract="true">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<diff>QTY</diff>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ANY"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="int">
+		<xsd:restriction base="xsd:integer"/>
+	</xsd:simpleType>
+	<xsd:complexType name="INT">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<diff>INT</diff>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="QTY">
+				<xsd:attribute name="value" type="int" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="real">
+		<xsd:union memberTypes="xsd:decimal xsd:double"/>
+	</xsd:simpleType>
+	<xsd:complexType name="REAL">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<diff>REAL</diff>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="QTY">
+				<xsd:attribute name="value" type="real" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PQR">
+		<xsd:complexContent>
+			<xsd:extension base="CV">
+				<xsd:attribute name="value" type="real" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PQ">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<diff>PQ</diff>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="QTY">
+				<xsd:sequence>
+					<xsd:element name="translation" type="PQR" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="value" type="real" use="optional"/>
+				<xsd:attribute name="unit" type="cs" use="optional" default="1"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MO">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<diff>MO</diff>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="QTY">
+				<xsd:attribute name="value" type="real" use="optional"/>
+				<xsd:attribute name="currency" type="cs" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="RTO">
+		<xsd:complexContent>
+			<xsd:extension base="RTO_QTY_QTY"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="cs_SetOperator">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="I"/>
+			<xsd:enumeration value="E"/>
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="H"/>
+			<xsd:enumeration value="P"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--            <xsd:annotation>
+              <xsd:appinfo>
+                <sch:pattern name="validate IVL_TS">
+                  <sch:rule abstract="true" id="rule-IVL_TS">
+                    <sch:report test="count(child::low|child::high|child::mid|child::width)&gt;2">
+                      <p>No more than two of the four components (low, high, mid, width) may be popluated at one time</p>
+                    </sch:report>
+                  </sch:rule>
+                </sch:pattern>
+              </xsd:appinfo>
+            </xsd:annotation> -->
+	<xsd:simpleType name="cs_CalendarCycle">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="CY"/>
+			<xsd:enumeration value="MY"/>
+			<xsd:enumeration value="CM"/>
+			<xsd:enumeration value="CW"/>
+			<xsd:enumeration value="WY"/>
+			<xsd:enumeration value="DM"/>
+			<xsd:enumeration value="CD"/>
+			<xsd:enumeration value="DY"/>
+			<xsd:enumeration value="DW"/>
+			<xsd:enumeration value="HD"/>
+			<xsd:enumeration value="CH"/>
+			<xsd:enumeration value="NH"/>
+			<xsd:enumeration value="CN"/>
+			<xsd:enumeration value="SN"/>
+			<xsd:enumeration value="CS"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="cs_TimingEvent">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="AC"/>
+			<xsd:enumeration value="ACD"/>
+			<xsd:enumeration value="ACM"/>
+			<xsd:enumeration value="ACV"/>
+			<xsd:enumeration value="HS"/>
+			<xsd:enumeration value="IC"/>
+			<xsd:enumeration value="ICD"/>
+			<xsd:enumeration value="ICM"/>
+			<xsd:enumeration value="ICV"/>
+			<xsd:enumeration value="PC"/>
+			<xsd:enumeration value="PCD"/>
+			<xsd:enumeration value="PCM"/>
+			<xsd:enumeration value="PCV"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="cs_ProbabilityDistributionType">
+		<xsd:restriction base="cs">
+			<xsd:enumeration value="U"/>
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="LN"/>
+			<xsd:enumeration value="G"/>
+			<xsd:enumeration value="E"/>
+			<xsd:enumeration value="X2"/>
+			<xsd:enumeration value="T"/>
+			<xsd:enumeration value="F"/>
+			<xsd:enumeration value="B"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+      Instantiated templates
+    -->
+	<xsd:complexType name="SXCM_TS">
+		<xsd:complexContent>
+			<xsd:extension base="TS">
+				<xsd:attribute name="operator" type="cs_SetOperator" use="optional" default="I"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="set_cs_TelecommunicationAddressUse">
+		<xsd:list itemType="cs_TelecommunicationAddressUse"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="set_cs_PostalAddressUse">
+		<xsd:list itemType="cs_PostalAddressUse"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="set_cs_EntityNamePartQualifier">
+		<xsd:list itemType="cs_EntityNamePartQualifier"/>
+	</xsd:simpleType>
+	<xsd:complexType name="IVL_TS">
+		<xsd:complexContent>
+			<xsd:extension base="SXCM_TS">
+				<xsd:choice minOccurs="0">
+					<xsd:sequence>
+						<xsd:element name="low" type="IVXB_TS"/>
+						<xsd:choice minOccurs="0">
+							<xsd:element name="width" type="PQ" minOccurs="0"/>
+							<xsd:element name="high" type="IVXB_TS" minOccurs="0"/>
+						</xsd:choice>
+					</xsd:sequence>
+					<xsd:element name="high" type="IVXB_TS"/>
+					<xsd:sequence>
+						<xsd:element name="width" type="PQ"/>
+						<xsd:element name="high" type="IVXB_TS" minOccurs="0"/>
+					</xsd:sequence>
+					<xsd:sequence>
+						<xsd:element name="center" type="TS"/>
+						<xsd:element name="width" type="PQ" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="IVXB_TS">
+		<xsd:complexContent>
+			<xsd:extension base="TS">
+				<xsd:attribute name="inclusive" type="bl" use="optional" default="true"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="set_cs_EntityNameUse">
+		<xsd:list itemType="cs_EntityNameUse"/>
+	</xsd:simpleType>
+	<xsd:complexType name="RTO_QTY_QTY">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<diff>RTO_QTY_QTY</diff>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="QTY">
+				<xsd:sequence>
+					<xsd:element name="numerator" type="QTY"/>
+					<xsd:element name="denominator" type="QTY"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

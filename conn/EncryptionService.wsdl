@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\4" -->
+<!-- Version History
+            version: V6.1.0
+			* Anpassung an EncryptionService 6.1
+	 End of Version History-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:CRYPT="http://ws.gematik.de/conn/EncryptionService/v6.1" xmlns:CRYPTW="http://ws.gematik.de/conn/EncryptionService/WSDL/v6.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/EncryptionService/WSDL/v6.1">
+	<documentation>
+		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Konnektor Verschlüsselung Basisanwendung
+		Version=6.1.0
+</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="EncryptionService.xsd" namespace="http://ws.gematik.de/conn/EncryptionService/v6.1"/>
+			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="DecryptDocumentRequestMessage">
+		<part name="parameter" element="CRYPT:DecryptDocument"/>
+	</message>
+	<message name="DecryptDocumentResponseMessage">
+		<part name="parameter" element="CRYPT:DecryptDocumentResponse"/>
+	</message>
+	<message name="EncryptDocumentRequestMessage">
+		<part name="parameter" element="CRYPT:EncryptDocument"/>
+	</message>
+	<message name="EncryptDocumentResponseMessage">
+		<part name="parameter" element="CRYPT:EncryptDocumentResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="EncryptionServicePortType">
+		<operation name="DecryptDocument">
+			<input message="CRYPTW:DecryptDocumentRequestMessage"/>
+			<output message="CRYPTW:DecryptDocumentResponseMessage"/>
+			<fault name="FaultMessage" message="CRYPTW:FaultMessage"/>
+		</operation>
+		<operation name="EncryptDocument">
+			<input message="CRYPTW:EncryptDocumentRequestMessage"/>
+			<output message="CRYPTW:EncryptDocumentResponseMessage"/>
+			<fault name="FaultMessage" message="CRYPTW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="EncryptionServiceBinding" type="CRYPTW:EncryptionServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="EncryptDocument">
+			<soap:operation soapAction="http://ws.gematik.de/conn/EncryptionService/v6.1#EncryptDocument"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="DecryptDocument">
+			<soap:operation soapAction="http://ws.gematik.de/conn/crypt/EncryptionService/v6.1#DecryptDocument"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="EncryptionService">
+		<port name="EncryptionServicePort" binding="CRYPTW:EncryptionServiceBinding">
+			<soap:address location="http://ti-konnektor/encryptionservice"/>
+		</port>
+	</service>
+</definitions>

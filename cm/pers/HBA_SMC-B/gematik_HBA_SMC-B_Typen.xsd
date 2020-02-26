@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n (Gematik GmbH) -->
+<!-- Stand 2013-06-17: Version 1.0 -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gematik="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:lat="http://xoev.de/latinchars/1_1/datatypes" targetNamespace="http://ws.gematik.de/cm/pers/HBA_SMC-B/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
+	<import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="http://www.w3.org/TR/2013/REC-xmlenc-core1-20130411/xenc-schema.xsd"/>
+	<import namespace="http://xoev.de/latinchars/1_1/datatypes" schemaLocation="..\..\..\ext\latinchars.xsd"/>
+	<include schemaLocation="gematik_HBA_SMC-B_Keys.xsd">
+		<annotation>
+			<documentation>allgemeine Enumerations</documentation>
+		</annotation>
+	</include>
+	<annotation>
+		<documentation xml:lang="de">
+    Copyright (c) 2013, gematik – Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+	Beschreibung: Definition der gematik Datentypen für die Datenübergabe zwischen attribubestätigender Stelle und TSP
+		</documentation>
+	</annotation>
+	<!-- === Elementare Basis-Typen -->
+	<simpleType name="EMailType">
+		<annotation>
+			<documentation>Darstellung einer E-Mail-Adresse</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="[a-zA-Z0-9_.\-]*@[a-zA-Z0-9_\-]*.[a-zA-Z0-9_\-]*"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="EFN_Type">
+		<annotation>
+			<documentation>zur Abbildung der elektronischen Forbildungsnummer</documentation>
+		</annotation>
+		<restriction base="string">
+			<maxLength value="45"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="FilenameType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines Dateinamens</documentation>
+		</annotation>
+		<restriction base="string"/>
+	</simpleType>
+	<simpleType name="HausnummerType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung einer Hausnummer (maximal 9 Stellen)</documentation>
+		</annotation>
+		<restriction base="string">
+			<maxLength value="9"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="ICCSNType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung einer ICCSN</documentation>
+		</annotation>
+		<restriction base="string">
+			<length value="20"/>
+			<pattern value="80276[0-9]{15}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IKType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines Institutskennzeichens</documentation>
+		</annotation>
+		<restriction base="string">
+			<maxLength value="10"/>
+			<minLength value="9"/>
+			<pattern value="[0-9]{9,10}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="LandType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines Ländercodes </documentation>
+		</annotation>
+		<restriction base="gematik:ISO-3166Key"/>
+	</simpleType>
+	<simpleType name="PLZType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung einer Postleitzahl, maximal 10 Stellen formatfrei</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="10"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String02Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 2-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="2"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String08Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 8-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="8"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String20Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 20-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="20"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String40Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 40-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="40"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String45Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 45-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="45"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String46Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 46-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="46"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringLat51Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 51-stelligen Strings vom Typ UTF-8 String.latin </documentation>
+		</annotation>
+		<restriction base="lat:String.Latin">
+			<minLength value="0"/>
+			<maxLength value="51"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String64Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 64-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="64"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="String128Type">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines maximal 255-stelligen Strings</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="0"/>
+			<maxLength value="128"/>
+		</restriction>
+	</simpleType>
+	<!-- === Komplexe Basis-Typen -->
+	<complexType name="AdressType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung einer Anschrift</documentation>
+		</annotation>
+		<sequence>
+			<element name="StrassenAdresse" type="gematik:StrassenAdressType" minOccurs="0"/>
+			<element name="PostfachAdresse" type="gematik:PostfachAdressType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="AdmissionType">
+		<annotation>
+			<documentation>Inhalt der Admission-Extension im X.509-Zertifikat</documentation>
+		</annotation>
+		<sequence>
+			<element name="admissionAuthority" type="gematik:String64Type" minOccurs="0">
+				<annotation>
+					<documentation>Name der attributbestätigenden Stelle</documentation>
+				</annotation>
+			</element>
+			<element name="ProfessionItem" type="gematik:ProfessionItemKey">
+				<annotation>
+					<documentation>Berufsgruppe / Institutstyp als Text</documentation>
+				</annotation>
+			</element>
+			<element name="ProfessionOID" type="string">
+				<annotation>
+					<documentation>OID der Berufsgruppe / des Institutstyps</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="AntragsStatusHistoryType">
+		<annotation>
+			<documentation>Liste der Statusänderungen eines Antrags</documentation>
+		</annotation>
+		<sequence>
+			<element name="AS_Aenderung" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="ADatum" type="date"/>
+						<element name="AStatus" type="gematik:AntragStatusKey"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="AntragstellerType">
+		<annotation>
+			<documentation>persönliche Daten des Antragstellers</documentation>
+		</annotation>
+		<sequence>
+			<element name="Namensdaten" type="gematik:HNameType"/>
+			<element name="Staat" type="gematik:LandType" minOccurs="0">
+				<annotation>
+					<documentation>Staatsangehörigkeit</documentation>
+				</annotation>
+			</element>
+			<element name="Berufsdaten" type="gematik:ProfessionalDataType" minOccurs="0">
+				<annotation>
+					<documentation>EFN, HeilberuflerID, TelematikID und Berufsgruppe des Heilberuflers für die Beantragung eines HBA </documentation>
+				</annotation>
+			</element>
+			<element name="Geburtsdaten" type="gematik:GeburtsDatenType" minOccurs="0"/>
+			<element name="Anschrift" type="gematik:StrassenAdressType" minOccurs="0"/>
+			<element name="Kommunikationsdaten" type="gematik:KommType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="AttrBSType">
+		<complexContent>
+			<extension base="gematik:InstAnschriftType">
+				<sequence>
+					<element name="AttrBS_Ident" type="string"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="CertType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung von Zertifikaten</documentation>
+		</annotation>
+		<sequence>
+			<element name="CertificateSem" type="gematik:CertificateRefKey">
+				<annotation>
+					<documentation>"Semantik" des Zertifikats</documentation>
+				</annotation>
+			</element>
+			<element name="CertificateValue" type="base64Binary"/>
+		</sequence>
+	</complexType>
+	<complexType name="ChangesType">
+		<annotation>
+			<documentation>Verweis auf eine Änderung durch den Antragsteller gegenüber der Vorbefüllung </documentation>
+		</annotation>
+		<sequence>
+			<element name="Path" type="string">
+				<annotation>
+					<documentation>XPath zum geänderten Element</documentation>
+				</annotation>
+			</element>
+			<element name="Value" type="anyType">
+				<annotation>
+					<documentation>ursprünglicher Wert des Elements</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="DruckzeilenType">
+		<annotation>
+			<documentation>Vorgabe für 3 Druckzeilen</documentation>
+		</annotation>
+		<sequence>
+			<element name="Zeile1" type="gematik:StringLat51Type"/>
+			<element name="Zeile2" type="gematik:StringLat51Type" minOccurs="0"/>
+			<element name="Zeile3" type="gematik:StringLat51Type" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="ExtCertType">
+		<annotation>
+			<documentation>Zertifikat mit Seriennummer und Issuer</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gematik:CertType">
+				<sequence>
+					<element name="Issuer" type="string">
+						<annotation>
+							<documentation>Herausgeber des Zertifikats</documentation>
+						</annotation>
+					</element>
+					<element name="validNotBefore" type="date" minOccurs="0">
+						<annotation>
+							<documentation>Beginn des Gültigkeitszeitraums des Zertifikats</documentation>
+						</annotation>
+					</element>
+					<element name="validNotAfter" type="date">
+						<annotation>
+							<documentation>Ende des Gültigkeitszeitraums des Zertifikats</documentation>
+						</annotation>
+					</element>
+					<element name="SerialNumber" type="base64Binary">
+						<annotation>
+							<documentation>eindeutige Seriennummer des Zertifikats (bis zu 20 Oktetts lang)</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="GeburtsDatenType">
+		<sequence>
+			<element name="Geburtsname" type="lat:String.Latin" minOccurs="0"/>
+			<element name="Geburtsdatum" type="date"/>
+			<element name="Geburtsort" type="lat:String.Latin"/>
+			<element name="Geburtsstaat" type="gematik:LandType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="FileTransferType">
+		<annotation>
+			<documentation xml:lang="de">Datei, wahlweise inline oder als Referenz</documentation>
+		</annotation>
+		<choice>
+			<sequence>
+				<element name="FileContent" type="base64Binary">
+					<annotation>
+						<documentation>Dateiinhalt inline</documentation>
+					</annotation>
+				</element>
+				<element name="Mimetype" type="token">
+					<annotation>
+						<documentation>Typ der Datei</documentation>
+					</annotation>
+				</element>
+			</sequence>
+			<element name="FileRef" type="gematik:FilenameType">
+				<annotation>
+					<documentation>Referenz auf Datei</documentation>
+				</annotation>
+			</element>
+		</choice>
+	</complexType>
+	<complexType name="HNameType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung eines Namens mit Subkomponenten</documentation>
+		</annotation>
+		<sequence>
+			<element name="Nachname" type="lat:String.Latin">
+				<annotation>
+					<documentation>Nachname</documentation>
+				</annotation>
+			</element>
+			<element name="Vornamen" type="lat:String.Latin" minOccurs="0">
+				<annotation>
+					<documentation>Vornamen wie im Ausweis eingetragen</documentation>
+				</annotation>
+			</element>
+			<element name="Namenszusatz" type="lat:String.Latin" minOccurs="0"/>
+			<element name="Vorsatzwort" type="lat:String.Latin" minOccurs="0"/>
+			<element name="VorAkadGrad" type="string" minOccurs="0" maxOccurs="unbounded">
+				<annotation>
+					<documentation>Vorgestellte geführte akadem. Grade; nicht änderbar durch Antragsteller</documentation>
+				</annotation>
+			</element>
+			<element name="NachAkadGrad" type="string" minOccurs="0" maxOccurs="unbounded">
+				<annotation>
+					<documentation>Nachgestellte geführte akadem. Grade; nicht änderbar durch Antragsteller</documentation>
+				</annotation>
+			</element>
+			<element name="Anrede" type="gematik:AnrKeyKey" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="InstAnschriftType">
+		<annotation>
+			<documentation>Name, Anschrift und Kommunikationsdaten einer Institution</documentation>
+		</annotation>
+		<sequence>
+			<element name="InstName" type="lat:String.Latin">
+				<annotation>
+					<documentation>Name der Institution / Einrichtung</documentation>
+				</annotation>
+			</element>
+			<element name="Abteilung" type="lat:String.Latin" minOccurs="0">
+				<annotation>
+					<documentation>Name der Organisationseinheit innerhalb der Institution</documentation>
+				</annotation>
+			</element>
+			<element name="Anschrift" type="gematik:AdressType" minOccurs="0">
+				<annotation>
+					<documentation>Anschrift der Institution</documentation>
+				</annotation>
+			</element>
+			<element name="InstKommunikation" type="gematik:KommType" minOccurs="0">
+				<annotation>
+					<documentation>Telefon, Fax, E-Mail der Institution</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="InstitutionType">
+		<annotation>
+			<documentation>Name, Adresse und Typ einer Institution / Praxis / Betriebsstätte</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="gematik:InstAnschriftType">
+				<sequence>
+					<element name="InstProfessionItem" type="gematik:InstProfessionItemKey">
+						<annotation>
+							<documentation>Berufsgruppe der Institution</documentation>
+						</annotation>
+					</element>
+					<element name="VerantwPerson" type="gematik:VPersonType" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>Name und Anschrift des Verantwortlichen der Institution (gesetzlicher Vertreter)</documentation>
+						</annotation>
+					</element>
+					<element name="InstID" type="gematik:IKType" minOccurs="0">
+						<annotation>
+							<documentation>identifizierendes Merkmal für die Institution </documentation>
+						</annotation>
+					</element>
+					<element name="TelematikID" type="gematik:TelematikIDType" minOccurs="0">
+						<annotation>
+							<documentation>Online-Kennung / Telematik-ID der Institution</documentation>
+						</annotation>
+					</element>
+					<element name="Praxisform" type="gematik:OrgFormKey" minOccurs="0">
+						<annotation>
+							<documentation>Art der Organisation, Dienststellenart, Praxisform, Einrichtung</documentation>
+						</annotation>
+					</element>
+					<element name="Gesellschafter" type="gematik:HNameType" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>Namen der Gesellschafter</documentation>
+						</annotation>
+					</element>
+					<element name="KVBereich" type="gematik:KVBereichKey" minOccurs="0">
+						<annotation>
+							<documentation>KV/KZV/Kammer-Bereich</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="KartenStatusHistoryType">
+		<annotation>
+			<documentation>Liste der Statusänderungen einer Karte</documentation>
+		</annotation>
+		<sequence>
+			<element name="KS_Aenderung" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="KDatum" type="date"/>
+						<element name="KStatus" type="gematik:KartenStatusKey"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="KommType">
+		<annotation>
+			<documentation/>
+		</annotation>
+		<sequence>
+			<element name="TelefonNummer" type="gematik:String40Type" minOccurs="0"/>
+			<element name="FaxNummer" type="gematik:String40Type" minOccurs="0"/>
+			<element name="MobilNummer" type="gematik:String40Type" minOccurs="0"/>
+			<element name="EMail" type="gematik:EMailType" minOccurs="0">
+				<annotation>
+					<documentation>E-Mail-Adresse für sonstige Kommunikation</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="PostfachAdressType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung einer Postfach-Adresse</documentation>
+		</annotation>
+		<sequence>
+			<element name="Postfach" type="gematik:String08Type"/>
+			<element name="LandPostfach" type="gematik:LandType" default="DE"/>
+			<element name="PostleitzahlPostfach" type="gematik:PLZType"/>
+			<element name="OrtPostfach" type="gematik:String40Type"/>
+		</sequence>
+	</complexType>
+	<complexType name="ProdResultType">
+		<annotation>
+			<documentation xml:lang="de">Zwischen- oder Abschlussmeldung zu einer einzelnen Karte</documentation>
+		</annotation>
+		<sequence>
+			<element name="ICCSN" type="gematik:ICCSNType"/>
+			<element name="SerialNumInSubject" type="gematik:String64Type" minOccurs="0">
+				<annotation>
+					<documentation>Seriennummer für alle Zertifikate der Karte</documentation>
+				</annotation>
+			</element>
+			<element name="KartenStatus" type="gematik:KartenStatusKey" maxOccurs="unbounded">
+				<annotation>
+					<documentation>alle aktuell geltenden Status</documentation>
+				</annotation>
+			</element>
+			<element name="KartenStatusHistorie" type="gematik:KartenStatusHistoryType"/>
+			<element name="Zertifikate" type="gematik:ExtCertType" minOccurs="0" maxOccurs="unbounded">
+				<annotation>
+					<documentation>X.509-Zertifikate mit zusätzlicher Angabe von Issuer und Ablaufdatum</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="ProfessionalDataType">
+		<annotation>
+			<documentation>berufliche Daten (persönliche Kenn-Nummern, Berufsgruppe), </documentation>
+		</annotation>
+		<sequence>
+			<element name="EFN" type="gematik:EFN_Type" minOccurs="0">
+				<annotation>
+					<documentation>elektronische Fortbildungsnummer</documentation>
+				</annotation>
+			</element>
+			<element name="HeilberuflerID" type="gematik:String45Type" minOccurs="0">
+				<annotation>
+					<documentation>Länderspezifische Erstausgabenummer (LEAN), eAInhaberID, Leistungserbringer-ID, etc.</documentation>
+				</annotation>
+			</element>
+			<element name="TelematikID" type="gematik:TelematikIDType" minOccurs="0">
+				<annotation>
+					<documentation>Telematik-ID oder Online-Kennung des Heilberuflers</documentation>
+				</annotation>
+			</element>
+			<element name="Berufsgruppe" type="gematik:ProfessionItemKey" maxOccurs="unbounded">
+				<annotation>
+					<documentation>eine oder mehrere Berufsgruppen des HBA-Antragstellers; sie bestimmen eindeutig das CHA-Profil und die Flaglist</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="StrassenAdressType">
+		<annotation>
+			<documentation xml:lang="de">Zur Abbildung einer Anschrift</documentation>
+		</annotation>
+		<sequence>
+			<element name="coName" type="lat:String.Latin" minOccurs="0">
+				<annotation>
+					<documentation>Name für die c/o Zustellanweisung</documentation>
+				</annotation>
+			</element>
+			<element name="Strasse" type="lat:String.Latin" minOccurs="0"/>
+			<element name="Hausnummer" type="gematik:HausnummerType" minOccurs="0"/>
+			<element name="Anschriftenzusatz" type="lat:String.Latin" minOccurs="0"/>
+			<element name="Postleitzahl" type="gematik:PLZType" minOccurs="0"/>
+			<element name="Ort" type="lat:String.Latin"/>
+			<element name="Land" type="gematik:LandType" default="DE" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="SubjectDNType">
+		<annotation>
+			<documentation>Eingangsdaten für das Element SubjectDN im Zertifikat</documentation>
+		</annotation>
+		<sequence>
+			<element name="commonName" type="gematik:String64Type"/>
+			<element name="title" minOccurs="0">
+				<simpleType>
+					<restriction base="token">
+						<minLength value="1"/>
+						<maxLength value="64"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="givenName" minOccurs="0">
+				<simpleType>
+					<restriction base="token">
+						<minLength value="1"/>
+						<maxLength value="64"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="surName" minOccurs="0">
+				<simpleType>
+					<restriction base="token">
+						<minLength value="1"/>
+						<maxLength value="64"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="serialNumber" minOccurs="0">
+				<simpleType>
+					<restriction base="token">
+						<minLength value="1"/>
+						<maxLength value="64"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="streetAddress" minOccurs="0">
+				<simpleType>
+					<restriction base="token">
+						<minLength value="1"/>
+						<maxLength value="64"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="postalCode" minOccurs="0">
+				<simpleType>
+					<restriction base="token">
+						<pattern value="[0-9]{5}"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="localityName" minOccurs="0">
+				<simpleType>
+					<restriction base="token">
+						<minLength value="1"/>
+						<maxLength value="128"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="stateOrProvinceName" minOccurs="0">
+				<annotation>
+					<documentation>ggf. Bundesland</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="token">
+						<minLength value="1"/>
+						<maxLength value="128"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="organizationName" type="gematik:String64Type" minOccurs="0">
+				<annotation>
+					<documentation>Betriebsstaettennummer BSNR; bei KZBV: 9-10stellige Zahl</documentation>
+				</annotation>
+			</element>
+			<element name="organizationalUnitName" type="gematik:String64Type" minOccurs="0">
+				<annotation>
+					<documentation>Abteilung innerhalb der Institution</documentation>
+				</annotation>
+			</element>
+			<element name="countryName" type="gematik:String02Type" fixed="DE">
+				<annotation>
+					<documentation>konstant = "DE"</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="TelematikIDType">
+		<annotation>
+			<documentation>Telematik-ID oder Online-Kennung des Heilberuflers</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="gematik:String128Type">
+				<attribute name="newTID" type="boolean" use="optional" default="false">
+					<annotation>
+						<documentation>neue Online-Kennung / Telematik-ID gewünscht?</documentation>
+					</annotation>
+				</attribute>
+			</extension>
+		</simpleContent>
+	</complexType>
+	<complexType name="VPersonType">
+		<annotation>
+			<documentation>Name und Meldeanschrift einer Person</documentation>
+		</annotation>
+		<sequence>
+			<element name="PersName" type="gematik:HNameType"/>
+			<element name="Anschrift" type="gematik:StrassenAdressType"/>
+		</sequence>
+	</complexType>
+</schema>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\6" -->
+<!-- Version History
+            version: V1.1.1
+			* C_5012: UpdateInformationSignature und FirmwareGroupSignature: mixed="true", processContents="lax"
+	 End of Version History-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:KSR="http://ws.gematik.de/ksr/v1.1" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" targetNamespace="http://ws.gematik.de/ksr/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.1">
+	<xs:annotation>
+		<xs:documentation xml:lang="de">
+			Copyright (c) 2014, gematik - Gesellschaft für
+			Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Konfigurationsdienst
+		</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1" schemaLocation="../tel/version/ProductInformation.xsd"/>
+	<!-- Product Identification Types -->
+	<xs:simpleType name="VersionType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]*(.[0-9]*){0,}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FirmwareGroupVersionType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProductTypeVersionType">
+		<xs:restriction base="KSR:VersionType"/>
+	</xs:simpleType>
+	<xs:simpleType name="ManufacturerType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<!-- End Product Identification Types -->
+	<xs:simpleType name="ReleaseNotesType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2048"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FileNotesType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="256"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FileSizeType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FileType">
+		<xs:sequence>
+			<xs:element name="Filename" type="xs:string"/>
+			<xs:element name="FileSize" type="KSR:FileSizeType"/>
+			<xs:element name="Notes" type="KSR:FileNotesType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PriorityType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Normal"/>
+			<xs:enumeration value="Kritisch"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FirmwareStructType">
+		<xs:sequence>
+			<xs:element name="FWVersion" type="PI:FWVersion"/>
+			<xs:element name="FWPriority" type="KSR:PriorityType"/>
+			<xs:element name="Firmwarefiles" type="KSR:FileType" minOccurs="0" maxOccurs="999"/>
+			<xs:element name="Documentationfiles" type="KSR:FileType" minOccurs="0" maxOccurs="999"/>
+			<xs:element name="FirmwareReleaseNotes" type="KSR:ReleaseNotesType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdateInformationType">
+		<xs:sequence>
+			<xs:element name="UpdateID">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[a-zA-Z0-9_]*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ProductVendorID" type="PI:ProductVendorID"/>
+			<xs:element name="ProductCode" type="PI:ProductCode"/>
+			<xs:element name="HWVersion" type="PI:HWVersion"/>
+			<xs:element name="ProductName" type="PI:ProductName"/>
+			<xs:element name="CreationDate" type="xs:date"/>
+			<xs:element name="DeploymentInformation">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="StartDate" type="xs:date" minOccurs="0"/>
+						<xs:element name="Deadline" type="xs:date" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Firmware" type="KSR:FirmwareStructType"/>
+			<xs:element name="UpdateInformationSignature">
+				<xs:complexType mixed="true">
+					<xs:sequence>
+						<xs:any processContents="lax" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="UpdateInformation" type="KSR:UpdateInformationType"/>
+	<xs:element name="listUpdatesRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProductVendorID" type="PI:ProductVendorID"/>
+				<xs:element name="ProductCode" type="PI:ProductCode"/>
+				<xs:element name="HWVersion" type="PI:HWVersion"/>
+				<xs:element name="FWVersion" type="PI:FWVersion"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listUpdatesResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FirmwareGroupReleaseNotes" type="KSR:ReleaseNotesType" minOccurs="0"/>
+				<xs:element name="UpdateInformation" type="KSR:UpdateInformationType" minOccurs="0" maxOccurs="999"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FirmwareGroupInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FirmwareGroupID" type="xs:string"/>
+				<xs:element name="ProductVendorID" type="PI:ProductVendorID"/>
+				<xs:element name="ProductCode" type="PI:ProductCode"/>
+				<xs:element name="HWVersion" type="PI:HWVersion"/>
+				<xs:element name="FirmwareGroupVersion" type="KSR:FirmwareGroupVersionType"/>
+				<xs:element name="CreationDate" type="xs:date"/>
+				<xs:element name="FirmwareGroupReleaseNotes" type="KSR:ReleaseNotesType"/>
+				<xs:element name="FWVersion" type="PI:FWVersion" maxOccurs="999"/>
+				<xs:element name="FirmwareGroupSignature">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:any processContents="lax" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- gematik revision="\main\rel_ors1\2" -->
+<xsd:schema xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn::kvno-org/kvabrechnung" targetNamespace="urn::kvno-org/kvabrechnung" elementFormDefault="qualified">
+	<!--	Schemadatei der KV Nordrhein, Erstellt am: 06.01.2010
+		Diese Schemadatei validiert die Gesamtaufstellung für Krankenhäuser.
+		Änderungsdokumentation:
+		keine
+
+-->
+	<xsd:element name="anlage_hvv" type="hvv-typ"/>
+	<xsd:complexType name="hvv-typ">
+		<xsd:sequence>
+			<xsd:element name="header" type="header-typ"/>
+			<xsd:element name="body" type="body-typ"/>
+		</xsd:sequence>
+		<xsd:attribute name="gesamtaufstellung-typ" type="gesamt-typ" use="required"/>
+		<xsd:attribute name="version" type="xsd:string" use="required" fixed="1.00"/>
+	</xsd:complexType>
+	<!--	header-typ -->
+	<xsd:complexType name="header-typ">
+		<xsd:sequence>
+			<xsd:element name="empfaenger">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:string" use="required" fixed="Kassenärztliche Vereinigung Nordrhein, Bezirksstelle"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="absender" type="absender-typ"/>
+			<xsd:element name="abrechnungsquartal">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="quartal-typ" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="erstellungsdatum">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:date" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	Absendertyp -->
+	<xsd:complexType name="absender-typ">
+		<xsd:sequence>
+			<xsd:element name="bsnr">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="bsnr-typ" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="praxisinhaber">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="arzt" type="arzt-typ" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="praxisadresse" type="adress-typ"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	Arzttyp -->
+	<xsd:complexType name="arzt-typ">
+		<xsd:sequence>
+			<xsd:element name="titel" minOccurs="0">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="vorname" minOccurs="0">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="nachname">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="minimum-laenge-typ" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="fachgruppe" minOccurs="0" maxOccurs="10">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="krkh" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	Adresstyp -->
+	<xsd:complexType name="adress-typ">
+		<xsd:sequence>
+			<xsd:element name="strasse">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="minimum-laenge-typ" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="plz">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="minimum-laenge-typ" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ort">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="minimum-laenge-typ" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	body-typ -->
+	<xsd:complexType name="body-typ">
+		<xsd:sequence>
+			<xsd:element name="anzahl_faelle" type="anz-faelle-typ"/>
+			<xsd:element name="ankreuzfeld_2">
+				<xsd:annotation>
+					<xsd:documentation>Erklärung datentechnisches Abrechnungsverfahren</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:choice>
+						<xsd:element name="datentraegerabr">
+							<xsd:complexType>
+								<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+								<xsd:attribute name="Anzahl" type="xsd:short" use="required"/>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="onlineabr">
+							<xsd:complexType>
+								<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:choice>
+					<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ankreuzfeld_3">
+				<xsd:annotation>
+					<xsd:documentation>Erklärung Verordnung von Arzneimitteln gem. §29 BMV-Ä usw.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="avwg_software" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:attribute name="V" type="minimum-laenge-typ" use="required"/>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ankreuzfeld_4">
+				<xsd:annotation>
+					<xsd:documentation>Erklärung Abrechnung spez. Laboratoriumsuntersuchungen Abs. 32.3 EBM</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ankreuzfeld_5">
+				<xsd:annotation>
+					<xsd:documentation>Erklärung Abrechnung von Leistungen, an denen mehrer Ärzte/Arztpraxen mitgewirkt haben</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ankreuzfeld_6">
+				<xsd:annotation>
+					<xsd:documentation>Erklärung bei Abrechnung von Kosten gem. Abschnitt I Punkt 7.3 usw.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ankreuzfeld_7">
+				<xsd:annotation>
+					<xsd:documentation>Erklärung zu ambulanten Notfallleistungen</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ankreuzfeld_9">
+				<xsd:annotation>
+					<xsd:documentation>Bestätigung gemäß §6 ... Zervix-Zytologie</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	Azahll-Fälle-Typ -->
+	<xsd:complexType name="anz-faelle-typ">
+		<xsd:sequence>
+			<xsd:element name="arbeitsgebiet_b">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:unsignedInt" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="arbeitsgebiet_h">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:unsignedInt" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="arbeitsgebiet_i">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:unsignedInt" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="gesamt">
+				<xsd:complexType>
+					<xsd:attribute name="V" type="xsd:unsignedInt" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	Typdefintionen
+-->
+	<xsd:simpleType name="bz-name-typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="KV Nordrhein"/>
+			<xsd:enumeration value="KV Nordrhein, Bezirksstelle Köln"/>
+			<xsd:enumeration value="KV Nordrhein, Bezirksstelle Düsseldorf"/>
+			<xsd:enumeration value="Abrechnungsstelle KV-Nordrhein"/>
+			<xsd:enumeration value="38"/>
+			<!-- analog zum Eintrag auf dem D2D-Produktionsserver -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="gesamt-typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="arzt"/>
+			<xsd:enumeration value="ermaechtigt"/>
+			<xsd:enumeration value="krankenhaus"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="anrede-typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Frau"/>
+			<xsd:enumeration value="Herr"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="siebenstellig-typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="7"/>
+			<xsd:pattern value="\d"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="d2d-account-typ">
+		<xsd:attribute name="V" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:unsignedInt">
+					<xsd:totalDigits value="7"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="bsnr-typ">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:annotation>
+				<xsd:documentation>Wertebereich Betriebsstättennummer</xsd:documentation>
+			</xsd:annotation>
+			<xsd:pattern value="[2,3]\d{8}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="quartal-typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation>Format: JJJJ-Q</xsd:documentation>
+			</xsd:annotation>
+			<xsd:pattern value="[2][0][0-1][0-9]-[1-4]"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="minimum-laenge-typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation/>
+			</xsd:annotation>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- ****************************** ENDE: body ****************************** -->
+	<!-- XSL-Prüfungen -->
+	<xsd:annotation>
+		<xsd:documentation xml:lang="de">Gesamtaufstellung</xsd:documentation>
+		<xsd:appinfo>
+		</xsd:appinfo>
+	</xsd:annotation>
+</xsd:schema>
