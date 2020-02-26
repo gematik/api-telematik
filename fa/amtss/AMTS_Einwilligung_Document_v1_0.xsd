@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors2\7" -->
+<!-- gematik revision="\main\rel_online\rel_ors2\8" -->
 <!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS_Einwilligung="http://ws.gematik.de/fa/amtss/AMTS_Einwilligung_Document/v1.0" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Einwilligung_Document/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<!-- Version History            
+			version: V1.0.1
+			Redaktionelle Änderungen durch Kommentierungsverfahren des GKV-SV 
+			im Zuge des R2.1.2 (GKV-SV_09)
+			=============
+	 End of Version History-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS_Einwilligung="http://ws.gematik.de/fa/amtss/AMTS_Einwilligung_Document/v1.0" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Einwilligung_Document/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.1">
 	<xs:element name="Einwilligung">
 		<xs:annotation>
 			<xs:documentation>Daten zur Einwilligung in die Fachanwendung eMP/AMTS-Datenmanagement
@@ -10,7 +16,7 @@ Die Datentypen und Wertebereiche folgen der Fachanwendung VSDM.</xs:documentatio
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="Version" fixed="1.0.0">
+				<xs:element name="Version" fixed="1.0.1">
 					<xs:annotation>
 						<xs:documentation>Name: Version
 
@@ -37,7 +43,7 @@ Befüllung / Format: ---</xs:documentation>
 					<xs:annotation>
 						<xs:documentation>Name: LE-Nachname
 
-Beschreibung: Nachname des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert
+Beschreibung: Nachname des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
 
 Befüllung / Format: analog VSDM</xs:documentation>
 					</xs:annotation>
@@ -51,7 +57,7 @@ Befüllung / Format: analog VSDM</xs:documentation>
 					<xs:annotation>
 						<xs:documentation>Name: LE-Vorname
 
-Beschreibung: Vorname des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert
+Beschreibung: Vorname des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
 
 Befüllung / Format: analog VSDM</xs:documentation>
 					</xs:annotation>
@@ -65,7 +71,7 @@ Befüllung / Format: analog VSDM</xs:documentation>
 					<xs:annotation>
 						<xs:documentation>Name: LE-Postleitzahl
 
-Beschreibung: Postleitzahl als Teil der Adresse des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert
+Beschreibung: Postleitzahl als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
 
 Befüllung / Format: analog VSDM (Die Befüllung des Feldes Postleitzahl erfolgt gemäß den Festlegungen der DEÜV)</xs:documentation>
 					</xs:annotation>
@@ -79,7 +85,7 @@ Befüllung / Format: analog VSDM (Die Befüllung des Feldes Postleitzahl erfolgt
 					<xs:annotation>
 						<xs:documentation>Name: LE-Ort
 
-Beschreibung: Ort als Teil der Adresse des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert
+Beschreibung: Ort als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
 
 Befüllung / Format: analog VSDM</xs:documentation>
 					</xs:annotation>
@@ -93,7 +99,7 @@ Befüllung / Format: analog VSDM</xs:documentation>
 					<xs:annotation>
 						<xs:documentation>Name: LE-Straße
 
-Beschreibung: Straße als Teil der Adresse des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert
+Beschreibung: Straße als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
 
 Befüllung / Format: analog VSDM: Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
 					</xs:annotation>
@@ -107,7 +113,7 @@ Befüllung / Format: analog VSDM: Anlage 9.4 (Datensätze und Datenbausteine sow
 					<xs:annotation>
 						<xs:documentation>Name: LE-Hausnummer
 
-Beschreibung: Hausnummer als Teil der Adresse des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert
+Beschreibung: Hausnummer als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
 
 Befüllung / Format: analog VSDM: Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
 					</xs:annotation>
@@ -121,7 +127,7 @@ Befüllung / Format: analog VSDM: Anlage 9.4 (Datensätze und Datenbausteine sow
 					<xs:annotation>
 						<xs:documentation>Name: LE-Anschriftenzusatz
 
-Beschreibung: Anschriftenzusatz als Teil der Adresse des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert. Als Anschriftenzusatz kann z. B. "Hinterhaus" angegeben werden.
+Beschreibung: Anschriftenzusatz als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte. Als Anschriftenzusatz kann z. B. "Hinterhaus" angegeben werden.
 
 Befüllung / Format: analog VSDM</xs:documentation>
 					</xs:annotation>
@@ -135,7 +141,7 @@ Befüllung / Format: analog VSDM</xs:documentation>
 					<xs:annotation>
 						<xs:documentation>Name: LE-Wohnsitzländercode
 
-Beschreibung: Wohnsitzländercode als Teil der Adresse des Leistungserbringers, der die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement archiviert
+Beschreibung: Wohnsitzländercode als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
 
 Befüllung / Format: analog VSDM: Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
 					</xs:annotation>

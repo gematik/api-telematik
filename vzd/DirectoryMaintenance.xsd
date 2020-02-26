@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_ors1\1" -->
+<!-- gematik revision="\main\rel_ors2\1" -->
 <!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
 <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:VZD="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
 	<annotation>

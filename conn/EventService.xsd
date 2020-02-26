@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\2" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\3" -->
 <!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History
-
-			version: V7.2.2
-			===========
-			*** P15.1: C_6240 new Operation getLeCards
 
 			version: V7.2.1
 			===========
@@ -25,7 +21,7 @@
             *** Context in RenewSubscription ergänzt
 
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:EVT="http://ws.gematik.de/conn/EventService/v7.2" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CT="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:HSM="http://ws.gematik.de/conn/HsmInfo/v8.0" targetNamespace="http://ws.gematik.de/conn/EventService/v7.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.2.2">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:EVT="http://ws.gematik.de/conn/EventService/v7.2" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CT="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:HSM="http://ws.gematik.de/conn/HsmInfo/v8.0" targetNamespace="http://ws.gematik.de/conn/EventService/v7.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.2.1">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2014, gematik - Gesellschaft für
@@ -81,8 +77,8 @@
 		</annotation>
 		<restriction base="token">
 			<enumeration value="Info"/>
-			<enumeration value="Warning"/>
-			<enumeration value="Error"/>
+			<enumeration value="Warning"/><enumeration value="Error"/>
+			
 			<enumeration value="Fatal"/>
 		</restriction>
 	</simpleType>
@@ -346,31 +342,6 @@
 						</sequence>
 					</complexType>
 				</element>
-			</sequence>
-		</complexType>
-	</element>
-	<element name="GetLeCards">
-		<annotation>
-			<documentation>Abfragen der in Kartenterminals verfügbaren Karten vom Kartentyp HBAx und SM-B</documentation>
-		</annotation>
-		<complexType>
-			<sequence>
-				<element ref="CCTX:Context"/>
-				<element ref="CARDCMN:CtId" minOccurs="0"/>
-				<element ref="CARDCMN:SlotId" minOccurs="0"/>
-				<element ref="CARDCMN:CardType" minOccurs="0"/>
-			</sequence>
-			<attribute name="mandant-wide" type="boolean" use="optional" default="false"/>
-		</complexType>
-	</element>
-	<element name="GetLeCardsResponse">
-		<annotation>
-			<documentation>Antwort des Aufrufs GetLeCards</documentation>
-		</annotation>
-		<complexType>
-			<sequence>
-				<element ref="CONN:Status"/>
-				<element ref="CARD:Cards"/>
 			</sequence>
 		</complexType>
 	</element>

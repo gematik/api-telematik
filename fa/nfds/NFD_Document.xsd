@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-15"?>
-<!-- gematik revision="\main\rel_online\rel_ors2\19" -->
+<!-- gematik revision="\main\rel_online\rel_ors2\22" -->
 <!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2017 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
-<!-- Version History            
+<!-- Version History
+            version: V1.1.1
+			===========
+			*** C_6462: Aufhebung der Pflicht zur Schriftform für die  Einwilligungserklärung      
+     
 			version: V1.1.0
 			===========
 			***  Synchronisation mit eMP/AMTS (BMPv2.4)
 	 End of Version History-->
-
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.0" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.0" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.1">
 	<xs:annotation>
 		<xs:documentation>
 		xml:lang="de">
@@ -138,7 +141,7 @@
 				</xs:element>
 				<xs:element name="NFD_Versicherter_Einwilligung">
 					<xs:annotation>
-						<xs:documentation>Daten zur Einwilligung des Versicherten in die Nutzung der Notfalldaten (papiergebundene Hinterlegung bei einem Arzt)</xs:documentation>
+						<xs:documentation>Daten zur Einwilligung des Versicherten in die Nutzung der Notfalldaten. </xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
