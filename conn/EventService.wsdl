@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\2" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\4" -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History
+
+            version: V7.2.1
+			* P15.1: C_6240 new Operation getLeCards
 
             version: V7.2.0
 			* EventService update von 7.1 auf 7.2
@@ -16,7 +19,7 @@
 	<documentation>
 		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: Konnektor Ereignisdienst
-		version=7.2.0
+		version=7.2.1
 	</documentation>
 	<types>
 		<xs:schema>
@@ -61,6 +64,12 @@
 	<message name="GetCardsResponseMessage">
 		<part name="parameter" element="EVT:GetCardsResponse"/>
 	</message>
+	<message name="GetLeCardsRequestMessage">
+		<part name="parameter" element="EVT:GetLeCards"/>
+	</message>
+	<message name="GetLeCardsResponseMessage">
+		<part name="parameter" element="EVT:GetLeCardsResponse"/>
+	</message>
 	<message name="RenewSubscriptionsRequestMessage">
 		<part name="parameter" element="EVT:RenewSubscriptions"/>
 	</message>
@@ -101,6 +110,11 @@
 		<operation name="GetCards">
 			<input message="EVTW:GetCardsRequestMessage"/>
 			<output message="EVTW:GetCardsResponseMessage"/>
+			<fault name="FaultMessage" message="EVTW:FaultMessage"/>
+		</operation>
+		<operation name="GetLeCards">
+			<input message="EVTW:GetLeCardsRequestMessage"/>
+			<output message="EVTW:GetLeCardsResponseMessage"/>
 			<fault name="FaultMessage" message="EVTW:FaultMessage"/>
 		</operation>
 		<operation name="RenewSubscriptions">
@@ -173,6 +187,18 @@
 		</operation>
 		<operation name="GetCards">
 			<soap:operation soapAction="http://ws.gematik.de/conn/EventService/v7.2#GetCards"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetLeCards">
+			<soap:operation soapAction="http://ws.gematik.de/conn/EventService/v7.2#GetLeCards"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>

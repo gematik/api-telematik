@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-15"?>
-<!-- gematik revision="\main\rel_online\rel_ors2\16" -->
+<!-- gematik revision="\main\rel_online\rel_ors2\19" -->
 <!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2017 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.0" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.0" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<!-- Version History            
+			version: V1.1.0
+			===========
+			***  Synchronisation mit eMP/AMTS (BMPv2.4)
+	 End of Version History-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.0" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.1" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
 	<xs:annotation>
 		<xs:documentation>
 		xml:lang="de">
@@ -257,18 +263,23 @@
 							<xs:choice>
 								<xs:element name="M" minOccurs="0">
 									<xs:annotation>
-										<xs:documentation>Medikation; mindestens ein Attribut oder Wirkstoffe müssen angegeben sein.
-Validitätskriterium: Falls für eine Medikation eine PZN angegeben ist, müssen auch alle über die PZN aus einer Arzneimitteldatenbank ableitbaren Attribute (inklusive Wirkstoffe) angegeben werden. Die Inhalte müssen dann entweder der Arzneimitteldatenbank entsprechen oder sind vom Anwender anders zu belegen.</xs:documentation>
+										<xs:documentation>Name: Medikation
+
+Befüllung / Format: Falls für eine Medikation eine PZN angegeben ist, müssen auch alle über die PZN aus einer Arzneimitteldatenbank ableitbaren Attribute (inklusive Wirkstoffe) angegeben werden. Die Inhalte müssen dann entweder der Arzneimitteldatenbank entsprechen oder sind vom Anwender anders zu belegen.</xs:documentation>
 									</xs:annotation>
 									<xs:complexType>
 										<xs:complexContent>
-											<xs:extension base="NFD:gem_meTyp">
+											<xs:extension base="NFD:meTyp">
 												<xs:sequence>
 													<xs:element name="W" minOccurs="0" maxOccurs="unbounded">
 														<xs:annotation>
-															<xs:documentation>Wirkstoffe und Wirkstärken einer Medikation
+															<xs:documentation>Name: Wirkstoffe und Wirkstärken
 
-Falls keine Werte angegeben sind, können diese ggfs. aus der PZN abgeleitet werden.</xs:documentation>
+Beschreibung: Wirkstoffe und Wirkstärken einer Medikation
+
+Befüllung / Format: Die Werte sind aus der PZN abzuleiten oder vom Anwender manuell einzutragen.
+
+Validitätskriterium: Falls das Attribut p angegeben ist, muss mindestens ein Element W mit den Attributen w und (s oder gwe) angegeben werden.</xs:documentation>
 														</xs:annotation>
 														<xs:complexType>
 															<xs:attribute name="w" use="required">
@@ -331,7 +342,7 @@ Validitätskriterium: Die Attribute s und gwe dürfen nicht gleichzeitig angegeben
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
 																		<xs:minLength value="1"/>
-																		<xs:maxLength value="12"/>
+																		<xs:maxLength value="15"/>
 																	</xs:restriction>
 																</xs:simpleType>
 															</xs:attribute>
@@ -353,13 +364,13 @@ Befüllung / Format: nach Code-System in Attribut ps</xs:documentation>
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
-												<xs:attribute name="ps" use="optional" fixed="BMP v2.3, Kap 8.3.1, Tab 3">
+												<xs:attribute name="ps" use="optional" fixed="BMP v2.4, Kap 8.3.1, Tab 3">
 													<xs:annotation>
 														<xs:documentation>Name: Code-System PZN
 
 Beschreibung: Code-System für die PZN
 
-Befüllung / Format: BMP v2.3, Kapitel 8.3.1, Tabelle 3, fixed
+Befüllung / Format: BMP v2.4, Kapitel 8.3.1, Tabelle 3, fixed
 
 Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.</xs:documentation>
 													</xs:annotation>
@@ -370,28 +381,15 @@ Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut 
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
-												<xs:attribute name="bm" type="xs:byte" use="prohibited">
-													<xs:annotation>
-														<xs:documentation>Name: Bitmaske
-
-Beschreibung: Bitmaske zur Beschreibung der Herkunft der Inhalte der Datenfelder Arzneimittelname, Wirkstoffe, Wirkstärken und Darreichungsform: 1 = Arzneimitteldatenbank, 0 = durch den Anwender verändert)
-
-Befüllung / Format: Bitmuster (1. Bit für Arzneimittelname, 2. Bit für Wirkstoffe, 3. Bit für Wirkstärke, 4. Bit für Darreichungsform, 5. - 8. Bit mit 0 gefüllt.
-
-Validitätskriterium: - Bitmaske und zugehörige Inhalte, die mit 1 maskiert sind, entfallen, wenn Daten gelesen werden.
-
-Aus BMP: Nein
-
-(Für NFD nicht verwendet)</xs:documentation>
-													</xs:annotation>
-												</xs:attribute>
 												<xs:attribute name="a" use="optional">
 													<xs:annotation>
-														<xs:documentation>Name: Arzneimittelbezeichnung
+														<xs:documentation>Name: Arzneimittelname
 
 Beschreibung: Freitextliche Bezeichnung eines Fertigarzneimittels
 
-Befüllung / Format: Freitext. Erfolgt keine Eintragung oder Änderung, so wird der zugehörige Langname der PZN aus einer Arzneimitteldatenbank übernommen</xs:documentation>
+Befüllung / Format: Freitext
+
+Validitätskriterium: ---</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -417,13 +415,13 @@ Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben 
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
-												<xs:attribute name="fs" use="optional" fixed="BMP v2.3, Anh 3, Tab 8">
+												<xs:attribute name="fs" use="optional" fixed="BMP v2.4, Anh 3, Tab 8">
 													<xs:annotation>
 														<xs:documentation>Name: Darreichungsform Code-System
 
 Beschreibung: Code-System für die Darreichungsform
 
-Befüllung / Format: BMP v2.3, Anhang 3, Tabelle 8, fixed
+Befüllung / Format: BMP v2.4, Anhang 3, Tabelle 8, fixed
 
 Validitätskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut fs angegeben werden. Falls das Attribut f nicht angegeben ist, darf das Attribut fs nicht angegeben werden.</xs:documentation>
 													</xs:annotation>
@@ -442,7 +440,7 @@ Beschreibung: Darreichungsform als Freitext, entweder definiert oder fehlend (da
 
 Befüllung / Format: Freitext
 
-Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden. </xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -520,7 +518,7 @@ Beschreibung: Dosiereinheit als Code
 
 Befüllung / Format: nach Code-System in Attribut dus
 
-Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden. Falls eine Dosierung (als Schema oder Freitext) angegeben ist, muss eines der beiden Attribute du und dud ebenfalls angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden. Falls eine Dosierung als Schema (Attribute m, d, v und h) oder Freitext (t) angegeben ist, muss eines der beiden Attribute du und dud ebenfalls angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -528,13 +526,13 @@ Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegebe
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
-												<xs:attribute name="dus" use="optional" fixed="BMP v2.3, Anh 4, Tab 9">
+												<xs:attribute name="dus" use="optional" fixed="BMP v2.4, Anh 4, Tab 9">
 													<xs:annotation>
 														<xs:documentation>Name: Dosiereinheit Code-System
 
 Beschreibung: Code-System der Dosiereinheit
 
-Befüllung / Format: BMP v2.3, Anhang 4, Tabelle 9, fixed
+Befüllung / Format: BMP v2.4, Anhang 4, Tabelle 9, fixed
 
 Validitätskriterium: Falls das Attribut du angegeben ist, muss auch das Attribut dus angegeben werden. Falls das Attribut du nicht angegeben ist, darf das Attribut dus nicht angegeben werden.</xs:documentation>
 													</xs:annotation>
@@ -553,7 +551,7 @@ Beschreibung: Dosiereinheit als Freitext
 
 Befüllung / Format: Freitext
 
-Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden. Falls eine Dosierung (als Schema oder Freitext) angegeben ist, muss eines der beiden Attribute du und dud ebenfalls angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden. Falls eine Dosierung als Schema (Attribute m, d, v und h) oder Freitext (t) angegeben ist, muss eines der beiden Attribute du und dud ebenfalls angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -578,6 +576,20 @@ Validitätskriterium: Das Attribut i darf nicht mehr als ein Tildezeichen enthalt
 															<xs:maxLength value="80"/>
 														</xs:restriction>
 													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="bm" type="xs:byte" use="prohibited">
+													<xs:annotation>
+														<xs:documentation>Name: Bitmaske
+
+Beschreibung: Bitmaske zur Beschreibung der Herkunft der Inhalte der Datenfelder Arzneimittelname, Wirkstoffe, Wirkstärken und Darreichungsform: 1 = Arzneimitteldatenbank, 0 = durch den Anwender verändert)
+
+Befüllung / Format: Bitmuster (1. Bit für Arzneimittelname, 2. Bit für Wirkstoffe, 3. Bit für Wirkstärke, 4. Bit für Darreichungsform, 5. - 8. Bit mit 0 gefüllt.
+
+Validitätskriterium: - Bitmaske und zugehörige Inhalte, die mit 1 maskiert sind, entfallen, wenn Daten gelesen werden.
+
+
+(Für NFD nicht verwendet)</xs:documentation>
+													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="r" use="prohibited">
 													<xs:annotation>
@@ -611,20 +623,51 @@ Befüllung / Format: ---</xs:documentation>
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
+												<xs:attribute name="x" use="prohibited">
+													<xs:annotation>
+														<xs:documentation>Name: gebundene Zusatzzeile
+
+Beschreibung: Freitextzeile, die sich auf diese Medikation bezieht, ergänzende Informationen zur Dosierung oder weitergehende Hinweise, die in den Feldern des Medikationseintrages nicht untergebracht werden können
+
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut x darf nicht mehr als ein Tildezeichen enthalten ("~").
+
+
+(Für NFD nicht verwendet)</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="200"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 											</xs:extension>
 										</xs:complexContent>
 									</xs:complexType>
 								</xs:element>
 								<xs:element name="X" minOccurs="0" maxOccurs="0">
 									<xs:annotation>
-										<xs:documentation>Freitextzeile</xs:documentation>
+										<xs:documentation>Name: Freitextzeile
+
+Beschreibung: Sonstiger Hinweis (Zeile) als Freitext</xs:documentation>
 									</xs:annotation>
 									<xs:complexType>
 										<xs:complexContent>
-											<xs:extension base="NFD:gem_meTyp">
+											<xs:extension base="NFD:meTyp">
 												<xs:attribute name="t" use="prohibited">
 													<xs:annotation>
-														<xs:documentation>Freitext, darf max.  einen manuellen Umbruch enthalten: "~". (Für NFD nicht verwendet) </xs:documentation>
+														<xs:documentation>Name: Freitext
+
+Beschreibung: Text ohne Bezug zu einem Medikationseintrag
+
+Befüllung / Format: Freitext, maximal 1 manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalten ("~").
+
+
+(Für NFD nicht verwendet) </xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -639,25 +682,47 @@ Befüllung / Format: ---</xs:documentation>
 								</xs:element>
 								<xs:element name="R" minOccurs="0">
 									<xs:annotation>
-										<xs:documentation>Rezeptur als Freitext</xs:documentation>
+										<xs:documentation>Name: Rezeptur
+
+Beschreibung: Rezeptut als Freitext</xs:documentation>
 									</xs:annotation>
 									<xs:complexType>
 										<xs:complexContent>
-											<xs:extension base="NFD:gem_meTyp">
+											<xs:extension base="NFD:meTyp">
 												<xs:attribute name="t" use="required">
 													<xs:annotation>
-														<xs:documentation>Name: Rezeptur
+														<xs:documentation>Name: Freitext
 
-Beschreibung: Rezeptur
+Beschreibung: Text ohne Bezug zu einem Medikationseintrag
 
-Befüllung / Format: Freitext, maximal 2 manuelle Umbrüche können jeweils mit einer Tilde ("~") gekennzeichnet werden
+Befüllung / Format: Freitext, maximal 1 manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
 
-Validitätskriterium: Das Attribut t darf nicht mehr als 2 Tildezeichen enthalten ("~").</xs:documentation>
+Validitätskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalten ("~").</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
 															<xs:maxLength value="200"/>
 															<xs:minLength value="1"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="x" use="prohibited">
+													<xs:annotation>
+														<xs:documentation>Name: gebundene Zusatzzeile
+
+Beschreibung: Freitextzeile, die sich auf diese Rezeptur bezieht, ergänzende Informationen zur Dosierung oder weitergehende Hinweise, die in der vorausgehenden Rezepturzeile nicht untergebracht werden können
+
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut x darf nicht mehr als ein Tildezeichen enthalten ("~").
+
+
+(Für NFD nicht verwendet)</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="200"/>
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
@@ -905,56 +970,108 @@ Validitätskriterium: Das Attribut t darf nicht mehr als 2 Tildezeichen enthalten
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="gem_meTyp">
+	<xs:complexType name="meTyp">
 		<xs:annotation>
-			<xs:documentation>(Für NFD nicht verwendet)</xs:documentation>
+			<xs:documentation>(Struktur aus eMP/AMTS übernommen, Inhalte werden für NFD nicht verwendet)</xs:documentation>
 		</xs:annotation>
-		<xs:attribute name="gem_dm" type="xs:boolean" use="prohibited">
+		<xs:attribute name="dm" type="xs:boolean" use="prohibited">
 			<xs:annotation>
-				<xs:documentation>Kennzeichen Dauermedikation; Kennzeichen nicht vorhanden heißt keine Aussage möglich
+				<xs:documentation>Name: Kennzeichen Dauermedikation
+
+Beschreibung: Kennzeichnet einen Medikationseintrag als Dauermedikation
+
+Befüllung / Format: true = Eintrag ist eine Dauermedikation, false = Eintrag ist keine Dauermedikation. Falls das Attribut nicht angegeben ist, ist keine Aussage dazu möglich.
+
+
 (Für NFD nicht verwendet)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="gem_ende_dat" type="xs:date" use="prohibited">
+		<xs:attribute name="ed" type="xs:date" use="prohibited">
 			<xs:annotation>
-				<xs:documentation>Datum des voraussichtlichen oder eingetretenen Endes
+				<xs:documentation>Name: Datum Status "beendet"
+
+Beschreibung: Datum des voraussichtlichen oder bereits eingetretenen Endes der zugehörigen Medikation
+
+Befüllung / Format: ---
+
+
 (Für NFD nicht verwendet)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="gem_pot_veralt" use="prohibited" fixed="1">
+		<xs:attribute name="pv" type="xs:boolean" use="prohibited">
 			<xs:annotation>
-				<xs:documentation>Kennzeichen für Einträge, die potentiell veraltet sind; wird durch das FM AMTS beim Lesevorgang gesetzt und darf beim Speichervorgang durch ein Clientsystem nicht gesetzt sein; Kennzeichen nicht vorhanden heißt keine Aussage möglich
+				<xs:documentation>Name: Kennzeichen "potentiell veraltet"
+
+Beschreibung: Kennzeichen für Einträge, die potentiell veraltet sind
+
+Befüllung / Format: true = Eintrag ist potentiell veraltet, false = Eintrag ist aktuell. Falls das Attribut nicht angegeben ist, ist keine Aussage dazu möglich. Wird durch das FM AMTS beim Lesevorgang gesetzt und darf beim Schreibvorgang durch ein Clientsystem nicht angegeben sein.
+
+
 (Für NFD nicht verwendet)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="gem_erf_dat" type="xs:date" use="prohibited">
+		<xs:attribute name="ied" type="xs:date" use="prohibited">
 			<xs:annotation>
-				<xs:documentation>Datum der initialen Erfassung
+				<xs:documentation>Name: Ersterfassungsdatum
+
+Beschreibung: Datum der initialen Erfassung des Medikationseintrages
+
+Befüllung / Format: ---
+
+
 (Für NFD nicht verwendet)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="gem_komm" use="prohibited">
+		<xs:attribute name="icd" type="xs:date" use="prohibited">
 			<xs:annotation>
-				<xs:documentation>Kommentar zu einem Eintrag
+				<xs:documentation>Name: Änderungsdatum
+
+Beschreibung: Datum der letzten Änderung des Medikationseintrages
+
+Befüllung / Format: ---
+
+(Für NFD nicht verwendet)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ko" use="prohibited">
+			<xs:annotation>
+				<xs:documentation>Name: Kommentar
+
+Beschreibung: Ein Freitext für beliebige Kommentare oder Hinweise zwischen Leistungserbringern ohne inhaltliche Vorgaben mit Bezug auf die Medikation
+
+Befüllung / Format: Freitext
+
+
 (Für NFD nicht verwendet)</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:string">
 					<xs:minLength value="1"/>
-					<xs:maxLength value="200"/>
+					<xs:maxLength value="400"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
-		<xs:attribute name="gem_bmp" type="xs:boolean" use="prohibited">
+		<xs:attribute name="bmp" type="xs:boolean" use="prohibited">
 			<xs:annotation>
-				<xs:documentation>Kennzeichnet einen Eintrag als  für den BMP relevant
-(Für NFD nicht verwendet)
-</xs:documentation>
+				<xs:documentation>Name: Kennzeichen BMP
+
+Beschreibung: Kennzeichnet einen Medikationseintrag als § 31a SGB V relevanten Eintrag, der im Falle eines Ausdruckes nach § 31a SGB V zu berücksichtigen ist
+
+Befüllung / Format: true = Eintrag relevant für BMP, false = Eintrag nicht relevant für BMP
+
+
+(Für NFD nicht verwendet)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="gem_hist" type="xs:boolean" use="prohibited">
+		<xs:attribute name="hi" type="xs:boolean" use="prohibited">
 			<xs:annotation>
-				<xs:documentation>Kennzeichnet einen Eintrag als historisiert
+				<xs:documentation>Name: Kennzeichen historisiert
+
+Beschreibung: Kennzeichnet einen Medikationseintrag als historisiert (Medikation, die zum aktuellen Tagesdatum nicht mehr eingenommen wird)
+
+Befüllung / Format: true = Eintrag historisiert, false = Eintrag nicht historisiert
+
+
 (Für NFD nicht verwendet)</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
