@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors2\3" -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns="http://ws.gematik.de/conn/adv/AdVManagement/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:KSR="http://ws.gematik.de/ksr/v1.1" xmlns:ADVS="http://ws.gematik.de/conn/adv/AdVService/v1.0" targetNamespace="http://ws.gematik.de/conn/adv/AdVManagement/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/ksr/v1.1" schemaLocation="../../ksr/Konfigurationsdienst.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/conn/adv/AdVService/v1.0" schemaLocation="AdVService.xsd"/>
+	<xs:element name="AdVReady">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AdVReadyResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+				<xs:element name="CT_Info" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CtId" type="CtIdType"/>
+							<xs:element name="CtName" type="xs:string"/>
+							<xs:element name="IsConnected" type="xs:boolean"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetUpdates">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PackageURL" type="xs:string" maxOccurs="unbounded"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetUpdatesResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+				<xs:element name="UpdatePackage">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FileDescription" minOccurs="0"/>
+							<xs:element name="FirmwareFile" type="xs:base64Binary"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ListAvailableUpdates">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="KSR:listUpdatesRequest"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ListAvailableUpdatesResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+				<xs:element ref="KSR:listUpdatesResponse"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+		<xs:element name="VerifyPinSmc">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VerifyPinSmcResponse" type="ADVS:PinResponseType"/>
+	<xs:simpleType name="CtIdType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="64"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

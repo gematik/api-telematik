@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\1" -->
+<!-- edited with XMLSpy v2007 rel. 3 sp1 (http://www.altova.com) by Senator für Finanzen (Senator für Finanzen) -->
+<!-- Mit XMLSpy v2008 rel. 2 sp2 (http://www.altova.com) von Frank Steimke (Freie Hansestadt Bremen) bearbeitet -->
+<xs:schema xmlns:lc="http://xoev.de/latinchars/1_1/charset" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xoev.de/latinchars/1_1/charset" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="de">
+	<xs:attributeGroup name="SimpleCharacterAttributes">
+		<xs:annotation>
+			<xs:documentation>Die Attribute eines jeden Characters</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="codepoint" type="lc:Codepoint" use="required"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="Codepoint">
+		<xs:annotation>
+			<xs:documentation>Hexcode des Codepoints eines Zeichens in UNICODE, vier Ziffern im Hexcode, mit führenden Nullen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-F]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CodepointSequence">
+		<xs:annotation>
+			<xs:documentation>Sequenz aus mindestens einem Codepoint, durch PLUS Zeichen getrennt.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-F]{4}(\+[0-9A-F]{4})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LegacyEncodingCodepointSequence">
+		<xs:annotation>
+			<xs:documentation>Hexcode eines Zeichens mit Ziffern mit führenden Nullen</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9A-F]{2,4}"/>
+			<xs:pattern value="[0-9A-F]{2,4}(\+[0-9A-F]{2,4})?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SimpleCharacter">
+		<xs:annotation>
+			<xs:documentation>Ein nicht kombiniertes Zeichen, d. h. es gibt genau einen Codepunkt</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="lc:SimpleCharacterAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="CombinedCharacter">
+		<xs:annotation>
+			<xs:documentation>Ein aus zwei einfachen Zeichen kombiniertes Zeichen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="base" type="lc:SimpleCharacter"/>
+			<xs:element name="supplement" type="lc:SimpleCharacter"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Mappings">
+		<xs:annotation>
+			<xs:documentation>Die in dieser Datei aufgeführten Abbildungen in andere Zeichensätze</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="codelist" type="xs:normalizedString" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Mapping">
+		<xs:annotation>
+			<xs:documentation>Abbildung dieses Zeichens in einen anderen Zeichensatz</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="codelist" type="xs:token" use="required"/>
+		<xs:attribute name="codepoints" type="lc:LegacyEncodingCodepointSequence" use="optional"/>
+		<xs:attribute name="transliterated" type="xs:boolean" use="optional" default="false"/>
+		<xs:attribute name="theChars" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="CharacterDescription">
+		<xs:annotation>
+			<xs:documentation>Die Beschreibung eines einfachen oder kombinierten Zeichens</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="simpleCharacter" type="lc:SimpleCharacter">
+					<xs:annotation>
+						<xs:documentation>Beschreibung des Zeichens, sofern es als eigenes Zeichen mit eigenem Codepoint in Unicode enthalten ist. Im Attribut simpleCharacter/codepoint ist der Codepoint des Zeichens alphanumerisch angegeben.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="combinedCharacter" type="lc:CombinedCharacter">
+					<xs:annotation>
+						<xs:documentation>Beschreibung des Zeichens, falls es nicht mit eigenen Codepoint in Unicode enthalten ist, sondern als Kombination einfacher Zeichen dargestellt werden muss. In den Attributen combinedCharacter/base/codepoint und combinedCharacter/supplement/codepoint sind die Codepoint des Basiszeichens und der diakritischen Zeichens jeweils alphanumerisch angegeben.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="mapping" type="lc:Mapping" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Mögliche Angaben über die Abbildung dieses Zeichens in einen anderen Zeichensatz</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Der Name dieses Zeichens bzw. der Name dieser Named Sequence</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="remark" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Bemerkungen zu diesem Eintrag</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="codepoints" type="lc:CodepointSequence" use="optional">
+			<xs:annotation>
+				<xs:documentation>Die Sequenz der alphanumerischen Codepoints zu diesem Zeichen, durch '+' getrennt. Für einen simpleCharacter entspricht dieses Attribut dem Wert in simpleCharacter/codepoint, für einen combinedCharacter der Verkettung von combinedCharacter/base/codepoint, '+' und combinedCharacter/supplement/codepoint.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="blockName" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Bezeichnung des Blocks (entsprechend des Unicode-Standards) zu dem dieses Zeichen gehört.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="baseName" type="xs:token" use="required">
+			<xs:annotation>
+				<xs:documentation>Bezeichnung des Basiszeichens für Buchstaben mit diakritischen Zeichen.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="supplementName" type="xs:token" use="optional">
+			<xs:annotation>
+				<xs:documentation>Bezeichnung des Supplements (entsprechend des Unicode-Standards) zu dem dieses Zeichen gehört.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="category" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Bezeichnung der Kategorie (entsprechend des Unicode-Standards) zu dem dieses Zeichen gehört (z. B. LETTER).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="subcategory" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Bezeichnung der Unterkategorie (entsprechend des Unicode-Standards) zu dem dieses Zeichen gehört (z. B. UPPERCASE)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="theChars" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Die UTF-8-Kodierung dieses Zeichens.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="insert" type="xs:normalizedString" use="optional">
+			<xs:annotation>
+				<xs:documentation>Version des Standards, ab der dieses Zeichen aufgenommen wurde.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="CharacterSet">
+		<xs:annotation>
+			<xs:documentation>Datentyp zur Beschreibung einer Liste von Zeichen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="changelog" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Änderungen dieser Datei gegenüber früheren Versionen sind durch changeLog-Einträge gekennzeichnet. Jeder changeLog-Eintrag enthält die Attribute date und version, sowie die Beschreibung der Änderung als XML-Content.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:normalizedString">
+							<xs:attribute name="date" type="xs:date" use="required"/>
+							<xs:attribute name="version" type="xs:normalizedString" use="required"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="mappings" type="lc:Mappings" minOccurs="0"/>
+			<xs:element name="characterDescription" type="lc:CharacterDescription" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Für jedes Zeichen / jede benannte Sequenz des Zeichensatzes enthält das CharacterSet ein eigenes Element characterDescription.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="created" type="xs:date" use="required">
+			<xs:annotation>
+				<xs:documentation>Das Datum, an diese Datei erzeugt wurde.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Der Name des Standards "Lateinische Zeichen in Unicode"</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Version des Standards "Lateinische Zeichen in Unicode", zu dem diese Datei gehört.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="characterSet" type="lc:CharacterSet">
+		<xs:annotation>
+			<xs:documentation>Enthält eine Liste von Beschreibungen lateinischer Zeichen in UNICODE</xs:documentation>
+		</xs:annotation>
+		<xs:unique name="codepointUnique">
+			<xs:annotation>
+				<xs:documentation>Es kann keine zwei CharacterDescriptions zu dem gleichen Codepoint geben.</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="lc:characterDescription"/>
+			<xs:field xpath="@codepoint"/>
+		</xs:unique>
+		<xs:unique name="nameUnique">
+			<xs:selector xpath="lc:characterDescription">
+				<xs:annotation>
+					<xs:documentation>Es kann keine zwei CharacterDescriptions mit gleichen Namen geben.</xs:documentation>
+				</xs:annotation>
+			</xs:selector>
+			<xs:field xpath="@name"/>
+		</xs:unique>
+	</xs:element>
+</xs:schema>

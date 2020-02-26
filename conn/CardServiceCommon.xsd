@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\3" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" targetNamespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2012, gematik - Gesellschaft für
+			Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten.
+			Beschreibung: Enthält Elemente und Typen, die sowohl vom CardService als auch von CardEvents genutzt werden
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+	<element name="CardType" type="CARDCMN:CardTypeType"/>
+	<element name="CtId" type="CARDCMN:CtIdType"/>
+	<element name="SlotId" type="CARDCMN:SlotIdType"/>
+	<element name="Iccsn">
+		<simpleType>
+			<restriction base="CARDCMN:IccsnType">
+				<pattern value="[0-9]{20}"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="PinTyp" type="CARDCMN:PinTypType"/>
+	<element name="PinResult" type="CARDCMN:PinResultEnum"/>
+	<simpleType name="KvnrType">
+		<restriction base="string">
+			<pattern value="[A-Z][0-9]{9}"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="CtIdType">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="64"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="SlotIdType">
+		<restriction base="positiveInteger"/>
+	</simpleType>
+	<simpleType name="PinTypType">
+		<restriction base="string">
+			<maxLength value="64"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="CardTypeType">
+		<restriction base="string">
+			<maxLength value="64"/>
+			<enumeration value="EGK"/>
+			<enumeration value="HBA-qSig"/>
+			<enumeration value="HBA"/>
+			<enumeration value="SMC-B"/>
+			<enumeration value="HSM-B"/>
+			<enumeration value="SMC-KT"/>
+			<enumeration value="KVK"/>
+			<enumeration value="ZOD_2.0"/>
+			<enumeration value="UNKNOWN"/>
+			<enumeration value="HBAx"/>
+			<enumeration value="SM-B"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="IccsnType">
+		<restriction base="string">
+			<length value="20"/>
+			<pattern value="([0-9])*"/>
+		</restriction>
+	</simpleType>
+	<complexType name="PinResponseType">
+		<sequence>
+			<element ref="CONN:Status"/>
+			<element ref="CARDCMN:PinResult"/>
+			<element name="LeftTries" type="nonNegativeInteger" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<simpleType name="PinResultEnum">
+		<restriction base="string">
+			<enumeration value="ERROR"/>
+			<enumeration value="OK"/>
+			<enumeration value="REJECTED"/>
+			<enumeration value="WASBLOCKED"/>
+			<enumeration value="NOWBLOCKED"/>
+			<enumeration value="TRANSPORT_PIN"/>
+		</restriction>
+	</simpleType>
+</schema>

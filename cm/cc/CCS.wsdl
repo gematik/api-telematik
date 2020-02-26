@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_opb1\1" -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:CCS="http://ws.gematik.de/cm/cc/CmCcServiceRequest/v2.0" xmlns:CCSR="http://ws.gematik.de/cm/cc/CmCcServiceResponse/v2.0" xmlns:CCSW="http://ws.gematik.de/cm/cc/WSDL/v1.0" xmlns:CM="http://ws.gematik.de/cm/common/CmCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"  targetNamespace="http://ws.gematik.de/cm/cc/WSDL/v1.0">
+	<wsdl:documentation>
+		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Card Communication Service 
+		version=1.0.0
+	</wsdl:documentation>
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import schemaLocation="CmCcServiceRequest.xsd" namespace="http://ws.gematik.de/cm/cc/CmCcServiceRequest/v2.0"/>
+			<xsd:import schemaLocation="CmCcServiceResponse.xsd" namespace="http://ws.gematik.de/cm/cc/CmCcServiceResponse/v2.0"/>
+			<xsd:import schemaLocation="../common/CmCommon.xsd" namespace="http://ws.gematik.de/cm/common/CmCommon/v2.0"/>
+			<xsd:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="PerformUpdatesRequest">
+		<wsdl:part name="PerformUpdatesRequest" element="CCS:PerformUpdates"/>
+	</wsdl:message>
+	<wsdl:message name="PerformUpdatesResponse">
+		<wsdl:part name="PerformUpdatesResponse" element="CCSR:PerformUpdatesResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetNextCommandPackageRequest">
+		<wsdl:part name="GetNextCommandPackageRequest" element="CCS:GetNextCommandPackage"/>
+	</wsdl:message>
+	<wsdl:message name="GetNextCommandPackageResponse">
+		<wsdl:part name="GetNextCommandPackageResponse" element="CCSR:GetNextCommandPackageResponse"/>
+	</wsdl:message>
+	<wsdl:message name="Header">
+		<wsdl:part name="Localisation" element="CM:ServiceLocalization"/>
+		<wsdl:part name="SessionIdentifier" element="CM:SessionIdentifier"/>
+	</wsdl:message>
+	<wsdl:message name="FaultMessage">
+		<wsdl:part name="Error" element="GERROR:Error"/>
+	</wsdl:message>
+	<wsdl:portType name="CCSPortType">
+		<wsdl:operation name="PerformUpdates">
+			<wsdl:input name="PerformUpdatesRequest" message="CCSW:PerformUpdatesRequest"/>
+			<wsdl:output name="PerformUpdatesResponse" message="CCSW:PerformUpdatesResponse"/>
+			<wsdl:fault name="TelematikExecuteFault" message="CCSW:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetNextCommandPackage">
+			<wsdl:input name="GetNextCommandPackageRequest" message="CCSW:GetNextCommandPackageRequest"/>
+			<wsdl:output name="GetNextCommandPackageResponse" message="CCSW:GetNextCommandPackageResponse"/>
+			<wsdl:fault name="TelematikExecuteFault" message="CCSW:FaultMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CCSBinding" type="CCSW:CCSPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="PerformUpdates">
+			<soap:operation soapAction="http://ws.gematik.de/cm/cc/WSDL/v1.0#performupdates" style="document"/>
+			<wsdl:input name="PerformUpdatesRequest">
+				<soap:header message="CCSW:Header" part="Localisation" use="literal"/>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="PerformUpdatesResponse">
+				<soap:header message="CCSW:Header" part="SessionIdentifier" use="literal"/>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="TelematikExecuteFault">
+				<soap:fault name="TelematikExecuteFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetNextCommandPackage">
+			<soap:operation soapAction="http://ws.gematik.de/cm/cc/WSDL/v1.0#getnextcommandpackage" style="document"/>
+			<wsdl:input name="GetNextCommandPackageRequest">
+				<soap:header message="CCSW:Header" part="Localisation" use="literal"/>
+				<soap:header message="CCSW:Header" part="SessionIdentifier" use="literal"/>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="GetNextCommandPackageResponse">
+				<soap:body use="literal"/>
+				<soap:header message="CCSW:Header" part="SessionIdentifier" use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="TelematikExecuteFault">
+				<soap:fault name="TelematikExecuteFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CCService">
+		<wsdl:port name="CCSPort" binding="CCSW:CCSBinding">
+			<soap:address location="http://No-Location"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

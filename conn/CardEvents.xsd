@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\8" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CRDEVT="http://ws.gematik.de/conn/CardEvents/v6.0" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/CardEvents/v6.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2007, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Definiert die kartenbezogenen Ereignisse
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0" schemaLocation="CardServiceCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+	<!-- ========================= CardEventType   ============================ -->
+	<complexType name="CardEventType">
+		<annotation>
+			<documentation>
+				Inhalt einer Kartenereignisnachricht
+			</documentation>
+		</annotation>
+		<sequence>
+			<element ref="CONN:CardHandle"/>
+			<element ref="CARDCMN:CardType" maxOccurs="unbounded"/>
+			<element ref="CARDCMN:Iccsn" minOccurs="0"/>
+			<element ref="CARDCMN:CtId"/>
+			<element ref="CONN:WorkplaceIds"/>
+			<element ref="CARDCMN:SlotId"/>
+		</sequence>
+	</complexType>
+	<!-- ========================= Card Event   ============================ -->
+	<element name="Card">
+		<annotation>
+			<documentation>Ereignisnachricht</documentation>
+		</annotation>
+		<complexType>
+			<choice>
+				<element name="Inserted" type="CRDEVT:CardInsertedEventType">
+					<annotation>
+						<documentation>Topic: Inserted</documentation>
+					</annotation>
+				</element>
+				<element name="Removed" type="CRDEVT:CardEventType">
+					<annotation>
+						<documentation>Topic: Removed</documentation>
+					</annotation>
+				</element>
+				<element name="PinInput" type="CRDEVT:PinInputEventType"/>
+			</choice>
+		</complexType>
+	</element>
+	<complexType name="CardInsertedEventType">
+		<complexContent>
+			<extension base="CRDEVT:CardEventType">
+				<sequence>
+					<element ref="GERROR:Error" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="PinInputEventType">
+		<complexContent>
+			<extension base="CRDEVT:CardEventType">
+				<sequence>
+					<element ref="CARDCMN:PinTyp"/>
+					<element name="Action" type="CRDEVT:ActionKindEnum"/>
+					<element name="Status" type="CRDEVT:PinInputStatusEnum"/>
+					<element name="Result" type="CARDCMN:PinResponseType" minOccurs="0"/>
+					<element name="PinPadCtId" type="CARDCMN:CtIdType" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<simpleType name="ActionKindEnum">
+		<restriction base="string">
+			<enumeration value="VERIFY"/>
+			<enumeration value="CHANGE"/>
+			<enumeration value="UNBLOCK"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="PinInputStatusEnum">
+		<restriction base="string">
+			<enumeration value="STARTED"/>
+			<enumeration value="FINISHED"/>
+		</restriction>
+	</simpleType>
+	<element name="CardTerminal" type="CRDEVT:CtEventType"/>
+	<complexType name="CtEventType">
+		<sequence>
+			<element name="Connection" type="CRDEVT:CtConnectionEventType"/>
+		</sequence>
+	</complexType>
+	<complexType name="CtConnectionEventType">
+		<sequence>
+			<element name="Ok" type="CRDEVT:CtIdAndWorkplaceIdType"/>
+			<element name="Error" type="CRDEVT:CtIdAndWorkplaceIdType"/>
+		</sequence>
+	</complexType>
+	<complexType name="CtIdAndWorkplaceIdType">
+		<sequence>
+			<element ref="CARDCMN:CtId"/>
+			<element ref="CONN:WorkplaceIds"/>
+		</sequence>
+	</complexType>
+</schema>

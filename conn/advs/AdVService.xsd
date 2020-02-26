@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors2\3" -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns="http://ws.gematik.de/conn/adv/AdVService/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CERT="http://ws.gematik.de/conn/CertificateService/v6.0" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/adv/AdVService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+	<!--<xs:import namespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0" schemaLocation="../CardServiceCommon.xsd"/>-->
+	<xs:import namespace="http://ws.gematik.de/conn/CertificateService/v6.0" schemaLocation="../CertificateService.xsd"/>
+	<!--	<xs:import namespace="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" schemaLocation="../CertificateServiceCommon.xsd"/>-->
+	<xs:element name="ActivateApplication">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="Application" type="ApplicationName"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ActivateApplicationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChangePin">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="PinRef" type="xs:string"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ChangePinResponse" type="PinResponseType"/>
+	<xs:element name="CopyData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="Application" type="ApplicationName" maxOccurs="unbounded"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CopyDataResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+				<xs:element name="AppResult" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="AppName"/>
+							<xs:element ref="CONN:Status"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DeactivateApplication">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="Application" type="ApplicationName"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DeactivateApplicationResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DisablePin">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="PinRef" type="xs:string"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DisablePinResponse" type="PinResponseType"/>
+	<xs:element name="EnablePin">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="PinRef" type="xs:string"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EnablePinResponse" type="PinResponseType"/>
+	<xs:element name="EraseData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="Application" type="ApplicationName"/>
+				<xs:element name="AdditionalParameter" type="Parameter" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EraseDataResponse" type="xs:anyType"/>
+	<xs:element name="QuitAdV">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="QuitAdVResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ReadData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="Application" type="ApplicationName"/>
+				<xs:element name="AdditionalParameter" type="Parameter" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReadDataResponse" type="xs:anyType"/>
+	<xs:element name="ReadHcaConsentResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+				<xs:element name="Consent" type="ConsentType" minOccurs="0" maxOccurs="10"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReadProtocolResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+				<xs:element name="LogEntry" type="LogEntryType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StartAdVSession">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StartAdVSessionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CONN:Status"/>
+				<xs:element name="VerificationResult">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Authentic" type="xs:boolean" minOccurs="0"/>
+							<xs:element name="Disabled" type="xs:boolean" minOccurs="0"/>
+							<xs:element name="Valid" type="xs:boolean" minOccurs="0"/>
+							<xs:element name="CertificateResult" type="VerificationResultType" minOccurs="0"/>
+							<xs:element name="ExpirationDate" type="xs:dateTime" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Application" type="AppInfoType" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UnblockPin">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="PinRef" type="xs:string"/>
+				<xs:element name="SetNewPin" type="xs:boolean" minOccurs="0"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UnblockPinResponse" type="PinResponseType"/>
+	<xs:element name="WriteData">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="EhcHandle" type="CONN:CardHandleType"/>
+				<xs:element name="Application" type="ApplicationName"/>
+				<xs:element name="DataToBeWritten" type="xs:string"/>
+				<!-- oder AnyType? -->
+				<xs:element name="AdditionalParameter" type="Parameter" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CCTX:Context"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WriteDataResponse" type="xs:anyType"/>
+	<!--  Definitionen der Datentypen und -strukturen  -->
+	<xs:simpleType name="ApplicationName">
+		<xs:restriction base="xs:token"/>
+	</xs:simpleType>
+	<xs:complexType name="AppInfoType">
+		<xs:sequence>
+			<xs:element name="AppName" type="xs:string"/>
+			<xs:element name="AppStatus" type="AppStatusType"/>
+			<xs:element name="PinInfo" type="PinInfoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AppStatusType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="AVAILABLE"/>
+			<xs:enumeration value="HIDDEN"/>
+			<xs:enumeration value="ABSENT"/>
+			<xs:enumeration value="TERMINATED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CertName">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="C.CH.ENC"/>
+			<xs:enumeration value="C.CH.ENCV"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Character">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ConsentType">
+		<xs:sequence>
+			<xs:element name="Diensttyp" type="xs:string"/>
+			<xs:element name="Dienstinstanz" type="xs:string"/>
+			<xs:element name="Heilberufler" type="xs:string"/>
+			<xs:element name="Timestamp" type="xs:dateTime"/>
+			<xs:element name="ConsentState" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>erteilt, nicht erteilt, offen</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IccsnType">
+		<xs:restriction base="xs:string">
+			<xs:length value="20"/>
+			<xs:pattern value="([0-9])*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="LogEntryType">
+		<xs:sequence>
+			<xs:element name="Timestamp" type="xs:dateTime"/>
+			<xs:element name="DataType" type="Character"/>
+			<xs:element name="TypeOfAccess" type="Character"/>
+			<xs:element name="ActorID" type="IccsnType"/>
+			<xs:element name="ActorName">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parameter">
+		<xs:sequence>
+			<xs:element name="Key" type="xs:string"/>
+			<xs:element name="Value" type="xs:anyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PinInfoType">
+		<xs:sequence>
+			<xs:element name="PinName" type="xs:string"/>
+			<xs:element name="PinStatus" type="PinResultEnum"/>
+			<xs:element name="LeftTries" type="xs:nonNegativeInteger" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PinResponseType">
+		<xs:sequence>
+			<xs:element ref="CONN:Status"/>
+			<xs:element name="PinResult" type="PinResultEnum"/>
+			<xs:element name="LeftTries" type="xs:nonNegativeInteger" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="PinResultEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="REJECTED"/>
+			<xs:enumeration value="BLOCKED"/>
+			<xs:enumeration value="TRANSPORT_PIN"/>
+			<xs:enumeration value="DISABLED"/>
+			<xs:enumeration value="VERIFIABLE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ResultCategoryEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="WARNING"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Status">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Result" type="ResultCategoryEnum"/>
+				<xs:element ref="GERROR:Error" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="VerificationStatusType">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="VerificationResult" type="VerificationResultType"/>
+				<xs:element ref="GERROR:Error" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="VerificationResultType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="VALID"/>
+			<xs:enumeration value="INCONCLUSIVE"/>
+			<xs:enumeration value="INVALID"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

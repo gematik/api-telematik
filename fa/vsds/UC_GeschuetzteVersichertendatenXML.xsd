@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'
+                 xmlns:VSD='http://ws.gematik.de/fa/vsds/UC_GeschuetzteVersichertendatenXML/v5.1'
+                 targetNamespace='http://ws.gematik.de/fa/vsds/UC_GeschuetzteVersichertendatenXML/v5.1'
+                 elementFormDefault='qualified'
+                 attributeFormDefault='unqualified'
+                 version='5.1.0'>
+   <xs:annotation>
+      <xs:documentation xml:lang='de'>
+           Copyright (c) 2007 gematik-
+           Gesellschaft für Telematikanwendungen
+           der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+      </xs:documentation>
+   </xs:annotation>
+
+   <xs:element name='UC_GeschuetzteVersichertendatenXML'>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name='Zuzahlungsstatus'>
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name='Status' type='VSD:ID_ID_Nummer_1'>
+                        <xs:annotation>
+                           <xs:documentation xml:lang='de'>Gibt an, ob für den Versicherten eine Befreiung nach § 62 SGB V vorliegt.
+Dieses Datenfeld ist besonders schützenswert und daher nicht frei auslesbar, sondern nur berechtigten Personen zugänglich.
+</xs:documentation>
+                        </xs:annotation>
+                     </xs:element>
+                     <xs:element name='Gueltig_bis' type='VSD:ZP_Zeitpunkt_8' minOccurs='0'>
+                        <xs:annotation>
+                           <xs:documentation xml:lang='de'>Gibt die Gültigkeit der Befreiung von der Zuzahlungspflicht nach § 62 SGB V an. Format: YYYYMMDD
+Dieses Datenfeld ist besonders schützenswert und daher nicht frei auslesbar, sondern nur berechtigten Personen zugänglich.
+</xs:documentation>
+                        </xs:annotation>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name='Besondere_Personengruppe' type='VSD:TF_Textstring_2' minOccurs='0'>
+               <xs:annotation>
+                  <xs:documentation xml:lang='de'>Gibt die Zugehörigkeit des Versicherten zu einer besonderen Personengruppe an. Die Kennzeichnung erfolgt gemäß der Schlüsseltabelle.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element name='DMP_Kennzeichnung' type='VSD:TF_Textstring_2' minOccurs='0'>
+               <xs:annotation>
+                  <xs:documentation xml:lang='de'>Gibt die Teilnahme des Versicherten an einem Disease Management Program an. Die Kennzeichnung erfolgt gemäß der Schlüsseltabelle.
+</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+         </xs:sequence>
+         <xs:attribute name='CDM_VERSION' type='xs:string' use='required'/>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:simpleType name='ID_ID_Nummer_1'>
+      <xs:restriction base='xs:integer'>
+         <xs:totalDigits value='1'/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name='TF_Textstring_2'>
+      <xs:restriction base='xs:string'>
+         <xs:maxLength value='2'/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name='ZP_Zeitpunkt_8'>
+      <xs:restriction base='xs:string'>
+         <xs:maxLength value='8'/>
+      </xs:restriction>
+   </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsds/UC_AllgemeineVersicherungsdatenXML/v5.1" targetNamespace="http://ws.gematik.de/fa/vsds/UC_AllgemeineVersicherungsdatenXML/v5.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.1.0">
+	<xs:annotation>
+		<xs:documentation xml:lang="de">
+           Copyright (c) 2007 gematik-
+           Gesellschaft für Telematikanwendungen
+           der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+      </xs:documentation>
+	</xs:annotation>
+	<xs:element name="UC_AllgemeineVersicherungsdatenXML">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Versicherter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Versicherungsschutz">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Beginn" type="VSD:ZP_Zeitpunkt_8">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt den Beginn des Versicherungsschutzes (hier: Leistungsanspruch) des Versicherten bei dem unter Klasse Kostenträger angegebenen Kostenträger an. 
+Format: YYYYMMDD (ISO-8601)
+</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Ende" type="VSD:ZP_Zeitpunkt_8" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt das Ende des Versicherungsschutzes (hier: Leistungsanspruch) des Ver-sicherten bei dem unter Klasse Kostenträger angegebenen Kostenträger an. 
+Format: YYYYMMDD (ISO-8601)
+</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Kostentraeger">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Kostentraegerkennung" type="VSD:ID_ID_Nummer_9">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt den Kostenträger des Versicherten an. Es handelt sich um das bundesweit gültige Institutionskennzeichen (IK) des jeweiligen Kostenträgers.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Kostentraegerlaendercode" type="VSD:TF_Textstring_3">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt den Kostenträgerländercode vom Kostenträger des Versicherten an</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Name" type="VSD:TF_Textstring_45">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt den Namen der Institution bzw. Organisation an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="AbrechnenderKostentraeger" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Identifiziert den abrechnenden Kostenträger. Für diesen sind die Kostenträgerkennung (IK) und der Name des Kostenträgers anzugeben.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Kostentraegerkennung" type="VSD:ID_ID_Nummer_9">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Gibt den Kostenträger des Versicherten an. Es handelt sich um das bundesweit gültige Institutionskennzeichen (IK) des jeweiligen Kostenträgers.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="Name" type="VSD:TF_Textstring_45">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Gibt den Namen der Institution bzw. Organisation an.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Zusatzinfos">
+								<xs:annotation>
+									<xs:documentation xml:lang="de">Das Informationsmodell VSD beinhaltet Daten für GKV und PKV.
+Für die Abbildung des definitiven Datensatzes der VSD wird aber nur die jeweils zutreffende Klasse GKV oder PKV realisiert, d.h. es erfolgte keine Abbildung von PKV-Informationen in den VSD der GKV und umgekehrt.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice>
+											<xs:element name="ZusatzinfosGKV">
+												<xs:annotation>
+													<xs:documentation xml:lang="de">Diese Datenobjekte werden ausschließlich für GKV-Versicherte realisiert.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="Rechtskreis" type="VSD:TF_Textstring_1">
+															<xs:annotation>
+																<xs:documentation xml:lang="de">Hier wird der gültige Rechtskreis gemäß Schlüsseltabelle angegeben (SGB V).</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="Versichertenart" type="VSD:TF_Textstring_1">
+															<xs:annotation>
+																<xs:documentation xml:lang="de">Gibt die Versichertenart (Mitglied, Familienversicherter oder Rentner ) des Versicherten gemäß Schlüsseltabelle an.
+</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="Versichertenstatus_RSA" type="VSD:TF_Textstring_1">
+															<xs:annotation>
+																<xs:documentation xml:lang="de">Gibt den Versichertenstatus RSA (Risikostrukturausgleich) des Versicherten gemäß Schlüsseltabelle an.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="Zusatzinfos_Abrechnung_GKV">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="Kostenerstattung_ambulant" type="VSD:ID_ID_Nummer_1">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt an, ob der Versicherte die Kostenerstattung für ambulante Behandlung nach § 13 SGB V gewählt hat.</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="Kostenerstattung_stationaer" type="VSD:ID_ID_Nummer_1">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt an, ob der Versicherte die Kostenerstattung für stationäre Behandlung nach § 13 SGB V gewählt hat.
+Die Kostenerstattung stationär kann den Wert = 1 nur annehmen, wenn Kos-tenerstattung ambulant = 1.</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="WOP" type="VSD:TF_Textstring_2" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Das Kennzeichen WOP ist gemäß § 2 Abs. 2 der Vereinbarung zur Festset-zung des Durchschnittsbetrages gemäß Artikel 2 § 2 Abs. 2 des Gesetzes zur Einführung des Wohnortprinzips bei Honorarvereinbarungen für Ärzte und Zahnärzte und zur Krankenversichertenkarte gemäß § 291 Abs. 2 Fünftes So-zialgesetzbuch (SGB V) erforderlich</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="ZusatzinfosPKV">
+												<xs:annotation>
+													<xs:documentation xml:lang="de">Die abrechnungsrelevanten Versicherungsdaten PKV beinhalten die Klassen Zusatzinfos PKV, stationäre Leistung und Beihilfeberechtigung.
+Diese Datenobjekte werden ausschließlich für PKV-Versicherte realisiert.</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element name="PKV_Verbandstarif" type="VSD:TF_Textstring_2">
+															<xs:annotation>
+																<xs:documentation xml:lang="de">Der PKV-Verbandstarif wird angegeben durch den Wert:
+01 = Tarif ST (Standardtarif)
+02 = Tarif PSKV (Private studentische Krankenversicherung)
+03 = Basistarif ohne Selbstbeteiligung
+04 = Individualtarif 
+05 = Basistarif mit 300,- € Selbstbeteiligung
+06 = Basistarif mit 600,- € Selbstbeteiligung
+07 = Basistarif mit 900,- € Selbstbeteiligung
+08 = Basistarif mit 1.200,- € Selbstbeteiligung 
+</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="Beihilfeberechtigung" minOccurs="0">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="Kennzeichnung" type="VSD:TF_Textstring_2">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt den Anspruch des Versicherten auf Beihilfe an. Mögliche Werte:
+01 = Beihilfe
+02 = Postbeamtenkrankenkasse (PBeaKK)
+03 = Krankenversorgung der Bundesbahnbeamten (KVB)</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+														<xs:element name="StationaereLeistungen" minOccurs="0" maxOccurs="unbounded">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="Stationaere_Wahlleistung_Unterkunft" type="VSD:TF_Textstring_2" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt die Art der Unterkunft an, die der Versicherte gewählt hat. 
+
+0  = keine Angabe
+1 = Einbett-Zimmer
+2 = Zweibett-Zimmer
+3 = Mehrbett-Zimmer
+4 = Differenz Zwei- und Einbettzimmerzuschlag
+</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="Prozentwert_Wahlleistung_Unterkunft" type="VSD:FK_Festkommazahl_3" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt den Leistungssatz in Prozent an. Wertebereich 000-100.
+</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="HoechstsatzWahlleistungUnterkunft" type="VSD:GK_Gleitkommazahl_6" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt den Höchstbetrag der Erstattung für die Wahlleistung Unterkunft an.</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="Stationaere_Wahlleistung_aerztliche_Behandlung" type="VSD:ID_ID_Nummer_2" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt den Umfang der ärztlichen Behandlung im stationären Bereich an.
+01 = Gesondert berechenbare Leistungen (Chefarztbehandlung)
+02 = Allgemeine ärztliche Krankenhausleistung
+</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="Prozentwert_Wahlleistung_aerztliche_Behandlung" type="VSD:FK_Festkommazahl_3" minOccurs="0">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt den Leistungssatz in Prozent an. Wertebereich 000-100.
+</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="Teilnahme_ClinicCard_Verfahren" type="VSD:TF_Textstring_1">
+																		<xs:annotation>
+																			<xs:documentation xml:lang="de">Gibt die Teilnahme des Kostenträgers des Versicherten am ClinicCard-Verfahren an. </xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="CDM_VERSION" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="FK_Festkommazahl_3">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GK_Gleitkommazahl_6">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="6"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ID_ID_Nummer_1">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ID_ID_Nummer_2">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ID_ID_Nummer_9">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_1">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_2">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_3">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_45">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="45"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ZP_Zeitpunkt_8">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\1" -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xoev-lc="http://xoev.de/latinchars/1_1/datatypes" targetNamespace="http://xoev.de/latinchars/1_1/datatypes" version="1.1.1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:annotation>
+    <xs:documentation>Diese Schema-Datei ist Bestandteil des von der KoSIT in XÖV herausgebenen Standards "Lateinische Zeichen in Unicode".</xs:documentation>
+  </xs:annotation>
+  <xs:simpleType name="String.Latin">
+    <xs:annotation>
+      <xs:appinfo>
+        <title>Datentyp für lateinische Zeichen in Unicode</title>
+      </xs:appinfo>
+      <xs:documentation>Einschränkung auf lateinischen Zeichen.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(([	-
+ -~¡-¬®-ćĊ-ěĞ-ģĦ-ıĴ-śŞ-ūŮ-žƏƠ-ơƯ-ưƷǍ-ǔǞ-ǟǤ-ǰǴ-ǵǺ-ǿȘ-țȞ-ȟȪ-ȫȮ-ȳəʒḂ-ḃḊ-ḋḐ-ḑḞ-ḡḤ-ḧḰ-ḱṀ-ṁṄ-ṅṖ-ṗṠ-ṣṪ-ṫẀ-ẅẌ-ẓẞẠ-ầẪ-ẬẮ-ềỄ-ồỖ-ờỤ-ỹ€])|(M̂|N̂|m̂|n̂|D̂|d̂|J̌|L̂|l̂))*"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
