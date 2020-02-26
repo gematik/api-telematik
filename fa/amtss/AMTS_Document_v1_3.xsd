@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_ors2\3" -->
+<!-- gematik revision="\main\rel_ors2\8" -->
 <!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- 
 	Datenmodell eMP/AMTS-Datenmanagement (Ausbaustufe A)
 
 	basierend auf
 
-	Bundeseinheitlicher Medikationsplan (BMP) (bmp_V2.4.1.xsd)
-	2017-06-26 Version 2.4.1
+	Bundeseinheitlicher Medikationsplan (BMP) (bmp_V2.5.xsd)
+	30. Juni 2018, Version 2.5
 
 	verantwortliche Organisation: gematik Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH
 -->
-<!-- Version History            
+<!-- Version History
+			version: V1.3.0
+			===========
+			*** C_6514: Bundeseinheitlicher Medikationsplan (BMP) (bmp_V2.5.xsd), 2018-06-30, Version 2.5.0
+			
 			version: V1.2.0
 			===========
 			*** C_6409: Bundeseinheitlicher Medikationsplan (BMP) (bmp2.4.1.xsd), 2017-06-26 Version 2.4.1
+			
 			version: V1.1.0
 			===========
 			*** Bundeseinheitlicher Medikationsplan (BMP) (bmp024.xsd), 2017-04-30 Version 2.4
-            version: V1.0.0
+            
+			version: V1.0.0
 			===========
 			*** Bundeseinheitlicher Medikationsplan (BMP) (bmp023.xsd), 2016-07-15 Version 2.3
 	 End of Version History-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.1" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.3" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.3.0">
     <xs:element name="MP">
         <xs:annotation>
             <xs:documentation>eMP/AMTS-Daten</xs:documentation>
@@ -33,103 +39,9 @@
                     <xs:annotation>
                         <xs:documentation>Name: Versicherter
 
-Beschreibung: Daten zur Identifizierung des Versicherten sowie Arzneimittelallergien und -unverträglichkeiten</xs:documentation>
+Beschreibung: Daten zur Identifizierung des Versicherten</xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
-                        <xs:sequence minOccurs="0" maxOccurs="10">
-                            <xs:element name="u">
-                                <xs:annotation>
-                                    <xs:documentation>Arzneimittelallergien und Arzneimittelunverträglichkeiten des Versicherten</xs:documentation>
-                                </xs:annotation>
-                                <xs:complexType>
-                                    <xs:attribute name="re" use="optional">
-                                        <xs:annotation>
-                                            <xs:documentation>Name: Reaktion
-
-Beschreibung: Angabe zur Schilderung der allergischen Reaktionen, die auf die eingetragenen Substanzen/Substanzgruppen zurückzuführen sind
-
-Befüllung / Format: Freitext
-
-Aus BMP: Nein</xs:documentation>
-                                        </xs:annotation>
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:string">
-                                                <xs:minLength value="1"/>
-                                                <xs:maxLength value="75"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:attribute>
-                                    <xs:attribute name="su" use="optional">
-                                        <xs:annotation>
-                                            <xs:documentation>Name: Substanz / Substanzgruppe (Freitext)
-
-Beschreibung: Fertigarzneimittel, Stoffe oder Stoffgruppe auf die allergisch reagiert wird
-
-Befüllung / Format: Freitext
-
-Aus BMP: Nein</xs:documentation>
-                                        </xs:annotation>
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:string">
-                                                <xs:minLength value="1"/>
-                                                <xs:maxLength value="50"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:attribute>
-                                    <xs:attribute name="q" use="required">
-                                        <xs:annotation>
-                                            <xs:documentation>Name: Quelle
-
-Beschreibung: Angabe, woher die Information zur Arzneimittelallergie oder Arzneimittelunverträglichkeit des Versicherten stammt
-
-Befüllung / Format: "ärztlich diagnostiziert" oder "Eigenangabe"
-
-Aus BMP: Nein</xs:documentation>
-                                        </xs:annotation>
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:string">
-                                                <xs:enumeration value="ärztlich diagnostiziert"/>
-                                                <xs:enumeration value="Eigenangabe"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:attribute>
-                                    <xs:attribute name="suc" use="prohibited">
-                                        <xs:annotation>
-                                            <xs:documentation>Name: Substanz / Substanzgruppe (Code)
-
-Beschreibung: Code einer Substanz oder Substanzgruppe
-
-Befüllung / Format: ---
-
-Aus BMP: Nein</xs:documentation>
-                                        </xs:annotation>
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:string">
-                                                <xs:minLength value="1"/>
-                                                <xs:maxLength value="30"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:attribute>
-                                    <xs:attribute name="succs" use="prohibited">
-                                        <xs:annotation>
-                                            <xs:documentation>Name: Substanz / Substanzgruppe Code-System
-
-Beschreibung: Code-System einer Substanz oder Substanzgruppe
-
-Befüllung / Format: ---
-
-Aus BMP: Nein</xs:documentation>
-                                        </xs:annotation>
-                                        <xs:simpleType>
-                                            <xs:restriction base="xs:string">
-                                                <xs:minLength value="1"/>
-                                                <xs:maxLength value="30"/>
-                                            </xs:restriction>
-                                        </xs:simpleType>
-                                    </xs:attribute>
-                                </xs:complexType>
-                            </xs:element>
-                        </xs:sequence>
                         <xs:attribute name="g" use="required">
                             <xs:annotation>
                                 <xs:documentation>Name: Vorname
@@ -484,7 +396,7 @@ Aus BMP: Ja</xs:documentation>
                         </xs:attribute>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="O">
+                <xs:element name="O" minOccurs="0">
                     <xs:annotation>
                         <xs:documentation>Name: Individualparameter des Versicherten</xs:documentation>
                     </xs:annotation>
@@ -732,6 +644,98 @@ Aus BMP: Nein</xs:documentation>
                         </xs:attribute>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="U" minOccurs="0" maxOccurs="10">
+                    <xs:annotation>
+                        <xs:documentation>Name: Arzneimittelallergien und Arzneimittelunverträglichkeiten des Versicherten</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:attribute name="re" use="optional">
+                            <xs:annotation>
+                                <xs:documentation>Name: Reaktion
+
+Beschreibung: Angabe zur Schilderung der allergischen Reaktionen, die auf die eingetragenen Substanzen/Substanzgruppen zurückzuführen sind
+
+Befüllung / Format: Freitext
+
+Aus BMP: Nein</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="75"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="su" use="optional">
+                            <xs:annotation>
+                                <xs:documentation>Name: Substanz / Substanzgruppe (Freitext)
+
+Beschreibung: Fertigarzneimittel, Stoffe oder Stoffgruppe auf die allergisch reagiert wird
+
+Befüllung / Format: Freitext
+
+Aus BMP: Nein</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="50"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="q" use="required">
+                            <xs:annotation>
+                                <xs:documentation>Name: Quelle
+
+Beschreibung: Angabe, woher die Information zur Arzneimittelallergie oder Arzneimittelunverträglichkeit des Versicherten stammt
+
+Befüllung / Format: "ärztlich diagnostiziert" oder "Eigenangabe"
+
+Aus BMP: Nein</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="ärztlich diagnostiziert"/>
+                                    <xs:enumeration value="Eigenangabe"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="suc" use="prohibited">
+                            <xs:annotation>
+                                <xs:documentation>Name: Substanz / Substanzgruppe (Code)
+
+Beschreibung: Code einer Substanz oder Substanzgruppe
+
+Befüllung / Format: ---
+
+Aus BMP: Nein</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="30"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="succs" use="prohibited">
+                            <xs:annotation>
+                                <xs:documentation>Name: Substanz / Substanzgruppe Code-System
+
+Beschreibung: Code-System einer Substanz oder Substanzgruppe
+
+Befüllung / Format: ---
+
+Aus BMP: Nein</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:minLength value="1"/>
+                                    <xs:maxLength value="30"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="S" minOccurs="0" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>Name: Blöcke
@@ -851,13 +855,13 @@ Aus BMP: Ja</xs:documentation>
                                                     </xs:restriction>
                                                 </xs:simpleType>
                                             </xs:attribute>
-                                            <xs:attribute name="ps" use="optional" fixed="BMP v2.4, Kap 8.3.1, Tab 3">
+                                            <xs:attribute name="ps" use="optional" fixed="BMP v2.5, Kap 8.3.1, Tab 3">
                                                 <xs:annotation>
                                                     <xs:documentation>Name: Code-System PZN
 
 Beschreibung: Code-System für die PZN
 
-Befüllung / Format: BMP v2.4, Kapitel 8.3.1, Tabelle 3, fixed
+Befüllung / Format: BMP v2.5, Kapitel 8.3.1, Tabelle 3, fixed
 
 Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.
 
@@ -869,19 +873,6 @@ Aus BMP: Nein</xs:documentation>
                                                         <xs:maxLength value="30"/>
                                                     </xs:restriction>
                                                 </xs:simpleType>
-                                            </xs:attribute>
-                                            <xs:attribute name="bm" type="xs:byte" use="optional">
-                                                <xs:annotation>
-                                                    <xs:documentation>Name: Bitmaske
-
-Beschreibung: Bitmaske zur Beschreibung der Herkunft der Inhalte der Datenfelder Arzneimittelname, Wirkstoffe, Wirkstärken und Darreichungsform: 1 = Arzneimitteldatenbank, 0 = durch den Anwender verändert)
-
-Befüllung / Format: Bitmuster (1. Bit für Arzneimittelname, 2. Bit für Wirkstoffe, 3. Bit für Wirkstärke, 4. Bit für Darreichungsform, 5. - 8. Bit mit 0 gefüllt.
-
-Validitätskriterium: Bitmaske und zugehörige Inhalte, die mit 1 maskiert sind, entfallen, wenn Daten gelesen werden.
-
-Aus BMP: Nein</xs:documentation>
-                                                </xs:annotation>
                                             </xs:attribute>
                                             <xs:attribute name="a" use="optional">
                                                 <xs:annotation>
@@ -921,13 +912,13 @@ Aus BMP: Ja</xs:documentation>
                                                     </xs:restriction>
                                                 </xs:simpleType>
                                             </xs:attribute>
-                                            <xs:attribute name="fs" use="optional" fixed="BMP v2.4, Anh 3, Tab 8">
+                                            <xs:attribute name="fs" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.40">
                                                 <xs:annotation>
                                                     <xs:documentation>Name: Darreichungsform Code-System
 
 Beschreibung: Code-System für die Darreichungsform
 
-Befüllung / Format: BMP v2.4, Anhang 3, Tabelle 8, fixed
+Befüllung / Format: OID, BMP v2.5, Anhang 3; fixed
 
 Validitätskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut fs angegeben werden. Falls das Attribut f nicht angegeben ist, darf das Attribut fs nicht angegeben werden.
 
@@ -1038,7 +1029,7 @@ Beschreibung: Dosiereinheit als Code
 
 Befüllung / Format: nach Code-System in Attribut dus
 
-Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden. Falls eine Dosierung als Schema (Attribute m, d, v und h) oder Freitext (t) angegeben ist, muss eines der beiden Attribute du und dud ebenfalls angegeben werden. 
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.
 
 Aus BMP: Ja</xs:documentation>
                                                 </xs:annotation>
@@ -1048,13 +1039,13 @@ Aus BMP: Ja</xs:documentation>
                                                     </xs:restriction>
                                                 </xs:simpleType>
                                             </xs:attribute>
-                                            <xs:attribute name="dus" use="optional" fixed="BMP v2.4, Anh 4, Tab 9">
+                                            <xs:attribute name="dus" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.41">
                                                 <xs:annotation>
                                                     <xs:documentation>Name: Dosiereinheit Code-System
 
 Beschreibung: Code-System der Dosiereinheit
 
-Befüllung / Format: BMP v2.4, Anhang 4, Tabelle 9, fixed
+Befüllung / Format: OID, BMP v2.5, Anhang 4; fixed
 
 Validitätskriterium: Falls das Attribut du angegeben ist, muss auch das Attribut dus angegeben werden. Falls das Attribut du nicht angegeben ist, darf das Attribut dus nicht angegeben werden.
 
@@ -1075,7 +1066,7 @@ Beschreibung: Dosiereinheit als Freitext
 
 Befüllung / Format: Freitext
 
-Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden. Falls eine Dosierung als Schema (Attribute m, d, v und h) oder Freitext (t) angegeben ist, muss eines der beiden Attribute du und dud ebenfalls angegeben werden.
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.
 
 Aus BMP: Ja</xs:documentation>
                                                 </xs:annotation>
@@ -1349,13 +1340,13 @@ Aus BMP: Ja</xs:documentation>
                                 </xs:restriction>
                             </xs:simpleType>
                         </xs:attribute>
-                        <xs:attribute name="cs" use="optional" fixed="BMP v2.4, Anh 2.3, Tab 6">
+                        <xs:attribute name="cs" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.42">
                             <xs:annotation>
                                 <xs:documentation>Name: Zwischenüberschrift Code-System
 
 Beschreibung: Zwischenüberschrift in codierter Form
 
-Befüllung / Format: BMP v2.4, Anh 2.3, Tab 6, fixed
+Befüllung / Format: OID, BMP v2.5, Anh 2.3, Tab 6; fixed
 
 Validitätskriterium: Falls das Attribut c angegeben ist, muss auch das Attribut cs angegeben werden. Falls das Attribut c nicht angegeben ist, darf das Attribut cs nicht angegeben werden.
 
@@ -1371,7 +1362,7 @@ Aus BMP: Nein</xs:documentation>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
-            <xs:attribute name="v" use="required" fixed="024">
+            <xs:attribute name="v" use="required" fixed="025">
                 <xs:annotation>
                     <xs:documentation>Name: Version BMP
 
@@ -1475,7 +1466,7 @@ Aus BMP: Nein</xs:documentation>
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
-            <xs:attribute name="iv" use="required" fixed="1.1.0">
+            <xs:attribute name="iv" use="required" fixed="1.3.0">
                 <xs:annotation>
                     <xs:documentation>Name: Version eMP/AMTS
 
@@ -1602,17 +1593,6 @@ Befüllung / Format: ---
 Aus BMP: Nein</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="pv" type="xs:boolean" use="optional">
-            <xs:annotation>
-                <xs:documentation>Name: Kennzeichen "potentiell veraltet"
-
-Beschreibung: Kennzeichen für Einträge, die potentiell veraltet sind
-
-Befüllung / Format: true = Eintrag ist potentiell veraltet, false = Eintrag ist aktuell. Falls das Attribut nicht angegeben ist, ist keine Aussage dazu möglich. Wird durch das FM AMTS beim Lesevorgang gesetzt und darf beim Schreibvorgang durch ein Clientsystem nicht angegeben sein.
-
-Aus BMP: Nein</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="ied" type="xs:date" use="required">
             <xs:annotation>
                 <xs:documentation>Name: Ersterfassungsdatum
@@ -1667,7 +1647,7 @@ Aus BMP: Nein</xs:documentation>
             <xs:annotation>
                 <xs:documentation>Name: Kennzeichen historisiert
 
-Beschreibung: Kennzeichnet einen Medikationseintrag als historisiert (Medikation, die zum aktuellen Tagesdatum nicht mehr eingenommen wird)
+Beschreibung: Kennzeichnet einen Medikationseintrag als historisiert (Medikation, die zum aktuellen Tagesdatum nicht mehr eingenommen wird; Medikation, deren Einnahme für einen unbestimmten Zeitraum ausgesetzt ist; etc.)
 
 Befüllung / Format: true = Eintrag historisiert, false = Eintrag nicht historisiert
 
