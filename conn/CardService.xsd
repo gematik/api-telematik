@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\5" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_opb1\1" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History
+			version: V8.1.1
+            * Operation AuthorizeSMC entfernt 
+               (kompatible Änderung aus Sicht des Clientsystems, da AuthorizeSMC immer mit einem Fehler geantwortet hat)
             version: V8.1.0
 			* CardVersion: Anpassung an G2-Karten
             * ProductInformation update auf Version 1.1.0
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0"  targetNamespace="http://ws.gematik.de/conn/CardService/v8.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" targetNamespace="http://ws.gematik.de/conn/CardService/v8.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.1.1">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2014, gematik - Gesellschaft für
@@ -177,20 +181,4 @@
 		</complexType>
 	</element>
 	<element name="UnblockPinResponse" type="CARDCMN:PinResponseType"/>
-	<element name="AuthorizeSmc">
-		<complexType>
-			<sequence>
-				<element ref="CCTX:Context"/>
-				<element ref="CONN:HpcHandle"/>
-				<element ref="CONN:SmcHandle"/>
-			</sequence>
-		</complexType>
-	</element>
-	<element name="AuthorizeSmcResponse">
-		<complexType>
-			<sequence>
-				<element ref="CONN:Status"/>
-			</sequence>
-		</complexType>
-	</element>
 </schema>

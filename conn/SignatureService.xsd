@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\11" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_opb1\2" -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History
+            version: V7.4.0
+			===========
+			*** Anpassungen für Signaturproxy statt xTV
             version: V7.3.0
 			===========
 			*** ShortText wird optional (KOM-LE)
@@ -14,7 +17,7 @@
 			===========
 			*** ServicePolicy durch GenerateUnderSignature ersetzt
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.3" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/v7.3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.3.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.4" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/v7.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.4.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2014, gematik - Gesellschaft für
@@ -37,6 +40,13 @@
 				<element ref="CONN:CardHandle"/>
 				<element ref="CCTX:Context"/>
 				<element ref="SIG:TvMode"/>
+				<element ref="SIG:JobNumber" minOccurs="0">
+					<annotation>
+						<documentation>
+							Am Konnektor verpflichtend, am Signaturproxy optional
+						</documentation>
+					</annotation>
+				</element>
 				<element ref="SIG:SignRequest" maxOccurs="unbounded"/>
 			</sequence>
 		</complexType>
@@ -69,7 +79,7 @@
 							<element ref="dss:ReturnUpdatedSignature" minOccurs="0"/>
 							<element ref="dss:Schemas" minOccurs="0"/>
 							<element ref="sp:GenerateUnderSignaturePolicy" minOccurs="0"/>
-							<element ref="SIG:TrustedViewerInfo" minOccurs="0"/>
+							<element ref="SIG:ViewerInfo" minOccurs="0"/>
 						</all>
 					</complexType>
 				</element>
@@ -125,7 +135,7 @@
 							<element ref="dss:AdditionalKeyInfo" minOccurs="0"/>
 							<element ref="vr:ReturnVerificationReport" minOccurs="0"/>
 							<element ref="dss:Schemas" minOccurs="0"/>
-							<element ref="SIG:TrustedViewerInfo" minOccurs="0"/>
+							<element ref="SIG:ViewerInfo" minOccurs="0"/>
 						</all>
 					</complexType>
 				</element>
@@ -154,18 +164,17 @@
 			</sequence>
 		</complexType>
 	</element>
-	<element name="SetXTVView">
+	<element name="GetJobNumber">
 		<complexType>
 			<sequence>
 				<element ref="CCTX:Context"/>
-				<element name="Alias" type="string"/>
 			</sequence>
 		</complexType>
 	</element>
-	<element name="SetXTVViewResponse">
+	<element name="GetJobNumberResponse">
 		<complexType>
 			<sequence>
-				<element ref="CONN:Status"/>
+				<element ref="SIG:JobNumber"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -194,18 +203,18 @@
 			</sequence>
 		</complexType>
 	</element>
-	<element name="GetXTVView">
+	<element name="StopSignature">
 		<complexType>
 			<sequence>
 				<element ref="CCTX:Context"/>
+				<element ref="SIG:JobNumber"/>
 			</sequence>
 		</complexType>
 	</element>
-	<element name="GetXTVViewResponse">
+	<element name="StopSignatureResponse">
 		<complexType>
 			<sequence>
 				<element ref="CONN:Status"/>
-				<element name="Alias" type="string" minOccurs="0"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -236,7 +245,14 @@
 			</restriction>
 		</simpleType>
 	</element>
-	<element name="TrustedViewerInfo">
+	<element name="JobNumber">
+		<simpleType>
+			<restriction base="string">
+				<pattern value="[A-Z][A-Z][A-Z]-[0-9][0-9][0-9]"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="ViewerInfo">
 		<complexType>
 			<sequence>
 				<element name="XslStyleSheets" minOccurs="0">

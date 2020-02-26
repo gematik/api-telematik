@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_0.5.3\5" -->
+<!-- gematik revision="\main\rel_online\rel_opb1\4" -->
 <!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n (Gematik GmbH) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsdm/vsd/v5.2" targetNamespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.2.0">
 	<xs:element name="UC_AllgemeineVersicherungsdatenXML">
@@ -185,14 +185,14 @@ Alle Vornamen der Person (max. 5) werden eingegeben. Mehrere Vornamen werden dur
 											<xs:annotation>
 												<xs:documentation>Gibt die Vorsatzwoerter der Person an.
 Mehrere Vorsatzwörter werden durch Leerzeichen getrennt angegeben.
-Anlage 6 (Tabelle der gültigen Vorsatzworte) zur DEÜV, V 2.30 vom 8.08.07.</xs:documentation>
+Anlage 6 (Tabelle der gültigen Vorsatzworte) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 										<xs:element name="Namenszusatz" type="VSD:nameExtension" minOccurs="0">
 											<xs:annotation>
 												<xs:documentation>Gibt die Namenszusaetze der Person an, z. B.: Freiherr
 Mehrere Namenzusätze werden durch Leerzeichen getrennt angegeben.
-Anlage 7 (Tabelle der gültigen Namenszusätze) zur DEÜV, V 2.25 vom 4.05.06.</xs:documentation>
+Anlage 7 (Tabelle der gültigen Namenszusätze) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 										<xs:element name="Titel" type="VSD:nameExtension" minOccurs="0">
@@ -274,7 +274,7 @@ Abweichung zur Festlegung in DEÜV (Feldlänge = 34)</xs:documentation>
 														<xs:annotation>
 															<xs:documentation>Gibt den Namen der Strasse an.
 Wenn die Hausnummer nicht separat abgelegt werden kann, ist es zulässig, die Hausnummer in das Feld Straße zu übernehmen.
-Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, V 2.39 vom 25.11.09</xs:documentation>
+Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp </xs:documentation>
 														</xs:annotation>
 														<xs:simpleType>
 															<xs:restriction base="xs:string">
@@ -286,7 +286,7 @@ Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, V 2.3
 														<xs:annotation>
 															<xs:documentation>Gibt die Hausnummer in der Strasse der Person an.
 Pflichtangabe soweit bekannt, wenn die Hausnummer nicht separat abgelegt werden kann, ist es zulässig, die Hausnummer in das Feld Straße zu übernehmen. 
-Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, V 2.39 vom 25.11.09</xs:documentation>
+Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp </xs:documentation>
 														</xs:annotation>
 														<xs:simpleType>
 															<xs:restriction base="xs:string">
@@ -399,15 +399,15 @@ Schluesselverzeichnis:
 									<xs:documentation>Gibt die Paragraphen des  SGB V an, in denen Selektivvertraege beschrieben sind.
 Die Angaben gelten fuer folgende Selektivvertraege:
 1. Stelle: Hausarztzentrierte Versorgung (§73b)
-2. Stelle: Besondere ambulante aerztliche Versorgung (§73c)
+2. Stelle: nicht besetzt
 3. Stelle: Strukturierte Behandlungsprogramme (§137f)
 4. Stelle: Integrierte Versorgung (§140a)
 Die Stellen 1 und 3 koennen den Wert = 1 (true) nur annehmen, wenn Aerztlich = 1 (true) ist.
 
-Die Stellen 2 und 4 koennen sowohl zur Kennzeichnung aerztlicher als auch zahnaerztlicher Selektivvertraege genutzt werden.
+Die Stelle 4 kann sowohl zur Kennzeichnung aerztlicher als auch zahnaerztlicher Selektivvertraege genutzt werden.
 Beispiel: 1000
 Es liegt ein Selektivvertrag fuer die Hausarztzentrierte Versorgung nach §73b vor.
-In der Testphase koennen die Krankenkassen im geschuetzten Bereich die Paragraphen des SGB V, in denen Selektivvertraege beschrieben sind (§§73b, 73c, 137f, 140a), im Rahmen der offenen Speicherkapazitaet abbilden.</xs:documentation>
+In der Testphase koennen die Krankenkassen im geschuetzten Bereich die Paragraphen des SGB V, in denen Selektivvertraege beschrieben sind (§§73b, 137f, 140a), im Rahmen der offenen Speicherkapazitaet abbilden.</xs:documentation>
 								</xs:annotation>
 								<xs:simpleType>
 									<xs:restriction base="xs:string">
@@ -453,7 +453,7 @@ Mögliche Ausprägungen des ruhenden Leistungsanspruchs sind:
 			<xs:element name="Kostentraegerlaendercode">
 				<xs:annotation>
 					<xs:documentation>Gibt den Kostentraegerlaendercode vom Kostentraeger des Versicherten an.
-Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, V. 2.34 vom 3.09.08.</xs:documentation>
+Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -474,7 +474,7 @@ Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) 
 				<xs:annotation>
 					<xs:documentation>Gibt das Land zu der Strassen- und oder Postfachadresse an. 
 Soweit Angaben zur Adresse und zum Postfach gemacht werden, muss der Wohnsitzlaendercode zu beiden Adressdaten vorhanden sein.
-Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, V. 2.34 vom 3.09.08</xs:documentation>
+Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">

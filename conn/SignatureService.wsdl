@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\5" -->
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_opb1\1" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History            
+            version: V7.4.0
+			===========
+			*** Anpassungen für Signaturproxy statt xTV
             version: V7.3.0
 			===========
 			*** SignatureService updated von 7.2 auf 7.3
@@ -15,15 +19,15 @@
 			===========
 			*** SignatureService updated von 7.0 auf 7.1
 	 End of Version History-->
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.3" xmlns:SIGW="http://ws.gematik.de/conn/SignatureService/WSDL/v7.3" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/WSDL/v7.3">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.4" xmlns:SIGW="http://ws.gematik.de/conn/SignatureService/WSDL/v7.4" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/WSDL/v7.4">
 	<documentation>
-		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Copyright (c) 2016, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: Konnektor Signatur Basisanwendung
-		version=7.3.0 
+		version=7.4.0 
 	</documentation>
 	<types>
 		<xs:schema>
-			<xs:import schemaLocation="SignatureService.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.3"/>
+			<xs:import schemaLocation="SignatureService.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.4"/>
 			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
 			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
 		</xs:schema>
@@ -40,23 +44,17 @@
 	<message name="SignDocumentResponseMessage">
 		<part name="parameter" element="SIG:SignDocumentResponse"/>
 	</message>
-	<message name="ExternalAuthenticateRequestMessage">
-		<part name="parameter" element="SIG:ExternalAuthenticate"/>
+	<message name="GetJobNumberRequestMessage">
+		<part name="parameter" element="SIG:GetJobNumber"/>
 	</message>
-	<message name="ExternalAuthenticateResponseMessage">
-		<part name="parameter" element="SIG:ExternalAuthenticateResponse"/>
+	<message name="GetJobNumberResponseMessage">
+		<part name="parameter" element="SIG:GetJobNumberResponse"/>
 	</message>
-	<message name="SetXTVViewRequestMessage">
-		<part name="parameter" element="SIG:SetXTVView"/>
+	<message name="StopSignatureRequestMessage">
+		<part name="parameter" element="SIG:StopSignature"/>
 	</message>
-	<message name="SetXTVViewResponseMessage">
-		<part name="parameter" element="SIG:SetXTVViewResponse"/>
-	</message>
-	<message name="GetXTVViewRequestMessage">
-		<part name="parameter" element="SIG:GetXTVView"/>
-	</message>
-	<message name="GetXTVViewResponseMessage">
-		<part name="parameter" element="SIG:GetXTVViewResponse"/>
+	<message name="StopSignatureResponseMessage">
+		<part name="parameter" element="SIG:StopSignatureResponse"/>
 	</message>
 	<message name="FaultMessage">
 		<part name="parameter" element="GERROR:Error"/>
@@ -72,26 +70,21 @@
 			<output message="SIGW:SignDocumentResponseMessage"/>
 			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
 		</operation>
-		<operation name="ExternalAuthenticate">
-			<input message="SIGW:ExternalAuthenticateRequestMessage"/>
-			<output message="SIGW:ExternalAuthenticateResponseMessage"/>
+		<operation name="GetJobNumber">
+			<input message="SIGW:GetJobNumberRequestMessage"/>
+			<output message="SIGW:GetJobNumberResponseMessage"/>
 			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
 		</operation>
-		<operation name="SetXTVView">
-			<input message="SIGW:SetXTVViewRequestMessage"/>
-			<output message="SIGW:SetXTVViewResponseMessage"/>
-			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
-		</operation>
-		<operation name="GetXTVView">
-			<input message="SIGW:GetXTVViewRequestMessage"/>
-			<output message="SIGW:GetXTVViewResponseMessage"/>
+		<operation name="StopSignature">
+			<input message="SIGW:StopSignatureRequestMessage"/>
+			<output message="SIGW:StopSignatureResponseMessage"/>
 			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
 		</operation>
 	</portType>
 	<binding name="SignatureServiceBinding" type="SIGW:SignatureServicePortType">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<operation name="VerifyDocument">
-			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.3#VerifyDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#VerifyDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -103,7 +96,7 @@
 			</fault>
 		</operation>
 		<operation name="SignDocument">
-			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.3#SignDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -114,8 +107,8 @@
 				<soap:fault name="FaultMessage" use="literal"/>
 			</fault>
 		</operation>
-		<operation name="ExternalAuthenticate">
-			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.3#ExternalAuthenticate"/>
+		<operation name="GetJobNumber">
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#GetJobNumber"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -126,20 +119,8 @@
 				<soap:fault name="FaultMessage" use="literal"/>
 			</fault>
 		</operation>
-		<operation name="SetXTVView">
-			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.3#SetXTVView"/>
-			<input>
-				<soap:body use="literal"/>
-			</input>
-			<output>
-				<soap:body use="literal"/>
-			</output>
-			<fault name="FaultMessage">
-				<soap:fault name="FaultMessage" use="literal"/>
-			</fault>
-		</operation>
-		<operation name="GetXTVView">
-			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.3#GetXTVView"/>
+		<operation name="StopSignature">
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#StopSignature"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
