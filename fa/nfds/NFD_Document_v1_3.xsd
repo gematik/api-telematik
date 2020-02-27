@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<!-- gematik revision="\main\rel_ors2\3" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
-<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- 	                    Copyright (C) 2017 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
-			version: V1.4.0
-			===========
-			*** C_6892: Nachtrag der OID fÃ¼r ID_NFD
-			*** C_6827: HinzufÃ¼gen Geschlecht "divers"
-
 			version: V1.3.0
 			===========
 			*** C_6629: Entfernen der Attribute mit Status "prohibited"
@@ -18,38 +15,38 @@
 			
 			version: V1.1.1
 			===========
-			*** C_6462: Aufhebung der Pflicht zur Schriftform fÃ¼r die  EinwilligungserklÃ¤rung
+			*** C_6462: Aufhebung der Pflicht zur Schriftform für die  Einwilligungserklärung      
      
 			version: V1.1.0
 			===========
 			***  Synchronisation mit eMP/AMTS (BMPv2.4)
 	 End of Version History-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.4" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.0" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.3" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.3.0">
 	<xs:annotation>
 		<xs:documentation>
 		xml:lang="de">
-			Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			Copyright (c) 2017, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
 			vorbehalten. Beschreibung: XML-Definition des Aufbaus des Notfalldatensatzes mit Medikationsdatenformaten von AMTS
 		</xs:documentation>
 	</xs:annotation>
 	<!--Importe-Anfang-->
-	<xs:import namespace="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" schemaLocation="../nfds/common/NFDM_Common_v1_1.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.0" schemaLocation="../nfds/common/NFDM_Common.xsd"/>
 	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../../ext/xmldsig-core-schema.xsd"/>
 	<!-- Importe-Ende-->
 	<xs:element name="NFD_Document">
 		<xs:annotation>
-			<xs:documentation>Dokument mit medizinisch relevanten Informationen fÃ¼r den Notfall sowie der entsprechenden Signaturinformation.</xs:documentation>
+			<xs:documentation>Dokument mit medizinisch relevanten Informationen für den Notfall sowie der entsprechenden Signaturinformation.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="NFD:Notfalldaten">
 					<xs:annotation>
-						<xs:documentation>Medizinisch relevante Informationen fÃ¼r den Notfall</xs:documentation>
+						<xs:documentation>Medizinisch relevante Informationen für den Notfall</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="NFD:SignatureArzt">
 					<xs:annotation>
-						<xs:documentation>Signaturinformationen zu medizinisch relevanten Informationen fÃ¼r den Notfall</xs:documentation>
+						<xs:documentation>Signaturinformationen zu medizinisch relevanten Informationen für den Notfall</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
@@ -64,7 +61,7 @@
 	</xs:element>
 	<xs:element name="Notfalldaten">
 		<xs:annotation>
-			<xs:documentation>Medizinisch relevante Informationen fÃ¼r den Notfall</xs:documentation>
+			<xs:documentation>Medizinisch relevante Informationen für den Notfall</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -279,7 +276,7 @@
 									<xs:annotation>
 										<xs:documentation>Name: Medikation
 
-BefÃ¼llung / Format: Falls fÃ¼r eine Medikation eine PZN angegeben ist, mÃ¼ssen auch alle Ã¼ber die PZN aus einer Arzneimitteldatenbank ableitbaren Attribute (inklusive Wirkstoffe) angegeben werden. Die Inhalte mÃ¼ssen dann entweder der Arzneimitteldatenbank entsprechen oder sind vom Anwender anders zu belegen.</xs:documentation>
+Befüllung / Format: Falls für eine Medikation eine PZN angegeben ist, müssen auch alle über die PZN aus einer Arzneimitteldatenbank ableitbaren Attribute (inklusive Wirkstoffe) angegeben werden. Die Inhalte müssen dann entweder der Arzneimitteldatenbank entsprechen oder sind vom Anwender anders zu belegen.</xs:documentation>
 									</xs:annotation>
 									<xs:complexType>
 										<xs:complexContent>
@@ -287,13 +284,13 @@ BefÃ¼llung / Format: Falls fÃ¼r eine Medikation eine PZN angegeben ist, mÃ¼ssen 
 												<xs:sequence>
 													<xs:element name="W" minOccurs="0" maxOccurs="unbounded">
 														<xs:annotation>
-															<xs:documentation>Name: Wirkstoffe und WirkstÃ¤rken
+															<xs:documentation>Name: Wirkstoffe und Wirkstärken
 
-Beschreibung: Wirkstoffe und WirkstÃ¤rken einer Medikation
+Beschreibung: Wirkstoffe und Wirkstärken einer Medikation
 
-BefÃ¼llung / Format: Die Werte sind aus der PZN abzuleiten oder vom Anwender manuell einzutragen.
+Befüllung / Format: Die Werte sind aus der PZN abzuleiten oder vom Anwender manuell einzutragen.
 
-ValiditÃ¤tskriterium: Falls das Attribut p angegeben ist, muss mindestens ein Element W mit den Attributen w und (s oder gwe) angegeben werden.</xs:documentation>
+Validitätskriterium: Falls das Attribut p angegeben ist, muss mindestens ein Element W mit den Attributen w und (s oder gwe) angegeben werden.</xs:documentation>
 														</xs:annotation>
 														<xs:complexType>
 															<xs:attribute name="w" use="required">
@@ -302,7 +299,7 @@ ValiditÃ¤tskriterium: Falls das Attribut p angegeben ist, muss mindestens ein El
 
 Beschreibung: Bezeichnung eines Wirkstoffes
 
-BefÃ¼llung / Format: Freitext</xs:documentation>
+Befüllung / Format: Freitext</xs:documentation>
 																</xs:annotation>
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
@@ -313,13 +310,13 @@ BefÃ¼llung / Format: Freitext</xs:documentation>
 															</xs:attribute>
 															<xs:attribute name="s">
 																<xs:annotation>
-																	<xs:documentation>Name: WirkstÃ¤rke Freitext
+																	<xs:documentation>Name: Wirkstärke Freitext
 
-Beschreibung: Bezeichnung der WirkstÃ¤rke
+Beschreibung: Bezeichnung der Wirkstärke
 
-BefÃ¼llung / Format: Freitext
+Befüllung / Format: Freitext
 
-ValiditÃ¤tskriterium: Die Attribute s und gwe dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute s und gwe dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 																</xs:annotation>
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
@@ -330,13 +327,13 @@ ValiditÃ¤tskriterium: Die Attribute s und gwe dÃ¼rfen nicht gleichzeitig angegeb
 															</xs:attribute>
 															<xs:attribute name="gwe">
 																<xs:annotation>
-																	<xs:documentation>Name: WirkstÃ¤rke strukturiert
+																	<xs:documentation>Name: Wirkstärke strukturiert
 
-Beschreibung: Strukturierte Darstellung einer WirkstÃ¤rke
+Beschreibung: Strukturierte Darstellung einer Wirkstärke
 
-BefÃ¼llung / Format: [Wirkstoffmenge mit Wirkstoffmengeneinheit]/[BezugsgrÃ¶ÃŸenmenge mit BezugsgrÃ¶ÃŸenmengeneinheit] z.B. "5mg/1ml"
+Befüllung / Format: [Wirkstoffmenge mit Wirkstoffmengeneinheit]/[Bezugsgrößenmenge mit Bezugsgrößenmengeneinheit] z.B. "5mg/1ml"
 
-ValiditÃ¤tskriterium: Die Attribute s und gwe dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute s und gwe dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 																</xs:annotation>
 																<xs:simpleType>
 																	<xs:restriction base="xs:string">
@@ -354,7 +351,7 @@ ValiditÃ¤tskriterium: Die Attribute s und gwe dÃ¼rfen nicht gleichzeitig angegeb
 
 Beschreibung: Pharmazentralnummer einer Fertigarzneimittelpackung
 
-BefÃ¼llung / Format: nach Code-System in Attribut ps</xs:documentation>
+Befüllung / Format: nach Code-System in Attribut ps</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:int">
@@ -367,11 +364,11 @@ BefÃ¼llung / Format: nach Code-System in Attribut ps</xs:documentation>
 													<xs:annotation>
 														<xs:documentation>Name: Code-System PZN
 
-Beschreibung: Code-System fÃ¼r die PZN
+Beschreibung: Code-System für die PZN
 
-BefÃ¼llung / Format: BMP v2.5, Kapitel 8.3.1, Tabelle 3, fixed
+Befüllung / Format: BMP v2.5, Kapitel 8.3.1, Tabelle 3, fixed
 
-ValiditÃ¤tskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.</xs:documentation>
+Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -386,9 +383,9 @@ ValiditÃ¤tskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut
 
 Beschreibung: Freitextliche Bezeichnung eines Fertigarzneimittels
 
-BefÃ¼llung / Format: Freitext
+Befüllung / Format: Freitext
 
-ValiditÃ¤tskriterium: ---</xs:documentation>
+Validitätskriterium: ---</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -403,9 +400,9 @@ ValiditÃ¤tskriterium: ---</xs:documentation>
 
 Beschreibung: Darreichungsform als IFA Code
 
-BefÃ¼llung / Format: nach Code-System in Attribut fs
+Befüllung / Format: nach Code-System in Attribut fs
 
-ValiditÃ¤tskriterium: Die Attribute f und fd dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -418,11 +415,11 @@ ValiditÃ¤tskriterium: Die Attribute f und fd dÃ¼rfen nicht gleichzeitig angegebe
 													<xs:annotation>
 														<xs:documentation>Name: Darreichungsform Code-System
 
-Beschreibung: Code-System fÃ¼r die Darreichungsform
+Beschreibung: Code-System für die Darreichungsform
 
-BefÃ¼llung / Format: BMP v2.5, Anhang 3, Tabelle 8, fixed
+Befüllung / Format: BMP v2.5, Anhang 3, Tabelle 8, fixed
 
-ValiditÃ¤tskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut fs angegeben werden. Falls das Attribut f nicht angegeben ist, darf das Attribut fs nicht angegeben werden.</xs:documentation>
+Validitätskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut fs angegeben werden. Falls das Attribut f nicht angegeben ist, darf das Attribut fs nicht angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -437,9 +434,9 @@ ValiditÃ¤tskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut
 
 Beschreibung: Darreichungsform als Freitext, entweder definiert oder fehlend (dann bei Ausdruck ggf. aus PZN abgeleitet)
 
-BefÃ¼llung / Format: Freitext
+Befüllung / Format: Freitext
 
-ValiditÃ¤tskriterium: Die Attribute f und fd dÃ¼rfen nicht gleichzeitig angegeben werden. </xs:documentation>
+Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden. </xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -454,9 +451,9 @@ ValiditÃ¤tskriterium: Die Attribute f und fd dÃ¼rfen nicht gleichzeitig angegebe
 
 Beschreibung: Dosierung als 4-teiliges Schema (morgens)
 
-BefÃ¼llung / Format: Wenn nicht angegeben = "0"
+Befüllung / Format: Wenn nicht angegeben = "0"
 
-ValiditÃ¤tskriterium: Die Attribute m und t dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute m und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="d" type="NFD:dosierungTyp" use="optional">
@@ -465,9 +462,9 @@ ValiditÃ¤tskriterium: Die Attribute m und t dÃ¼rfen nicht gleichzeitig angegeben
 
 Beschreibung: Dosierung als 4-teiliges Schema (mittags)
 
-BefÃ¼llung / Format: Wenn nicht angegeben = "0"
+Befüllung / Format: Wenn nicht angegeben = "0"
 
-ValiditÃ¤tskriterium: Die Attribute d und t dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute d und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="v" type="NFD:dosierungTyp" use="optional">
@@ -476,9 +473,9 @@ ValiditÃ¤tskriterium: Die Attribute d und t dÃ¼rfen nicht gleichzeitig angegeben
 
 Beschreibung: Dosierung als 4-teiliges Schema (abends)
 
-BefÃ¼llung / Format: Wenn nicht angegeben = "0"
+Befüllung / Format: Wenn nicht angegeben = "0"
 
-ValiditÃ¤tskriterium: Die Attribute v und t dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute v und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="h" type="NFD:dosierungTyp" use="optional">
@@ -487,9 +484,9 @@ ValiditÃ¤tskriterium: Die Attribute v und t dÃ¼rfen nicht gleichzeitig angegeben
 
 Beschreibung: Dosierung als 4-teiliges Schema (zur Nacht)
 
-BefÃ¼llung / Format: Wenn nicht angegeben = "0"
+Befüllung / Format: Wenn nicht angegeben = "0"
 
-ValiditÃ¤tskriterium: Die Attribute h und t dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute h und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="t" use="optional">
@@ -498,9 +495,9 @@ ValiditÃ¤tskriterium: Die Attribute h und t dÃ¼rfen nicht gleichzeitig angegeben
 
 Beschreibung: Freitextdosierung
 
-BefÃ¼llung / Format: Freitext
+Befüllung / Format: Freitext
 
-ValiditÃ¤tskriterium: Das Attribut t darf nicht gleichzeitig mit den Attributen m, d, v und h angegeben werden.</xs:documentation>
+Validitätskriterium: Das Attribut t darf nicht gleichzeitig mit den Attributen m, d, v und h angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -515,9 +512,9 @@ ValiditÃ¤tskriterium: Das Attribut t darf nicht gleichzeitig mit den Attributen 
 
 Beschreibung: Dosiereinheit als Code
 
-BefÃ¼llung / Format: nach Code-System in Attribut dus
+Befüllung / Format: nach Code-System in Attribut dus
 
-ValiditÃ¤tskriterium: Die Attribute du und dud dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -531,9 +528,9 @@ ValiditÃ¤tskriterium: Die Attribute du und dud dÃ¼rfen nicht gleichzeitig angege
 
 Beschreibung: Code-System der Dosiereinheit
 
-BefÃ¼llung / Format: OID, BMP v2.5, Anhang 4, fixed
+Befüllung / Format: OID, BMP v2.5, Anhang 4, fixed
 
-ValiditÃ¤tskriterium: Falls das Attribut du angegeben ist, muss auch das Attribut dus angegeben werden. Falls das Attribut du nicht angegeben ist, darf das Attribut dus nicht angegeben werden.</xs:documentation>
+Validitätskriterium: Falls das Attribut du angegeben ist, muss auch das Attribut dus angegeben werden. Falls das Attribut du nicht angegeben ist, darf das Attribut dus nicht angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -548,9 +545,9 @@ ValiditÃ¤tskriterium: Falls das Attribut du angegeben ist, muss auch das Attribu
 
 Beschreibung: Dosiereinheit als Freitext
 
-BefÃ¼llung / Format: Freitext
+Befüllung / Format: Freitext
 
-ValiditÃ¤tskriterium: Die Attribute du und dud dÃ¼rfen nicht gleichzeitig angegeben werden.</xs:documentation>
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -565,9 +562,9 @@ ValiditÃ¤tskriterium: Die Attribute du und dud dÃ¼rfen nicht gleichzeitig angege
 
 Beschreibung: Hinweise zur Anwendung, Lagerung, Einnahme, etc.
 
-BefÃ¼llung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
 
-ValiditÃ¤tskriterium: Das Attribut i darf nicht mehr als ein Tildezeichen enthalten ("~").</xs:documentation>
+Validitätskriterium: Das Attribut i darf nicht mehr als ein Tildezeichen enthalten ("~").</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -595,9 +592,9 @@ Beschreibung: Rezeptut als Freitext</xs:documentation>
 
 Beschreibung: Text ohne Bezug zu einem Medikationseintrag
 
-BefÃ¼llung / Format: Freitext, maximal 1 manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+Befüllung / Format: Freitext, maximal 1 manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
 
-ValiditÃ¤tskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalten ("~").</xs:documentation>
+Validitätskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalten ("~").</xs:documentation>
 													</xs:annotation>
 													<xs:simpleType>
 														<xs:restriction base="xs:string">
@@ -616,7 +613,7 @@ ValiditÃ¤tskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalte
 				</xs:element>
 				<xs:element name="NFD_Freiwillige_Zusatzinformationen" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>ZusÃ¤tzliche Angaben auf Wunsch des Versicherten</xs:documentation>
+						<xs:documentation>Zusätzliche Angaben auf Wunsch des Versicherten</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
@@ -631,9 +628,9 @@ ValiditÃ¤tskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalte
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
-			<xs:attribute name="ID_NFD" use="required" fixed="1.2.276.0.76.7.8">
+			<xs:attribute name="ID_NFD" use="required">
 				<xs:annotation>
-					<xs:documentation>OID fÃ¼r das Datenmodell des Notfalldatensatzes</xs:documentation>
+					<xs:documentation>OID</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:string">
@@ -653,7 +650,7 @@ ValiditÃ¤tskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalte
 	</xs:element>
 	<xs:element name="SignatureArzt">
 		<xs:annotation>
-			<xs:documentation>Signaturinformationen zu medizinisch relevanten Informationen fÃ¼r den Notfall</xs:documentation>
+			<xs:documentation>Signaturinformationen zu medizinisch relevanten Informationen für den Notfall</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -852,7 +849,7 @@ ValiditÃ¤tskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalte
 	</xs:complexType>
 	<xs:complexType name="meTyp">
 		<xs:annotation>
-			<xs:documentation>(Struktur aus eMP/AMTS Ã¼bernommen, Inhalte werden fÃ¼r NFD nicht verwendet)</xs:documentation>
+			<xs:documentation>(Struktur aus eMP/AMTS übernommen, Inhalte werden für NFD nicht verwendet)</xs:documentation>
 		</xs:annotation>
 	</xs:complexType>
 	<xs:simpleType name="dosierungTyp">
