@@ -6,6 +6,10 @@
 
 			version: V1.1
 			===========
+			*** Korrektur Konsistenzfehler mit Spezifikation: Entfernen des "minOccurs="0"" für AuthorizationAssertion in GetAuthorizationKeyResponse
+
+			version: V1.1
+			===========
 			*** Überarbeitung Verschlüsselungskonzept ePa mit SGD (Schlüsselgenerierungsdienst)
 			*** Einführung neuer Operationen zur Berechtigungsabfrage
 			*** Einführung Prozess Vertreterfreischaltung
@@ -15,7 +19,7 @@
 			*** Initiale Erstellung
 
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.1">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
@@ -46,7 +50,7 @@
 		<complexType>
 			<sequence>
 				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType" minOccurs="0"/>
-				<element name="AuthorizationAssertion" type="base64Binary" minOccurs="0"/>
+				<element name="AuthorizationAssertion" type="base64Binary"/>
 			</sequence>
 		</complexType>
 	</element>

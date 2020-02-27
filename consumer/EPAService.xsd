@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- Version History 
 			version: V1.0.0
 				* inital Version
-
+            version: V1.0.1
+                * Korrektur namespace phr (vormals tns)
+                * namespace dss, CONSUMER gelöscht
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vsd="http://ws.gematik.de/fa/vsdm/vsd/v5.2" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:EPA="http://ws.gematik.de/consumer/EPAService/v1.0" xmlns:CONSUMER="http://ws.gematik.de/consumer/ConsumerCommon/v1.0" xmlns:tns="http://ws.gematik.de/fa/phr/v1.0" targetNamespace="http://ws.gematik.de/consumer/EPAService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:EPA="http://ws.gematik.de/consumer/EPAService/v1.0" xmlns:vsd="http://ws.gematik.de/fa/vsdm/vsd/v5.2" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/consumer/EPAService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 			Beschreibung: Schema-Beschreibung KTR-Consumer ePA Anwendung
+			Version=1.0.1
 		</documentation>
 	</annotation>
-	<import namespace="urn:oasis:names:tc:dss:1.0:core:schema" schemaLocation="../ext/oasis-dss-core-schema-v1.0-os.xsd"/>
-	<import namespace="http://ws.gematik.de/consumer/ConsumerCommon/v1.0" schemaLocation="ConsumerCommon.xsd"/>
 	<import namespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" schemaLocation="../fa/vsds/Schema_VSD.xsd"/>
-	<import namespace="http://ws.gematik.de/fa/phr/v1.0" schemaLocation="../fd/phr/PHR_Common.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../fd/phr/PHR_Common.xsd"/>
 	<element name="Logout">
 		<annotation>
 			<documentation>Ausführen des Anwendungsfalls Logout Aktensession</documentation>
@@ -34,7 +34,7 @@
 		<complexType>
 			<sequence>
 				<element name="insurantId" type="vsd:insurantId" minOccurs="1" maxOccurs="1"/>
-				<element name="HomeCommunityId" type="tns:HomeCommunityIdType" minOccurs="1" maxOccurs="1"/>
+				<element name="HomeCommunityId" type="phr:HomeCommunityIdType" minOccurs="1" maxOccurs="1"/>
 				<element name="Kostentraegerkennung" minOccurs="1" maxOccurs="1">
 					<annotation>
 						<documentation>Gibt den Kostentraeger des Versicherten an. Es handelt sich um das bundesweit gueltige Institutionskennzeichen (IK) des jeweiligen Kostentraegers.</documentation>
