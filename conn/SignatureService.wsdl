@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
+<!-- ===================================================================== -->
+<!-- Version History            
+            version: V7.4.0
+			===========
+			*** Anpassungen für Signaturproxy statt xTV
+            version: V7.3.0
+			===========
+			*** SignatureService updated von 7.2 auf 7.3
+            version: V7.2.0
+			===========
+			*** SignatureService updated von 7.1 auf 7.2
+            version: V7.1.0
+			===========
+			*** SignatureService updated von 7.0 auf 7.1
+	 End of Version History-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.4" xmlns:SIGW="http://ws.gematik.de/conn/SignatureService/WSDL/v7.4" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/WSDL/v7.4">
+	<documentation>
+		Copyright (c) 2016, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Konnektor Signatur Basisanwendung
+		version=7.4.0 
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="SignatureService.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.4"/>
+			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="VerifyDocumentRequestMessage">
+		<part name="parameter" element="SIG:VerifyDocument"/>
+	</message>
+	<message name="VerifyDocumentResponseMessage">
+		<part name="parameter" element="SIG:VerifyDocumentResponse"/>
+	</message>
+	<message name="SignDocumentRequestMessage">
+		<part name="parameter" element="SIG:SignDocument"/>
+	</message>
+	<message name="SignDocumentResponseMessage">
+		<part name="parameter" element="SIG:SignDocumentResponse"/>
+	</message>
+	<message name="GetJobNumberRequestMessage">
+		<part name="parameter" element="SIG:GetJobNumber"/>
+	</message>
+	<message name="GetJobNumberResponseMessage">
+		<part name="parameter" element="SIG:GetJobNumberResponse"/>
+	</message>
+	<message name="StopSignatureRequestMessage">
+		<part name="parameter" element="SIG:StopSignature"/>
+	</message>
+	<message name="StopSignatureResponseMessage">
+		<part name="parameter" element="SIG:StopSignatureResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="SignatureServicePortType">
+		<operation name="VerifyDocument">
+			<input message="SIGW:VerifyDocumentRequestMessage"/>
+			<output message="SIGW:VerifyDocumentResponseMessage"/>
+			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
+		</operation>
+		<operation name="SignDocument">
+			<input message="SIGW:SignDocumentRequestMessage"/>
+			<output message="SIGW:SignDocumentResponseMessage"/>
+			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
+		</operation>
+		<operation name="GetJobNumber">
+			<input message="SIGW:GetJobNumberRequestMessage"/>
+			<output message="SIGW:GetJobNumberResponseMessage"/>
+			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
+		</operation>
+		<operation name="StopSignature">
+			<input message="SIGW:StopSignatureRequestMessage"/>
+			<output message="SIGW:StopSignatureResponseMessage"/>
+			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="SignatureServiceBinding" type="SIGW:SignatureServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="VerifyDocument">
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#VerifyDocument"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="SignDocument">
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetJobNumber">
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#GetJobNumber"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="StopSignature">
+			<soap:operation soapAction="http://ws.gematik.de/conn/SignatureService/v7.4#StopSignature"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="SignatureService">
+		<port name="SignatureServicePort" binding="SIGW:SignatureServiceBinding">
+			<soap:address location="http://ti-konnektor/signatureservice"/>
+		</port>
+	</service>
+</definitions>

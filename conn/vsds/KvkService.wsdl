@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:KVK="http://ws.gematik.de/conn/vsds/KvkService/v4.0" name="KVK" targetNamespace="http://ws.gematik.de/conn/vsds/KvkService/v4.0">
+	<documentation>
+			Copyright (c) 2011, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+            Beschreibung: Operation zum Lesen der Versicherten Daten von einer KVK
+	</documentation>
+	<types>
+		<xs:schema xmlns:pref="http://ws.gematik.de/conn/vsds/KvkService/v4.0">
+			<xs:import schemaLocation="KvkService.xsd" namespace="http://ws.gematik.de/conn/vsds/KvkService/v4.0"/>
+			<xs:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="ReadKVKRequestMessage">
+		<part name="parameter" element="KVK:ReadKVK"/>
+	</message>
+	<message name="ReadKVKResponseMessage">
+		<part name="parameter" element="KVK:ReadKVKResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="KVKServicePortType">
+		<operation name="ReadKVK">
+			<input message="KVK:ReadKVKRequestMessage"/>
+			<output message="KVK:ReadKVKResponseMessage"/>
+			<fault name="FaultMessage" message="KVK:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="KVKServiceBinding" type="KVK:KVKServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ReadKVK">
+			<soap:operation soapAction="http://ws.gematik.de/conn/vsds/KvkService/v4.0#ReadVDT" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="KVKService">
+		<port name="KVKServicePort" binding="KVK:KVKServiceBinding">
+			<soap:address location="http://unspecified"/>
+		</port>
+	</service>
+</definitions>

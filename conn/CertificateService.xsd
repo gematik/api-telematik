@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_opb1\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<!-- Version History
+            version: V6.0.1
+			* Umsetzung C_5036: Im Element <element name="CtlD" type="string"/> wird der 3. Buchstabe von CtID durch ein großes i statt eines kleinen L ersetzt.
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERT="http://ws.gematik.de/conn/CertificateService/v6.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/CertificateService/v6.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.0.1">
+	<annotation>
+		<documentation xml:lang="de">Copyright (c) 2012, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Schema für den Zertifikatsdienst</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" schemaLocation="CertificateServiceCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="ConnectorContext.xsd"/>
+	<!-- ====== Definiert den Typ Tupel Zertifikatsablauf ========= -->
+	<complexType name="CertificateExpirationType">
+		<sequence>
+			<element name="CtID" type="string"/>
+			<element ref="CONN:CardHandle"/>
+			<element name="ICCSN" type="string"/>
+			<element name="subject_commonName" type="string"/>
+			<element name="serialNumber" type="string"/>
+			<element name="validity" type="date"/>
+		</sequence>
+	</complexType>
+	<!-- ================== Operation CheckCertificateExpiration    ===================== -->
+	<element name="CheckCertificateExpiration">
+		<annotation>
+			<documentation>Gibt das Datum des Ablaufs eines bestimmten Zertifikats oder gesammelt des Zertifikats der SMC-K sowie aller gesteckten HBAx und SM-B des Mandanten zurück.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CONN:CardHandle" minOccurs="0"/>
+				<element ref="CCTX:Context"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="CheckCertificateExpirationResponse">
+		<annotation>
+			<documentation>Antwort der Operation CheckCertificateExpiration</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="CertificateExpiration" type="CERT:CertificateExpirationType" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- ================== Operation ReadCardCertificate     ===================== -->
+	<element name="ReadCardCertificate">
+		<annotation>
+			<documentation>Liest ein X.509-Zertifikat von einer Karte</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CONN:CardHandle"/>
+				<element ref="CCTX:Context"/>
+				<element name="CertRefList">
+					<complexType>
+						<sequence>
+							<element name="CertRef" maxOccurs="unbounded">
+								<simpleType>
+									<restriction base="CERTCMN:CertRefEnum"/>
+								</simpleType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ReadCardCertificateResponse">
+		<annotation>
+			<documentation>Antwort der Operation ReadCardCertificate. Enthält das gelesene Zertifikat.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element ref="CERTCMN:X509DataInfoList"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- ================== Operation VerifyCertificate     ===================== -->
+	<element name="VerifyCertificate">
+		<annotation>
+			<documentation>Prüft den Status eines X.509-Zertifikats</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<element ref="CERTCMN:X509Certificate"/>
+				<element name="VerificationTime" type="dateTime" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<simpleType name="VerificationResultType">
+		<restriction base="token">
+			<enumeration value="VALID"/>
+			<enumeration value="INCONCLUSIVE"/>
+			<enumeration value="INVALID"/>
+		</restriction>
+	</simpleType>
+	<element name="VerifyCertificateResponse">
+		<annotation>
+			<documentation>Antwort der Operation VerifyCertificate. Enthält die Statusinformation.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="VerificationStatus">
+					<complexType>
+						<sequence>
+							<element name="VerificationResult" type="CERT:VerificationResultType"/>
+							<element ref="GERROR:Error" minOccurs="0">
+								<annotation>
+									<documentation>
+							Beschreibt für den Fall Result == "ERROR"
+							den Fehler für die gesamte Operation.
+						</documentation>
+								</annotation>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="RoleList">
+					<complexType>
+						<sequence>
+							<element name="Role" maxOccurs="unbounded">
+								<simpleType>
+									<restriction base="string">
+										<maxLength value="100"/>
+									</restriction>
+								</simpleType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsds/UC_PersoenlicheVersichertendatenXML/v5.1" targetNamespace="http://ws.gematik.de/fa/vsds/UC_PersoenlicheVersichertendatenXML/v5.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.1.0">
+	<xs:annotation>
+		<xs:documentation xml:lang="de">
+           Copyright (c) 2007 gematik-
+           Gesellschaft für Telematikanwendungen
+           der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+      </xs:documentation>
+	</xs:annotation>
+	<xs:element name="UC_PersoenlicheVersichertendatenXML">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Versicherter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Versicherten_ID" type="VSD:TF_Textstring_10">
+								<xs:annotation>
+									<xs:documentation xml:lang="de">Die Versicherten-ID ist der 10-stellige unveränderliche Teil der 30-stelligen Krankenversichertennummer.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Person">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Geburtsdatum" type="VSD:ZP_Zeitpunkt_8">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt das Geburtsdatum des Versicherten in dem Format "YYYYMMDD" (ISO-8601)  an.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Vorname" type="VSD:TF_Textstring_2_45">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Alle Vornamen der Person (max. 5) werden eingegeben. Mehrere Vornamen werden durch Leerzeichen oder Bindestrich getrennt.
+Feldlänge 2-45
+</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Nachname" type="VSD:TF_Textstring_45">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt den Nachnamen der Person an.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Geschlecht" type="VSD:TF_Textstring_1">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt das Geschlecht des Versicherten an gemäss entsprechender Schlüsseltabelle.
+"M" = männlich, "W" = weiblich</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Vorsatzwort" type="VSD:TF_Textstring_20" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt die Vorsatzwörter der Person an.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Namenszusatz" type="VSD:TF_Textstring_20" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt die Namenszusätze der Person an, z.B: Freiherr, gemäß entsprechender Schlüsseltabelle.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Titel" type="VSD:TF_Textstring_20" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Gibt die akademischen Grade der Person an, z.B. "Dr.".</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="PostfachAdresse" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Postleitzahl" type="VSD:TF_Textstring_10">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt die Postleitzahl der Strassen- oder Postfachadresse an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Ort" type="VSD:TF_Textstring_40">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt den Ort zur Strassen- oder Postfachadresse an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Postfach" type="VSD:TF_Textstring_8">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt das Postfach der Person an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Land">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">
+Versicherter:
+Das Land, in dem der Versicherte seinen Wohnsitz hat gem.  Anlage 8 (Staatsangehörigkeit und Länder-kennzeichen für Auslandsanschriften) V. 2.27 vom 8.11.06 (siehe Fachkonzept VSDM)
+Kostenträger:
+Der Kostenträgerländercode vom Kostenträger des Versicherten gem.  Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) V. 2.27 vom 8.11.06 (siehe Fachkonzept VSDM)
+</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Wohnsitzlaendercode" type="VSD:TF_Textstring_3">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Gibt das Land zu der Strassen- oder Postfachadresse an (siehe Fachkonzept VSDM).</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="StrassenAdresse" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Postleitzahl" type="VSD:TF_Textstring_10">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt die Postleitzahl der Strassen- oder Postfachadresse an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Ort" type="VSD:TF_Textstring_40">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt den Ort zur Strassen- oder Postfachadresse an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Land">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">
+
+Versicherter:
+Das Land, in dem der Versicherte seinen Wohnsitz hat gem.  Anlage 8 (Staatsangehörigkeit und Länder-kennzeichen für Auslandsanschriften) V. 2.27 vom 8.11.06 (siehe Fachkonzept VSDM)
+Kostenträger:
+Der Kostenträgerländercode vom Kostenträger des Versicherten gem.  Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) V. 2.27 vom 8.11.06 (siehe Fachkonzept VSDM).
+</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Wohnsitzlaendercode" type="VSD:TF_Textstring_3">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Gibt das Land zu der Strassen- oder Postfachadresse an (siehe Fachkonzept VSDM).</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Strasse" type="VSD:TF_Textstring_46" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt den Namen der Strasse der Person an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Hausnummer" type="VSD:TF_Textstring_9" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt die Hausnummer in der Strasse der Person an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Anschriftenzusatz" type="VSD:TF_Textstring_40" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Gibt die relevanten Zusätze zur Anschrift an.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="CDM_VERSION" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="TF_Textstring_1">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_3">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_8">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_9">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_10">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_20">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_40">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_45">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="45"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_2_45">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="45"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TF_Textstring_46">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="46"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ZP_Zeitpunkt_8">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="8"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors2\1" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/conn/phrs/PHRService/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.0" targetNamespace="http://ws.gematik.de/conn/phrs/PHRService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+    <annotation>
+        <documentation xml:lang="de">
+			Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Schema-Beschreibung für den Web Service PHRService des Fachmoduls ePA/ePF.
+			Version=1.0.0
+		</documentation>
+    </annotation>
+    <import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+    <import namespace="http://ws.gematik.de/fa/phr/v1.0" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
+    <element name="ContextHeader">
+        <complexType>
+            <sequence>
+                <element ref="CCTX:Context" minOccurs="0"/>
+                <element name="RecordIdentifier" type="phrc:RecordIdentifierType"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

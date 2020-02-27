@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\3" -->
+<!-- Mit XMLSpy v2007 sp2 (http://www.altova.com) von N.N. (Gematik) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:KVK="http://ws.gematik.de/conn/vsds/KvkService/v4.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" targetNamespace="http://ws.gematik.de/conn/vsds/KvkService/v4.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2007, gematik – Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+            Beschreibung: Schema-Beschreibung für den KVK-Dienst 
+	</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+	<simpleType name="CardHandleType">
+		<restriction base="string">
+			<maxLength value="128"/>
+		</restriction>
+	</simpleType>
+	<element name="ReadKVK">
+		<annotation>
+			<documentation>
+				Liest das Versichertendatentemplate von der KVK und gibt es unverändert an den Aufrufer zurück.
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="KVKHandle" type="KVK:CardHandleType"/>
+				<element ref="CCTX:Context"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ReadKVKResponse">
+		<annotation>
+			<documentation>
+				Antwort der Operation ReadKVK. Enthält das Versichertendatentemplate der KVK.
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="KVK" type="base64Binary" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

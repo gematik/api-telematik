@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors2\25" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0" xmlns:phr="http://ws.gematik.de/fa/phr/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Schema-Beschreibung der Schnittstellen der Komponente Autorisierung.
+		</documentation>
+	</annotation>
+	<import namespace="urn:oasis:names:tc:SAML:2.0:assertion" schemaLocation="../../ext/saml-schema-assertion-2.0.xsd"/>
+	<import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="../../ext/xenc-schema.xsd"/>
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../../ext/xmldsig-core-schema.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.0" schemaLocation="PHR_Common.xsd"/>
+	<element name="GetAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="ActorID" type="string" minOccurs="0">
+					<annotation>
+						<documentation>10-stelliger, unveränderlicher Teil der KVNR bzw. Telematik-ID des Berechtigten, dessen Schlüssel abgerufen werden soll, Verwendung NUR in der Umgebung des Versicherten</documentation>
+					</annotation>
+				</element>
+				<element name="DeviceID" type="phr:DeviceIdType" minOccurs="0">
+					<annotation>
+						<documentation>Gerätekennung des Geräts des Versicherten, Verwendung nur bei Aufruf aus der Personal Zone des Versicherten</documentation>
+					</annotation>
+				</element>
+				<element ref="SAML:Assertion"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuthorizationKeyResponse">
+		<complexType>
+			<sequence>
+				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType"/>
+				<element ref="SAML:Assertion" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType"/>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType" minOccurs="0"/>
+				<element name="NotificationInfoRepresentative" type="string" minOccurs="0"/>
+				<element ref="SAML:Assertion"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutAuthorizationKeyResponse"/>
+	<element name="DeleteAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="ActorID" type="string"/>
+				<element name="DeviceID" type="string"/>
+				<element ref="SAML:Assertion"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="DeleteAuthorizationKeyResponse"/>
+	<element name="ReplaceAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType"/>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType" minOccurs="0"/>
+				<element ref="SAML:Assertion"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ReplaceAuthorizationKeyResponse"/>
+	<element name="CheckRecordExists">
+		<complexType>
+			<sequence>
+				<element name="KVNR" type="phr:InsurantIdType">
+					<annotation>
+						<documentation>10 stelliger, unveränderlicher Anteil der KVNR = VersichertenID</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="CheckRecordExistsResponse">
+		<complexType>
+			<sequence>
+				<element name="RecordState" type="phrs:RecordStateType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuditEvents">
+		<complexType>
+			<sequence>
+				<element ref="SAML:Assertion"/>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuditEventsResponse">
+		<complexType>
+			<sequence>
+				<element ref="phr:AuditMessage" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutNotificationInfo">
+		<complexType>
+			<sequence>
+				<element ref="SAML:Assertion"/>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<element name="NewNotificationInfo" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutNotificationInfoResponse"/>
+	<complexType name="RecordStateType">
+		<choice>
+			<element name="UNKNOWN">
+				<annotation>
+					<documentation>Es existiert kein Konto für eine angefragte KVNR</documentation>
+				</annotation>
+			</element>
+			<element name="REGISTERED">
+				<annotation>
+					<documentation>Es wurde ein Konto für diese KVNR registriert aber nicht aktiviert</documentation>
+				</annotation>
+			</element>
+			<element name="REGISTERED_MIGRATION">
+				<annotation>
+					<documentation>Es wurde ein Konto für diese KVNR registriert aber nicht aktiviert und der Versicherte möchte vorhandene Daten aus einem anderen Aktenkonto in das neue übernehmen</documentation>
+				</annotation>
+			</element>
+			<element name="ACTIVATED">
+				<annotation>
+					<documentation>Es existiert ein aktives Konto zur angefragten KVNR</documentation>
+				</annotation>
+			</element>
+			<element name="DISMISSED">
+				<annotation>
+					<documentation>Ein vorhandenes Konto zu einer KVNR wurde gekündigt, ist jedoch noch in Benutzung</documentation>
+				</annotation>
+			</element>
+			<element name="SUSPENDED">
+				<annotation>
+					<documentation>Ein vorhandenes Konto zu einer KVNR wurde gekündigt und vorhandene Daten wurden für den Kontoumzug vorbereitet</documentation>
+				</annotation>
+			</element>
+		</choice>
+	</complexType>
+	<complexType name="AuthorizationTypeType">
+		<choice>
+			<element name="DOCUMENT_AUTHORIZATION">
+				<annotation>
+					<documentation>Autorisierung mit Dokumentenzugriff (Standardfall Zugriff auf medizinische Daten und Dokumente)</documentation>
+				</annotation>
+			</element>
+			<element name="RECOVERY_AUTHORIZATION">
+				<annotation>
+					<documentation>Autorisierung zur Umschlüsselung ohne Zugriff auf medizinische Daten eines Kontos</documentation>
+				</annotation>
+			</element>
+			<element name="ACCOUNT_AUTHORIZATION">
+				<annotation>
+					<documentation>Autorisierung im Zusammenhang mit Kontoaktivierung, Aktenumzug bzw. Anbieterwechsel oder anderen Anwendungsfällen, in denen für den Versicherten kein gültiges Schlüsselmaterial vorhanden ist</documentation>
+				</annotation>
+			</element>
+		</choice>
+	</complexType>
+	<complexType name="EncryptedRecordKeyType">
+		<sequence>
+			<element ref="xenc:EncryptedData" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="EncryptedContextKeyType">
+		<sequence>
+			<element ref="xenc:EncryptedData" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="AuthorizationKeyType">
+		<sequence>
+			<element name="EncryptedRecordKey" type="phrs:EncryptedRecordKeyType"/>
+			<element name="EncryptedContextKey" type="phrs:EncryptedContextKeyType"/>
+			<element name="AuthorizationType" type="phrs:AuthorizationTypeType"/>
+		</sequence>
+		<attribute name="validTo" type="date" use="required"/>
+		<attribute name="actorID" type="string" use="required"/>
+	</complexType>
+</schema>

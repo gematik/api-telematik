@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- gematik revision="\main\rel_ors2\4" -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" name="I_Document_Management" targetNamespace="urn:ihe:iti:xds-b:2007">
+    <wsdl:documentation>
+        Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+        Beschreibung: Diese Dienstschnittstelle I_Document_Management bietet die IHE ITI-basierten Schnittstellen für die ePA-Dokumentenverwaltung an. Sie fasst die von IHE International bereitgestellten Schnittstellen für die Integrationsprofile XCDR, XCA, RMU sowie RMD zusammen.
+        version=1.0.0
+    </wsdl:documentation>    
+    <wsdl:types>
+        <xsd:schema elementFormDefault="qualified" targetNamespace="urn:ihe:iti:xds-b:2007" xmlns:ihe="urn:ihe:iti:xds-b:2007">
+            <xsd:include schemaLocation="../../ext/IHE/XDS.b_DocumentRepository.xsd"/>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" targetNamespace="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0">
+            <xsd:include schemaLocation="../../ext/ebRS/rs.xsd"/>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" targetNamespace="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0">
+            <xsd:include schemaLocation="../../ext/ebRS/lcm.xsd"/>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" targetNamespace="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0">
+            <xsd:include schemaLocation="../../ext/ebRS/rim.xsd"/>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" targetNamespace="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0">
+            <xsd:include schemaLocation="../../ext/ebRS/query.xsd"/>
+        </xsd:schema>
+        <xsd:schema elementFormDefault="qualified" targetNamespace="urn:ihe:iti:rmd:2017" xmlns:rmd="urn:ihe:iti:rmd:2017">
+            <xsd:element name="RemoveDocumentsRequest" type="ihe:RetrieveDocumentSetRequestType"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="CrossGatewayDocumentProvide_Message">
+        <wsdl:part name="body" element="ihe:ProvideAndRegisterDocumentSetRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CrossGatewayDocumentProvideResponse_Message">
+        <wsdl:part name="body" element="rs:RegistryResponse"/>
+    </wsdl:message>
+    <wsdl:message name="CrossGatewayRetrieve_Message">
+        <wsdl:part name="body" element="ihe:RetrieveDocumentSetRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CrossGatewayRetrieveResponse_Message">
+        <wsdl:part name="body" element="ihe:RetrieveDocumentSetResponse"/>
+    </wsdl:message>
+    <wsdl:message name="CrossGatewayQuery_Message">
+        <wsdl:part name="body" element="query:AdhocQueryRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CrossGatewayQueryResponse_Message">
+        <wsdl:part name="body" element="query:AdhocQueryResponse"/>
+    </wsdl:message>
+    <wsdl:message name="RemoveDocuments_Message">
+        <wsdl:part name="body" element="rmd:RemoveDocumentsRequest"/>
+    </wsdl:message>
+    <wsdl:message name="RemoveDocumentsResponse_Message">
+        <wsdl:part name="body" element="rs:RegistryResponse"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateResponder_RestrictedUpdateDocumentSet">
+        <wsdl:part name="body" element="lcm:SubmitObjectsRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateResponder_RestrictedUpdateDocumentSetResponse">
+        <wsdl:part name="body" element="rs:RegistryResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="CrossGatewayDocumentProvide_PortType">
+        <wsdl:operation name="CrossGatewayDocumentRecipient_CrossGatewayDocumentProvide">
+            <wsdl:input message="ihe:CrossGatewayDocumentProvide_Message" wsaw:Action="urn:ihe:iti:2015:CrossGatewayDocumentProvide"/>
+            <wsdl:output message="ihe:CrossGatewayDocumentProvideResponse_Message" wsaw:Action="urn:ihe:iti:2015:CrossGatewayDocumentProvideResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="RespondingGatewayRetrieve_PortType">
+        <wsdl:operation name="RespondingGateway_CrossGatewayRetrieve">
+            <wsdl:input message="ihe:CrossGatewayRetrieve_Message" wsaw:Action="urn:ihe:iti:2007:CrossGatewayRetrieve"/>
+            <wsdl:output message="ihe:CrossGatewayRetrieveResponse_Message" wsaw:Action="urn:ihe:iti:2007:CrossGatewayRetrieveResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="RespondingGatewayQuery_PortType">
+        <wsdl:operation name="RespondingGateway_CrossGatewayQuery">
+            <wsdl:input message="ihe:CrossGatewayQuery_Message" wsaw:Action="urn:ihe:iti:2007:CrossGatewayQuery"/>
+            <wsdl:output message="ihe:CrossGatewayQueryResponse_Message" wsaw:Action="urn:ihe:iti:2007:CrossGatewayQueryResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="DocumentRepository_PortType">
+        <wsdl:operation name="DocumentRepository_RemoveDocuments">
+            <wsdl:input message="ihe:RemoveDocuments_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
+            <wsdl:output message="ihe:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="UpdateResponder_PortType">
+        <wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
+            <wsdl:input message="ihe:UpdateResponder_RestrictedUpdateDocumentSet" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSet"/>
+            <wsdl:output message="ihe:UpdateResponder_RestrictedUpdateDocumentSetResponse" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSetResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CrossGatewayDocumentProvide_Binding_Soap12" type="ihe:CrossGatewayDocumentProvide_PortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsaw:UsingAddressing wsdl:required="true"/>
+        <wsdl:operation name="CrossGatewayDocumentRecipient_CrossGatewayDocumentProvide">
+            <soap12:operation soapAction="urn:ihe:iti:2015:CrossGatewayDocumentProvide" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="RespondingGatewayRetrieve_Binding_Soap12" type="ihe:RespondingGatewayRetrieve_PortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsaw:UsingAddressing wsdl:required="true"/>
+        <wsdl:operation name="RespondingGateway_CrossGatewayRetrieve">
+            <soap12:operation soapAction="urn:ihe:iti:2007:CrossGatewayRetrieve" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="RespondingGatewayQuery_Binding_Soap12" type="ihe:RespondingGatewayQuery_PortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsaw:UsingAddressing wsdl:required="true"/>
+        <wsdl:operation name="RespondingGateway_CrossGatewayQuery">
+            <soap12:operation soapAction="urn:ihe:iti:2007:CrossGatewayQuery" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="DocumentRepository_Binding_Soap12" type="ihe:DocumentRepository_PortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsaw:UsingAddressing wsdl:required="true"/>
+        <wsdl:operation name="DocumentRepository_RemoveDocuments">
+            <soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="UpdateResponder_Binding_Soap12" type="ihe:UpdateResponder_PortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
+            <soap12:operation soapAction="urn:ihe:iti:2018:RestrictedUpdateDocumentSet" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="I_Document_Management">
+        <wsdl:port name="CrossGatewayDocumentRecipient_Port_Soap12" binding="ihe:CrossGatewayDocumentProvide_Binding_Soap12">
+            <soap12:address location="http://servicelocation/I_Document_Management"/>
+        </wsdl:port>
+        <wsdl:port name="RespondingGatewayRetrieve_Port_Soap12" binding="ihe:RespondingGatewayRetrieve_Binding_Soap12">
+            <soap12:address location="http://servicelocation/I_Document_Management"/>
+        </wsdl:port>
+        <wsdl:port name="RespondingGatewayQuery_Port_Soap12" binding="ihe:RespondingGatewayQuery_Binding_Soap12">
+            <soap12:address location="http://servicelocation/I_Document_Management"/>
+        </wsdl:port>
+        <wsdl:port name="DocumentRepository_Port_Soap12" binding="ihe:DocumentRepository_Binding_Soap12">
+            <soap12:address location="http://servicelocation/I_Document_Management"/>
+        </wsdl:port>
+        <wsdl:port name="UpdateResponder_Port_Soap12" binding="ihe:UpdateResponder_Binding_Soap12">
+            <soap12:address location="http://servicelocation/I_Document_Management"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
