@@ -1,0 +1,795 @@
+openapi: 3.0.1
+info:
+  title: I_Directory_Administration
+  description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
+              Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
+  version: 1.0.0
+externalDocs:
+  description: Schnittstelle zur Pflege der Verzeichniseinträge
+  url: http://www.gematik.de
+servers:
+- url: https://to.be.defined/
+tags:
+- name: DirectoryEntry Administration
+  description: Pflege der Verzeichniseinträge (Basiseinträge)
+- name: Certificate Administration
+  description: Pflege der Zertifikatseinträge 
+
+paths:
+  /DirectoryEntries:
+    post:
+      tags:
+      - DirectoryEntry Administration
+      summary: Einen Eintrag zum Verzeichnisdienst hinzufügen
+      operationId: add_Directory_Entry
+      requestBody:
+        description: Datensatz für den neuen Eintrag. Die Attribute müssen wie folgt belegt sein
+                       dn.*          Leer/nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                       givenName     Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                       sn            Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                       cn            Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                       displayName   Kann optional belegt werden.
+                       streetAddress Kann optional belegt werden.
+                       postalCode    Kann optional belegt werden.
+                       localityName  Kann optional belegt werden.
+                       stateOrProvienceName  Kann optional belegt werden.
+                       title         Kann optional belegt werden.
+                       organization  Kann optional belegt werden.
+                       otherName     Kann optional belegt werden.
+                       specialization  Kann optional belegt werden.
+                       domainID      Kann optional belegt werden.
+                       personalEntry Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                       dataFromAuthority Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                       userCertificates  Kann optional belegt werden.
+                        dn.uid        Leer/nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                        dn.dc         Leer/nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                        dn.ou         Leer/nicht vorhanden (wird vom Verzeichnisdienst  belegt)
+                        dn.cn         Leer/nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                        telematikID   Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                        entryType     Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                        professionOID Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                        usage         Kann optional belegt werden.
+                        userCertificate   Muss vorhanden sein (Format DER, Base64 kodiert)
+                        description   Kann optional belegt werden.
+                     Entsprechend gemSpec_VZD wird ein Teil der Attribute durch den Verzeichnisdienst automatisch mit Werten aus dem Zertifikat gefüllt. Wenn in dieser Operation Attribute - für die dies erlaubt ist - mit einem Wert belegt werden, wird dieser Wert im Verzeichniseintrag gespeichert (auch wenn der Wert durch den Verzeichnisdienst aus dem Zertifikat entnommen werden kann).   
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDirectoryEntry'
+        required: true
+      responses:
+        201:
+          description: Created
+                       Der Verzeichniseintrag wurde angelegt. Zurückgegeben wird der distinguishedName des erzeugten Eintrags.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/distinguishedName'
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        405:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      tags:
+      - DirectoryEntry Administration
+      summary: Gesamten Verzeichniseintrag lesen
+      description: Liefert alle zum Filter passenden Verzeichniseinträge. Die angegebenen Parameter werden mit logischen UND verknüpft.
+      operationId: read_Directory_Entry
+      parameters:
+      - name: uid
+        in: query
+        description: ID von dem Verzeichniseintrag (distinguishedName.uid)
+        schema:
+          type: string  
+      - name: givenName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs givenName.
+        schema:
+          type: string  
+      - name: sn
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs sn.
+        schema:
+          type: string  
+      - name: cn
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs cn.
+        schema:
+          type: string  
+      - name: displayName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs displayName.
+        schema:
+          type: string  
+      - name: streetAddress
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs streetAddress.
+        schema:
+          type: string  
+      - name: postalCode
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs postalCode.
+        schema:
+          type: string  
+      - name: localityName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs localityName.
+        schema:
+          type: string  
+      - name: stateOrProvienceName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs stateOrProvienceName.
+        schema:
+          type: string  
+      - name: title
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs title.
+        schema:
+          type: string  
+      - name: organization
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs organization.
+        schema:
+          type: string  
+      - name: otherName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs otherName.
+        schema:
+          type: string  
+      - name: specialization
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs specialization. 
+                     Der Verzeichniseintrag wird selektiert, wenn die angegebene domainID im Attribut domainID (array) des Verzeichniseintrags enthalten ist.
+        schema:
+          type: string  
+      - name: domainID
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs domainID. 
+                     Der Verzeichniseintrag wird selektiert, wenn die angegebene domainID im Attribut domainID (array) des Verzeichniseintrags enthalten ist.
+        schema:
+          type: string  
+      - name: personalEntry
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs personalEntry. 
+        schema:
+          type: string  
+      - name: dataFromAuthority
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs dataFromAuthority. 
+        schema:
+          type: string  
+
+      responses:
+        200:
+          description: successful operation
+                       Es werden alle zu dem Filter Parametern passenden Verzeichniseinträge - inklusive Zertifikaten und Fachdaten - zurückgegeben.
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DirectoryEntries'
+        400:
+          description: Bad Request
+                       Wird zurückgegeben wenn mehr als 100 Einträge gefunden wurden.
+                       In diesem Fall müssen die Filter Parameter vom Client genauer belegt werden.
+          content: 
+            application/json:
+              schema:
+               type: string
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response wird auf OAuth gesetzt.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: DirectoryEntry not found
+          content: {}
+
+  /DirectoryEntries/{uid}/baseDirectoryEntries:
+    put:
+      tags:
+      - DirectoryEntry Administration
+      summary: Der Verzeichniseintrag (ohne Zertifikate und Fachdaten) wird mit den übergebenen Daten aktualisiert. 
+      operationId: modify_Directory_Entry
+      parameters:
+      - name: uid
+        in: path
+        description: ID von dem Verzeichniseintrag
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Datensatz für die Aktualisierung des Eintrags
+
+                     Die Attribute müssen wie folgt belegt sein
+
+                      dn.*          Nicht vorhanden (Adressierung erfolgt über uid in Path).
+                      givenName     Nicht vorhanden. 
+                      sn            Nicht vorhanden.
+                      cn            Nicht vorhanden.
+                      displayName   Kann optional belegt werden.
+                      streetAddress Kann optional belegt werden.
+                      postalCode    Kann optional belegt werden.
+                      localityName  Kann optional belegt werden.
+                      stateOrProvienceName  Kann optional belegt werden.
+                      title         Kann optional belegt werden.
+                      organization  Kann optional belegt werden.
+                      otherName     Nicht vorhanden.
+                      specialization  Kann optional belegt werden.
+                      domainID      Kann optional belegt werden.
+                      personalEntry Nicht vorhanden.
+                      dataFromAuthority Nicht vorhanden
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/baseDirectoryEntry'
+        required: true
+      responses:
+        200:
+          description: Der Verzeichniseintrag wurde aktualisiert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/distinguishedName'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: DirectoryEntry not found
+          content: {}
+        405:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+          
+  /DirectoryEntries/{uid}:
+
+    delete:
+      tags:
+      - DirectoryEntry Administration
+      summary: Gesamten Verzeichniseintrag löschen
+      operationId: delete_Directory_Entry
+      parameters:
+      - name: uid
+        in: path
+        description: ID von dem zu löschenden Verzeichniseintrag
+                     Gelöscht werden der Basis Verzeichniseintrag sowie alle dazugehörenden Zertifikate und Fachdaten.
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        400:
+          description: Invalid ID supplied
+          content: {}
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: DirectoryEntry not found
+          content: {}
+
+  /DirectoryEntries/{uid}/Certificates:
+    post:
+      tags:
+      - Certificate Administration
+      summary: Der Zertifikatseintrag wird im Verzeichnisdienst hinzugefügt und ist logisch über dn.uid mit dem übergeordneten Verzeichniseintrag verknüpft.  
+      operationId: add_Directory_Entry_Certificate
+      parameters:
+      - name: uid
+        in: path
+        description: ID (dn.uid) vom übergeordneten Verzeichniseintrag
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Datensatz für die Erzeugung des Eintrags
+
+                     Die Attribute müssen wie folgt belegt sein
+
+                      Attribut          Wert 
+                     -------------------------------------------
+                      dn.*              Nicht vorhanden (Adressierung erfolgt über uid in Path)    
+                      telematikID       Nicht vorhanden (wird vom Verzeichnisdienst belegt)      
+                      entryType         Nicht vorhanden (wird vom Verzeichnisdienst belegt)        
+                      professionOID     Nicht vorhanden (wird vom Verzeichnisdienst belegt)      
+                      usage             Kann optional belegt werden 
+                      userCertificate   Muss vorhanden sein      
+                      description       Kann optional belegt werden 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userCertificate'
+        required: true
+      responses:
+        201:
+          description: Created
+                       Der Zertifikatseintrag wurde hinzugefügt. Zurückgegeben wird der distinguishedName des erzeugten Eintrags.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/distinguishedName'
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        405:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /DirectoryEntries/Certificates:
+  
+    get:
+      tags:
+      - Certificate Administration
+      summary: Zertifikat lesen
+      description: Liefert alle Zertifikate, die dem Filter (siehe 'parameters') entsprechen.
+      operationId: read_Directory_Certificates
+      parameters:
+      - name: uid
+        in: query
+        description: ID vom übergeordneten Verzeichniseintrag
+        required: true
+        schema:
+          type: string
+      - name: certificateEntryID
+        in: query
+        description: ID von dem Zertifikat (dn.cn vom Zertifikatseintrag)
+                     Wenn angegeben wird das adressierte (certificateEntryID) Zertifikat geliefert.
+                     Wenn nicht angegeben werden alle Zertifikate des übergeordneten Verzeichniseintrags geliefert.
+        schema:
+          type: string
+      - name: entryType
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs entryType.
+        schema:
+          type: string
+      - name: telematikID
+        in: query
+        description: telematikID von dem Zertifikat 
+                     Erlaubt die Suche nach Zertifikatseinträgen einer telematikID.
+        schema:
+          type: string
+      - name: professionOID
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs professionOID. 
+                     Der Verzeichniseintrag wird selektiert, wenn die angegebene professionOID im Attribut professionOID (array) des Zertifikatseintrags enthalten ist.
+        schema:
+          type: string  
+      - name: usage
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs usage. 
+                     Der Verzeichniseintrag wird selektiert, wenn die angegebene usage im Attribut usage (array) des Zertifikatseintrags enthalten ist.
+        schema:
+          type: string  
+
+      responses:
+        200:
+          description: successful operation
+                       Es werden alle gefundenen Zertifikatseinträge zurückgegeben.
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/userCertificates'
+        400:
+          description: Bad Request
+                       Wird zurückgegeben wenn mehr als 100 Einträge gefunden wurden.
+                       In diesem Fall müssen die Filter Parameter vom Client genauer belegt werden.
+          content: 
+            application/json:
+              schema:
+               type: string
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Certificate not found
+          content: {}
+
+  /DirectoryEntries/{uid}/Certificates/{certificateEntryID}:
+    put:
+      tags:
+      - Certificate Administration
+      summary: Der Zertifikatseintrag wird mit den übergebenen Daten aktualisiert. 
+      operationId: modify_Directory_Entry_Certificate
+      parameters:
+      - name: uid
+        in: path
+        description: ID vom übergeordneten Verzeichniseintrag
+        required: true
+        schema:
+          type: string
+      - name: certificateEntryID
+        in: path
+        description: ID von dem Zertifikat
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Datensatz für die Aktualisierung des Eintrags
+
+                     Die Attribute müssen wie folgt belegt sein
+
+                      Attribut          Wert 
+                      -------------------------------------------
+                      dn.*              Nicht vorhanden (Adressierung erfolgt über uid & certificateEntryID in Path).
+                      telematikID       Nicht vorhanden (wird vom Verzeichnisdienst belegt)        
+                      entryType         Nicht vorhanden (wird vom Verzeichnisdienst belegt)    
+                      professionOID     Nicht vorhanden (wird vom Verzeichnisdienst belegt)  
+                      usage             Kann optional belegt werden.
+                      userCertificate   unverändert gegenüber VZD
+                      description       Kann optional belegt werden.
+
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userCertificate'
+        required: true
+      responses:
+        200:
+          description: Der aktualisierte Zertifikatseintrag wird zurückgegeben.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userCertificate'
+        400:
+          description: Invalid ID supplied or userCertificate changed
+          content: {}
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Certificate not found
+          content: {}
+        405:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+      - Certificate Administration
+      summary: Zertifikatseintrag löschen
+            Dem Verzeichniseintrag muss immer mindestens ein Zertifikat zugeordnet sein. Wenn nach dem Löschen kein Zertifikat mehr dem Verzeichniseintrag zugeordnet wäre, muss die delete Operation abgelehnt werden. 
+      operationId: delete_Directory_Entry_Certificate
+      parameters:
+      - name: uid
+        in: path
+        description: ID vom übergeordneten Verzeichniseintrag
+        required: true
+        schema:
+          type: string
+      - name: certificateEntryID
+        in: path
+        description: ID von dem zu löschenden Zertifikatseintrag
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        400:
+          description: Invalid ID supplied
+          content: {}
+        401:
+          description: Unauthorized
+                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Certificate not found
+          content: {}
+
+components:
+
+  schemas:
+  
+    userCertificate:
+      description: Jeder Verzeichniseintrag muss mindestens ein Zertifikat enthalten.
+      required:
+      - dn
+      type: object
+      properties:
+        dn:
+          $ref: '#/components/schemas/distinguishedName'
+        entryType:
+          type: string
+          description: 'Eintragstyp Wird vom VZD anhand der in dem Zertifikat
+            enthaltenen OID (Extension Admission, Attribut ProfessionOID) und der
+            Spalte Eintragstyp in Tab_VZD_Mapping_Eintragstyp_und_ProfessionOID automatisch
+            eingetragen. Siehe auch [gemSpecOID]# Tab_PKI_402 und Tab_PKI_403'
+          readOnly: true
+        telematikID:
+          type: string
+          description: 'TelematikID Wird beim Anlegen des Eintrags vom VZD aus dem Zertifikat übernommen (Feld registrationNumber der Extension Admission).'
+          readOnly: true
+        professionOID:
+          maxItems: 100
+          minItems: 0
+          type: array
+          readOnly: true
+          items:
+            type: string
+            description: 'Profession OID / Wird vom VZD anhand der in
+              den Zertifikaten enthaltenen OIDs (Extension Admission, Attribut ProfessionOID)
+              und dem Mapping in ab_VZD_Mapping_Eintragstyp_und_ProfessionOID automatisch
+              eingetragen. Siehe [gemSpecOID]# Tab_PKI_402 und Tab_PKI_403. / kann
+              mehrfach vorkommen (0..100)'
+        usage:
+          maxItems: 100
+          minItems: 0
+          type: array
+          description: 'Nutzungskennzeichnung kann pro Zertifikat mehrfach
+            vergeben werden. Vorgegebener Wertebereich [KOM-LE, ePA].
+            Obligatorisch für LEI und KTR mit vorgegebenem Wert usage=ePA'
+          items:
+            type: string
+            enum:
+            - KOM-LE
+            - ePA
+        userCertificate:
+          type: string
+          description: 'Zertifikat im DER Format. Base64 kodiert.
+                        Die pflegende Stelle erhält das Zertifikat vom TSP oder falls das nicht möglich ist wird ein Ersatzverfahren abgestimmt.'
+        description:
+          type: string
+          description: Dieses Attribut ermöglicht das Zertifikat zu beschreiben, um
+             die Administration des VZD Eintrags zu vereinfachen.
+
+    userCertificates:
+      type: array
+      items:
+        $ref: '#/components/schemas/userCertificate'
+            
+    Fachdaten:
+      required:
+      - dn
+      type: object
+      properties:
+        dn:
+          $ref: '#/components/schemas/distinguishedName'
+        FAD1:
+          maxItems: 50
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/FAD1'
+
+    FAD1:
+      required:
+      - dn
+      type: object
+      properties:
+        dn:
+          $ref: '#/components/schemas/distinguishedName'
+        mail:
+          type: array
+          items:
+            type: string
+            description: 'E-Mail-Adresse'
+          readOnly: true
+
+    distinguishedName:
+      required:
+      - uid
+      readOnly: true
+      type: object
+      properties:
+        uid:
+          type: string
+          description: 'entryID: Name/ID, den den Eintrag eindeutig identifiziert. Hat für den Verzeichnisdienst_Eintrag, Certificate, KOM-LE_Fachdaten und FAD1 eines Verzeichniseintrags den gleichen Wert.'
+        dc:
+          type: array
+          items:
+            type: string
+            description: Domain Component
+        ou:
+          type: array
+          items:
+            type: string
+            description: Organizational Unit
+        cn:
+          type: string
+          description: Common Name
+
+    baseDirectoryEntry:
+      required:
+      - cn
+      - dn
+      type: object
+      properties:
+        dn:
+          $ref: '#/components/schemas/distinguishedName'
+        givenName:
+          type: string
+          description: 'HBA: Vorname, obligatorisch, wird aus dem Zertifikat
+            übernommen / SMC-B: nicht verwendet'
+          readOnly: true
+          example:  Vorname
+        sn:
+          type: string
+          description: 'HBA: Name, obligatorisch, wird aus dem Zertifikat
+            übernommen / SMC-B: nicht verwendet'
+          readOnly: true
+          example:  Nachname
+        cn:
+          type: string
+          description: 'HBA: Vorname und Nachname / SMC-B: Bezeichner:
+            Name Wird vom VZD aus dem Zertifikatsattribut commonName übernommen.'
+          readOnly: true
+          example:  Vorname Nachname  
+        displayName:
+          type: string
+          description: 'Anzeigename, kann geändert werden. 
+            Dieses Attribut wird genutzt um den Namen der Organisation gegenüber dem Anwender darzustellen (Verwendung als Filter-Attribut um die Suche einzuschränken und bei der Darstellung des Ergebnisses).
+              Der Wert wird von der pflegenden Stelle festgelegt.'
+          example:  Vorname Nachname
+        streetAddress:
+          type: string
+          description: 'Straße und Hausnummer
+                        Der Wert wird von der pflegenden Stelle festgelegt'
+          example: Friedrichstraße 136
+        postalCode:
+          type: string
+          description: 'Postleitzahl
+                        Der Wert wird von der pflegenden Stelle festgelegt'
+          example: 10117
+        localityName:
+          type: string
+          description: 'Ort
+                        Der Wert wird von der pflegenden Stelle festgelegt'
+          example: Berlin
+        stateOrProvienceName:
+          type: string
+          description: 'Bundesland
+                        Der Wert wird von der pflegenden Stelle festgelegt'
+          example: Berlin
+        title:
+          type: string
+          description: 'HBA: Titel, optional / SMC-B: nicht verwendet'
+        organization:
+          type: string
+          example: 12345670
+          description: 'Organisation
+                        Der Wert wird von der pflegenden Stelle festgelegt'
+        otherName:
+          type: string
+          description: 'Anderer Name. 
+                        Wird vom VZD aus dem Zertifikatsattribut otherName übernommen.'
+        specialization:
+          maxItems: 100
+          type: array
+          description: 'Fachgebiet
+                        Der Wert wird von der pflegenden Stelle festgelegt'
+          items:
+            type: string
+        domainID:
+          maxItems: 100
+          type: array
+          description: 'Ärzte: Betriebsstättennummer
+                        Der Wert wird aus dem Zertifikat übernommen (Attribut organizationName)'
+          items:
+            type: string
+            example: 345678975
+        personalEntry:
+          type: boolean
+          description: Wird vom VZD eingetragen / Wert == TRUE, wenn alle Zertifikate
+            den entryType 1 haben (Berufsgruppe), Wert == FALSE sonst
+          readOnly: true
+          example: true
+        dataFromAuthority:
+          type: boolean
+          description: Wird vom VZD eingetragen / Wert == TRUE, wenn der Verzeichnisdienst_Eintrag von dem Kartenherausgeber geschrieben wurde, Wert == FALSE sonst 
+          readOnly: true
+          example: true
+
+    DirectoryEntry:
+      type: object
+      properties:
+        DirectoryEntryBase:
+          $ref: '#/components/schemas/baseDirectoryEntry'
+        userCertificates:
+          maxItems: 50
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/userCertificate'
+        Fachdaten:
+          maxItems: 50
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/Fachdaten'
+
+    CreateDirectoryEntry:
+      type: object
+      properties:
+        DirectoryEntryBase:
+          $ref: '#/components/schemas/baseDirectoryEntry'
+        userCertificates:
+          maxItems: 50
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/userCertificate'
+
+    DirectoryEntries:
+      type: array
+      items:
+        $ref: '#/components/schemas/DirectoryEntry'
+            
+    Error:
+      type: object
+      maxItems: 50
+      minItems: 0
+      properties:
+        attributeName:
+          description: Name des Attributs, in dem ein Fehler erkannt wurde
+          type: string
+        attributeError:
+          description: Beschreibung des erkannten Fehlers
+          type: string
+
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://to.be.defined/oauth/token
+          refreshUrl: https://to.be.defined/oauth/refreshToken
+          scopes:
+            VZD:DirectoryAdministration: I_Directory_Administration Client Scope
+              Als Clients dieser Schnittstelle sind nur Systeme der TI Kartenherausgeber und von ihnen beauftragte Organisationen (z.B. TSPs) zulässig.
+              Sie dürfen alle Operationen zur Administration der Verzeichniseinträge nutzen.
+              Das AccessToken enthält im "sub" claim den Identifier des Clients, der auf die Einträge zugreift. Dieser Identifier wird im Log abgelegt, welcher die Zugriffe über diese Schnittstelle protokolliert.
+
+security:
+  - OAuth2:
+      - VZD:DirectoryAdministration  

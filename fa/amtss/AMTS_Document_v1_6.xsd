@@ -7,12 +7,16 @@
 
 	basierend auf
 
-	Bundeseinheitlicher Medikationsplan (BMP) (bmp_V2.5.xsd)
-	30. Juni 2018, Version 2.5
+	Bundeseinheitlicher Medikationsplan (BMP) (bmp_V2.6.xsd)
+	01. Juli 2019, Version 2.6
 
 	verantwortliche Organisation: gematik Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH
 -->
 <!-- Version History
+			version: V1.6.0
+			===========
+			*** C_7070: Attribut "v" BMP Versionsnummer und "iv" Version eMP/AMTS: "fixed value" entfernt; Attribut "ps" "fixed value" entfernt und Aktuallisierung der BMP Version
+			
 			version: V1.5.0
 			===========
 			*** C_6892: Nachtrag der OID für das Attribut @oid
@@ -39,7 +43,7 @@
 			===========
 			*** Bundeseinheitlicher Medikationsplan (BMP) (bmp023.xsd), 2016-07-15 Version 2.3
 	 End of Version History-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.5" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.5" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.5.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.6" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.6" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.6.0">
 	<xs:element name="MP">
 		<xs:annotation>
 			<xs:documentation>eMP/AMTS-Daten</xs:documentation>
@@ -824,13 +828,13 @@ Aus BMP: Ja</xs:documentation>
 													</xs:restriction>
 												</xs:simpleType>
 											</xs:attribute>
-											<xs:attribute name="ps" use="optional" fixed="BMP v2.5, Kap 8.3.1, Tab 3">
+											<xs:attribute name="ps" use="optional">
 												<xs:annotation>
 													<xs:documentation>Name: Code-System PZN
 
 Beschreibung: Code-System für die PZN
 
-Befüllung / Format: BMP v2.5, Kapitel 8.3.1, Tabelle 3, fixed
+Befüllung / Format: z.B. BMP v2.5, Kapitel 8.3.1, Tabelle 3
 
 Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.
 
@@ -887,7 +891,7 @@ Aus BMP: Ja</xs:documentation>
 
 Beschreibung: Code-System für die Darreichungsform
 
-Befüllung / Format: OID, BMP v2.5, Anhang 3; fixed
+Befüllung / Format: OID, fixed
 
 Validitätskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut fs angegeben werden. Falls das Attribut f nicht angegeben ist, darf das Attribut fs nicht angegeben werden.
 
@@ -1014,7 +1018,7 @@ Aus BMP: Ja</xs:documentation>
 
 Beschreibung: Code-System der Dosiereinheit
 
-Befüllung / Format: OID, BMP v2.5, Anhang 4; fixed
+Befüllung / Format: OID, fixed
 
 Validitätskriterium: Falls das Attribut du angegeben ist, muss auch das Attribut dus angegeben werden. Falls das Attribut du nicht angegeben ist, darf das Attribut dus nicht angegeben werden.
 
@@ -1298,7 +1302,7 @@ Aus BMP: Ja</xs:documentation>
 
 Beschreibung: Zwischenüberschrift in codierter Form
 
-Befüllung / Format: OID, BMP v2.5, Anh 2.3, Tab 6; fixed
+Befüllung / Format: OID, fixed
 
 Validitätskriterium: Falls das Attribut c angegeben ist, muss auch das Attribut cs angegeben werden. Falls das Attribut c nicht angegeben ist, darf das Attribut cs nicht angegeben werden.
 
@@ -1314,13 +1318,13 @@ Aus BMP: Nein</xs:documentation>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
-			<xs:attribute name="v" use="required" fixed="025">
+			<xs:attribute name="v" use="required">
 				<xs:annotation>
 					<xs:documentation>Name: Version BMP
 
 Beschreibung: Versionsnummer des zugrunde liegenden BMP
 
-Befüllung / Format: z.B. BMP v2.3 entspricht "023", fixed
+Befüllung / Format: z.B. BMP v2.3 entspricht "023"
 
 Aus BMP: Ja</xs:documentation>
 				</xs:annotation>
@@ -1401,13 +1405,13 @@ Aus BMP: Nein</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="iv" use="required" fixed="1.5.0">
+			<xs:attribute name="iv" use="required">
 				<xs:annotation>
 					<xs:documentation>Name: Version eMP/AMTS
 
-Beschreibung: Version der eMP/AMTS-Daten / des Informationsmodells nach Spezifikation der gematik
+Beschreibung: Version der verwendeten eMP/AMTS-Daten / des Informationsmodells nach Spezifikation der gematik
 
-Befüllung / Format: xxx.yyy.zzz, fixed
+Befüllung / Format: xxx.yyy.zzz
 
 Aus BMP: Nein</xs:documentation>
 				</xs:annotation>

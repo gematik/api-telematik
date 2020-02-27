@@ -1,0 +1,1261 @@
+openapi: 3.0.1
+info:
+  title: Testtreiber ePA-Frontend des Versicherten
+  description: REST Schnittstelle einer Test-App fuer das ePA-Modul FdV
+  version: 1.0.0
+servers:
+- url: https://gematik.de/fdv
+paths:
+  /login:
+    post:
+      tags:
+      - "user"
+      summary: Login Aktensession
+      description: Umsetzung Operation I_FdV::login A_18045; Login in zwei Varianten; Falls die insurantID uebergeben wird, dann referenziert die insurantID die AUT-Identitaet des Nutzers, welche ueber eine eGK oder einen Signaturdienst (Konfigurationsparameter UseEGK) verfuegbar ist. Falls keine insurantID übergeben wird, dann wird eine PKCS12-Datei uebergeben. Das C.CH.AUT Zertifikat und der private Schluessel aus der PKCS12-Datei werden im Testtreiber genutzt (bspw. Signatur bei der Authentisierung und der Schluesselerzeugung mit SGD).
+      operationId: login_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+  /logout:
+    post:
+      tags:
+      - "user"
+      summary: Logout Aktensession
+      description: Umsetzung Operation I_FdV::logout A_18046; Logout wird fuer eine per InsurantID (KVNR) referenzierte Identitaet ausgeloest.
+      operationId: logout_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+  /storeDocuments:
+    post:
+      tags:
+       - "documents"
+      summary: Dokumente in ein Aktenkonto laden
+      description: Umsetzung Operation I_FdV::putDocuments (A_18058)
+      operationId: storeDocuments_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoreDocumentRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+  /findDocuments:
+    post:
+      tags:
+        - "documents"
+      summary: Dokumente und Submission Sets in einem Aktenkonto finden
+      description: Umsetzung Operation I_FdV::findDocuments (A_18059); Die fuer die Suchoperation zu verwendende Stored Query wird durch den Parameter vorgegeben. Falls dieser nicht angegeben ist, muss eine geeignete Stored Query gewaehlt werden.; Wenn die Suchparameter ein SubmissionSet adressieren, dann soll der Response die Metadaten der im SubmissionSet enthaltenen Dokumente (unter Beachtung ggf. zusätzlich angegebenener Suchkriterien zu Dokumenten) beinhalten.; Der Response enthält Metadaten zu Dokumenten aber nicht die Dokumente selbst.
+      operationId: findDocuments_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindDocumentsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindDocumentsResponseDTO'
+  /retrieveDocuments:
+    post:
+      tags:
+        - "documents"
+      summary: Dokumente aus Aktenkonto herunterladen
+      description: Umsetzung Operation I_FdV::getDocuments (A_18060); Laedt die Dokumente mit den im Request angegebenen Ids aus dem Aktenkonto. Die Ids werden mittels findDocuments ermittelt.
+      operationId: retrieveDocuments_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetrieveDocumentsResponseDTO'
+  /deleteDocuments:
+    post:
+      tags:
+        - "documents"
+      summary: Dokumente aus dem Aktenkonto loeschen
+      description: Umsetzung Operation I_FdV::deleteDocuments (A_18061); Loescht die Dokumente mit dem im Request angegebenen Ids aus dem Aktenkonto. Die Ids werden mittels findDocuments ermittelt.
+      operationId: deleteDocuments_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentsRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+  /findHcpos:
+    post:
+      tags:
+        - "directory"
+      summary: Suche nach Leistungserbringerinstitutionen im Verzeichnisdienst
+      description: Umsetzung Operation I_FdV::findHcp (A_18048)
+      operationId: findHcpos_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindDirectoryRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindDirectoryResponseDTO'
+  /findInsurances:
+    post:
+      tags:
+        - "directory"
+      summary: Suche nach Kostentraegern im Verzeichnisdienst
+      description: Umsetzung Operation I_FdV::findInsurance (A_18051)
+      operationId: findInsurances_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindDirectoryRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindDirectoryResponseDTO'
+  /permissions:
+    post:
+      tags:
+        - "permissions"
+      summary: Alle Berechtigungen lesen
+      description: Umsetzung Operation I_FdV::getPermissions (A_18053)
+      operationId: getPermissions_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionsResponseDTO'
+  /permissionHcpo:
+    post:
+      tags:
+        - "permissions"
+      summary: Berechtigung fuer LEI erteilen
+      description: Umsetzung Operation I_FdV::grantPermissionHcp (A_18049)
+      operationId: addPermissionHcpo_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionHcpoDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+    put:
+      tags:
+        - "permissions"
+      summary: Berechtigung fuer eine LEI aendern
+      description: Umsetzung Operation I_FdV::changePermissionHcp (A_18054)
+      operationId: changePermissionHcpo_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionHcpoDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+    delete:
+      tags:
+        - "permissions"
+      summary: Berechtigung fuer eine LEI loeschen
+      description: Umsetzung Operation I_FdV::deletePermissionHcp (A_18055)
+      operationId: deletePermissionHcpo_1
+      parameters:
+        - name: body
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeletePermissionDTO'
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Entry not found
+          content: {}
+  /permissionRepresentative:
+    post:
+      tags:
+        - "permissions"
+      summary: Berechtigung fuer einen Vertreter erteilen
+      description: Umsetzung Operation I_FdV::grantPermissionRepresentative (A_18050)
+      operationId: addPermissionRepresentative_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionRepresentativeDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+    delete:
+      tags:
+        - "permissions"
+      summary: Berechtigung fuer einen Vertreter loeschen
+      description: Umsetzung Operation I_FdV::deletePermissionRepresentative (A_18056)
+      operationId: deletePermissionRepresentative_1
+      parameters:
+        - name: body
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeletePermissionDTO'
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Entry not found
+          content: {}
+  /permissionInsurance:
+    post:
+      tags:
+        - "permissions"
+      summary: Berechtigung fuer einen Kostentraeger erteilen
+      description: Umsetzung Operation I_FdV::grantPermissionInsurance (A_18052)
+      operationId: addPermissionInsurance_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionInsuranceDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+    delete:
+      tags:
+        - "permissions"
+      summary: Berechtigung fuer einen Kostentraeger loeschen
+      description: Umsetzung Operation I_FdV::deletePermissionInsurance (A_18057)
+      operationId: deletePermissionInsurance_1
+      parameters:
+        - name: body
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeletePermissionDTO'
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Entry not found
+          content: {}
+
+  /NotificationInformation:
+    post:
+      tags:
+       - "administration"
+      summary: Benachrichtigungsadresse fuer Geraeteautorisierung aktualisieren
+      description: Umsetzung Operation I_FdV::putNotificationInformation (A_18063); Hinterlegt eine Benachrichtigungsadresse fuer das Aktenkonto.
+      operationId: putNotificationInformation_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationInformationRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+  /changeProvider:
+    post:
+      tags:
+       - "administration"
+      summary: Anbieter wechseln
+      description: Umsetzung Operation I_FdV::changeProvicer (A_18047)
+      operationId: changeProvider_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeProviderRequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+                
+  /protocol:
+    post:
+      tags:
+        - "protocol"
+      summary: Zugriffsprotokoll lesen
+      description: Umsetzung Operation I_FdV::getProtocol (A_18062); Liefert alle Eintraege aus dem §291a und Verwaltungsprotokoll fuer das Aktenkonto.
+      operationId: getProtocol_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestDTO'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolResponseDTO'
+
+  /configuration:
+    get:
+      tags:
+        - "configuration"
+      summary: Gesamte Konfiguration lesen
+      description: Umsetzung Operation I_FdV_Management::getConfiguration (A_18067); Liefert alle Konfigurationseintraege, die dem Filter entsprechen. Als Filter ist configurationEntryId moeglich.   Wird kein Filter angegeben, dann werden alle Eintraege aus der Konfiguration zurueckgegeben.
+      operationId: getConfigurationEntries_1
+      parameters:
+      - name: uid
+        in: query
+        description: Bezeichner eines Konfigurationseintrages (configurationEntryId)
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation; Es werden alle Konfigurationseintraege zurueckgegeben.; Wenn nach einer uid gesucht wurde, wird genau dieser Eintrag zurueckgegeben.; Falls der Konfigurationseintrag vorab nicht gesetzt wurde, wird ein Leerstring zurückgegeben.
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ConfigurationEntries'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Entry not found
+          content: {}
+    put:
+      tags:
+        - "configuration"
+      summary: Konfigurationseintrag aendern
+      description: Umsetzung Operation I_FdV_Management::setConfiguration (A_18066); Setzt einen Konfigurationseintrag 
+      operationId: updateConfigurationEntries_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationEntry'
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+  
+  /productinformation:
+    post:
+      summary: Gibt die Informationen zur Produktinformation zurueck
+      description: Umsetzung Operation I_FdV_Management::getProductInformation (A_18068)
+      operationId: getProductInformation_1
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseProductInformationDTO'
+   
+  /ping:
+    post:
+      summary: Prueft die Erreichbarkeit der Schnittstelle auf Anwendungsebene
+      description: Ping prueft die Erreichbarkeit der Schnittstelle auf Anwendungsebene. In der Response wird die Schnittstellenversion zurueckgegeben, was der Pruefung der Interoberabilitaet dient.
+      operationId: ping_1
+      responses:
+        default:
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsePingDTO'
+components:
+  schemas:
+    ResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+      required:
+        - success
+          
+    Login:
+      type: object
+      description: Eingangsdaten fuer den Anwendungsfall Login sowie fuer das implizite Login vor weiteren Anwendungsfaellen
+      properties:
+        account:
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: referenziert eine Aktensession, in der die Operation ausgefuehrt werden soll; Wenn keine Aktensession besteht, dann muss fuer dieses Aktenkonto (entspricht OwnerInsurantId oder RepresentationXInsurantId in der Konfiguration) eine Aktensession eroeffnet werden (implizites Login).
+        insurantId:
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: Versicherten-ID des Nutzers (Aktenkontoinhaber oder Vertreter) des FdV; Wenn dieser Parameter gesetzt ist, dann wird für die Authentisierung entsprechend dem Konfigurationsparameter useEGK eine angebundene eGK oder der Signaturdienst genutzt.; Wenn  dieser Parameter gesetzt ist, dann werden die Parameter pkcs12, passwordPrivateKey und passwordKeyStore ignoriert.
+        pkcs12:
+          type: string
+          format: byte
+          description: C.CH.AUT-Zertifikat des Nutzers mit private Key im pkcs12 Format; Aus dem C.CH.AUT-Zertifikat wird die Versicherten-ID des Nutzers (Aktenkontoinhaber oder Vertreter) bestimmt.; Mit dem private Key werden die Signaturen bei der Authentisierung und der Schluesselerzeugung (SGD) erstellt
+        passwordPrivateKey:
+          type: string
+          description: Passwort für private Key in pkcs12
+        passwordKeyStore:
+          type: string
+      required:
+        - account
+    RequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+      required:
+        - account
+
+    DocumentsRequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        documentIds:
+          type: array
+          items: 
+            type: "string"
+      required:
+        - account
+        - documentIds
+    AuthorInstitution:
+      type: object
+      description: Institution, die dem Autor zugeordnet ist
+      properties:
+        name:
+          type: string
+          description: Name der Leistungserbringerinstitution oder Name des Kostentraegers
+        identifier:
+          type: string
+          description: Institutionskennzeichen der Leistungserbringerinstitution oder Betriebsnummer des Kostentraegers
+    Author:
+      type: object
+      description: Inhalte fuer Metadaten fuer author gemaess A_14760; entspricht fuer ein DocumentEntry dem Autor; entspricht fuer ein Submission Set der einstellenden Person oder einstellendem System
+      properties:
+        identifier:
+          type: string
+          description: authorPerson, fuer Leistungserbringer Lebenslange Identifikationsnummer eines Arztes, fuer Versicherte Versicherten-ID (unveraenderliche Teil der KVNR)
+          example: 165746304
+        familyName:
+          type: string
+          description: authorPerson, Nachname
+          example: Weber
+        givenName:
+          type: string
+          description: authorPerson, Vorname
+          example: Thilo
+        otherName:
+          type: string
+          description: authorPerson, weiterer Vorname
+        nameAffix:
+          type: string
+          description: authorPerson, Nameszusatz
+        title:
+          type: string
+          description: authorPerson, Titel
+          example: Dr.
+        authorInstitution:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorInstitution'
+        authorRole:
+          type: array
+          items:
+            type: string
+            description: Rolle des Autors; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.authorRole
+        authorSpecialty:
+          type: array
+          items:
+            type: string
+            description: Fachliche Spezialisierung des Autors; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.authorSpecialty oder aus der Tabelle in der Anforderung A_15744
+        authorTelecommunication:
+          type: array
+          items:
+            type: string
+            description: Telekommunikationsdaten des Autors
+    SubmissionSetMetaData:
+      type: object
+      description: Inhalte fuer Metadaten fuer ein SubmissionSet gemaess A_14760;
+      properties:
+        author:
+          $ref: '#/components/schemas/Author'
+        comments:
+          type: string
+          description: Ergaenzende Hinweise zum Submission Set in Freitext
+        contentTypeCode:
+          type: string
+        intendedRecipient:
+          type: array
+          items:
+            type: string
+            description: Vorgesehener Adressat des Submission Set
+        submissionTime:
+          type: string
+          format: date-time
+          description: date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+        title:
+          type: string
+          description: Titel des Submission Sets
+        uniqueId:
+          type: string
+          description: Eindeutige Kennung des Submission Sets
+    DocumentWithMetadata:
+      type: object
+      description: Metadaten zu einem Dokument gemaess A_14760
+      properties:
+        author:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+        classCode:
+          type: string
+          description: Grobe Klassifizierung des Dokuments, einem Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.classCode
+        comments:
+          type: string
+          description: Ergaenzende Hinweise in Freitext
+        confidentialityCode:
+          type: array
+          items:
+            type: string
+            description: Vertraulichkeitskennzeichnung des Dokuments; PAT, LEI, LEÄ, KTR oder ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.confidentialityCode
+        creationTime:
+          type: string
+          format: date-time
+          description: Erstellungszeitpunkt des Dokuments; date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+        eventCodeList:
+          type: array
+          description: Ereignisse, die zur Erstellung des Dokuments geführt haben.; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.eventCodeList oder aus der Tabelle in A_17540
+          items:
+            type: string
+        formatCode:
+          type: array
+          items:
+            type: string
+            description: Global eindeutiger Code fuer das Dokumentenformat; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.formatCode oder aus der Tabelle in A_14761
+        hash:
+          type: string
+        healthcareFacilityTypeCode:
+          type: string
+          description: Art der Einrichtung, in der das dokumentierte Ereignis stattgefunden hat.; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.healthcareFacilityTypeCode
+        languageCode:
+          type: string
+          description: Sprache, in der das Dokument abgefasst ist.; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.languageCode
+        legalAuthenticator:
+          type: string
+          description: Rechtlich Verantwortlicher fuer das Dokument
+        mimeType:
+          type: string
+          enum: 
+           - application/pdf
+           - image/jpeg
+           - image/tiff
+           - text/plain
+           - text/rtf
+           - application/msword
+           - application/msexcel
+           - application/vnd.oasis.opendocument.text
+           - application/vnd.oasis.opendocument.spreadsheet
+           - application/xml
+           - application/hl7-v3
+          description: MIME-Type des Dokuments
+        practiceSettingCode:
+          type: string
+          description: Art der Fachrichtung der erstellenden Einrichtung, in der das dokumentiere Ereignis stattgefunden hat.; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.practiceSettingCode oder aus der Tabelle in A_16944
+        referenceIdList:
+          type: array
+          description: Liste von IDs, mit denen das Dokument assoziiert wird
+          items:
+            type: string
+        serviceStartTime:
+          type: string
+          format: date-time
+          description: Zeitpunkt, an dem das im Dokument dokumentierte (Behandlungs-)Ereignis begonnen wurde.; date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+        serviceStopTime:
+          type: string
+          format: date-time
+          description: Zeitpunkt, an dem das im Dokument dokumentierte (Behandlungs-)Ereignis beendet wurde.; date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+        size:
+          type: integer
+          description: Groesse des Dokuments in Bytes
+        title:
+          type: string
+          description: Titel des Dokuments
+        typeCode:
+          type: string
+          description: Art des Dokumentes; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.typeCode
+        uniqueId:
+          type: string
+          description: Eindeutige, aktenweite Kennung des Dokuments
+        uri:
+          type: string
+          description: Dateiname
+        doc: 
+          type: string
+          format: byte
+          description: Dokument (Base64 kodiert)
+    FindDocumentMetaData:
+      type: object
+      description: Metadaten Parameter fuer die Suche nach SubmissionSets und Dokumenten
+      properties:
+        XDSSubmissionSetEntryUUID:
+          type: array
+          items:
+            type: string
+            description: EntryUUID des Submission Set
+        XDSSubmissionSetUniqueId:
+          type: array
+          items:
+            type: string
+            description: UniqueId des Submission Set
+        XDSSubmissionSetSubmissionTimeFrom:
+          type: string
+          format: date-time
+          description: Beginn Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSSubmissionSetSubmissionTimeTo:
+          type: string
+          format: date-time
+          description: XDSDocumentEntryCreationTimeTo, Ende Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSDocumentEntryEntryUUID:
+          type: array
+          items:
+            type: string
+            description: EntryUUID des Dokucumentes
+        XDSDocumentEntryUniqueId:
+          type: array
+          items:
+            type: string
+            description: UniqueId des Dokumentes
+        XDSDocumentEntryClassCode:
+          type: array
+          items:
+            type: string
+            description: XDSDocumentEntryClassCode   
+        XDSDocumentEntryPracticeSettingCode:
+          type: array
+          items:
+            type: string
+            description: XDSDocumentEntryPracticeSettingCode
+        XDSDocumentEntryCreationTimeFrom:
+          type: string
+          format: date-time
+          description: Beginn Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSDocumentEntryCreationTimeTo:
+          type: string
+          format: date-time
+          description: Ende Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSDocumentEntryServiceStartTimeFrom:
+          type: string
+          format: date-time
+          description: Zeitpunkt, an dem das im Dokument dokumentierte (Behandlungs-)Ereignis begonnen wurde. Beginn Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSDocumentEntryServiceStartTimeTo:
+          type: string
+          format: date-time
+          description: Zeitpunkt, an dem das im Dokument dokumentierte (Behandlungs-)Ereignis begonnen wurde. Ende Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSDocumentEntryServiceStopTimeFrom:
+          type: string
+          format: date-time
+          description: Zeitpunkt, an dem das im Dokument dokumentierte (Behandlungs-)Ereignis beendet wurde. Beginn Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSDocumentEntryServiceStopTimeTo:
+          type: string
+          format: date-time
+          description: Zeitpunkt, an dem das im Dokument dokumentierte (Behandlungs-)Ereignis beendet wurde. Ende Zeitraum fuer Suche; date-time notation as defined by RFC 3339, section 5.6
+          example: 2017-07-21T17:32:28Z
+        XDSDocumentEntryHealthcareFacilityTypeCode:
+          type: array
+          items:
+            type: string
+            description: Art der Einrichtung, in der das dokumentierte Ereignis stattgefunden hat.;       ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.healthcareFacilityTypeCode
+        XDSDocumentEntryEventCodeList:
+          type: array
+          items:
+            type: string
+            description: Ereignisse, die zur Erstellung des Dokuments gefuehrt haben.
+        XDSDocumentEntryConfidentialityCode:
+          type: array
+          items:
+            type: string
+            description: Vertraulichkeitskennzeichnung des Dokuments; PAT, LEI, LEÄ, KTR oder ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.confidentialityCode
+        XDSDocumentEntryAuthorPerson:
+          type: array
+          items:
+            type: string
+            description: Name des Autors
+        XDSDocumentEntryFormatCode:
+          type: array
+          items:
+            type: string
+            description: Global eindeutiger Code fuer das Dokumentenformat; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.formatCode oder aus der Tabelle in A_14761
+        XDSDocumentEntryTypeCode:
+          type: array
+          items:
+            type: string
+            description: Art des Dokumentes
+        XDSDocumentEntryTitle:
+          type: array
+          items:
+            type: string
+            description: Titel des Dokumentes; nur anwendbar mit FindDocumentsByTitle
+        XDSDocumentAuthorInstitution:
+          type: array
+          items:
+            type: string
+            description: Institution, die dem Autor zugeordnet ist; nur anwendbar mit FindDocumentsByTitle
+    Document:
+      type: object
+      properties:
+        doc: 
+          type: string
+          format: byte
+          description: Dokument (Base64 kodiert)
+    SubmissionSetWithDocumentWithMetadata:
+      type: object
+      properties:
+        submissionSet:
+          $ref: '#/components/schemas/SubmissionSetMetaData'
+        documentMetadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentWithMetadata'
+    StoreDocumentRequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        title:
+          type: string
+          description: Titel des Submission Sets
+        docs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentWithMetadata'
+      required:
+        - account
+        - docs
+    RetrieveDocumentsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        docs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+      required:
+        - success
+    FindDocumentsRequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        doc:
+          $ref: '#/components/schemas/FindDocumentMetaData'
+        query:
+          type: string
+          enum:
+            - FindDocuments
+            - FindSubmissionSets
+            - FindDocumentsByTitle
+            - GetAll
+            - GetDocuments
+            - GetSubmissionSets
+            - GetSubmissionSetAndContents
+            - FindDocumentsByReferenceId
+          description: optional; falls angegeben, ist die entsprechende Stored Query anzuwenden; falls nicht angegeben, ist eine entsprechend der Suchparameter geeignete Stored Query anzuwenden  
+      required:
+        - account
+    FindDocumentsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        docs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionSetWithDocumentWithMetadata'
+      required:
+        - success
+    DirectoryEntry:
+      type: object
+      properties:
+        cn:
+          type: string
+          description: commonName, vollstaendiger Name
+        givenName:
+          type: string
+          description: Vorname, fuer LEI und KTR nicht verwendet
+        sn:
+          type: string
+          description: Nachname, fuer LEI und KTR nicht verwendet
+        displayName:
+          type: string
+          description: Anzeigename
+        streetAddress:
+          type: string
+          description: Strasse und Hausnummer
+          example: Friedrichstrasse 136
+        postalCode:
+          type: string
+          description: Postleitzahl
+          example: 10117
+        localityName:
+          type: string
+          description: Ort
+          example: Berlin
+        stateOrProvienceName:
+          type: string
+          description: Bundesland
+          example: Berlin
+        title:
+          type: string
+          description: Titel, fuer LEI und KTR nicht verwendet
+        organization:
+          type: string
+          description: Institutionsname
+        otherName:
+          type: string
+          description: Langname
+        professionOID:
+          type: string
+          description: 'fuer LEI: Institution'
+        specialization:
+          type: string
+          description: 'fuer LEI: Fachgebiet'
+        domainID:
+          type: string
+          description: 'fuer KTR: Kostentraegerkennung'
+        telematikId:
+          type: string
+          description: eindeutige ID der Institution in der TI
+    DirectoryEntryWithCertificates:
+      type: object
+      properties:
+        directoryEntry:
+          $ref: '#/components/schemas/DirectoryEntry'
+        certificates:
+          type: array
+          maxItems: 50
+          minItems: 0
+          items:
+            type: string
+            format: byte
+            description: Verschluesselungszertifikat der Institution (Format DER, Base64 kodiert)
+      required:
+        - directoryEntry
+        - certificates
+    FindDirectoryRequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        directoryEntry:
+          $ref: '#/components/schemas/DirectoryEntry'
+      required:
+        - account
+        - directoryEntry
+    FindDirectoryResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        directoryEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DirectoryEntryWithCertificates'
+      required:
+        - success
+
+    PermissionLeiProp:
+      type: object
+      properties:
+        permissionAccessHcpoDocuments:
+          type: boolean
+          default: true
+          description: Option Zugriff auf durch LEI eingestellte Dokumente erlaubt
+        permissionAccessInsuranceDocuments:
+          type: boolean
+          default: false
+          description: Option Zugriff auf durch Kostentraeger eingestellte Dokumente erlaubt
+        permissionAccessInsurantDocuments:
+          type: boolean
+          default: false
+          description: Option Zugriff auf durch Versicherte eingestellte Dokumente erlaubt
+        validity:
+          type: string
+          format: date
+          description: Zugriff gueltig bis; full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
+      required:
+        - validity
+    PermissionEntry:
+      type: object
+      properties:
+        telematikOrInsurantId:
+          type: string
+          description: Telematik-ID bzw. Versicherten-ID des Berechtigten
+        name:
+          type: string
+          description: Name des Berechtigten
+        permissionLeiProperties:
+          $ref: '#/components/schemas/PermissionLeiProp'
+      required:
+        - telematikOrInsurantId
+        - name
+    PermissionsResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/PermissionEntry"
+      required:
+        - success
+      
+    PermissionHcpoDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        hcpoTelematikId:
+          type: string
+          description: Telematik-ID der Leistungserbringerinstitution (LEI)
+        hcpoName:
+          type: string
+          description: Name der LEI
+        certificate:
+          type: string
+          format: byte
+          description: aus dem Verzeichnisdienst ermittelte Zertifikat der LEI (Format DER, Base64 kodiert)
+        permissionLeiProperties:
+          $ref: '#/components/schemas/PermissionLeiProp'
+      required:
+        - account
+        - hcpoTelematikId
+        - hcpoName
+        - certificate
+        - permissionLeiProperties
+    PermissionRepresentativeDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        represantativeInsurantId:
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: Versicherten-ID des Vertreters (unveraenderliche Teil der KVNR)
+        represantativeName:
+          type: string
+          description: Name des Vertreters
+        representativeNotificationInfo:
+          type: string
+          format: email
+          description: Benachrichtigungsadresse (E-Mail) fuer die Geraeteautorisierung
+      required:
+        - account
+        - represantativeInsurantId
+        - represantativeName
+        - representativeNotificationInfo
+    PermissionInsuranceDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        insuranceTelematikId:
+          type: string
+          description: Telematik-ID des Kostentraegers (KTR)
+        insuranceName:
+          type: string
+          description: Name des KTR
+        certificate:
+          type: string
+          format: byte
+          description: aus dem Verzeichnisdienst ermittelte Zertifikat des KTR (Format DER, Base64 kodiert)
+      required:
+        - account
+        - insuranceTelematikId
+        - insuranceName
+        - certificate
+    DeletePermissionDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        TelematikOrInsurantId:
+          type: string
+          description: Versicherten-ID für Vertreter oder Telematik-ID für LEI bzw. KTR
+      required:
+        - account
+        - TelematikOrInsurantId
+
+    NotificationInformationRequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        notificationInformation:
+          type: string
+          format: email
+          description: Benachrichtigungsadresse (E-Mail) fuer die Geraeteautorisierung
+      required:
+          - account
+          - notificationInformation
+    NotificationInformationWithId:
+      type: object
+      properties:
+        insurantId:
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: Versicherten-ID (unveraenderliche Teil der KVNR)
+        notificationInformation:
+          type: string
+          format: email
+          description: Benachrichtigungsadresse (E-Mail) fuer die Geraeteautorisierung
+      required:
+        - insurantId
+        - notificationInformation
+    ChangeProviderRequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+        fqdnNewProvider:
+          type: string
+          description: FQDN des neuen Anbieters
+        transferPermission:
+          type: boolean
+          default: true
+          description: legt fest, ob die Berechtigungen mit uebertragen werden sollen
+        RepresentativeNotificationInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationInformationWithId'
+      required:
+        - account
+        - fqdnNewProvider
+
+    ProtocolEntry:
+      type: object
+      description: Protokolleintrag gemaess A_14471
+      properties:
+        eventId:
+          type: string
+          description: Aufgerufene Operation gemass A_14505
+        eventDisplayName:
+          type: string
+          description: Anzeigename der aufgerufenen Operation
+        eventDateTime:
+          type: string
+          format: date-time
+          description: Datum und Uhrzeit des Zugriffs; date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+        eventResult:
+          type: string
+          description: Ergebnis der aufgerufenen Operation
+        userId:
+          type: string
+        userName:
+          type: string
+        objectId:
+          type: string
+        objectName:
+          type: string
+        deviceId:
+          type: string
+          description: Device-ID bei Zugriff durch Versicherte
+        providerId:
+          type: string
+          description: Home-Community-ID des ePA-Aktensystems
+        providerName:
+          type: string
+          description: Name des Anbieters ePA-Aktensystem
+      required:
+        - eventId
+        - eventDisplayName
+        - eventDateTime
+        - eventResult
+        - userId
+        - userName
+        - providerId
+        - providerName
+    ProtocolResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        protocolEntries:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProtocolEntry"
+      required:
+        - success
+
+    ConfigurationEntry:
+      type: object
+      properties:
+        configurationEntryId:
+          type: string
+          enum: 
+            - OwnerInsurantId
+            - OwnerFqdnProvider
+            - OwnerDeviceName
+            - Representation1Name
+            - Representation1InsurantId
+            - Representation1FqdnProvider
+            - Representation2Name
+            - Representation2InsurantId
+            - Representation2FqdnProvider
+            - Notifcation
+            - NotificationPeriod
+            - ShowPermissionOnAddDocuments
+            - UseEGK
+          description: Schluesselwerte fuer die in A_15292 definierten Parameter, die durch den Nutzer fuer die Konfiguration des FdV eingegeben werden.; OwnerInsurantId - Versicherten-ID des Aktenkontoinhabers, Teil der Akten-ID; OwnerFqdnProvider - FQDN Anbieter ePA-Aktensystem des Aktenkontoinhabers; OwnerDeviceName - Gerätename des GdV; In der Testtreiber-Konfiguration können 2 Vertretungen eingerichtet werden.; Representation1Name - Name des zu Vertretenden; Representation1InsurantId - Versicherten-ID des zu Vertretenden, Teil der Akten-ID; Representation1FqdnProvider - FQDN Anbieter ePA-Aktensystem des zu Vertretenden; Notifcation - Benachrichtigungen aktivieren; NotificationPeriod - Benachrichtigungszeitraum; ShowPermissionOnAddDocuments - Dokumente einstellen Berechtigte anzeigen; UseEGK (boolean) - gibt an, ob fuer die Authentisierung die eGK oder die alternative kryptographische Versichertenidentitaet genutzt wird.
+        configurationEntryValue:
+          type: string
+          description: Wert fuer den Konfigurationsparameter
+      required:
+        - configurationEntryId
+        - configurationEntryValue
+    ConfigurationEntries:
+      type: array
+      items:
+        $ref: "#/components/schemas/ConfigurationEntry"
+    
+    ResponseProductInformationDTO:
+      type: object
+      description: Produktinformation gemaess A_17235
+      properties:
+        producerId:
+          type: string
+          maxLength: 5
+          description: Hersteller-ID
+        code:
+          type: string
+          maxLength: 8
+          description: Produktkuerzel
+        version:
+          type: string
+          maxLength: 12
+          description: Produktversion
+          example: 1.0.0-0
+      required:
+        - producerId
+        - code
+        - version
+        
+    ResponsePingDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        version:
+          type: string
+      required:
+        - success
+        - version

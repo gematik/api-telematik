@@ -178,7 +178,7 @@ Alle Vornamen der Person (max. 5) werden eingegeben. Mehrere Vornamen werden dur
 										</xs:element>
 										<xs:element name="Geschlecht" type="VSD:gender">
 											<xs:annotation>
-												<xs:documentation>Gibt das Geschlecht des Versicherten an. ("M" = maennlich, "W" = weiblich, "X" = unbestimmt).</xs:documentation>
+												<xs:documentation>Gibt das Geschlecht des Versicherten an. ("M" = maennlich, "W" = weiblich, "X" = unbestimmt, "D" = divers).</xs:documentation>
 											</xs:annotation>
 										</xs:element>
 										<xs:element name="Vorsatzwort" type="VSD:nameExtension" minOccurs="0">

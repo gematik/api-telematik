@@ -4,11 +4,15 @@
 <!-- ===================================================================== -->
 <!-- Version History
 
-			version: V1.1
+			version: V1.1.2
+			===========
+			*** Korrektur AuthorizationTypeType und AssociatedDataType
+
+			version: V1.1.1
 			===========
 			*** Korrektur Konsistenzfehler mit Spezifikation: Entfernen des "minOccurs="0"" für AuthorizationAssertion in GetAuthorizationKeyResponse
 
-			version: V1.1
+			version: V1.1.0
 			===========
 			*** Überarbeitung Verschlüsselungskonzept ePa mit SGD (Schlüsselgenerierungsdienst)
 			*** Einführung neuer Operationen zur Berechtigungsabfrage
@@ -19,10 +23,10 @@
 			*** Initiale Erstellung
 
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.1">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.2">
 	<annotation>
 		<documentation xml:lang="de">
-			Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 			Schema-Beschreibung der Schnittstellen der Komponente Autorisierung.
 		</documentation>
 	</annotation>
@@ -192,32 +196,32 @@
 			</element>
 		</choice>
 	</complexType>
-	<complexType name="AuthorizationTypeType">
-		<choice>
-			<element name="DOCUMENT_AUTHORIZATION">
+	<simpleType name="AuthorizationTypeType">
+		<restriction base="string">
+			<enumeration value="DOCUMENT_AUTHORIZATION">
 				<annotation>
 					<documentation>Autorisierung mit Dokumentenzugriff (Standardfall Zugriff auf medizinische Daten und Dokumente)</documentation>
 				</annotation>
-			</element>
-			<element name="RECOVERY_AUTHORIZATION">
+			</enumeration>
+			<enumeration value="RECOVERY_AUTHORIZATION">
 				<annotation>
 					<documentation>Autorisierung zur Umschlüsselung ohne Zugriff auf medizinische Daten eines Kontos</documentation>
 				</annotation>
-			</element>
-			<element name="ACCOUNT_AUTHORIZATION">
+			</enumeration>
+			<enumeration value="ACCOUNT_AUTHORIZATION">
 				<annotation>
 					<documentation>Autorisierung im Zusammenhang mit Kontoaktivierung, Aktenumzug bzw. Anbieterwechsel oder anderen Anwendungsfällen, in denen für den Versicherten kein gültiges Schlüsselmaterial vorhanden ist</documentation>
 				</annotation>
-			</element>
-		</choice>
-	</complexType>
+			</enumeration>
+		</restriction>
+	</simpleType>
 	<simpleType name="CiphertextType">
 		<restriction base="base64Binary">
 			<maxLength value="102400"/>
 		</restriction>
 	</simpleType>
 	<simpleType name="AssociatedDataType">
-		<restriction base="base64Binary">
+		<restriction base="string">
 			<maxLength value="10240"/>
 		</restriction>
 	</simpleType>

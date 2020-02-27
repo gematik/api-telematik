@@ -15,7 +15,7 @@
 				* 01.01.2019
 				* Initiale Version-->
 <!-- ===================== End of Version History =============================== -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.2" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
