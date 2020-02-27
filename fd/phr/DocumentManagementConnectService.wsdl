@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_ors2\9" -->
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0" name="I_Document_Management_Connect" targetNamespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0">
-    <wsdl:types>    
-    <documentation>
-        Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten. 
-        version=1.0.0
-    </documentation>    
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0" name="DocumentManagementConnectService" targetNamespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0">
+    <wsdl:documentation>
+		Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		version=1.0.1 
+	</wsdl:documentation>
+    <wsdl:types>
         <xs:schema>
-            <xs:import schemaLocation="I_Document_Management_Connect.xsd" namespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0"/>
+            <xs:import schemaLocation="DocumentManagementConnectService.xsd" namespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0"/>
             <xs:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
         </xs:schema>
     </wsdl:types>
@@ -28,14 +27,14 @@
     </wsdl:message>
     <wsdl:portType name="I_Document_Management_Connect_PortType">
         <wsdl:operation name="OpenContext">
-            <wsdl:input message="tns:OpenContext_Message" wsaw:Action="http://ws.gematik.de/phr/I_Account_Management_Insurant/v1.0/OpenContext"/>
-            <wsdl:output message="tns:OpenContextResponse_Message" wsaw:Action="http://ws.gematik.de/phr/I_Account_Management_Insurant/v1.0/OpenContextResponse"/>
-            <wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/phr/I_Account_Management_Insurant/v1.0/OpenContextFault"/>
+            <wsdl:input message="tns:OpenContext_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/OpenContext"/>
+            <wsdl:output message="tns:OpenContextResponse_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/OpenContextResponse"/>
+            <wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/OpenContextFault"/>
         </wsdl:operation>
         <wsdl:operation name="CloseContext">
-            <wsdl:input message="tns:CloseContext_Message" wsaw:Action="http://ws.gematik.de/phr/I_Account_Management_Insurant/v1.0/CloseContext"/>
-            <wsdl:output message="tns:CloseContextResponse_Message" wsaw:Action="http://ws.gematik.de/phr/I_Account_Management_Insurant/v1.0/CloseContextResponse"/>
-            <wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/phr/I_Account_Management_Insurant/v1.0/CloseContextFault"/>
+            <wsdl:input message="tns:CloseContext_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/CloseContext"/>
+            <wsdl:output message="tns:CloseContextResponse_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/CloseContextResponse"/>
+            <wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/CloseContextFault"/>
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding name="I_Document_Management_Connect_Binding_Soap12" type="tns:I_Document_Management_Connect_PortType">
@@ -66,8 +65,8 @@
             </wsdl:fault>
         </wsdl:operation>
     </wsdl:binding>
-    <wsdl:service name="I_Document_Management_Connect">
-        <wsdl:port name="I_Document_Management_Connect_Port_Soap12" binding="tns:I_Document_Management_Connect_Binding_Soap12">
+    <wsdl:service name="DocumentManagementConnectService">
+        <wsdl:port name="I_Document_Management_Connect" binding="tns:I_Document_Management_Connect_Binding_Soap12">
             <soap12:address location="http://servicelocation/I_Document_Management_Connect"/>
         </wsdl:port>
     </wsdl:service>

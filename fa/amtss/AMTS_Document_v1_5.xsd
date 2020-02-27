@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_ors2\1" -->
-<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
 <!-- 
 	Datenmodell eMP/AMTS-Datenmanagement (Ausbaustufe A)
 
@@ -12,6 +13,11 @@
 	verantwortliche Organisation: gematik Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH
 -->
 <!-- Version History
+			version: V1.5.0
+			===========
+			*** C_6892: Nachtrag der OID für das Attribut @oid
+			*** C_6828: Hinzufügen Geschlecht "divers"
+
 			version: V1.4.0
 			===========
 			*** C_6611: Hinzufügen von Validitätskriterien zur genaueren Spezifikation des PZN-Bezugs
@@ -33,7 +39,7 @@
 			===========
 			*** Bundeseinheitlicher Medikationsplan (BMP) (bmp023.xsd), 2016-07-15 Version 2.3
 	 End of Version History-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.4" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.5" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.5" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.5.0">
 	<xs:element name="MP">
 		<xs:annotation>
 			<xs:documentation>eMP/AMTS-Daten</xs:documentation>
@@ -121,7 +127,7 @@ Aus BMP: Ja</xs:documentation>
 
 Beschreibung: Administrative Geschlecht des Versicherten 
 
-Befüllung / Format: analog VSDM, "M" = männlich, "W" = weiblich, "X" = unbestimmt
+Befüllung / Format: analog VSDM, "M" = männlich, "W" = weiblich, "D" = divers, "X" = unbestimmt
 
 Aus BMP: Ja</xs:documentation>
 							</xs:annotation>
@@ -137,6 +143,11 @@ Aus BMP: Ja</xs:documentation>
 									<xs:enumeration value="W">
 										<xs:annotation>
 											<xs:documentation>weiblich</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="D">
+										<xs:annotation>
+											<xs:documentation>divers</xs:documentation>
 										</xs:annotation>
 									</xs:enumeration>
 									<xs:enumeration value="X">
@@ -1390,7 +1401,7 @@ Aus BMP: Nein</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="iv" use="required" fixed="1.3.0">
+			<xs:attribute name="iv" use="required" fixed="1.5.0">
 				<xs:annotation>
 					<xs:documentation>Name: Version eMP/AMTS
 
@@ -1407,7 +1418,7 @@ Aus BMP: Nein</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="oid" use="required" fixed="----- TBD -----">
+			<xs:attribute name="oid" use="required" fixed="1.2.276.0.76.7.7">
 				<xs:annotation>
 					<xs:documentation>Name: ID eMP/AMTS
 

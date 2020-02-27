@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_ors2\7" -->
-<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:actions-representative" Version="1.0.0">
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp" Version="1.0.1">
 	<Target/>
-	<Policy PolicyId="urn:uuid:c7bec7f0-369f-4808-aa50-9b448c846010" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+	<Policy PolicyId="urn:uuid:2b6e81c2-ed3b-4416-aeaf-e80ab0a7c3e3" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
 		<Target>
 			<Resources>
 				<Resource>
 					<ResourceMatch MatchId="urn:hl7-org:v3:function:CV-equal">
 						<AttributeValue DataType="urn:hl7-org:v3#CV">
-							<CodedValue xmlns="urn:hl7-org:v3" code="PR" codeSystem="1.3.6.1.4.1.19376.3.276.1.5.10" codeSystemName="Betroffeneneinschätzung der Vertraulichkeitsstufe" displayName="erhöhte Vertraulichkeit"/>
+							<CodedValue xmlns="urn:hl7-org:v3" code="LEI" codeSystem="1.2.276.0.76.5.491" codeSystemName="ePA-Vertraulichkeit" displayName="Dokument einer Leistungserbringerinstitution"/>
 						</AttributeValue>
 						<ResourceAttributeDesignator AttributeId="urn:ihe:iti:appc:2016:confidentiality-code" DataType="urn:hl7-org:v3#CV" MustBePresent="true"/>
 					</ResourceMatch>
 				</Resource>
 			</Resources>
 			<Actions>
-				<Action>	
-					<!--  CrossGatewayDocumentProvide -->
+				<Action>
+					<!-- CrossGatewayDocumentProvide -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
 						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2015:CrossGatewayDocumentProvide</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 				</Action>
-				<!-- OR -->			
-				<Action>
-					<!--  ProvideAndRegisterDocumentSet-b -->
-					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</AttributeValue>
-						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
-					</ActionMatch>
-				</Action>
 			</Actions>
 		</Target>
-		<Rule RuleId="urn:uuid:088ef666-3d7a-46a8-878b-16adb66c6836" Effect="Permit"/>
-	</Policy>	
-	<Policy PolicyId="urn:uuid:e91adeaa-7bac-4fdf-bb91-2865ec828e94" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+		<Rule RuleId="urn:uuid:c14a3e81-34c2-45b2-97bb-15d70412a09e" Effect="Permit"/>
+	</Policy>
+	<Policy PolicyId="urn:uuid:136cda10-512c-4963-b89f-b21ab350b287" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
 		<Target>
-			<Actions>
+			<Resources>
+				<Resource>
+					<ResourceMatch MatchId="urn:hl7-org:v3:function:CV-equal">
+						<AttributeValue DataType="urn:hl7-org:v3#CV">
+							<CodedValue xmlns="urn:hl7-org:v3" code="LEI" codeSystem="1.2.276.0.76.5.491" codeSystemName="ePA-Vertraulichkeit" displayName="Dokument einer Leistungserbringerinstitution"/>
+						</AttributeValue>
+						<ResourceAttributeDesignator AttributeId="urn:ihe:iti:appc:2016:confidentiality-code" DataType="urn:hl7-org:v3#CV" MustBePresent="true"/>
+					</ResourceMatch>
+				</Resource>
+				<!-- OR -->
+				<Resource>
+					<ResourceMatch MatchId="urn:hl7-org:v3:function:CV-equal">
+						<AttributeValue DataType="urn:hl7-org:v3#CV">
+							<CodedValue xmlns="urn:hl7-org:v3" code="LEÄ" codeSystem="1.2.276.0.76.5.491" codeSystemName="ePA-Vertraulichkeit" displayName="Leistungserbringeräquivalentes Dokument eines Versicherten oder Kostenträgers"/>
+						</AttributeValue>
+						<ResourceAttributeDesignator AttributeId="urn:ihe:iti:appc:2016:confidentiality-code" DataType="urn:hl7-org:v3#CV" MustBePresent="true"/>
+					</ResourceMatch>
+				</Resource>		
+			</Resources>		
+			<Actions>				
 				<Action>
-					<!-- Registry Stored Query 'FindDocuments' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindDocuments' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -51,9 +61,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'FindSubmissionSets' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindSubmissionSets' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -64,9 +74,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'GetAll' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetAll' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -77,9 +87,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'GetDocuments' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetDocuments' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -90,9 +100,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'GetAssociations' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetAssociations' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -103,9 +113,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'GetDocumentsAndAssociations' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetDocumentsAndAssociations' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -116,9 +126,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'GetSubmissionSets' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetSubmissionSets' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -129,9 +139,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'GetSubmissionSetAndContents' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetSubmissionSetAndContents' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -142,9 +152,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'GetRelatedDocuments' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetRelatedDocuments' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -155,9 +165,9 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!-- Registry Stored Query 'FindDocumentsByReferenceId' -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindDocumentsByReferenceId' -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RegistryStoredQuery</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 					<!-- AND -->
@@ -168,7 +178,28 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!--  RemoveDocuments -->
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindDocumentsByTitle' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:ab474085-82b5-402d-8115-3f37cb1e2405</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>				
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayRetrieve -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayRetrieve</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- RemoveDocuments -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
 						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2017:RemoveDocuments</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
@@ -176,22 +207,14 @@
 				</Action>
 				<!-- OR -->
 				<Action>
-					<!--  RetrieveDocumentSet -->
+					<!-- RestrictedUpdateDocumentSet -->
 					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:RetrieveDocumentSet</AttributeValue>
-						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
-					</ActionMatch>
-				</Action>
-				<!-- OR -->
-				<Action>
-					<!--  GetAuditEvents -->
-					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
-						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/GetAuditEvents</AttributeValue>
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2018:RestrictedUpdateDocumentSet</AttributeValue>
 						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
 					</ActionMatch>
 				</Action>
 			</Actions>
 		</Target>
-		<Rule RuleId="urn:uuid:eac301f8-d81b-43c4-8671-792f79c51538" Effect="Permit"/>
-	</Policy>	
+		<Rule RuleId="urn:uuid:17b6e470-950b-4bec-a6d2-81985c4ef7a6" Effect="Permit"/>
+	</Policy>
 </PolicySet>

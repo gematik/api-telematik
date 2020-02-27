@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors2\1" -->
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:uuid:cb74359d-485b-4bd4-b7c9-cc7a0c5a53f2" Version="1.0.1">	
+	<Target>
+		<Subjects>
+			<Subject>
+				<!-- Telematik ID of institution -->
+				<SubjectMatch MatchId="urn:hl7-org:v3:function:II-equal">
+					<AttributeValue DataType="urn:hl7-org:v3#II">
+						<InstanceIdentifier xmlns="urn:hl7-org:v3" extension="1-2c47sd-e518" root="1.2.276.0.76.4.188"/>
+					</AttributeValue>
+					<SubjectAttributeDesignator AttributeId="urn:gematik:subject:organization-id" DataType="urn:hl7-org:v3#II" MustBePresent="true"/>
+				</SubjectMatch>
+			</Subject>
+			<!-- OR -->
+			<Subject>
+				<!-- name of institution -->
+				<SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Arztpraxis Dr. Heinz Große</AttributeValue>
+					<SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xspa:1.0:subject:organization" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+				</SubjectMatch>
+			</Subject>
+		</Subjects>
+		<Resources>
+			<Resource>
+				<!-- KVNR -->
+				<ResourceMatch MatchId="urn:hl7-org:v3:function:II-equal">
+					<AttributeValue DataType="urn:hl7-org:v3#II">
+						<InstanceIdentifier xmlns="urn:hl7-org:v3" extension="G995030566" root="1.2.276.0.76.4.8"/>
+					</AttributeValue>
+					<ResourceAttributeDesignator AttributeId="urn:ihe:iti:ser:2016:patient-id" DataType="urn:hl7-org:v3#II"/>
+				</ResourceMatch>
+			</Resource>
+		</Resources>
+		<Environments>
+			<Environment>
+				<!-- policy set is applicable if the start date is greater than (i.e. after) and less than (i.e. before) the current date -->
+				<EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:dateTime-less-than-or-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-31</AttributeValue>
+					<EnvironmentAttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#date" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-date"/>
+				</EnvironmentMatch>
+				<!-- AND -->
+				<EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:date-greater-than">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#date">2018-10-15</AttributeValue>
+					<EnvironmentAttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#date" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-date"/>
+				</EnvironmentMatch>
+			</Environment>
+		</Environments>
+	</Target>
+	<!-- possible permissions are assigned via fixed policy set ids (multiplicity 1..3):
+		urn:gematik:policy-set-id:permissions-access-group-hcp
+		urn:gematik:policy-set-id:permissions-access-group-hcp-insurance-documents		
+		urn:gematik:policy-set-id:permissions-access-group-hcp-insurant-documents		
+	-->
+	<PolicySetIdReference>urn:gematik:policy-set-id:permissions-access-group-hcp</PolicySetIdReference>
+</PolicySet>

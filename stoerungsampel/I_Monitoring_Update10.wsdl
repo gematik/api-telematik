@@ -23,7 +23,7 @@
 			</xsd:import>
 			<xsd:import
 				namespace="http://ws.gematik.de/tel/error/v2.0"
-				schemaLocation="./TelematikError.xsd">
+				schemaLocation="../tel/error/TelematikError.xsd">
 			</xsd:import>
 		</xsd:schema>
     </wsdl:types>

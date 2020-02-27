@@ -3,7 +3,7 @@
 <schema targetNamespace="http://ws.gematik.de/tel/stoerungsampel/v1.1" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pin="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:tns="http://ws.gematik.de/tel/stoerungsampel/v1.1">
 	<import
 		namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1"
-		schemaLocation="./ProductInformation.xsd">
+		schemaLocation="../tel/version/ProductInformation.xsd">
 	</import>
     <complexType name="t_response">
     	<annotation>

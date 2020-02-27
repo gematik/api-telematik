@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Account_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.gematik.de/fd/phr/I_Account_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+    <xs:import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
+    <xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+    <xs:element name="SuspendAccountRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="PackageKey" type="xs:base64Binary"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SuspendAccountResponse">
+        <xs:simpleType>
+            <xs:restriction base="xs:token">
+                <xs:pattern value="ok"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="ResumeAccountRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="PackageKey" type="xs:base64Binary"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ResumeAccountResponse">
+        <xs:simpleType>
+            <xs:restriction base="xs:token">
+                <xs:pattern value="ok"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="GetAuditEventsRequest"/>
+    <xs:element name="GetAuditEventsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="phrext:AuditMessage" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="gerror:Error" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

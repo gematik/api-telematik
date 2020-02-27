@@ -5,6 +5,9 @@
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History      
+           version: V7.4.1
+			===========
+			*** neuer erlaubter Wert für ECDSA-Signatur in Aufrufparameter SIG:Optional Inputs/dss:SignatureType
             version: V7.4.0
 			===========
 			*** Abgetrennt als AuthSignatureService von SignatureService 7.3      
@@ -37,7 +40,7 @@
 	<message name="ExternalAuthenticateResponseMessage">
 		<part name="parameter" element="SIG:ExternalAuthenticateResponse"/>
 	</message>
-		<message name="FaultMessage">
+	<message name="FaultMessage">
 		<part name="parameter" element="GERROR:Error"/>
 	</message>
 	<portType name="AuthSignatureServicePortType">

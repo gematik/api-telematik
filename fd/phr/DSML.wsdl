@@ -4,11 +4,13 @@
     <documentation>
 		Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: LDAP Proxy DSML Interface (Teilkomponente Zugangsgateway)
-		version=1.0.0
+		version=1.0.1
 	</documentation>
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.gematik.de/phr/dsml/v2">
             <import schemaLocation="../../ext/DSMLv2.xsd" namespace="urn:oasis:names:tc:DSML:2:0:core"/>
+            <element name="SearchRequest" type="dsml:SearchRequest" />
+            <element name="DSMLsearchResponse" type="dsmlwsdl:DSMLsearchResponse"/>
             <complexType name="DSMLsearchResponse">
                 <choice>
                     <element name="searchResponse" type="dsml:SearchResponse"/>
@@ -18,10 +20,10 @@
         </schema>
     </types>
     <message name="DSMLRequests">
-        <part name="searchRequest" type="dsml:SearchRequest"/>
+        <part name="searchRequest" element="dsmlwsdl:SearchRequest"/>
     </message>
     <message name="DSMLResponses">
-        <part name="searchResponse" type="dsmlwsdl:DSMLsearchResponse"/>
+        <part name="searchResponse" element="dsmlwsdl:DSMLsearchResponse"/>
     </message>
     <portType name="DSMLPortType">
         <operation name="dsmlRequest">

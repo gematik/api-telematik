@@ -4,7 +4,7 @@
 	<documentation>
 		Copyright (c) 2012, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: Zertifikatsdienst
-		version=6.0.0
+		version=6.0.1
 	</documentation>
 	<types>
 		<xs:schema>

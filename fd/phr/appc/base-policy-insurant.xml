@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors2\1" -->
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" xmlns:hl7="urn:hl7-org:v3" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:insurant" Version="1.0.1">
+	<Description></Description>
+	<Target>
+		<Subjects>
+			<Subject>
+				<!-- insurant represented by subject id (KVNR) -->
+				<SubjectMatch MatchId="urn:hl7-org:v3:function:II-equal">
+					<AttributeValue DataType="urn:hl7-org:v3#II">
+						<InstanceIdentifier xmlns="urn:hl7-org:v3" extension="G995030566" root="1.2.276.0.76.4.8"/>
+					</AttributeValue>
+					<SubjectAttributeDesignator AttributeId="urn:gematik:subject:subject-id" DataType="urn:hl7-org:v3#II" MustBePresent="true" />
+				</SubjectMatch>
+			</Subject>
+		</Subjects>
+		<Resources>
+			<Resource>
+				<!-- KVNR -->
+				<ResourceMatch MatchId="urn:hl7-org:v3:function:II-equal">
+					<AttributeValue DataType="urn:hl7-org:v3#II">
+						<InstanceIdentifier xmlns="urn:hl7-org:v3" extension="G995030566" root="1.2.276.0.76.4.8"/>
+					</AttributeValue>
+					<ResourceAttributeDesignator AttributeId="urn:ihe:iti:ser:2016:patient-id" DataType="urn:hl7-org:v3#II"/>
+				</ResourceMatch>
+			</Resource>
+		</Resources>
+	</Target>
+	<PolicySetIdReference>urn:gematik:policy-set-id:permissions-access-group-insurant</PolicySetIdReference>
+</PolicySet>

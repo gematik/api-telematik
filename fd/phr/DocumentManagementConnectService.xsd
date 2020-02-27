@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_ors2\7" -->
 <xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
 	<xs:element name="OpenContextRequest">
 		<xs:complexType>

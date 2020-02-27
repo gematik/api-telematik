@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:phra="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:phraw="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/WSDL/v1.1" xmlns:ns="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:ns1="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://www.w3.org/2005/08/addressing" targetNamespace="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/WSDL/v1.1">
+    <documentation>
+        Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+        Beschreibung: Authentisierung Versicherter (Teilkomponente Zugangsgateway)
+        version=1.1.1
+    </documentation>
+    <types>
+        <xs:schema>
+            <xs:import schemaLocation="AuthenticationService.xsd" namespace="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1"/>
+            <xs:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+            <xs:import schemaLocation="../../ext/ws-trust-1.3.xsd" namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512"/>
+            <xs:import schemaLocation="../../ext/ws-addr-wsdl.xsd" namespace="http://www.w3.org/2006/05/addressing/wsdl"/>
+        </xs:schema>
+    </types>
+    <message name="RequestSecurityTokenMsg">
+        <part name="request" element="wst:RequestSecurityToken"/>
+    </message>
+    <message name="RequestSecurityTokenResponseMsg">
+        <part name="response" element="wst:RequestSecurityTokenResponse"/>
+    </message>
+    <message name="RequestSecurityTokenCollectionMsg">
+        <part name="requestCollection" element="wst:RequestSecurityTokenCollection"/>
+    </message>
+    <message name="RequestSecurityTokenResponseCollectionMsg">
+        <part name="responseCollection" element="wst:RequestSecurityTokenResponseCollection"/>
+    </message>
+    <message name="FaultMessage">
+        <part name="parameter" element="GERROR:Error"/>
+    </message>
+    <message name="GetAuditEventsRequestMessage">
+        <part name="parameter" element="phra:GetAuditEvents"/>
+    </message>
+    <message name="GetAuditEventsResponseMessage">
+        <part name="parameter" element="phra:GetAuditEventsResponse"/>
+    </message>
+    <portType name="I_Authentication_Insurant_PortType">
+        <operation name="LoginCreateChallenge">
+            <input message="phraw:RequestSecurityTokenMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue"/>
+            <output message="phraw:RequestSecurityTokenResponseMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/Challenge"/>
+        </operation>
+        <operation name="LoginCreateToken">
+            <input message="phraw:RequestSecurityTokenResponseMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/ChallengeFinal"/>
+            <output message="phraw:RequestSecurityTokenResponseCollectionMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal"/>
+        </operation>
+        <operation name="RenewToken">
+            <input message="phraw:RequestSecurityTokenMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Renew"/>
+            <output message="phraw:RequestSecurityTokenResponseMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/RenewFinal"/>
+        </operation>
+        <operation name="LogoutToken">
+            <input message="phraw:RequestSecurityTokenMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Cancel"/>
+            <output message="phraw:RequestSecurityTokenResponseMsg" wsaw:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/CancelFinal"/>
+        </operation>
+        <operation name="GetAuditEvents">
+            <input message="phraw:GetAuditEventsRequestMessage" wsaw:Action="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1/GetAuditEvents"/>
+            <output message="phraw:GetAuditEventsResponseMessage" wsaw:Action="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1/GetAuditEventsResponse"/>
+            <fault name="FaultMessage" message="phraw:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1/GetAuditEventsFault"/>
+        </operation>
+    </portType>
+    <binding name="I_Authentication_Insurant_Binding_Soap12" type="phraw:I_Authentication_Insurant_PortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsaw:UsingAddressing required="true"/>
+        <operation name="LoginCreateChallenge">
+            <soap12:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue" soapActionRequired="true"/>
+            <input>
+                <soap12:body use="literal"/>
+            </input>
+            <output>
+                <soap12:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="LoginCreateToken">
+            <soap12:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/ChallengeFinal" soapActionRequired="true"/>
+            <input>
+                <soap12:body use="literal"/>
+            </input>
+            <output>
+                <soap12:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="RenewToken">
+            <soap12:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Renew" soapActionRequired="true"/>
+            <input>
+                <soap12:body use="literal"/>
+            </input>
+            <output>
+                <soap12:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="LogoutToken">
+            <soap12:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Cancel" soapActionRequired="true"/>
+            <input>
+                <soap12:body use="literal"/>
+            </input>
+            <output>
+                <soap12:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="GetAuditEvents">
+            <soap12:operation soapAction="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1/GetAuditEvents" soapActionRequired="true"/>
+            <input>
+                <soap12:body use="literal"/>
+            </input>
+            <output>
+                <soap12:body use="literal"/>
+            </output>
+            <fault name="FaultMessage">
+                <soap12:fault name="FaultMessage" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+    <service name="AuthenticationService">
+        <port name="I_Authentication_Insurant" binding="phraw:I_Authentication_Insurant_Binding_Soap12">
+            <soap12:address location="http://servicelocation/I_Authentication_Insurant"/>
+        </port>
+    </service>
+</definitions>

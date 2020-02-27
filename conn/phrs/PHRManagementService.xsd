@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_ors2\23" -->
-<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.0" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+  			version: V1.2.0
+				* 15.03.2019
+				* C_6798 RegisterSMB und ActivateAlternativeIdentity => Operationen gelöscht (Schlüsselgenerierungsdienst)
+			version: V1.1.0
+				* 15.01.2019
+				* C_6682: GetAuthorizationList => Operation neu hinzugefügt
+				* C_6711: RequestFacilityAuthorization => Berechtigungen erweitert
+				* C_6685: ActivateAlternativeIdentity => Operation neu hinzugefügt
+            version: V1.0.0
+				* 01.01.2019
+				* Initiale Version-->
+<!-- ===================== End of Version History =============================== -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
 	<annotation>
 		<documentation xml:lang="de">
-			Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 			Schema-Beschreibung für den Web Service PHRManagementService des Fachmoduls ePA/ePF.
-			Version=1.0.0
+			Version=1.2.0
 		</documentation>
 	</annotation>
 	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
 	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
-	<import namespace="http://ws.gematik.de/fa/phr/v1.0" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
-	<simpleType name="AuthorizationConfigurationEnum">
-		<annotation>
-			<documentation xml:lang="de">Enumeration zur Identifikation von Policy Document</documentation>
-		</annotation>
-		<restriction base="string">
-			<enumeration value="CareProviderWithInsurantDocuments">
-				<annotation>
-					<documentation xml:lang="de">Zugriffsberechtigung wird für alle Dokumente (LEI und Versicherter) des Aktenkontos erteilt</documentation>
-				</annotation>
-			</enumeration>
-			<enumeration value="CareProviderWithoutInsurantDocuments">
-				<annotation>
-					<documentation xml:lang="de">Zugriffsberechtigung wird ausschließlich für Dokumente des Aktenkontos erteilt, die durch die LEI eingestellt bzw. für LEI berechtigt wurden
-					</documentation>
-				</annotation>
-			</enumeration>
-		</restriction>
-	</simpleType>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
 	<complexType name="AuthorizationConfigurationType">
 		<annotation>
 			<documentation xml:lang="de">Policy Document</documentation>
 		</annotation>
 		<sequence>
-			<element name="AuthorizationConfigurationMode" type="phrm:AuthorizationConfigurationEnum">
+			<element name="Vers_Docs" type="boolean">
 				<annotation>
-					<documentation xml:lang="de">Art der Zugriffsberechtigung</documentation>
+					<documentation xml:lang="de">Berechtigung für Dokumente des Versicherten gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="LE_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente der Leistungserbringer gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="KTR_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente der Krankenkassen gemäß [gemSpec_Dokumentenverwaltung]</documentation>
 				</annotation>
 			</element>
 			<element name="ExpirationDate" type="date">
@@ -155,44 +161,6 @@
 			</sequence>
 		</complexType>
 	</element>
-	<element name="RegisterSMB">
-		<complexType>
-			<sequence>
-				<element ref="CCTX:Context"/>
-				<element name="KnownRecords">
-					<annotation>
-						<documentation xml:lang="de">Akten, für die die Zugriffsberechtigung einer LEI aktualisiert werden soll</documentation>
-					</annotation>
-					<complexType>
-						<sequence>
-							<element name="RecordIdentifier" type="phrc:RecordIdentifierType" maxOccurs="50"/>
-						</sequence>
-					</complexType>
-				</element>
-			</sequence>
-		</complexType>
-	</element>
-	<element name="RegisterSMBResponse">
-		<complexType>
-			<sequence>
-				<element ref="CONN:Status">
-					<annotation>
-						<documentation xml:lang="de">Statusrückmeldung</documentation>
-					</annotation>
-				</element>
-				<element name="UpdatedRecords">
-					<annotation>
-						<documentation xml:lang="de">Akten, für die die Zugriffsberechtigung einer LEI aktualisiert werden soll</documentation>
-					</annotation>
-					<complexType>
-						<sequence>
-							<element name="RecordIdentifier" type="phrc:RecordIdentifierType" minOccurs="0" maxOccurs="unbounded"/>
-						</sequence>
-					</complexType>
-				</element>
-			</sequence>
-		</complexType>
-	</element>
 	<element name="GetHomeCommunityID">
 		<complexType>
 			<sequence>
@@ -222,6 +190,42 @@ Die Versicherten-ID ist der 10-stellige unveraenderliche Teil der 30-stelligen K
 					</annotation>
 				</element>
 				<element name="HomeCommunityID" type="phrc:HomeCommunityIdType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuthorizationList">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context">
+					<annotation>
+						<documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuthorizationListResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status">
+					<annotation>
+						<documentation xml:lang="de">Statusrückmeldung</documentation>
+					</annotation>
+				</element>
+				<element name="AuthorizationList">
+					<complexType>
+						<sequence minOccurs="0" maxOccurs="unbounded">
+							<element name="AuthorizationEntry">
+								<complexType>
+									<sequence>
+										<element ref="phrc:RecordIdentifier"/>
+										<element name="ValidTo" type="date"/>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
 			</sequence>
 		</complexType>
 	</element>
