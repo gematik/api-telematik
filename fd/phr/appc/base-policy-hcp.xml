@@ -34,14 +34,13 @@
 		</Resources>
 		<Environments>
 			<Environment>
-				<!-- policy set is applicable if the start date is greater than (i.e. after) and less than (i.e. before) the current date -->
-				<EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:dateTime-less-than-or-equal">
-					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">2018-12-31</AttributeValue>
+				<EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:date-less-than-or-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">2018-10-15</AttributeValue>
 					<EnvironmentAttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#date" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-date"/>
 				</EnvironmentMatch>
 				<!-- AND -->
 				<EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:date-greater-than">
-					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#date">2018-10-15</AttributeValue>
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#date">2018-12-31</AttributeValue>
 					<EnvironmentAttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#date" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-date"/>
 				</EnvironmentMatch>
 			</Environment>

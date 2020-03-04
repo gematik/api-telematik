@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- 	                    Copyright (C) 2020 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
+  			version: V1.2.0
+				* 21.01.2020
+				* PHRService_PortType definiert
   			version: V1.1.0
 				* 15.05.2019
 				* Update PHR_Common.xsd
@@ -10,15 +13,15 @@
 				* 01.01.2019
 				* Initiale Version-->
 <!-- ===================== End of Version History =============================== -->
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:hl7="urn:hl7-org:v3" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:phrs="http://ws.gematik.de/conn/phrs/PHRService/v1.1" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:ns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" name="PHRService" targetNamespace="urn:ihe:iti:xds-b:2007">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:hl7="urn:hl7-org:v3" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:phrs="http://ws.gematik.de/conn/phrs/PHRService/v1.2" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:ns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" name="PHRService" targetNamespace="urn:ihe:iti:xds-b:2007">
 	<wsdl:documentation>
-        Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+        Copyright (c) 2020, gematik GmbH. Alle Rechte vorbehalten.
         Beschreibung: Dienst zur Dokumentenwaltung der Fachanwendung ePA/ePF
-        Version=1.1.0
+        Version=1.2.0
     </wsdl:documentation>
 	<wsdl:types>
 		<xsd:schema>
-			<xsd:import namespace="http://ws.gematik.de/conn/phrs/PHRService/v1.1" schemaLocation="PHRService.xsd"/>
+			<xsd:import namespace="http://ws.gematik.de/conn/phrs/PHRService/v1.2" schemaLocation="PHRService.xsd"/>
 			<xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" schemaLocation="../../ext/ebRS/query.xsd"/>
 			<xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" schemaLocation="../../ext/ebRS/rs.xsd"/>
 			<xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" schemaLocation="../../ext/ebRS/lcm.xsd"/>
@@ -65,13 +68,11 @@
 	<wsdl:message name="UpdateResponder_RestrictedUpdateDocumentSetResponse">
 		<wsdl:part name="bodyPart" element="rs:RegistryResponse"/>
 	</wsdl:message>
-	<wsdl:portType name="DocumentRegistry_PortType">
+	<wsdl:portType name="PHRService_PortType">
 		<wsdl:operation name="DocumentRegistry_RegistryStoredQuery">
 			<wsdl:input message="ihe:RegistryStoredQuery_Message" wsaw:Action="urn:ihe:iti:2007:RegistryStoredQuery"/>
 			<wsdl:output message="ihe:RegistryStoredQueryResponse_Message" wsaw:Action="urn:ihe:iti:2007:RegistryStoredQueryResponse"/>
 		</wsdl:operation>
-	</wsdl:portType>
-	<wsdl:portType name="DocumentRepository_PortType">
 		<wsdl:operation name="DocumentRepository_RetrieveDocumentSet">
 			<wsdl:input message="ihe:RetrieveDocumentSet_Message" wsaw:Action="urn:ihe:iti:2007:RetrieveDocumentSet"/>
 			<wsdl:output message="ihe:RetrieveDocumentSetResponse_Message" wsaw:Action="urn:ihe:iti:2007:RetrieveDocumentSetResponse"/>
@@ -84,14 +85,12 @@
 			<wsdl:input message="ihe:RemoveDocuments_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
 			<wsdl:output message="ihe:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
 		</wsdl:operation>
-	</wsdl:portType>
-	<wsdl:portType name="UpdateResponder_PortType">
 		<wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
 			<wsdl:input message="ihe:UpdateResponder_RestrictedUpdateDocumentSet" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSet"/>
 			<wsdl:output message="ihe:UpdateResponder_RestrictedUpdateDocumentSetResponse" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSetResponse"/>
 		</wsdl:operation>
 	</wsdl:portType>
-	<wsdl:binding name="DocumentRegistry_Binding_Soap12" type="ihe:DocumentRegistry_PortType">
+	<wsdl:binding name="PHRService_Binding_Soap12" type="ihe:PHRService_PortType">
 		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="DocumentRegistry_RegistryStoredQuery">
 			<soap12:operation soapAction="urn:ihe:iti:2007:RegistryStoredQuery"/>
@@ -103,9 +102,6 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-	</wsdl:binding>
-	<wsdl:binding name="DocumentRepository_Binding_Soap12" type="ihe:DocumentRepository_PortType">
-		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="DocumentRepository_ProvideAndRegisterDocumentSet-b">
 			<soap12:operation soapAction="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b"/>
 			<wsdl:input>
@@ -136,9 +132,6 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-	</wsdl:binding>
-	<wsdl:binding name="UpdateResponder_Binding_Soap12" type="ihe:UpdateResponder_PortType">
-		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
 			<soap12:operation soapAction="urn:ihe:iti:2018:RestrictedUpdateDocumentSet" soapActionRequired="false"/>
 			<wsdl:input>
@@ -151,13 +144,7 @@
 		</wsdl:operation>
 	</wsdl:binding>
 	<wsdl:service name="PHRService">
-		<wsdl:port name="DocumentRegistry_Port_Soap12" binding="ihe:DocumentRegistry_Binding_Soap12">
-			<soap12:address location="http://servicelocation/PHRService"/>
-		</wsdl:port>
-		<wsdl:port name="DocumentRepository_Port_Soap12" binding="ihe:DocumentRepository_Binding_Soap12">
-			<soap12:address location="http://servicelocation/PHRService"/>
-		</wsdl:port>
-		<wsdl:port name="UpdateResponder_Binding_Soap12" binding="ihe:UpdateResponder_Binding_Soap12">
+		<wsdl:port name="PHRService_Port_Soap12" binding="ihe:PHRService_Binding_Soap12">
 			<soap12:address location="http://servicelocation/PHRService"/>
 		</wsdl:port>
 	</wsdl:service>

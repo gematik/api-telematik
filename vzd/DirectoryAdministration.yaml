@@ -3,7 +3,7 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.0.0
+  version: 1.1.0
 externalDocs:
   description: Schnittstelle zur Pflege der Verzeichniseinträge
   url: http://www.gematik.de
@@ -32,7 +32,7 @@ paths:
                        streetAddress Kann optional belegt werden.
                        postalCode    Kann optional belegt werden.
                        localityName  Kann optional belegt werden.
-                       stateOrProvienceName  Kann optional belegt werden.
+                       stateOrProvinceName  Kann optional belegt werden.
                        title         Kann optional belegt werden.
                        organization  Kann optional belegt werden.
                        otherName     Kann optional belegt werden.
@@ -45,11 +45,13 @@ paths:
                         dn.dc         Leer/nicht vorhanden (wird vom Verzeichnisdienst belegt)
                         dn.ou         Leer/nicht vorhanden (wird vom Verzeichnisdienst  belegt)
                         dn.cn         Leer/nicht vorhanden (wird vom Verzeichnisdienst belegt)
-                        telematikID   Nicht vorhanden (wird vom Verzeichnisdienst belegt)
+                        telematikID   Kann optional belegt werden.
+                          Wird telematikID und userCertificate angegeben, dann muss diese telematikID mit der telematikID im userCertificate übereinstimmen.
+                    Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
                         entryType     Nicht vorhanden (wird vom Verzeichnisdienst belegt)
                         professionOID Nicht vorhanden (wird vom Verzeichnisdienst belegt)
                         usage         Kann optional belegt werden.
-                        userCertificate   Muss vorhanden sein (Format DER, Base64 kodiert)
+                        userCertificate   Kann optional belegt werden (Format DER, Base64 kodiert)
                         description   Kann optional belegt werden.
                      Entsprechend gemSpec_VZD wird ein Teil der Attribute durch den Verzeichnisdienst automatisch mit Werten aus dem Zertifikat gefüllt. Wenn in dieser Operation Attribute - für die dies erlaubt ist - mit einem Wert belegt werden, wird dieser Wert im Verzeichniseintrag gespeichert (auch wenn der Wert durch den Verzeichnisdienst aus dem Zertifikat entnommen werden kann).   
         content:
@@ -74,6 +76,12 @@ paths:
           content: {}
         405:
           description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -126,9 +134,9 @@ paths:
         description: Erlaubt die Suche mit Hilfe des Attributs localityName.
         schema:
           type: string  
-      - name: stateOrProvienceName
+      - name: stateOrProvinceName
         in: query
-        description: Erlaubt die Suche mit Hilfe des Attributs stateOrProvienceName.
+        description: Erlaubt die Suche mit Hilfe des Attributs stateOrProvinceName.
         schema:
           type: string  
       - name: title
@@ -222,7 +230,7 @@ paths:
                       streetAddress Kann optional belegt werden.
                       postalCode    Kann optional belegt werden.
                       localityName  Kann optional belegt werden.
-                      stateOrProvienceName  Kann optional belegt werden.
+                      stateOrProvinceName  Kann optional belegt werden.
                       title         Kann optional belegt werden.
                       organization  Kann optional belegt werden.
                       otherName     Nicht vorhanden.
@@ -318,7 +326,9 @@ paths:
                       Attribut          Wert 
                      -------------------------------------------
                       dn.*              Nicht vorhanden (Adressierung erfolgt über uid in Path)    
-                      telematikID       Nicht vorhanden (wird vom Verzeichnisdienst belegt)      
+                      telematikID       Kann optional belegt werden.
+                            Wird telematikID angegeben, dann muss diese telematikID mit der telematikID im userCertificate übereinstimmen.
+                      Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
                       entryType         Nicht vorhanden (wird vom Verzeichnisdienst belegt)        
                       professionOID     Nicht vorhanden (wird vom Verzeichnisdienst belegt)      
                       usage             Kann optional belegt werden 
@@ -350,6 +360,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        
 
   /DirectoryEntries/Certificates:
   
@@ -451,7 +468,9 @@ paths:
                       Attribut          Wert 
                       -------------------------------------------
                       dn.*              Nicht vorhanden (Adressierung erfolgt über uid & certificateEntryID in Path).
-                      telematikID       Nicht vorhanden (wird vom Verzeichnisdienst belegt)        
+                      telematikID       Kann optional belegt werden.
+                            Wird telematikID angegeben, dann muss diese telematikID mit der telematikID im userCertificate übereinstimmen.
+                      Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
                       entryType         Nicht vorhanden (wird vom Verzeichnisdienst belegt)    
                       professionOID     Nicht vorhanden (wird vom Verzeichnisdienst belegt)  
                       usage             Kann optional belegt werden.
@@ -485,6 +504,12 @@ paths:
           content: {}
         405:
           description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
@@ -548,8 +573,9 @@ components:
           readOnly: true
         telematikID:
           type: string
-          description: 'TelematikID Wird beim Anlegen des Eintrags vom VZD aus dem Zertifikat übernommen (Feld registrationNumber der Extension Admission).'
-          readOnly: true
+          description: 'Wird beim Anlegen des Eintrags vom VZD aus dem Zertifikat übernommen (Feld registrationNumber der Extension Admission).
+                    Falls der Basiseintrag (baseDirectoryEntry) ohne Zertifikat angelegt wird, kann in Operation add_Directory_Entry die telematikID angegeben werden.
+            Damit ist der Verzeichniseintrag bereits über die telematikID auffindbar.'
         professionOID:
           maxItems: 100
           minItems: 0
@@ -686,7 +712,7 @@ components:
           description: 'Ort
                         Der Wert wird von der pflegenden Stelle festgelegt'
           example: Berlin
-        stateOrProvienceName:
+        stateOrProvinceName:
           type: string
           description: 'Bundesland
                         Der Wert wird von der pflegenden Stelle festgelegt'

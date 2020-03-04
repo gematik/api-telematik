@@ -3,10 +3,6 @@
 <!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
-			version: V1.5.0
-			===========
-			*** C_7098: Im Attribut "ps" wird der feste Verweis auf den BMP v2.5 entfernt
-
 			version: V1.4.0
 			===========
 			*** C_6892: Nachtrag der OID für ID_NFD
@@ -28,7 +24,7 @@
 			===========
 			***  Synchronisation mit eMP/AMTS (BMPv2.4)
 	 End of Version History-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.5" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.5" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.5.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.4" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4.0">
 	<xs:annotation>
 		<xs:documentation>
 		xml:lang="de">
@@ -367,13 +363,13 @@ Befüllung / Format: nach Code-System in Attribut ps</xs:documentation>
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
-												<xs:attribute name="ps" use="optional">
+												<xs:attribute name="ps" use="optional" fixed="BMP v2.5, Kap 8.3.1, Tab 3">
 													<xs:annotation>
 														<xs:documentation>Name: Code-System PZN
 
 Beschreibung: Code-System für die PZN
 
-Befüllung / Format: z.B. BMP v2.6, Kapitel 7.3.1, Tabelle 3
+Befüllung / Format: BMP v2.5, Kapitel 8.3.1, Tabelle 3, fixed
 
 Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.</xs:documentation>
 													</xs:annotation>

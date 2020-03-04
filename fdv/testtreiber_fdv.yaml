@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Testtreiber ePA-Frontend des Versicherten
   description: REST Schnittstelle einer Test-App fuer das ePA-Modul FdV
-  version: 1.0.0
+  version: 1.1.1
 servers:
 - url: https://gematik.de/fdv
 paths:
@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseDTO'
+                $ref: '#/components/schemas/ProtocolResponseDTO'
   /logout:
     post:
       tags:
@@ -220,12 +220,11 @@ paths:
       summary: Berechtigung fuer eine LEI loeschen
       description: Umsetzung Operation I_FdV::deletePermissionHcp (A_18055)
       operationId: deletePermissionHcpo_1
-      parameters:
-        - name: body
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/DeletePermissionDTO'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePermissionDTO'
       responses:
         200:
           description: successful operation
@@ -261,12 +260,11 @@ paths:
       summary: Berechtigung fuer einen Vertreter loeschen
       description: Umsetzung Operation I_FdV::deletePermissionRepresentative (A_18056)
       operationId: deletePermissionRepresentative_1
-      parameters:
-        - name: body
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/DeletePermissionDTO'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePermissionDTO'
       responses:
         200:
           description: successful operation
@@ -302,12 +300,11 @@ paths:
       summary: Berechtigung fuer einen Kostentraeger loeschen
       description: Umsetzung Operation I_FdV::deletePermissionInsurance (A_18057)
       operationId: deletePermissionInsurance_1
-      parameters:
-        - name: body
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/DeletePermissionDTO'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/DeletePermissionDTO'
       responses:
         200:
           description: successful operation
@@ -549,7 +546,7 @@ components:
           type: array
           items:
             type: string
-            description: Rolle des Autors; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.authorRole
+            description: Rolle des Autors; ein Code der in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.authorRole. Da hier mehrere Value Sets verwendet werden können, SOLL an dieser Stelle ein Coded String gesetzt werden, bei dem die OID des ValueSets (1.3.6.1.4.1.19376.3.276.1.5.14 oder 1.3.6.1.4.1.19376.3.276.1.5.13) mit angegeben werden muss. Der Coded String muss dem Format von [IHE-ITI-TF Vol3], Kap. 4.2.3.1.7 entsprechen: Code^^^&CodeSystemID&ISO. Vgl. auch ebd. Kap. 4.2.3.1.4.3
         authorSpecialty:
           type: array
           items:
@@ -615,10 +612,8 @@ components:
           items:
             type: string
         formatCode:
-          type: array
-          items:
-            type: string
-            description: Global eindeutiger Code fuer das Dokumentenformat; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.formatCode oder aus der Tabelle in A_14761
+          type: string
+          description: Global eindeutiger Code fuer das Dokumentenformat; ein Code des in [IHE-ITI-VS] definierten Value Sets fuer DocumentEntry.formatCode oder aus der Tabelle in A_14761
         hash:
           type: string
         healthcareFacilityTypeCode:
@@ -789,7 +784,7 @@ components:
           items:
             type: string
             description: Titel des Dokumentes; nur anwendbar mit FindDocumentsByTitle
-        XDSDocumentAuthorInstitution:
+        XDSDocumentEntryAuthorInstitution:
           type: array
           items:
             type: string
@@ -969,22 +964,17 @@ components:
       properties:
         permissionAccessHcpoDocuments:
           type: boolean
-          default: true
           description: Option Zugriff auf durch LEI eingestellte Dokumente erlaubt
         permissionAccessInsuranceDocuments:
           type: boolean
-          default: false
           description: Option Zugriff auf durch Kostentraeger eingestellte Dokumente erlaubt
         permissionAccessInsurantDocuments:
           type: boolean
-          default: false
           description: Option Zugriff auf durch Versicherte eingestellte Dokumente erlaubt
         validity:
           type: string
           format: date
           description: Zugriff gueltig bis; full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
-      required:
-        - validity
     PermissionEntry:
       type: object
       properties:
@@ -1041,12 +1031,12 @@ components:
       properties:
         account:
           $ref: '#/components/schemas/Login'
-        represantativeInsurantId:
+        representativeInsurantId:
           type: string
           minLength: 10
           maxLength: 10
           description: Versicherten-ID des Vertreters (unveraenderliche Teil der KVNR)
-        represantativeName:
+        representativeName:
           type: string
           description: Name des Vertreters
         representativeNotificationInfo:
@@ -1055,8 +1045,8 @@ components:
           description: Benachrichtigungsadresse (E-Mail) fuer die Geraeteautorisierung
       required:
         - account
-        - represantativeInsurantId
-        - represantativeName
+        - representativeInsurantId
+        - representativeName
         - representativeNotificationInfo
     PermissionInsuranceDTO:
       type: object

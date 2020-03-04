@@ -1,3 +1,20 @@
+# Release 3.1.3
+28.02.2020
+ ReleaseNotes.md cm conn consumer ext fa fd fdv ksr stoerungsampel tel vpnzugd vzd testtreiber_fdv.yaml: 
+ -Korrektur Attributsbezeichnung für XDSDocumentAuthorInstitution 
+ -Entfernen von Default-Werten an der Testtreiberschnittstelle PermissionLeiProp 
+ -Ermöglichen der Testung der protocolEntries aus dem login 
+ -Interoperabilitätsproblem in der Testtreiberschnittstelle auflösen 
+ -Ergänzung Parameter für Codesysteme für Metadaten 
+ -Korrektur Schreibweise Parameter in Testtreiber 
+ ReleaseNotes.md cm conn consumer ext fa fd fdv ksr stoerungsampel tel vpnzugd vzd AuthorizationService.xsd: 
+ -Fehlerkorrektur Datentyp der DeviceID 
+ ReleaseNotes.md cm conn consumer ext fa fd fdv ksr stoerungsampel tel vpnzugd vzd DirectoryAdministration.yaml: 
+ -VZD DirectoryAdministration Unterstützung der Arbeitsteilung zwischen Kartenherausgeber und TSP 
+ ReleaseNotes.md cm conn consumer ext fa fd fdv ksr stoerungsampel tel vpnzugd vzd AccountManagementService.xsd: 
+ -Datenstruktur für Eingangsnachricht zum Suspendieren des Aktenkontos angepasst 
+
+
 # Release 3.1.2-1
 30.10.2019
 
