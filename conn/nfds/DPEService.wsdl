@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\5" -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:DPE="http://ws.gematik.de/conn/nfds/DPEService/v1.0" xmlns:DPEW="http://ws.gematik.de/conn/nfds/DPEService/WSDL/v1.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" name="DPEService" targetNamespace="http://ws.gematik.de/conn/nfds/DPEService/WSDL/v1.0">
+	<documentation>
+    Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+    Beschreibung: Dienste zum Verwalten des Datensatz "Persönliche Erklärungen" der eGK
+	version=1.0.0 
+  </documentation>
+	<types>
+		<xs:schema>
+			<xs:import namespace="http://ws.gematik.de/conn/nfds/DPEService/v1.0" schemaLocation="DPEService.xsd"/>
+		</xs:schema>
+	</types>
+	<message name="ReadDPERequestMessage">
+		<part name="parameter" element="DPE:ReadDPE"/>
+	</message>
+	<message name="ReadDPEResponseMessage">
+		<part name="parameters" element="DPE:ReadDPEResponse"/>
+	</message>
+	<message name="WriteDPERequestMessage">
+		<part name="parameters" element="DPE:WriteDPE"/>
+	</message>
+	<message name="WriteDPEResponseMessage">
+		<part name="parameters" element="DPE:WriteDPEResponse"/>
+	</message>
+	<message name="EraseDPERequestMessage">
+		<part name="parameters" element="DPE:EraseDPE"/>
+	</message>
+	<message name="EraseDPEResponseMessage">
+		<part name="parameters" element="DPE:EraseDPEResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="DPEServicePortType">
+		<operation name="ReadDPE">
+			<input message="DPEW:ReadDPERequestMessage"/>
+			<output message="DPEW:ReadDPEResponseMessage"/>
+			<fault name="FaultMessage" message="DPEW:FaultMessage"/>
+		</operation>
+		<operation name="WriteDPE">
+			<input message="DPEW:WriteDPERequestMessage"/>
+			<output message="DPEW:WriteDPEResponseMessage"/>
+			<fault name="FaultMessage" message="DPEW:FaultMessage"/>
+		</operation>
+		<operation name="EraseDPE">
+			<input message="DPEW:EraseDPERequestMessage"/>
+			<output message="DPEW:EraseDPEResponseMessage"/>
+			<fault name="FaultMessage" message="DPEW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="DPEServiceBinding" type="DPEW:DPEServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ReadDPE">
+			<soap:operation soapAction="http://ws.gematik.de/conn/nfds/WSDL/DPEService/v1.0#ReadDPE"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="WriteDPE">
+			<soap:operation soapAction="http://ws.gematik.de/conn/nfds/WSDL/DPEService/v1.0#WriteDPE"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="EraseDPE">
+			<soap:operation soapAction="http://ws.gematik.de/conn/nfds/WSDL/DPEService/v1.0#EraseDPE"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="DPEService">
+		<port name="DPEServicePort" binding="DPEW:DPEServiceBinding">
+			<soap:address location="http://unspecified"/>
+		</port>
+	</service>
+</definitions>

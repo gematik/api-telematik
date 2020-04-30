@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp-insurance-documents" Version="1.0.1">
+	<Target/>
+	<Policy PolicyId="urn:uuid:d868da89-f24c-4605-8fb1-30cca020bc71" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+		<Target>
+			<Resources>
+				<Resource>
+					<ResourceMatch MatchId="urn:hl7-org:v3:function:CV-equal">
+						<AttributeValue DataType="urn:hl7-org:v3#CV">
+							<CodedValue xmlns="urn:hl7-org:v3" code="KTR" codeSystem="1.2.276.0.76.5.491" codeSystemName="ePA-Vertraulichkeit" displayName="Dokument eines Kostenträgers"/>
+						</AttributeValue>
+						<ResourceAttributeDesignator AttributeId="urn:ihe:iti:appc:2016:confidentiality-code" DataType="urn:hl7-org:v3#CV" MustBePresent="true"/>
+					</ResourceMatch>
+				</Resource>
+			</Resources>
+			<Actions>
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindDocuments' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:14d4debf-8f97-4251-9a74-a90016b0af0d</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindSubmissionSets' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:f26abbcb-ac74-4422-8a30-edb644bbc1a9</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetAll' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:10b545ea-725c-446d-9b95-8aeb444eddf3</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetDocuments' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:5c4f972b-d56b-40ac-a5fc-c8ca9b40b9d4</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetAssociations' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:a7ae438b-4bc2-4642-93e9-be891f7bb155</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetDocumentsAndAssociations' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:bab9529a-4a10-40b3-a01f-f68a615d247a</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetSubmissionSets' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:51224314-5390-4169-9b91-b1980040715a</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetSubmissionSetAndContents' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:e8e3cb2c-e39c-46b9-99e4-c12f57260b83</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'GetRelatedDocuments' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:d90e5407-b356-4d91-a89f-873917b4b0e6</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindDocumentsByReferenceId' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:12941a89-e02e-4be5-967c-ce4bfc8fe492</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayQuery with Registry Stored Query 'FindDocumentsByTitle' -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayQuery</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+					<!-- AND -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:uuid:ab474085-82b5-402d-8115-3f37cb1e2405</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:ihe:iti:2016:RegistryStoredQuery:queryId" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>				
+				<!-- OR -->
+				<Action>
+					<!-- CrossGatewayRetrieve -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:CrossGatewayRetrieve</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- RestrictedUpdateDocumentSet -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2018:RestrictedUpdateDocumentSet</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+				<!-- OR -->
+				<Action>
+					<!-- RemoveDocuments -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2017:RemoveDocuments</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+			</Actions>
+		</Target>
+		<Rule RuleId="urn:uuid:d9b61f5e-bc58-49ea-a5e7-2991f1967ce2" Effect="Permit"/>
+	</Policy>
+</PolicySet>

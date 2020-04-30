@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                               -->
+<!-- ===================================================================== -->
+<!-- Version History
+
+			version: V1.1
+			===========
+			*** Überarbeitung Verschlüsselungskonzept ePa mit SGD (Schlüsselgenerierungsdienst)
+			*** Konkretisierung der Definiton für DeviceID
+
+			version: V1.0
+			===========
+			*** Initiale Erstellung
+
+	 End of Version History-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hl7="urn:hl7-org:v3" xmlns:vsd="http://ws.gematik.de/fa/vsdm/vsd/v5.2" xmlns:tns="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/fa/phr/v1.1" elementFormDefault="qualified">
+	<xs:import namespace="urn:hl7-org:v3" schemaLocation="../../ext/HL7V3/NE2008/coreschemas/infrastructureRoot.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" schemaLocation="../../fa/vsds/Schema_VSD.xsd"/>
+	<xs:element name="RecordIdentifier" type="tns:RecordIdentifierType"/>
+	<xs:element name="DeviceId" type="tns:DeviceIdType"/>
+	<xs:element name="PHRKey" type="tns:PHRKeyType"/>
+	<xs:complexType name="RecordIdentifierType">
+		<xs:sequence>
+			<xs:element name="InsurantId" type="tns:InsurantIdType" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="HomeCommunityId" type="tns:HomeCommunityIdType" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Home Community ID cf. [IHE-ITI-TF3#4.2.3.2.12]</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InsurantIdType">
+		<xs:attribute name="root" type="hl7:uid" use="required" fixed="1.2.276.0.76.4.8">
+			<xs:annotation>
+				<xs:documentation>OID for unalterable part of KVNR</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="extension" type="vsd:insurantId" use="required">
+			<xs:annotation>
+				<xs:documentation>unalterable part of KVNR</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DeviceIdType">
+		<xs:sequence>
+			<xs:element name="Device" type="tns:DeviceType"/>
+		</xs:sequence>
+		<xs:attribute name="DisplayName" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="DeviceType">
+		<xs:restriction base="xs:base64Binary">
+			<xs:minLength value="0"/>
+			<xs:maxLength value="120"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PHRKeyType">
+		<xs:sequence>
+			<xs:element name="RecordKey" type="tns:KeyType"/>
+			<xs:element name="ContextKey" type="tns:KeyType"/>
+		</xs:sequence>
+		<xs:attribute name="insurant" type="vsd:insurantId" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="KeyType">
+		<xs:simpleContent>
+			<xs:extension base="xs:base64Binary">
+				<xs:attribute name="algorithm" type="xs:anyURI" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="HomeCommunityIdType">
+		<xs:restriction base="xs:anyURI">
+			<xs:pattern value="urn:oid:(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="DischargeLetterContainer" type="tns:DischargeLetterContainerType"/>
+	<xs:complexType name="DischargeLetterContainerType">
+		<xs:sequence>
+			<xs:element name="PDF" type="xs:base64Binary" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="CDA" type="tns:CDAType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>VHitG 1.50 CDA Discharge Letter</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CDAType">
+		<xs:simpleContent>
+			<xs:extension base="xs:base64Binary">
+				<xs:attribute ref="tns:level" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:attribute name="level">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="1"/>
+				<xs:enumeration value="2"/>
+				<xs:enumeration value="3"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+</xs:schema>

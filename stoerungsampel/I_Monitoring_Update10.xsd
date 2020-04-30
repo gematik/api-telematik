@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors1\1" -->
+<schema targetNamespace="http://ws.gematik.de/tel/stoerungsampel/v1.1" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:pin="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:tns="http://ws.gematik.de/tel/stoerungsampel/v1.1">
+	<import
+		namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1"
+		schemaLocation="../tel/version/ProductInformation.xsd">
+	</import>
+    <complexType name="t_response">
+    	<annotation>
+    		<documentation>
+    			Response to Soap request
+    		</documentation>
+    	</annotation>
+    	<sequence>
+    		<element name="result" type="boolean" minOccurs="1"
+    			maxOccurs="1">
+    		</element>
+    		<element name="id" type="string" minOccurs="1"
+    			maxOccurs="1">
+    		</element>
+    		<element name="selfdisclosure" type="pin:ProductInformation" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="t_dat_update">
+    	<sequence>
+    		<element name="value" type="string"></element>
+    	</sequence>
+    	<attribute ref="tns:certtype" use="optional"></attribute>
+    	<attribute ref="tns:interface" use="required"></attribute>
+    	<attribute ref="tns:pdt" use="required"></attribute>
+    	<attribute ref="tns:perftype" use="required"></attribute>
+    	<attribute ref="tns:connect" use="optional"></attribute>
+    	<attribute ref="tns:querysource" use="optional"></attribute>
+    </complexType>
+
+    <complexType name="t_dat_alarm">
+    	<sequence>
+    		<element name="status" type="tns:t_alarm_status" minOccurs="1" maxOccurs="1"></element> 
+    		<element name="systemtime" type="dateTime" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    	<attribute ref="tns:certtype" use="optional"></attribute>
+    	<attribute ref="tns:interface" use="required"></attribute>
+    	<attribute ref="tns:pdt" use="required"></attribute>
+    	<attribute ref="tns:perftype" use="required"/>
+    	<attribute ref="tns:connect" use="optional"></attribute>
+    	<attribute ref="tns:querysource" use="optional"></attribute>
+    </complexType>
+
+    <attribute name="pdt" type="tns:t_products"></attribute>
+
+    <attribute name="interface" type="tns:t_interfaceoperation"></attribute>
+    
+    <attribute name="perftype" type="tns:t_perftypes"></attribute>
+    
+    <attribute name="certtype" type="tns:t_certificates"></attribute>
+        
+    <attribute name="connect" type="string"></attribute>
+
+    <attribute name="querysource" type="tns:t_datasource"></attribute>
+
+    <simpleType name="t_certificates">
+    	<annotation>
+    		<documentation>
+    			values defined by table 36: Tab_gemSpec_Perf_Zertifikatstypen
+    		</documentation>
+    	</annotation>
+    	<restriction base="string">
+    		<pattern value="[A-Z]\d+"></pattern>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="t_perftypes">
+    	<annotation>
+    		<documentation>
+    			values defined by table 33: Tab_gemSpec_Perf_Performance-Groessen
+    		</documentation>
+    	</annotation>
+    	<restriction base="string">
+    		<pattern value="[A-Z]\d+-[A-Z]\d+"></pattern>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="t_products">
+    	<annotation>
+    		<documentation>
+    			values defined by table 34: Tab_gemSpec_Perf_Produkttypen
+    		</documentation>
+    	</annotation>
+    	<restriction base="string">
+    		<pattern value="PDT\d+"></pattern>
+    	</restriction>
+    </simpleType>
+
+
+    <simpleType name="t_interfaceoperation">
+    	<annotation>
+    		<documentation>
+    			values defined by table 35: Tab_gemSpec_Perf_Schnittstellenoperationen
+    		</documentation>
+    	</annotation>
+    	<restriction base="string">
+    		<pattern value="[A-Z]\d+"></pattern>
+    	</restriction>
+    </simpleType>
+
+    <simpleType name="t_datasource">
+        <annotation>
+        	<documentation>
+        		values defined by table 37: Tab_gemSpec_Perf_Aufrufquelle
+        	</documentation>
+        </annotation>
+  		<restriction base="string">
+   			<enumeration value="Q1"></enumeration>
+   			<enumeration value="Q2"></enumeration>
+   		</restriction>
+   	</simpleType>
+    
+    <simpleType name="t_alarm_status">
+        <annotation>
+        	<documentation> Alarm status fields, reflection the different modes
+       		open: Alarm for system exists
+       		close: Alarm is closed, does not exist
+        	grace: Problem should be fixed, waiting for final ack, that problem is gone 
+        	warn: Problem has occured, waiting error ack (e.g. A ping was lost, waiting for next measurement to see if there's really a problem)
+        	</documentation>
+        </annotation>
+  		<restriction base="string">
+   			<enumeration value="open"></enumeration>
+   			<enumeration value="close"></enumeration>
+   			<enumeration value="grace"></enumeration>
+   			<enumeration value="warn"></enumeration>
+   		</restriction>
+   	</simpleType>
+  
+    <complexType name="t_dat_update_msg">
+    	<annotation>
+    		<documentation>Message to update informations (performance vsalues and alarms) in the Stoerungsampel
+    		performance and alarms part can be empty if case of opening an alarm or if only performance values have to be updated
+    		value starttime and endtime are only used for performance updates, values are ignored in case of alarms
+    		</documentation>
+    	</annotation>
+    	<sequence>
+    		<element name="performance" type="tns:t_array_updates" minOccurs="0" maxOccurs="1"></element>
+    		<element name="alarms" type="tns:t_array_alarms" minOccurs="0" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="t_array_updates">
+    	<annotation>
+    		<documentation> List of performance data values for different performance indicators. All values are used for
+    		same reporting period defined by starttime and endtime in t_dat_update_msg.
+    		</documentation>
+    	</annotation>
+    	<sequence>
+    		<element name="starttime" type="dateTime" maxOccurs="1" minOccurs="1"></element>
+    		<element name="endtime" type="dateTime" maxOccurs="1" minOccurs="1"></element>
+    		<element name="value_list" type="tns:t_dat_update" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="t_array_alarms">
+    	<annotation>
+    		<documentation> List of alarm messages for different performance indicators.  
+    		</documentation>
+    	</annotation>
+    	<sequence>
+    		<element name="alarm_list" type="tns:t_dat_alarm" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="t_request">
+		<annotation>
+    		<documentation> message request: data for interface
+    		for system identification the element selfdisclosure and systemid has to be given.
+    		systemid id an unique string to identify the instance. This id has to be verified with the administration of the Stoerungsampel
+    		and will be used to relate the reported performance and alarm messages to system inside the Stoerungsampel.  
+    		selfdisclosure is the short description of the reported system (Selbstauskunft)
+    		</documentation>
+    	</annotation>
+    	<sequence>
+    		<element name="systemid" type="string" minOccurs="1" maxOccurs="1">
+    		</element>
+    		<element name="selfdisclosure" type="pin:ProductInformation"
+    			minOccurs="1" maxOccurs="1">
+    		</element>
+    		<element name="message" type="tns:t_dat_update_msg"></element>
+    	</sequence>
+    </complexType>
+    <element name="request" type="tns:t_request"></element>
+    <element name="response" type="tns:t_response"></element>
+</schema>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0" name="DocumentManagementConnectService" targetNamespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0">
+    <wsdl:documentation>
+		Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		version=1.0.1 
+	</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema>
+            <xs:import schemaLocation="DocumentManagementConnectService.xsd" namespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0"/>
+            <xs:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="OpenContext_Message">
+        <wsdl:part name="body" element="tns:OpenContextRequest"/>
+    </wsdl:message>
+    <wsdl:message name="OpenContextResponse_Message">
+        <wsdl:part name="body" element="tns:OpenContextResponse"/>
+    </wsdl:message>
+    <wsdl:message name="CloseContext_Message">
+        <wsdl:part name="body" element="tns:CloseContextRequest"/>
+    </wsdl:message>
+    <wsdl:message name="CloseContextResponse_Message">
+        <wsdl:part name="body" element="tns:CloseContextResponse"/>
+    </wsdl:message>
+    <wsdl:message name="FaultMessage">
+        <wsdl:part name="body" element="gerror:Error"/>
+    </wsdl:message>
+    <wsdl:portType name="I_Document_Management_Connect_PortType">
+        <wsdl:operation name="OpenContext">
+            <wsdl:input message="tns:OpenContext_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/OpenContext"/>
+            <wsdl:output message="tns:OpenContextResponse_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/OpenContextResponse"/>
+            <wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/OpenContextFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="CloseContext">
+            <wsdl:input message="tns:CloseContext_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/CloseContext"/>
+            <wsdl:output message="tns:CloseContextResponse_Message" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/CloseContextResponse"/>
+            <wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/CloseContextFault"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="I_Document_Management_Connect_Binding_Soap12" type="tns:I_Document_Management_Connect_PortType">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsaw:UsingAddressing wsdl:required="true"/>
+        <wsdl:operation name="OpenContext">
+            <soap12:operation soapAction="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/OpenContext" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="FaultMessage">
+                <soap12:fault name="FaultMessage" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="CloseContext">
+            <soap12:operation soapAction="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0/CloseContext" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="FaultMessage">
+                <soap12:fault name="FaultMessage" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="DocumentManagementConnectService">
+        <wsdl:port name="I_Document_Management_Connect" binding="tns:I_Document_Management_Connect_Binding_Soap12">
+            <soap12:address location="http://servicelocation/I_Document_Management_Connect"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

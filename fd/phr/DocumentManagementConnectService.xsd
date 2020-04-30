@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.gematik.de/fd/phr/I_Document_Management_Connect/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<xs:element name="OpenContextRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ContextKey" type="xs:base64Binary"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OpenContextResponse">
+		<xs:simpleType>
+			<xs:restriction base="xs:token">
+				<xs:pattern value="ok"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="CloseContextRequest"/>
+	<xs:element name="CloseContextResponse">
+		<xs:simpleType>
+			<xs:restriction base="xs:token">
+				<xs:pattern value="ok"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>

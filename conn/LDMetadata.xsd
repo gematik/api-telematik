@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- gematik revision="\main" -->
+<!-- Version History
+            initial: V1.0.0
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:CT="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" xmlns:LOGMD="http://ws.gematik.de/conn/LogMetadata/v1.0" targetNamespace="http://ws.gematik.de/conn/LogMetadata/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.1.0">
+	<import namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1" schemaLocation="../tel/version/ProductInformation.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" schemaLocation="CardTerminalInfo.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0" schemaLocation="CardServiceCommon.xsd"/>
+	<annotation>
+		<documentation>Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Schema fÃ¼r die Metadaten, die der Konnektor Sende Modul mit den Log Daten verschickt.</documentation>
+	</annotation>
+	<element name="LogMetadata">
+		<annotation>
+			<documentation>Wurzelelement der Log Metadaten</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="LEIId">
+					<annotation>
+						<documentation>LeistungserbringerinstitutionID</documentation>
+					</annotation>
+					<simpleType>
+						<restriction base="string">
+							<length value="36"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="VPNZugD">
+					<annotation>
+						<documentation>DNS Domain des VPN Zugangsdienstes. Der Wert von DNS_DOMAIN_VPN_ZUGD_INT.</documentation>
+					</annotation>
+				</element>
+				<element ref="PI:ProductInformation"/>
+				<element ref="CT:CardTerminals"/>
+				<element name="InfoModelCounter">
+					<complexType>
+						<sequence>
+							<element name="Mandants" type="nonNegativeInteger">
+								<annotation>
+									<documentation>Anzahl der Mandanten</documentation>
+								</annotation>
+							</element>
+							<element name="ClientSystems" type="negativeInteger">
+								<annotation>
+									<documentation>Anzahl der Client Systeme</documentation>
+								</annotation>
+							</element>
+							<element name="Workplaces" type="nonNegativeInteger">
+								<annotation>
+									<documentation>Anzahl der ArbeitsplÃ¤tze</documentation>
+								</annotation>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

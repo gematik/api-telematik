@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+            version: V1.3.0
+                *  Für sämtliche Operationen soapActionRequired="false"  
+                   Für sämtiche PortType Bindings <wsaw:UsingAddressing required="true"/>
+  			version: V1.2.0
+				* 15.03.2019
+				* C_6798 RegisterSMB und ActivateAlternativeIdentity => Operationen gelöscht (Schlüsselgenerierungsdienst)
+			version: V1.1.0
+				* 15.01.2019
+				* C_6682: GetAuthorizationList => Operation neu hinzugefügt
+				* C_6711: RequestFacilityAuthorization => Berechtigungen erweitert
+				* C_6685: ActivateAlternativeIdentity => Operation neu hinzugefügt
+            version: V1.0.0
+				* 01.01.2019
+				* Initiale Version-->
+<!-- ===================== End of Version History =============================== -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.3" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.3.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Schema-Beschreibung für den Web Service PHRManagementService des Fachmoduls ePA/ePF.
+			Version=1.3.0
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
+	<complexType name="AuthorizationConfigurationType">
+		<annotation>
+			<documentation xml:lang="de">Policy Document</documentation>
+		</annotation>
+		<sequence>
+			<element name="Vers_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente des Versicherten gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="LE_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente der Leistungserbringer gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="KTR_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente der Krankenkassen gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="ExpirationDate" type="date">
+				<annotation>
+					<documentation xml:lang="de">Ablaufdatum der Zugriffsberechtigung</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<element name="ActivateAccount">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context">
+					<annotation>
+						<documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+					</annotation>
+				</element>
+				<element ref="CONN:EhcHandle">
+					<annotation>
+						<documentation xml:lang="de">Verweis auf die eGK des Versicherten</documentation>
+					</annotation>
+				</element>
+				<element name="RecordIdentifier" type="phrc:RecordIdentifierType">
+					<annotation>
+						<documentation xml:lang="de">Eindeutige Kennung der Akte des Versicherten</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ActivateAccountResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status">
+					<annotation>
+						<documentation xml:lang="de">Statusrückmeldung</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="RequestFacilityAuthorization">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context">
+					<annotation>
+						<documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+					</annotation>
+				</element>
+				<element ref="CONN:EhcHandle">
+					<annotation>
+						<documentation xml:lang="de">Verweis auf die eGK, die den Zugriff auf das Aktenkonto vergeben kann (Versicherter oder Vertreter)</documentation>
+					</annotation>
+				</element>
+				<element name="AuthorizationConfiguration" type="phrm:AuthorizationConfigurationType">
+					<annotation>
+						<documentation xml:lang="de">Information, wofür und für welche Dauer eine Berechtigung erteilt wird</documentation>
+					</annotation>
+				</element>
+				<element name="RecordIdentifier" type="phrc:RecordIdentifierType">
+					<annotation>
+						<documentation xml:lang="de">Identifier der Akte, für die eine Berechtigung erteilt werden soll</documentation>
+					</annotation>
+				</element>
+				<element name="OrganizationName">
+					<annotation>
+						<documentation xml:lang="de">Name der Leistungserbringerinstitution.</documentation>
+					</annotation>
+					<simpleType>
+						<restriction base="string">
+							<minLength value="1"/>
+							<maxLength value="256"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="InsurantName">
+					<complexType>
+						<sequence>
+							<element name="Vorname">
+								<annotation>
+									<documentation xml:lang="de">Vorname der Person, welcher die durch RecordIdentifier adressierte Akte gehört.</documentation>
+								</annotation>
+								<simpleType>
+									<restriction base="string">
+										<minLength value="1"/>
+										<maxLength value="45"/>
+									</restriction>
+								</simpleType>
+							</element>
+							<element name="Nachname">
+								<annotation>
+									<documentation xml:lang="de">Nachname der Person, welcher die durch RecordIdentifier adressierte Akte gehört.</documentation>
+								</annotation>
+								<simpleType>
+									<restriction base="string">
+										<minLength value="1"/>
+										<maxLength value="45"/>
+									</restriction>
+								</simpleType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="RequestFacilityAuthorizationResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status">
+					<annotation>
+						<documentation xml:lang="de">Statusrückmeldung</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetHomeCommunityID">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context">
+					<annotation>
+						<documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+					</annotation>
+				</element>
+				<element name="InsurantID" type="phrc:InsurantIdType">
+					<annotation>
+						<documentation xml:lang="de">Versicherten-ID gemäß der Fachanwendung Versichertenstammdatenmanagement (VSDM)
+
+Die Versicherten-ID ist der 10-stellige unveraenderliche Teil der 30-stelligen Krankenversichertennummer.
+
+1. Stelle: Alpha-Zeichen (Wertebereich A - Z, ohne Umlaute), 2. bis 9. Stelle: 8-stellige lfd. Zaehlnummer (Eine Ziffernfolge, in der mehr als drei gleiche Ziffern hintereinander auftreten, ist auszuschliessen), 10. Stelle: Pruefziffer</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetHomeCommunityIDResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status">
+					<annotation>
+						<documentation xml:lang="de">Statusrückmeldung</documentation>
+					</annotation>
+				</element>
+				<element name="HomeCommunityID" type="phrc:HomeCommunityIdType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuthorizationList">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context">
+					<annotation>
+						<documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuthorizationListResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status">
+					<annotation>
+						<documentation xml:lang="de">Statusrückmeldung</documentation>
+					</annotation>
+				</element>
+				<element name="AuthorizationList">
+					<complexType>
+						<sequence minOccurs="0" maxOccurs="unbounded">
+							<element name="AuthorizationEntry">
+								<complexType>
+									<sequence>
+										<element ref="phrc:RecordIdentifier"/>
+										<element name="ValidTo" type="date"/>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

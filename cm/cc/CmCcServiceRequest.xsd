@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\3" -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:TNS="http://ws.gematik.de/cm/cc/CmCcServiceRequest/v2.0" xmlns:COM="http://ws.gematik.de/cm/cc/CmCcCommon/v2.0" xmlns:CM="http://ws.gematik.de/cm/common/CmCommon/v2.0" targetNamespace="http://ws.gematik.de/cm/cc/CmCcServiceRequest/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<xs:annotation>
+		<xs:documentation xml:lang="de">
+			Copyright (c) 2007, gematik - Gesellschaft für
+			Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten.
+
+			Beschreibung: Card Management - Card Communication Service -
+			Request. Dieses Schema definiert den Request an einen Card
+			Communication Service.
+
+			Author: Marcus Sasse.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://ws.gematik.de/cm/cc/CmCcCommon/v2.0" schemaLocation="CmCcCommon.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/cm/common/CmCommon/v2.0" schemaLocation="../common/CmCommon.xsd"/>
+	<xs:element name="PerformUpdates">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CM:Iccsn"/>
+				<xs:element ref="CM:UpdateId" maxOccurs="unbounded"/>
+				<xs:element name="AdditionalInfo" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetNextCommandPackage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CommandResponsePackage">
+					<xs:complexType>
+						<xs:choice>
+							<xs:sequence>
+								<xs:element ref="COM:CommandResponse" maxOccurs="unbounded"/>
+								<xs:element ref="COM:Abort" minOccurs="0"/>
+							</xs:sequence>
+							<xs:sequence>
+								<xs:element ref="COM:Abort"/>
+							</xs:sequence>
+						</xs:choice>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

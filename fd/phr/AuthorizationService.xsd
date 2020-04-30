@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- Copyright (C) 2020 gematik GmbH. Alle Rechte vorbehalten.             -->
+<!-- ===================================================================== -->
+<!-- 
+		Version History
+
+			version: V1.1.3
+			===========
+			*** Korrektur DeviceID type in Element DeleteAuthorizationKey
+
+			version: V1.1.2
+			===========
+			*** Korrektur AuthorizationTypeType und AssociatedDataType
+
+			version: V1.1.1
+			===========
+			*** Korrektur Konsistenzfehler mit Spezifikation: Entfernen des "minOccurs="0"" für AuthorizationAssertion in GetAuthorizationKeyResponse
+
+			version: V1.1.0
+			===========
+			*** Überarbeitung Verschlüsselungskonzept ePa mit SGD (Schlüsselgenerierungsdienst)
+			*** Einführung neuer Operationen zur Berechtigungsabfrage
+			*** Einführung Prozess Vertreterfreischaltung
+
+			version: V1.0
+			===========
+			*** Initiale Erstellung
+
+	 	End of Version History
+-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.3">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2020, gematik GmbH
+			Schema-Beschreibung der Schnittstellen der Komponente Autorisierung.
+		</documentation>
+	</annotation>
+	<import namespace="urn:oasis:names:tc:SAML:2.0:assertion" schemaLocation="../../ext/saml-schema-assertion-2.0.xsd"/>
+	<import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="../../ext/xenc-schema.xsd"/>
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../../ext/xmldsig-core-schema.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="PHR_Common.xsd"/>
+	<element name="GetAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType" minOccurs="0">
+					<annotation>
+						<documentation>Gerätekennung des Geräts des Versicherten, Verwendung nur bei Aufruf aus der Personal Zone des Versicherten</documentation>
+					</annotation>
+				</element>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuthorizationKeyResponse">
+		<complexType>
+			<sequence>
+				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType" minOccurs="0"/>
+				<element name="AuthorizationAssertion" type="base64Binary"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType"/>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType" minOccurs="0"/>
+				<element name="NotificationInfoRepresentative" type="string" minOccurs="0"/>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutAuthorizationKeyResponse"/>
+	<element name="DeleteAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="ActorID" type="string"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<!-- <element ref="SAML:Assertion"/> -->
+			</sequence>
+		</complexType>
+	</element>
+	<element name="DeleteAuthorizationKeyResponse"/>
+	<element name="ReplaceAuthorizationKey">
+		<complexType>
+			<sequence>
+				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType"/>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ReplaceAuthorizationKeyResponse"/>
+	<element name="CheckRecordExists">
+		<complexType>
+			<sequence>
+				<element name="KVNR" type="phr:InsurantIdType">
+					<annotation>
+						<documentation>10 stelliger, unveränderlicher Anteil der KVNR = VersichertenID</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="CheckRecordExistsResponse">
+		<complexType>
+			<sequence>
+				<element name="RecordState" type="phrs:RecordStateType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuditEvents">
+		<complexType>
+			<sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuditEventsResponse">
+		<complexType>
+			<sequence>
+				<element ref="phrext:AuditMessage" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutNotificationInfo">
+		<complexType>
+			<sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<element name="NewNotificationInfo" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutNotificationInfoResponse"/>
+	<element name="GetAuthorizationList">
+		<complexType>
+			<sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType" minOccurs="0"/>
+				<element name="DeviceID" type="phr:DeviceIdType" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetAuthorizationListResponse">
+		<complexType>
+			<choice maxOccurs="1">
+				<annotation>
+					<documentation>abhängig von der aufgerufenen Schnittstelle (aus der Umgebung des Leistungserbringers = Konnektor oder durch den Versicheten @home wird entweder eine horizontale Liste aller Autorisierungen eine Leistungserbringerinstitution oder eine vertikale Liste aller Schlüssel in der Akte eines Versicherten zurückgegeben)</documentation>
+				</annotation>
+				<element name="AuthorizationInfo" type="phrs:AuthorizationInfoType" minOccurs="0" maxOccurs="unbounded"/>
+				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType" minOccurs="0" maxOccurs="unbounded"/>
+			</choice>
+		</complexType>
+	</element>
+	<complexType name="RecordStateType">
+		<choice>
+			<element name="UNKNOWN">
+				<annotation>
+					<documentation>Es existiert kein Konto für eine angefragte KVNR</documentation>
+				</annotation>
+			</element>
+			<element name="REGISTERED">
+				<annotation>
+					<documentation>Es wurde ein Konto für diese KVNR registriert aber nicht aktiviert</documentation>
+				</annotation>
+			</element>
+			<element name="REGISTERED_MIGRATION">
+				<annotation>
+					<documentation>Es wurde ein Konto für diese KVNR registriert aber nicht aktiviert und der Versicherte möchte vorhandene Daten aus einem anderen Aktenkonto in das neue übernehmen</documentation>
+				</annotation>
+			</element>
+			<element name="ACTIVATED">
+				<annotation>
+					<documentation>Es existiert ein aktives Konto zur angefragten KVNR</documentation>
+				</annotation>
+			</element>
+			<element name="DISMISSED">
+				<annotation>
+					<documentation>Ein vorhandenes Konto zu einer KVNR wurde gekündigt, ist jedoch noch in Benutzung</documentation>
+				</annotation>
+			</element>
+			<element name="SUSPENDED">
+				<annotation>
+					<documentation>Ein vorhandenes Konto zu einer KVNR wurde gekündigt und vorhandene Daten wurden für den Kontoumzug vorbereitet</documentation>
+				</annotation>
+			</element>
+		</choice>
+	</complexType>
+	<simpleType name="AuthorizationTypeType">
+		<restriction base="string">
+			<enumeration value="DOCUMENT_AUTHORIZATION">
+				<annotation>
+					<documentation>Autorisierung mit Dokumentenzugriff (Standardfall Zugriff auf medizinische Daten und Dokumente)</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="RECOVERY_AUTHORIZATION">
+				<annotation>
+					<documentation>Autorisierung zur Umschlüsselung ohne Zugriff auf medizinische Daten eines Kontos</documentation>
+				</annotation>
+			</enumeration>
+			<enumeration value="ACCOUNT_AUTHORIZATION">
+				<annotation>
+					<documentation>Autorisierung im Zusammenhang mit Kontoaktivierung, Aktenumzug bzw. Anbieterwechsel oder anderen Anwendungsfällen, in denen für den Versicherten kein gültiges Schlüsselmaterial vorhanden ist</documentation>
+				</annotation>
+			</enumeration>
+		</restriction>
+	</simpleType>
+	<simpleType name="CiphertextType">
+		<restriction base="base64Binary">
+			<maxLength value="102400"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="AssociatedDataType">
+		<restriction base="string">
+			<maxLength value="10240"/>
+		</restriction>
+	</simpleType>
+	<complexType name="EncryptedKeyContainerType">
+		<sequence>
+			<element name="Ciphertext" type="phrs:CiphertextType"/>
+			<element name="AssociatedData" type="phrs:AssociatedDataType"/>
+		</sequence>
+		<attribute name="algorithm" type="anyURI" use="required"/>
+	</complexType>
+	<complexType name="AuthorizationKeyType">
+		<sequence>
+			<element name="EncryptedKeyContainer" type="phrs:EncryptedKeyContainerType" minOccurs="1" maxOccurs="1"/>
+			<element name="AuthorizationType" type="phrs:AuthorizationTypeType"/>
+		</sequence>
+		<attribute name="validTo" type="date" use="required"/>
+		<attribute name="actorID" type="string" use="required"/>
+		<attribute name="DisplayName" type="phrs:DisplayNameType" use="optional"/>
+	</complexType>
+	<simpleType name="DisplayNameType">
+		<restriction base="string">
+			<maxLength value="50"/>
+			<pattern value="[a-zA-Z]*"/>
+		</restriction>
+	</simpleType>
+	<complexType name="AuthorizationInfoType">
+		<sequence>
+			<element name="InsurantId" type="phr:InsurantIdType"/>
+			<element name="validTo" type="date"/>
+		</sequence>
+	</complexType>
+</schema>

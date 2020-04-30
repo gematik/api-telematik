@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors2\9" -->
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-insurance" Version="1.0.1">
+	<Target/>
+	<Policy PolicyId="urn:uuid:e84a950d-7e73-4ca5-865d-035bc7f381f4" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+		<Target>
+			<Resources>
+				<Resource>
+					<ResourceMatch MatchId="urn:hl7-org:v3:function:CV-equal">
+						<AttributeValue DataType="urn:hl7-org:v3#CV">
+							<CodedValue xmlns="urn:hl7-org:v3" code="KTR" codeSystem="1.2.276.0.76.5.491" codeSystemName="ePA-Vertraulichkeit" displayName="Dokument eines Kostenträgers"/>
+						</AttributeValue>
+						<ResourceAttributeDesignator AttributeId="urn:ihe:iti:appc:2016:confidentiality-code" DataType="urn:hl7-org:v3#CV" MustBePresent="true"/>
+					</ResourceMatch>
+				</Resource>
+			</Resources>
+			<Actions>
+				<Action>
+					<!--  ProvideAndRegisterDocumentSet-b -->
+					<ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</AttributeValue>
+						<ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</ActionMatch>
+				</Action>
+			</Actions>
+		</Target>
+		<Rule RuleId="urn:uuid:9bdd81ac-b2ef-4338-abd9-f2e0753d75be" Effect="Permit"/>
+	</Policy>
+</PolicySet>

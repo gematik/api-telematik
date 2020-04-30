@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\4" -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:VPNK="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" xmlns:VPNKW="http://ws.gematik.de/vpnzugd/ProvisioningService/WSDL/v1.1" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0"    xmlns:ns="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/vpnzugd/ProvisioningService/WSDL/v1.1">
+	<wsdl:documentation>
+		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: VPN-Zugangsdienst, Provisioning Service 
+		version=1.1.0
+	</wsdl:documentation>
+	<wsdl:types>
+		<xs:schema>
+			<xs:import namespace="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" schemaLocation="ProvisioningService.xsd"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="registerKonnektorRequest">
+		<wsdl:part name="request" element="VPNK:registerKonnektorRequest"/>
+	</wsdl:message>
+	<wsdl:message name="registerKonnektorResponse">
+		<wsdl:part name="response" element="VPNK:registerKonnektorResponse"/>
+	</wsdl:message>
+	<wsdl:message name="deregisterKonnektorRequest">
+		<wsdl:part name="request" element="VPNK:deregisterKonnektorRequest"/>
+	</wsdl:message>
+	<wsdl:message name="deregisterKonnektorResponse">
+		<wsdl:part name="response" element="VPNK:deregisterKonnektorResponse"/>
+	</wsdl:message>
+	<wsdl:message name="registerStatusRequest">
+		<wsdl:part name="request" element="VPNK:registerStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="registerStatusResponse">
+		<wsdl:part name="response" element="VPNK:registerStatusResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FaultMessage">
+		<wsdl:part name="parameter" element="GERROR:Error"/>
+	</wsdl:message>
+	<wsdl:portType name="provisioningPortType">
+		<wsdl:operation name="regOperation">
+			<wsdl:input message="VPNKW:registerKonnektorRequest"/>
+			<wsdl:output message="VPNKW:registerKonnektorResponse"/>
+			<wsdl:fault name="FaultMessage" message="VPNKW:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="deregOperation">
+			<wsdl:input message="VPNKW:deregisterKonnektorRequest"/>
+			<wsdl:output message="VPNKW:deregisterKonnektorResponse"/>
+			<wsdl:fault name="FaultMessage" message="VPNKW:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="statusOperation">
+			<wsdl:input message="VPNKW:registerStatusRequest"/>
+			<wsdl:output message="VPNKW:registerStatusResponse"/>
+			<wsdl:fault name="FaultMessage" message="VPNKW:FaultMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="regBinding" type="VPNKW:provisioningPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="regOperation">
+			<soap:operation soapAction="urn:#regOperation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+            <wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deregOperation">
+			<soap:operation soapAction="urn:#deregOperation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+            <wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="statusOperation">
+			<soap:operation soapAction="urn:#statusOperation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+            <wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="provisioningService">
+		<wsdl:port name="provisioningPort" binding="VPNKW:regBinding">
+			<soap:address location="http://example.com"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

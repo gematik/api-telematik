@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\3" -->
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+            version: V1.1.0
+			===========
+			*** CardTerminalService.xsd: Update von 1.0 auf 1.1
+	 End of Version History-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:CT="http://ws.gematik.de/conn/CardTerminalService/v1.1" xmlns:CTW="http://ws.gematik.de/conn/CardTerminalService/WSDL/v1.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"  xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/CardTerminalService/WSDL/v1.1">
+	<documentation>
+		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Dienst zur Steuerung der Kartenterminals
+		version=1.1.0
+	</documentation>
+	<types>
+		<xs:schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<xs:import schemaLocation="CardTerminalService.xsd" namespace="http://ws.gematik.de/conn/CardTerminalService/v1.1"/>
+			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="RequestCardRequestMessage">
+		<part name="parameter" element="CT:RequestCard"/>
+	</message>
+	<message name="RequestCardResponseMessage">
+		<part name="parameter" element="CT:RequestCardResponse"/>
+	</message>
+	<message name="EjectCardRequestMessage">
+		<part name="parameter" element="CT:EjectCard"/>
+	</message>
+	<message name="EjectCardResponseMessage">
+		<part name="parameter" element="CT:EjectCardResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="CardTerminalServicePortType">
+		<operation name="RequestCard">
+			<input message="CTW:RequestCardRequestMessage"/>
+			<output message="CTW:RequestCardResponseMessage"/>
+			<fault name="FaultMessage" message="CTW:FaultMessage"/>
+		</operation>
+		<operation name="EjectCard">
+			<input message="CTW:EjectCardRequestMessage"/>
+			<output message="CTW:EjectCardResponseMessage"/>
+			<fault name="FaultMessage" message="CTW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="CardTerminalServiceBinding" type="CTW:CardTerminalServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="RequestCard">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardTerminalService/v1.1#RequestCard"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="EjectCard">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardTerminalService/v1.1#EjectCard"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="CardTerminalService">
+		<port name="CardTerminalServicePort" binding="CTW:CardTerminalServiceBinding">
+			<soap:address location="http://ti-konnektor/cardterminalservice"/>
+		</port>
+	</service>
+</definitions>

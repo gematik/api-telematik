@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\5" -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:DPE="http://ws.gematik.de/conn/nfds/DPEService/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/nfds/DPEService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+
+  <annotation>
+    <documentation xml:lang="de">
+      Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+      Schema-Beschreibung für die DPEService-Schnittstelle des Fachmoduls NFDM.
+    </documentation>
+  </annotation>
+
+  <import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+  <import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
+  <import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+
+  <simpleType name="ResultCategoryEnum">
+    <annotation>
+      <documentation>Enumeration der möglichen Werte für Result</documentation>
+    </annotation>
+    <restriction base="string">
+      <enumeration value="OK"/>
+      <enumeration value="WARNING"/>
+    </restriction>
+  </simpleType>
+  <element name="Status">
+    <complexType>
+      <sequence>
+        <element name="Result" type="DPE:ResultCategoryEnum">
+          <annotation>
+            <documentation>Ergebnisstatus. Zulässige Werte: OK, WARNING</documentation>
+          </annotation>
+        </element>
+        <element ref="GERROR:Error" minOccurs="0"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="ReadDPE">
+    <complexType>
+      <sequence>
+        <element ref="CCTX:Context">
+          <annotation>
+            <documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+          </annotation>
+        </element>
+        <element ref="CONN:EhcHandle">
+          <annotation>
+            <documentation xml:lang="de">Verweis auf die eGK, von der der DPE gelesen werden soll</documentation>
+          </annotation>
+        </element>
+        <element ref="CONN:HpcHandle">
+          <annotation>
+            <documentation xml:lang="de">Verweis auf die LE-Karte (HBA/SMC-B), die zum Zugriff auf die eGK verwendet werden soll</documentation>
+          </annotation>
+        </element>
+        <element name="EmergencyIndicator" type="boolean">
+          <annotation>
+            <documentation xml:lang="de">Gibt an, ob die Operation im Rahmen eines Notfalls aufgerufen wird</documentation>
+          </annotation>
+        </element>
+        <element name="UpdateIndicator" type="boolean">
+          <annotation>
+            <documentation xml:lang="de">Gibt an, ob die Operation im Rahmen einer Aktualisierung des DPE aufgerufen wird</documentation>
+          </annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="ReadDPEResponse">
+    <complexType>
+      <sequence>
+        <element ref="DPE:Status">
+          <annotation>
+            <documentation xml:lang="de">Statusrückmeldung</documentation>
+          </annotation>
+        </element>
+        <element name="DPEDocument" type="base64Binary">
+          <annotation>
+            <documentation xml:lang="de">Von der eGK des Versicherten gelesener, dekomprimierter DPE</documentation>
+          </annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="WriteDPE">
+    <complexType>
+      <sequence>
+        <element ref="CCTX:Context">
+          <annotation>
+            <documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+          </annotation>
+        </element>
+        <element ref="CONN:EhcHandle">
+          <annotation>
+            <documentation xml:lang="de">Verweis auf die eGK, auf die der DPE geschrieben werden soll</documentation>
+          </annotation>
+        </element>
+        <element ref="CONN:HpcHandle">
+          <annotation>
+            <documentation xml:lang="de">Verweis auf die LE-Karte (HBA/SMC-B), die zum Zugriff auf die eGK verwendet werden soll</documentation>
+          </annotation>
+        </element>
+        <element name="DPEDocument" type="base64Binary">
+          <annotation>
+            <documentation xml:lang="de">Auf die eGK des Versicherten zu schreibender DPE</documentation>
+          </annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="WriteDPEResponse">
+    <complexType>
+      <sequence>
+        <element ref="DPE:Status">
+          <annotation>
+            <documentation xml:lang="de">Statusrückmeldung</documentation>
+          </annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="EraseDPE">
+    <complexType>
+      <sequence>
+        <element ref="CCTX:Context">
+          <annotation>
+            <documentation xml:lang="de">Angaben zum Aufrufkontext</documentation>
+          </annotation>
+        </element>
+        <element ref="CONN:EhcHandle">
+          <annotation>
+            <documentation xml:lang="de">Verweis auf die eGK, von der der DPE gelöscht werden soll</documentation>
+          </annotation>
+        </element>
+        <element ref="CONN:HpcHandle">
+          <annotation>
+            <documentation xml:lang="de">Verweis auf die LE-Karte (HBA/SMC-B), die zum Zugriff auf die eGK verwendet werden soll</documentation>
+          </annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="EraseDPEResponse">
+    <complexType>
+      <sequence>
+        <element ref="DPE:Status">
+          <annotation>
+            <documentation xml:lang="de">Statusrückmeldung</documentation>
+          </annotation>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+</schema>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phr="http://ws.gematik.de/fa/phr/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:phra="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+    <annotation>
+        <documentation xml:lang="de">
+			Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Schema-Beschreibung der Schnittstellen der Komponente Authentisierung des Versicherten.
+		</documentation>
+    </annotation>
+    <import namespace="urn:oasis:names:tc:SAML:2.0:assertion" schemaLocation="../../ext/saml-schema-assertion-2.0.xsd"/>
+    <import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
+    <import namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512" schemaLocation="../../ext/ws-trust-1.3.xsd"/>
+    <import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+    <element name="GetAuditEvents"/>
+    <element name="GetAuditEventsResponse">
+        <complexType>
+            <sequence>
+                <element ref="phrext:AuditMessage" minOccurs="0" maxOccurs="unbounded"/>
+                <element ref="tel:Error" minOccurs="0"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

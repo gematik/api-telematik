@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\1" -->
+<!-- ================================================ -->
+<!-- Version corresponding to CD1, 2009-07-19         -->
+<!-- ================================================ -->
+<schema xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tsl="http://uri.etsi.org/02231/v2#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:XAdES="http://uri.etsi.org/01903/v1.3.2#" targetNamespace="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<import namespace="http://uri.etsi.org/02231/v2#" schemaLocation="tsl.xsd"/>
+	<!-- The XML-schema for the Trust-Service Status list according to 
+		ETSI TS 102231 Version 2.1.1 has been distributed as attachment
+		of the standard document (in a file draft_ts102231v020101xsd.xsd,
+		which is included in a file ts_102231v020101p0.zip, which may be 
+		downloaded from the ETSI web site http://www.etsi.org/). For easier
+		handling of this schema document, a copy of it may also be downloaded from
+		http://sdre.es/mirror/draft/ETSI/TS/102231/v2.1.1/schema.xsd
+	-->
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+	<import namespace="urn:oasis:names:tc:dss:1.0:core:schema" schemaLocation="oasis-dss-core-schema-v1.0-os.xsd"/>
+	<import namespace="urn:oasis:names:tc:SAML:1.0:assertion" schemaLocation="oasis-sstc-saml-schema-assertion-1.1.xsd"/>
+	<import namespace="urn:oasis:names:tc:SAML:2.0:assertion" schemaLocation="saml-schema-assertion-2.0.xsd"/>
+	<import namespace="http://uri.etsi.org/01903/v1.3.2#" schemaLocation="XAdES.xsd"/>
+	<!-- ============================================================== -->
+	<!-- Optional Input to request individual report for each signature -->
+	<!-- ============================================================== -->
+	<element name="ReturnVerificationReport">
+		<complexType>
+			<sequence>
+				<element name="IncludeVerifier" type="boolean" default="true" minOccurs="0"/>
+				<element name="IncludeCertificateValues" type="boolean" default="false" minOccurs="0"/>
+				<element name="IncludeRevocationValues" type="boolean" default="false" minOccurs="0"/>
+				<element name="ExpandBinaryValues" type="boolean" default="false" minOccurs="0"/>
+				<element name="ReportDetailLevel" type="anyURI" default="urn:oasis:names:tc:dss:1.0:profiles:verificationreport:reportdetail:allDetails" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- ============================================================== -->
+	<!-- If the element ReturnVerificationReport is provided as         -->
+	<!-- Optional Input, the element VerificationReport will be         -->
+	<!-- provided as Optional Output                                    -->
+	<!-- ============================================================== -->
+	<element name="VerificationReport" type="vr:VerificationReportType"/>
+	<complexType name="VerificationReportType">
+		<sequence>
+			<element ref="dss:VerificationTimeInfo" minOccurs="0"/>
+			<element name="VerifierIdentity" type="vr:IdentifierType" minOccurs="0"/>
+			<element name="IndividualReport" type="vr:IndividualReportType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="IdentifierType">
+		<sequence>
+			<element ref="ds:X509Data" minOccurs="0"/>
+			<element name="SAMLv1Identifier" type="saml:NameIdentifierType" minOccurs="0"/>
+			<element name="SAMLv2Identifier" type="saml2:NameIDType" minOccurs="0"/>
+			<element name="Other" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<!-- ============================================================== -->
+	<!-- For each signature there will be an IndividualSignatureReport- -->
+	<!-- element of type IndividualSignatureReportType                  -->
+	<!-- ============================================================== -->
+	<complexType name="IndividualReportType">
+		<sequence>
+			<element name="SignedObjectIdentifier" type="vr:SignedObjectIdentifierType"/>
+			<element ref="dss:Result"/>
+			<element name="Details" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="SignedObjectIdentifierType">
+		<sequence>
+			<element name="DigestAlgAndValue" type="XAdES:DigestAlgAndValueType" minOccurs="0"/>
+			<element ref="ds:CanonicalizationMethod" minOccurs="0"/>
+			<element name="SignedProperties" type="vr:SignedPropertiesType" minOccurs="0"/>
+			<element ref="ds:SignatureValue" minOccurs="0"/>
+			<element name="Other" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+		<attribute name="WhichDocument" type="IDREF" use="optional"/>
+		<attribute name="XPath" type="string" use="optional"/>
+		<attribute name="Offset" type="integer" use="optional"/>
+		<attribute name="FieldName" type="string" use="optional"/>
+	</complexType>
+	<!-- ==================================================================  -->
+	<!-- The Details-element may contain a detailled report for the          -->
+	<!-- signature in form of the object-specific elements listed below or   -->
+	<!-- any other ptional Output defined in Section 4.5 of the DSS-Core.    -->
+	<!-- The present profile defines the following object-specific elements: -->
+	<!-- - <DetailedSignatureReport>										 -->
+	<!-- - <IndividualTimeStampReport>										 -->
+	<!-- - <IndividualCertificateReport>									 -->
+	<!-- - <IndividualAttributeCertificateReport>							 -->
+	<!-- - <IndividualAttributeCertificateReport>							 -->
+	<!-- - <IndividualCRLReport>										     -->
+	<!-- - <IndividualOCSPReport>										     -->
+	<!-- - <EvidenceRecordReport>    									     -->
+	<!-- =================================================================== -->
+	<element name="DetailedSignatureReport" type="vr:DetailedSignatureReportType"/>
+	<element name="IndividualTimeStampReport" type="vr:TimeStampValidityType"/>
+	<element name="IndividualCertificateReport" type="vr:CertificateValidityType"/>
+	<element name="IndividualAttributeCertificateReport" type="vr:AttributeCertificateValidityType"/>
+	<element name="IndividualCRLReport" type="vr:CRLValidityType"/>
+	<element name="IndividualOCSPReport" type="vr:OCSPValidityType"/>
+	<element name="EvidenceRecordReport" type="vr:EvidenceRecordValidityType"/>
+	<!-- ========================================== -->
+	<!-- VerificationDetailType                     -->
+	<!-- ========================================== -->
+	<complexType name="VerificationResultType">
+		<sequence>
+			<element name="ResultMajor" type="anyURI"/>
+			<element name="ResultMinor" type="anyURI" minOccurs="0"/>
+			<element name="ResultMessage" type="dss:InternationalStringType" minOccurs="0"/>
+			<any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<!-- ========================================== -->
+	<!-- DetailedSignatureReportType                -->
+	<!-- ========================================== -->
+	<complexType name="DetailedSignatureReportType">
+		<sequence>
+			<element name="FormatOK" type="vr:VerificationResultType"/>
+			<element name="Properties" type="vr:PropertiesType" minOccurs="0"/>
+			<element ref="dss:VerifyManifestResults" minOccurs="0"/>
+			<element name="SignatureHasVisibleContent" type="boolean" minOccurs="0"/>
+			<element name="SignatureOK" type="vr:SignatureValidityType"/>
+			<element name="CertificatePathValidity" type="vr:CertificatePathValidityType"/>
+		</sequence>
+	</complexType>
+	<!-- ============================================================== -->
+	<!-- Definition of PropertiesType                                   -->
+	<!-- ============================================================== -->
+	<complexType name="PropertiesType">
+		<sequence>
+			<element name="SignedProperties" type="vr:SignedPropertiesType" minOccurs="0"/>
+			<element name="UnsignedProperties" type="vr:UnsignedPropertiesType" minOccurs="0"/>
+		</sequence>
+		<attribute name="Target" type="anyURI" use="optional"/>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<!-- .............................................................. -->
+	<!-- SignedProperties												-->
+	<!-- .............................................................. -->
+	<complexType name="SignedPropertiesType">
+		<sequence>
+			<element name="SignedSignatureProperties" type="vr:SignedSignaturePropertiesType" minOccurs="0"/>
+			<element name="SignedDataObjectProperties" type="vr:SignedDataObjectPropertiesType" minOccurs="0"/>
+			<element name="Other" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<!-- SignedSignatureProperties-->
+	<complexType name="SignedSignaturePropertiesType">
+		<sequence>
+			<element ref="XAdES:SigningTime" minOccurs="0"/>
+			<element ref="XAdES:SigningCertificate" minOccurs="0"/>
+			<element ref="XAdES:SignaturePolicyIdentifier" minOccurs="0"/>
+			<choice minOccurs="0">
+				<element ref="XAdES:SignatureProductionPlace"/>
+				<element name="Location" type="string"/>
+			</choice>
+			<element name="SignerRole" type="vr:SignerRoleType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="SignerRoleType">
+		<sequence>
+			<element name="ClaimedRoles" type="XAdES:ClaimedRolesListType" minOccurs="0"/>
+			<element name="CertifiedRoles" type="vr:CertifiedRolesListType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CertifiedRolesListType">
+		<sequence>
+			<element name="AttributeCertificateValidity" type="vr:AttributeCertificateValidityType" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="AttributeCertificateValidityType">
+		<sequence>
+			<element name="AttributeCertificateIdentifier" type="vr:AttrCertIDType"/>
+			<element name="AttributeCertificateValue" type="base64Binary" minOccurs="0"/>
+			<element name="AttributeCertificateContent" type="vr:AttributeCertificateContentType" minOccurs="0"/>
+			<element name="SignatureOK" type="vr:SignatureValidityType"/>
+			<element name="CertificatePathValidity" type="vr:CertificatePathValidityType"/>
+		</sequence>
+	</complexType>
+	<complexType name="AttrCertIDType">
+		<sequence>
+			<element name="Holder" type="vr:EntityType" minOccurs="0"/>
+			<element name="Issuer" type="vr:EntityType"/>
+			<element name="SerialNumber" type="integer"/>
+		</sequence>
+	</complexType>
+	<complexType name="EntityType">
+		<sequence>
+			<element name="BaseCertificateID" type="ds:X509IssuerSerialType" minOccurs="0"/>
+			<element name="Name" type="string" minOccurs="0"/>
+			<element name="Other" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="AttributeCertificateContentType">
+		<sequence>
+			<element name="Version" type="integer" minOccurs="0"/>
+			<element name="Holder" type="vr:EntityType"/>
+			<element name="Issuer" type="vr:EntityType"/>
+			<element name="SignatureAlgorithm" type="anyURI"/>
+			<element name="SerialNumber" type="integer"/>
+			<element name="AttCertValidityPeriod" type="vr:ValidityPeriodType"/>
+			<element name="Attributes">
+				<complexType>
+					<sequence minOccurs="0" maxOccurs="unbounded">
+						<element name="Attribute" type="vr:AttributeType"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="IssuerUniqueID" type="hexBinary" minOccurs="0"/>
+			<element name="Extensions" type="vr:ExtensionsType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="ValidityPeriodType">
+		<sequence>
+			<element name="NotBefore" type="dateTime"/>
+			<element name="NotAfter" type="dateTime"/>
+		</sequence>
+	</complexType>
+	<complexType name="AttributeType">
+		<sequence>
+			<element name="Type" type="vr:VerificationResultType"/>
+			<element name="Value" type="dss:AnyType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="ExtensionsType">
+		<sequence minOccurs="0" maxOccurs="unbounded">
+			<element name="Extension" type="vr:ExtensionType"/>
+		</sequence>
+	</complexType>
+	<complexType name="ExtensionType">
+		<sequence>
+			<element name="ExtnId" type="XAdES:ObjectIdentifierType"/>
+			<element name="Critical" type="boolean"/>
+			<element name="ExtnValue" type="dss:AnyType" minOccurs="0"/>
+			<element name="ExtensionOK" type="vr:VerificationResultType"/>
+		</sequence>
+	</complexType>
+	<!-- SignedDataObjectProperties-->
+	<complexType name="SignedDataObjectPropertiesType">
+		<sequence>
+			<element ref="XAdES:DataObjectFormat" minOccurs="0" maxOccurs="unbounded"/>
+			<choice minOccurs="0">
+				<element ref="XAdES:CommitmentTypeIndication" maxOccurs="unbounded"/>
+				<element name="Reason" type="string"/>
+			</choice>
+			<element name="AllDataObjectsTimeStamp" type="vr:TimeStampValidityType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="IndividualDataObjectsTimeStamp" type="vr:TimeStampValidityType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="TimeStampValidityType">
+		<sequence>
+			<element name="FormatOK" type="vr:VerificationResultType"/>
+			<element name="TimeStampContent" type="vr:TstContentType" minOccurs="0"/>
+			<element name="MessageHashAlgorithm" type="vr:AlgorithmValidityType" minOccurs="0"/>
+			<element name="SignatureOK" type="vr:SignatureValidityType"/>
+			<element name="CertificatePathValidity" type="vr:CertificatePathValidityType"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="TstContentType">
+		<sequence>
+			<element ref="dss:TstInfo" minOccurs="0"/>
+			<element name="Other" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="SignatureValidityType">
+		<sequence>
+			<element name="SigMathOK" type="vr:VerificationResultType"/>
+			<element name="SignatureAlgorithm" type="vr:AlgorithmValidityType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="AlgorithmValidityType">
+		<sequence>
+			<element name="Algorithm" type="anyURI"/>
+			<element name="Parameters" type="dss:AnyType" minOccurs="0"/>
+			<element name="Suitability" type="vr:VerificationResultType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CertificatePathValidityType">
+		<sequence>
+			<element name="PathValiditySummary" type="vr:VerificationResultType"/>
+			<element name="CertificateIdentifier" type="ds:X509IssuerSerialType"/>
+			<element name="PathValidityDetail" type="vr:CertificatePathValidityVerificationDetailType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CertificatePathValidityVerificationDetailType">
+		<sequence>
+			<element name="CertificateValidity" type="vr:CertificateValidityType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="TSLValidity" type="vr:TrustStatusListValidityType" minOccurs="0"/>
+			<element name="TrustAnchor" type="vr:VerificationResultType"/>
+		</sequence>
+	</complexType>
+	<complexType name="CertificateValidityType">
+		<sequence>
+			<element name="CertificateIdentifier" type="ds:X509IssuerSerialType"/>
+			<element name="Subject" type="string"/>
+			<element name="ChainingOK" type="vr:VerificationResultType"/>
+			<element name="ValidityPeriodOK" type="vr:VerificationResultType"/>
+			<element name="ExtensionsOK" type="vr:VerificationResultType"/>
+			<element name="CertificateValue" type="base64Binary" minOccurs="0"/>
+			<element name="CertificateContent" type="vr:CertificateContentType" minOccurs="0"/>
+			<element name="SignatureOK" type="vr:SignatureValidityType"/>
+			<element name="CertificateStatus" type="vr:CertificateStatusType"/>
+		</sequence>
+	</complexType>
+	<complexType name="CertificateContentType">
+		<sequence>
+			<element name="Version" type="integer" minOccurs="0"/>
+			<element name="SerialNumber" type="integer"/>
+			<element name="SignatureAlgorithm" type="anyURI"/>
+			<element name="Issuer" type="string"/>
+			<element name="ValidityPeriod" type="vr:ValidityPeriodType"/>
+			<element name="Subject" type="string"/>
+			<element name="Extensions" type="vr:ExtensionsType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CertificateStatusType">
+		<sequence>
+			<element name="CertStatusOK" type="vr:VerificationResultType"/>
+			<element name="RevocationInfo" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="RevocationDate" type="dateTime"/>
+						<element name="RevocationReason" type="vr:VerificationResultType"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="RevocationEvidence" minOccurs="0">
+				<complexType>
+					<choice>
+						<element name="CRLValidity" type="vr:CRLValidityType"/>
+						<element name="CRLReference" type="XAdES:CRLIdentifierType"/>
+						<element name="OCSPValidity" type="vr:OCSPValidityType"/>
+						<element name="OCSPReference" type="XAdES:OCSPIdentifierType"/>
+						<element name="Other" type="dss:AnyType"/>
+					</choice>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="CRLValidityType">
+		<sequence>
+			<element name="CRLIdentifier" type="XAdES:CRLIdentifierType"/>
+			<element name="CRLValue" type="base64Binary" minOccurs="0"/>
+			<element name="CRLContent" type="vr:CRLContentType" minOccurs="0"/>
+			<element name="SignatureOK" type="vr:SignatureValidityType"/>
+			<element name="CertificatePathValidity" type="vr:CertificatePathValidityType"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="CRLContentType">
+		<sequence>
+			<element name="Version" type="integer" minOccurs="0"/>
+			<element name="Signature" type="vr:VerificationResultType"/>
+			<element name="Issuer" type="string"/>
+			<element name="ThisUpdate" type="dateTime"/>
+			<element name="NextUpdate" type="dateTime" minOccurs="0"/>
+			<element name="RevokedCertificates" minOccurs="0">
+				<complexType>
+					<sequence minOccurs="0" maxOccurs="unbounded">
+						<element name="UserCertificate" type="integer"/>
+						<element name="RevocationDate" type="dateTime"/>
+						<element name="CrlEntryExtensions" type="vr:ExtensionsType" minOccurs="0"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="CrlExtensions" type="vr:ExtensionsType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="OCSPValidityType">
+		<sequence>
+			<element name="OCSPIdentifier" type="XAdES:OCSPIdentifierType"/>
+			<element name="OCSPValue" type="base64Binary" minOccurs="0"/>
+			<element name="OCSPContent" type="vr:OCSPContentType" minOccurs="0"/>
+			<element name="SignatureOK" type="vr:SignatureValidityType"/>
+			<element name="CertificatePathValidity" type="vr:CertificatePathValidityType"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="OCSPContentType">
+		<sequence>
+			<element name="Version" type="integer"/>
+			<element name="ResponderID" type="string"/>
+			<element name="producedAt" type="dateTime"/>
+			<element name="Responses">
+				<complexType>
+					<sequence minOccurs="0" maxOccurs="unbounded">
+						<element name="SingleResponse" type="vr:SingleResponseType"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ResponseExtensions" type="vr:ExtensionsType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="SingleResponseType">
+		<sequence>
+			<element name="CertID">
+				<complexType>
+					<sequence>
+						<element name="HashAlgorithm" type="anyURI"/>
+						<element name="IssuerNameHash" type="hexBinary"/>
+						<element name="IssuerKeyHash" type="hexBinary"/>
+						<element name="SerialNumber" type="integer"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="CertStatus" type="vr:VerificationResultType"/>
+			<element name="ThisUpdate" type="dateTime"/>
+			<element name="NextUpdate" type="dateTime" minOccurs="0"/>
+			<element name="SingleExtensions" type="vr:ExtensionsType" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="TrustStatusListValidityType">
+		<sequence>
+			<element ref="tsl:SchemeInformation"/>
+			<element ref="tsl:TrustServiceProviderList" minOccurs="0"/>
+			<element name="SignatureOK" type="vr:SignatureValidityType"/>
+		</sequence>
+		<attribute name="TSLTag" type="tsl:TSLTagType" use="required"/>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<!-- .............................................................. -->
+	<!-- UnsignedProperties												-->
+	<!-- .............................................................. -->
+	<complexType name="UnsignedPropertiesType">
+		<sequence>
+			<element name="UnsignedSignatureProperties" type="vr:UnsignedSignaturePropertiesType" minOccurs="0"/>
+			<element ref="XAdES:UnsignedDataObjectProperties" minOccurs="0"/>
+			<element name="Other" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<!-- UnsignedSignatureProperties -->
+	<complexType name="UnsignedSignaturePropertiesType">
+		<choice maxOccurs="unbounded">
+			<element name="CounterSignature" type="vr:SignatureValidityType"/>
+			<element name="SignatureTimeStamp" type="vr:TimeStampValidityType"/>
+			<element ref="XAdES:CompleteCertificateRefs"/>
+			<element ref="XAdES:CompleteRevocationRefs"/>
+			<element ref="XAdES:AttributeCertificateRefs"/>
+			<element ref="XAdES:AttributeRevocationRefs"/>
+			<element name="SigAndRefsTimeStamp" type="vr:TimeStampValidityType"/>
+			<element name="RefsOnlyTimeStamp" type="vr:TimeStampValidityType"/>
+			<element name="CertificateValues" type="vr:CertificateValuesType"/>
+			<element name="RevocationValues" type="vr:RevocationValuesType"/>
+			<element name="AttrAuthoritiesCertValues" type="vr:CertificateValuesType"/>
+			<element name="AttributeRevocationValues" type="vr:RevocationValuesType"/>
+			<element name="ArchiveTimeStamp" type="vr:TimeStampValidityType"/>
+		</choice>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="RevocationValuesType">
+		<sequence>
+			<element name="CRLValues" minOccurs="0">
+				<complexType>
+					<sequence maxOccurs="unbounded">
+						<element name="VerifiedCRL" type="vr:CRLValidityType"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OCSPValues" minOccurs="0">
+				<complexType>
+					<sequence maxOccurs="unbounded">
+						<element name="VerifiedOCSPResponse" type="vr:OCSPValidityType"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="OtherValues" type="dss:AnyType" minOccurs="0"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="CertificateValuesType">
+		<choice minOccurs="0" maxOccurs="unbounded">
+			<element name="EncapsulatedX509Certificate" type="vr:CertificateValidityType"/>
+			<element name="OtherCertificate"/>
+		</choice>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="EvidenceRecordValidityType">
+		<sequence>
+			<element name="FormatOK" type="vr:VerificationResultType"/>
+			<element name="Version" type="integer" minOccurs="0"/>
+			<element name="DigestAlgorithm" type="vr:AlgorithmValidityType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="CryptoInfos" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="Attribute" type="vr:AttributeType" maxOccurs="unbounded"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="EncryptionInfo" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="EncryptionInfoType" type="vr:AlgorithmValidityType"/>
+						<element name="EncryptionInfoValue" type="dss:AnyType"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ArchiveTimeStampSequence">
+				<complexType>
+					<sequence minOccurs="0" maxOccurs="unbounded">
+						<element name="ArchiveTimeStampChain">
+							<complexType>
+								<sequence minOccurs="0" maxOccurs="unbounded">
+									<element name="ArchiveTimeStamp" type="vr:ArchiveTimeStampValidityType"/>
+								</sequence>
+							</complexType>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="ArchiveTimeStampValidityType">
+		<sequence>
+			<element name="FormatOK" type="vr:VerificationResultType"/>
+			<element name="DigestAlgorithm" type="vr:AlgorithmValidityType" minOccurs="0"/>
+			<element name="Attributes" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="Attribute" type="vr:AttributeType" maxOccurs="unbounded"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="ReducedHashTree" minOccurs="0">
+				<complexType>
+					<sequence maxOccurs="unbounded">
+						<element name="PartialHashTree">
+							<complexType>
+								<sequence maxOccurs="unbounded">
+									<element name="HashValue" type="vr:HashValueType"/>
+								</sequence>
+							</complexType>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="TimeStamp" type="vr:TimeStampValidityType"/>
+		</sequence>
+		<attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+	<complexType name="HashValueType">
+		<sequence>
+			<element name="HashValue" type="hexBinary"/>
+		</sequence>
+		<attribute name="HashedObject" type="IDREF" use="optional"/>
+	</complexType>
+</schema>
