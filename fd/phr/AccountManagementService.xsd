@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Account_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.gematik.de/fd/phr/I_Account_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.1">
+<!-- ===================================================================== -->
+<!-- Copyright (C) 2020 gematik GmbH. Alle Rechte vorbehalten.             -->
+<!-- ===================================================================== -->
+<!-- 
+		Version History
+			version: V1.0.2
+			===========
+			*** Korrektur element GetAuditEventsRequest complexType/ ergänzt
+		
+			version: V1.0
+			===========
+			*** Initiale Erstellung
+
+	 	End of Version History
+-->
+
+<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Account_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.gematik.de/fd/phr/I_Account_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.2">
     <xs:import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
     <xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
     <xs:element name="SuspendAccountRequest"/>
@@ -24,7 +40,9 @@
             </xs:restriction>
         </xs:simpleType>
     </xs:element>
-    <xs:element name="GetAuditEventsRequest"/>
+    <xs:element name="GetAuditEventsRequest">
+	    <xs:complexType/>
+    </xs:element>
     <xs:element name="GetAuditEventsResponse">
         <xs:complexType>
             <xs:sequence>

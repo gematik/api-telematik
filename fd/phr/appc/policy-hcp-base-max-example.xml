@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base" Version="4.0">
+    <Target/>
+    
+    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:container" Version="4.0">
+        <Target>
+
+            <!-- Leistungserbringerinstitution (repräsentiert durch ihre Telematik-ID) -->
+
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:hl7-org:v3:function:II-equal">
+                        <AttributeValue DataType="urn:hl7-org:v3#II">
+                            <InstanceIdentifier root="1.2.276.0.76.4.188" xmlns="urn:hl7-org:v3#II" extension="$Telematik_ID"/>
+                        </AttributeValue>
+                        <SubjectAttributeDesignator AttributeId="urn.gematik.subject.organization-id" DataType="urn:hl7-org:v3#II" MustBePresent="true"/>
+                    </SubjectMatch>
+                </Subject>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string"> $Name_der_LEI
+                        </AttributeValue>
+                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xspa:1.0:subject:organization" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+
+            <!-- KVNR als Aktenidentifikator -->
+
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:hl7-org:v3:function:II-equal">
+                        <AttributeValue DataType="urn:hl7-org:v3#II">
+                            <InstanceIdentifier root="1.2.276.0.76.4.8" xmlns="urn:hl7-org:v3" extension="$KVNR"/>
+                        </AttributeValue>
+                        <ResourceAttributeDesignator AttributeId="urn:ihe:iti:appc:2016:patient-id" DataType="urn:hl7-org:v3#II"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+            
+            <!-- Gültigkeitszeitraum des Policy Documents -->
+
+            <Environments>
+                <Environment>
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:date-less-than-or-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">$Min_Date</AttributeValue>
+                        <EnvironmentAttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#date" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-date"/>
+                    </EnvironmentMatch>
+                    <!-- AND -->
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:date-greater-than">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#date">$Max_Date</AttributeValue>
+                        <EnvironmentAttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#date" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-date"/>
+                    </EnvironmentMatch>
+                </Environment>
+            </Environments>
+        </Target>
+
+        <!-- ######################################################################
+            Entweder (Vertrauensstufe AND Kategorie erlaubt AND notBlacklisted) 
+            ODER Whitelist. Wenn JA, dann Permit, ansonsten Deny.
+            ######################################################################
+        -->
+
+        <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:all-permissions" Version="4.0">
+            <Target/>
+
+            <!-- ##################################################################
+                Feingranulare Berechtigung: Whitelist
+                ###################################################################
+            -->
+
+            <PolicyIdReference>
+                urn:gematik:policy-id:permissions-access-group-hcp:whitelist
+            </PolicyIdReference>
+
+            <!-- ##################################################################
+                Vertrauensstufe AND Kategorie erlaubt AND not Blacklisted
+                ###################################################################
+            -->
+            <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:check-wo-whitelist" Version="4.0">
+                <Target/>        
+                
+                    <!-- ##########################################################
+                        Grobgranulare Berechtigung: Vertrauensstufe.
+                        Permit genau dann, wenn Vetrauensstufe ausreichend für
+                        Dokumentenzugriff, sonst Deny
+                        ###########################################################
+                    -->
+
+                    <PolicySetIdReference>
+                        urn:gematik:policy-set-id:permissions-access-group-hcp:levels
+                    </PolicySetIdReference>
+
+                    <!-- ##########################################################
+                        Mittelgranulare Berechtigung: Kategorien
+                        Permit genau dann, wenn eine Kategorie Dokumentenzugriff
+                        erlaubt, sonst Deny
+                        ###########################################################
+                    -->
+                    
+                    <PolicySetIdReference>
+                        urn:gematik:policy-set-id:permissions-access-group-hcp:categories
+                    </PolicySetIdReference>
+                    
+                    
+                    <!-- ##########################################################
+                        Feingranulare Berechtigung: Blacklist
+                        Permit genau dann, wenn Dokument nicht auf der Blacklist
+                        steht, sonst Deny
+                        ###########################################################
+                    -->
+
+                    <PolicySetIdReference>
+                        urn:gematik:policy-id:permissions-access-group-hcp:blacklist
+                    </PolicySetIdReference>
+            </PolicySet>
+            
+            <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt -->
+            <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:base:default-deny" Version="4.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+                <Target/>
+                <Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:base:default-deny" Effect="Deny"/>
+            </Policy>        
+        </PolicySet>
+    </PolicySet>
+
+	<!-- Setzen der grobgranularen Berechtigung  -->
+    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:levels" Version="4.0">
+        <Target/>
+        <!-- Inkludieren für Vertrauensstufe "normal" (VERPFLICHTEND) -->
+        <PolicyIdReference> urn:gematik:policy-set-id:permissions-access-group-hcp:levels:normal </PolicyIdReference> 
+        <!-- Inkludieren, wenn für Vertrauensstufe "erweitert" berechtigt werden soll -->
+        <PolicyIdReference> urn:gematik:policy-id:permissions-access-group-hcp:levels:extended </PolicyIdReference> 
+        <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt, wenn keine der oben genannten Kategorien passt -->
+        <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:levels:default-deny" Version="4.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+            <Target/>
+            <Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:levels:default-deny" Effect="Deny"/>
+        </Policy>
+    </PolicySet>
+
+    <!-- Setzen der mittelgranularen Berechtigung  -->
+    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:categories" Version="4.0">
+        <Target/>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_emp" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:emp
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_nfd" (Notfalldatensatz/Persönliche Erklärung) -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:nfd
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_eab" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:eab
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_dentalrecord" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:dentalrecord
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_childsrecord" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:childsrecord
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_mothersrecord" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:mothersrecord
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_vaccination" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:vaccination
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_patientdoc" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:patientdoc
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_ega" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:ega
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_receipt" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:receipt
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_care" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:care
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_prescription" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:prescription
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_eau" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:eau
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_other" -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:other
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a1") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a1
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a2") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a2
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a3") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a3
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a4") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a4
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a5") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a5
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a6") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a6
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a7") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a7
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a8") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a8
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a9") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a9
+        </PolicyIdReference>
+        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a10") -->
+        <PolicyIdReference>
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a10
+        </PolicyIdReference>
+
+        <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt, wenn keine der oben genannten Kategorien passt -->
+        <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:default-deny" Version="4.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+            <Target/>
+            <Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:categories:default-deny" Effect="Deny"/>
+        </Policy>
+    </PolicySet>
+	
+    <!-- Setzen der feingranularen Berechtigung: Blacklist -->
+	<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:blacklist" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0: rule-combining-algorithm:deny-overrides">
+		<Target/>
+		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:blacklist" Effect="Deny"> 
+			<Target>
+				<Resources>
+					<!-- Inkludieren: Je eine <Resource> pro Dokument auf der Blacklist -->
+					<Resource>
+						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0: function:string-equal">
+							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string"> $DocumentUniqueId </AttributeValue>
+							<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http//www.w3.org/2001/XMLSchema#string"/>
+						</ResourceMatch>
+					</Resource>
+				</Resources>
+			</Target>
+		</Rule>
+		<!-- Default Rule, das immer Permit zurückgibt, wenn ein Dokument nicht explizit auf der Blacklist gelistet ist -->
+		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:blacklist:default-permit" Effect="Permit"/>
+	</Policy>
+
+	
+    <!-- Setzen der feingranularen Berechtigung: Whitelist -->
+	<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:whitelist" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0: rule-combining-algorithm:permit-overrides">
+		<Target/>
+		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:whitelist" Effect="Permit">
+			<Target>
+				<Resources>
+					<!-- Inkludieren: Je eine <Resource> pro Dokument auf der Whitelist -->
+					<Resource>
+						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0: function:string-equal">
+							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string"> $DocumentUniqueId </AttributeValue>
+							<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http//www.w3.org/2001/XMLSchema#string"/>
+						</ResourceMatch>
+					</Resource>
+				</Resources>
+			</Target>
+		</Rule>
+		<!-- Default Rule, das immer Deny zurückgibt, wenn ein Dokument nicht explizit auf der Whitelist ist -->
+		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:whitelist:default-deny" Effect="Deny"/>
+	</Policy>
+	
+</PolicySet>
+

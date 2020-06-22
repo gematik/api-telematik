@@ -3,14 +3,7 @@
 			version: V1.0.0
 				* initiale Version
 	 End of Version History-->
-<schema 
-	xmlns="http://www.w3.org/2001/XMLSchema" 
-	xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" 
-	targetNamespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" 
-	elementFormDefault="qualified" 
-	attributeFormDefault="unqualified" 
-	version="1.0.0"
->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" targetNamespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH.

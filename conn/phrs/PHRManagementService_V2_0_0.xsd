@@ -39,10 +39,16 @@
 	</simpleType>
 	<simpleType name="DocumentCategoryEnum">
 		<restriction base="string">
-			<enumeration value="category_ treatment_medical"/>
-			<enumeration value="category_ treatment_dental"/>
-			<enumeration value="category_ treatment_psych"/>
-			<enumeration value="category_ treatment_other"/>
+			<enumeration value="category_1a1"/>
+			<enumeration value="category_1a2"/>
+			<enumeration value="category_1a3"/>
+			<enumeration value="category_1a4"/>
+			<enumeration value="category_1a5"/>
+			<enumeration value="category_1a6"/>
+			<enumeration value="category_1a7"/>
+			<enumeration value="category_1a8"/>
+			<enumeration value="category_1a9"/>
+			<enumeration value="category_1a10"/>
 			<enumeration value="category_emp"/>
 			<enumeration value="category_nfd"/>
 			<enumeration value="category_eab"/>
@@ -53,7 +59,10 @@
 			<enumeration value="category_patientdoc"/>
 			<enumeration value="category_ega"/>
 			<enumeration value="category_receipt"/>
+			<enumeration value="category_care"/>			
 			<enumeration value="category_prescription"/>
+			<enumeration value="category_eau"/>
+			<enumeration value="category_other"/>
 		</restriction>
 	</simpleType>
 	<element name="AuthorizationConfiguration">

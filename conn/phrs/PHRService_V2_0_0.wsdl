@@ -91,8 +91,8 @@
 	<wsdl:binding name="PHRService_Binding_Soap12" type="phrsWSDL:PHRService_PortType">
 		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsaw:UsingAddressing wsdl:required="true"/>
-		<wsdl:operation name="DocumentRegistry_RegistryStoredQuery" soapActionRequired="false">
-			<soap12:operation soapAction="urn:ihe:iti:2007:RegistryStoredQuery"/>
+		<wsdl:operation name="DocumentRegistry_RegistryStoredQuery" >
+			<soap12:operation soapAction="urn:ihe:iti:2007:RegistryStoredQuery" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:header message="phrsWSDL:RegistryStoredQuery_Message" part="headerPart" use="literal"/>
 				<soap12:body parts="bodyPart" use="literal"/>
@@ -101,8 +101,8 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_ProvideAndRegisterDocumentSet-b" soapActionRequired="false">
-			<soap12:operation soapAction="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b"/>
+		<wsdl:operation name="DocumentRepository_ProvideAndRegisterDocumentSet-b" >
+			<soap12:operation soapAction="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:header message="phrsWSDL:ProvideAndRegisterDocumentSet-b_Message" part="headerPart" use="literal"/>
 				<soap12:body parts="bodyPart" use="literal"/>
