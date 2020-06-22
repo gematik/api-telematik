@@ -4,7 +4,11 @@
 <!-- ===================================================================== -->
 <!-- 
 		Version History
-
+			version: V1.1.4
+			===========
+			*** Korrektur Restriktion  [a-zA-Z] in Element DisplayName entfernt
+			*** Korrektur Element name REGISTERED_MIGRATION -> REGISTERED_FOR_MIGRATION
+			
 			version: V1.1.3
 			===========
 			*** Korrektur DeviceID type in Element DeleteAuthorizationKey
@@ -29,7 +33,7 @@
 
 	 	End of Version History
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.3">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.4">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2020, gematik GmbH
@@ -180,7 +184,7 @@
 					<documentation>Es wurde ein Konto für diese KVNR registriert aber nicht aktiviert</documentation>
 				</annotation>
 			</element>
-			<element name="REGISTERED_MIGRATION">
+			<element name="REGISTERED_FOR_MIGRATION">
 				<annotation>
 					<documentation>Es wurde ein Konto für diese KVNR registriert aber nicht aktiviert und der Versicherte möchte vorhandene Daten aus einem anderen Aktenkonto in das neue übernehmen</documentation>
 				</annotation>
@@ -250,7 +254,6 @@
 	<simpleType name="DisplayNameType">
 		<restriction base="string">
 			<maxLength value="50"/>
-			<pattern value="[a-zA-Z]*"/>
 		</restriction>
 	</simpleType>
 	<complexType name="AuthorizationInfoType">

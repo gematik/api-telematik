@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2020 rel. 2 (x64) (http://www.altova.com) von Dr. Matthias Unverzagt (enpasos GmbH) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                               -->
 <!-- ===================================================================== -->
@@ -46,7 +47,15 @@
 		<xs:sequence>
 			<xs:element name="Device" type="tns:DeviceType"/>
 		</xs:sequence>
-		<xs:attribute name="DisplayName" type="xs:string" use="required"/>
+		<xs:attribute name="DisplayName" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="64"/>
+					<xs:pattern value="(([a-zA-Z0-9]+) ?)*([a-zA-Z0-9]+)"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:simpleType name="DeviceType">
 		<xs:restriction base="xs:base64Binary">
