@@ -1022,10 +1022,10 @@ components:
           $ref: '#/components/schemas/PermissionLeiProp'
       required:
         - account
-        - hcpoTelematikId
-        - hcpoName
-        - certificate
-        - permissionLeiProperties
+        # hcpoTelematikId
+        # hcpoName
+        # certificate
+        # permissionLeiProperties
     PermissionRepresentativeDTO:
       type: object
       properties:

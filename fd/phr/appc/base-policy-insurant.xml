@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- gematik revision="\main\rel_ors2\1" -->
-<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" xmlns:hl7="urn:hl7-org:v3" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:insurant" Version="1.0.1">
-	<Description></Description>
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides"
+    PolicySetId="urn:gematik:policy-set-id:insurant" Version="1.0.1">
 	<Target>
 		<Subjects>
 			<Subject>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\6" -->
 <!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History  
+			version: V7.4.3
+			===========
+			*** C_6683: ECC-Migration   
 			version: V7.4.2
 			===========
 			*** C_6358: Typprüfung für Timestamp 
@@ -25,7 +27,7 @@
 			===========
 			*** ServicePolicy durch GenerateUnderSignature ersetzt
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.4" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/v7.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.4.2">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.4" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/v7.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.4.3">
     <annotation>
         <documentation xml:lang="de">
 			Copyright (c) 2014, gematik - Gesellschaft für
@@ -46,6 +48,15 @@
         <complexType>
             <sequence>
                 <element ref="CONN:CardHandle"/>
+                <element name="Crypt" default="RSA" minOccurs="0">
+                    <simpleType>
+                        <restriction base="string">
+                            <enumeration value="RSA"/>
+                            <enumeration value="ECC"/>
+                            <enumeration value="RSA_ECC"/>
+                        </restriction>
+                    </simpleType>
+                </element>
                 <element ref="CCTX:Context"/>
                 <element ref="SIG:TvMode"/>
                 <element ref="SIG:JobNumber" minOccurs="0">

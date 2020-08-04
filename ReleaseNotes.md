@@ -1,3 +1,9 @@
+# Release 3.1.3-H3-Pre1
+- Konnektor: add old versions of Signature-, Encryption-, Signature Service (C_10215)
+ - ePA FD: bugfixing
+ - testtreiber_fdv.yaml: remove some mandatory parameter (C_10203)
+
+
 # Release 3.1.3-1
 - ePA: Fehlerkorrektur im PHRManagement- und PHRService - ePA: APPC-Policies für das kommende Release (neues Berechtigungssystem) angepasst. - ePA: Einarbeitung von Kommentaren von Aktensystemherstellern (C_10121, C_10117)
 
