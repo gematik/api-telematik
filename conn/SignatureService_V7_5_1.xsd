@@ -3,6 +3,9 @@
 <!-- 	                    Copyright (C) 2020 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History  
+			version: V7.5.1
+			===========
+			*** C_10147: Härtung Attribut Shorttext   
 			version: V7.5.0
 			===========
 			*** C_6997: Komfortsignatur   
@@ -29,7 +32,7 @@
 			===========
 			*** ServicePolicy durch GenerateUnderSignature ersetzt
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.5" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/v7.5" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.5.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/conn/SignatureService/v7.5" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/SignatureService/v7.5" elementFormDefault="qualified" attributeFormDefault="unqualified" version="7.5.1">
     <annotation>
         <documentation xml:lang="de">
 			Copyright (c) 2020, gematik GmbH. Alle Rechte vorbehalten. 
@@ -335,7 +338,8 @@
     <element name="ShortText">
         <simpleType>
             <restriction base="string">
-                <maxLength value="1000"/>
+                <maxLength value="30"/>
+                <pattern value="[a-zA-Z 0-9_.-äöüÄÖÜß]"/>
             </restriction>
         </simpleType>
     </element>

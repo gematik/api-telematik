@@ -4,7 +4,8 @@
 <!-- ===================================================================== -->
 <!-- Version History
 			version: V2.0.0
-                *  ePA 2.0 	AuthorizationConfigurationType für ad-Hoc Berechtigung (grobgranular, mittelgranular) 
+				*  ePA 2.0.1 	DocumentCategoryEnum geändert für ad-Hoc Berechtigung (mittelgranular)
+                *  ePA 2.0 		AuthorizationConfigurationType für ad-Hoc Berechtigung (grobgranular, mittelgranular) 
             version: V1.3.0
                 *  Für sämtliche Operationen soapActionRequired="false"  
                    Für sämtiche PortType Bindings <wsaw:UsingAddressing required="true"/>
@@ -39,30 +40,30 @@
 	</simpleType>
 	<simpleType name="DocumentCategoryEnum">
 		<restriction base="string">
-			<enumeration value="category_1a1"/>
-			<enumeration value="category_1a2"/>
-			<enumeration value="category_1a3"/>
-			<enumeration value="category_1a4"/>
-			<enumeration value="category_1a5"/>
-			<enumeration value="category_1a6"/>
-			<enumeration value="category_1a7"/>
-			<enumeration value="category_1a8"/>
-			<enumeration value="category_1a9"/>
-			<enumeration value="category_1a10"/>
-			<enumeration value="category_emp"/>
-			<enumeration value="category_nfd"/>
-			<enumeration value="category_eab"/>
-			<enumeration value="category_dentalrecord"/>
-			<enumeration value="category_childsrecord"/>
-			<enumeration value="category_mothersrecord"/>
-			<enumeration value="category_vaccination"/>
-			<enumeration value="category_patientdoc"/>
-			<enumeration value="category_ega"/>
-			<enumeration value="category_receipt"/>
-			<enumeration value="category_care"/>			
-			<enumeration value="category_prescription"/>
-			<enumeration value="category_eau"/>
-			<enumeration value="category_other"/>
+			<enumeration value="practitioner"/>
+			<enumeration value="hospital"/>
+			<enumeration value="laboratory"/>
+			<enumeration value="physiotherapy"/>
+			<enumeration value="psychotherapy"/>
+			<enumeration value="dermatology"/>
+			<enumeration value="gynaecology_urology"/>
+			<enumeration value="dentistry_oms"/>
+			<enumeration value="other_medical"/>
+			<enumeration value="other_non_medical"/>
+			<enumeration value="emp"/>
+			<enumeration value="nfd"/>
+			<enumeration value="eab"/>
+			<enumeration value="dentalrecord"/>
+			<enumeration value="childsrecord"/>
+			<enumeration value="mothersrecord"/>
+			<enumeration value="vaccination"/>
+			<enumeration value="patientdoc"/>
+			<enumeration value="ega"/>
+			<enumeration value="receipt"/>
+			<enumeration value="care"/>
+			<enumeration value="prescription"/>
+			<enumeration value="eau"/>
+			<enumeration value="other"/>
 		</restriction>
 	</simpleType>
 	<element name="AuthorizationConfiguration">

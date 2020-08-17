@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mittelgranular: Kategorie "practitioner" -->
+<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:practitioner" xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides" Version="4.0">
+    <Target/>
+    <!--Prüfung, ob folder.codeList den Code "practitioner" enthält (TODO: Code System hier und unten ergänzen) -->
+    <Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:categories:practitioner" Effect="Permit">
+        <Target>
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:hl7-org:v3:function:CV-equal">
+                        <AttributeValue DataType="urn:hl7-org:v3#CV">
+                            <CodedValue xmlns="urn:hl7-org:v3" code="practitioner" codeSystem="TODO"/>
+                        </AttributeValue>
+                        <ResourceAttributeDesignator AttributeId="urn:ihe:iti:appc:2016:document-entry:related-folder:code" DataType="urn:hl7-org:v3#CV"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+        </Target>
+    </Rule>
+	<!-- Default Rule: Deny, wenn kein "Permit" oben erreicht werden kann -->
+	<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:categories:practitioner:default-deny" Effect="Deny">
+		<Target/>
+	</Rule>
+</Policy>

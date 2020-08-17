@@ -3,11 +3,24 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.1.1
+  version: 1.2.0
+  # Änderungen in Version 1.2.0
+  #   - /DirectoryEntries
+  #       read_Directory_Entry: 
+  #          Suchparameter "owner" ergänzt
+  #          Paging Parameter ergänzt
+  #   - /DirectoryEntries/{uid}/baseDirectoryEntries:
+  #        modify_Directory_Entry: Fehlerkode 422 ergänzt (ungültiger owner im Request Parameter)
+  #   - /DirectoryEntries/{uid}/Certificates/{certificateEntryID}:
+  #       put & delete - Operationen gestrichen
+  #   -   schemas:
+  #         baseDirectoryEntry:
+  #           Attribute "owner" und "maxKOMLEadr" mit Beschreibung der Auswirkungen auf die Operationen hinzugefügt
   # Änderungen in Version 1.1.1
   #   - /DirectoryEntries/Certificates
   #       get - UID ist kein Pflichtparameter mehr um die Suche mit der TelematikID zu ermöglichen
   #   - Texte der HTTP Fehlercodes angepasst
+  #   - searchControlValue für Paging der Suchergebnisse ergänzt
 externalDocs:
   description: Schnittstelle zur Pflege der Verzeichniseinträge
   url: http://www.gematik.de
@@ -42,6 +55,8 @@ paths:
                        otherName     Kann optional belegt werden.
                        specialization  Kann optional belegt werden.
                        domainID      Kann optional belegt werden.
+                       owner         Kann optional belegt werden (falls nicht belegt, dann vom VZD aus dem ID_Token entnommen).
+                       maxKOMLEadr   Kann optional belegt werden.
                        personalEntry Nicht vorhanden (wird vom Verzeichnisdienst belegt)
                        dataFromAuthority Nicht vorhanden (wird vom Verzeichnisdienst belegt)
                        userCertificates  Kann optional belegt werden.
@@ -86,6 +101,7 @@ paths:
                 $ref: '#/components/schemas/Error'
         422:
           description: Unprocessable Entity
+                # Z.B. Wert aus dem Request Attribut "owner" nicht gültig
           content:
             application/json:
               schema:
@@ -170,6 +186,12 @@ paths:
                      Der Verzeichniseintrag wird selektiert, wenn die angegebene domainID im Attribut domainID (array) des Verzeichniseintrags enthalten ist.
         schema:
           type: string  
+      - name: owner
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs owner. 
+                     Der Verzeichniseintrag wird selektiert, wenn der angegebene owner im Attribut owner (array) des Verzeichniseintrags enthalten ist.
+        schema:
+          type: string  
       - name: personalEntry
         in: query
         description: Erlaubt die Suche mit Hilfe des Attributs personalEntry. 
@@ -180,6 +202,24 @@ paths:
         description: Erlaubt die Suche mit Hilfe des Attributs dataFromAuthority. 
         schema:
           type: string  
+          
+    # Paging Parameter entsprechend https://tools.ietf.org/html/rfc2696
+    # Paging ist nur für eigene Verzeichniseinträge erlaubt. Deshalb muss bei
+    # Verwendung des Pagings zwingend der "owner" Suchparameter angegeben werden 
+    # und den eigenen ownerID (entsprechend dem Wert im ID_Token claim scope) enthalten.
+      - name: pagingSize   
+        in: query
+        description: Paging Größe 
+           # Maximal diese Anzahl von Verzeichniseinträgen sind in einer Antwort enthalten. 
+        schema:
+         type: integer 
+      - name: cookie  
+        in: query
+        description: Paging Cookie
+          # Im ersten Request übergibt der Client einen leeren String in diesem Parameter. 
+          # In den Folgerequests übernimmt der Client dieses Cookie jeweils aus dem letzten Response und erhält die nachsten Verzeichniseinträge.
+        schema:
+         type: string 
 
       responses:
         200:
@@ -188,7 +228,11 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/DirectoryEntries'
+                allOf:
+                  - $ref: '#/components/schemas/searchControlValue'
+                  - $ref: '#/components/schemas/DirectoryEntries'
+
+
         400:
           description: Bad Request
                     #  Wird zurückgegeben wenn mehr als 100 Einträge gefunden wurden.
@@ -240,6 +284,8 @@ paths:
                       otherName     Nicht vorhanden.
                       specialization  Kann optional belegt werden.
                       domainID      Kann optional belegt werden.
+                      owner         Kann optional belegt werden.
+                      maxKOMLEadr   Kann optional belegt werden.
                       personalEntry Nicht vorhanden.
                       dataFromAuthority Nicht vorhanden
 
@@ -272,6 +318,13 @@ paths:
           content: {}
         405:
           description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Unprocessable Entity
+                # Z.B. Wert aus dem Request Attribut "owner" nicht gültig
           content:
             application/json:
               schema:
@@ -448,122 +501,6 @@ paths:
                     #  Certificate not found
           content: {}
 
-  /DirectoryEntries/{uid}/Certificates/{certificateEntryID}:
-    put:
-      tags:
-      - Certificate Administration
-      summary: Der Zertifikatseintrag wird mit den übergebenen Daten aktualisiert. 
-      operationId: modify_Directory_Entry_Certificate
-      parameters:
-      - name: uid
-        in: path
-        description: ID vom übergeordneten Verzeichniseintrag
-        required: true
-        schema:
-          type: string
-      - name: certificateEntryID
-        in: path
-        description: ID von dem Zertifikat
-        required: true
-        schema:
-          type: string
-      requestBody:
-        description: Datensatz für die Aktualisierung des Eintrags
-
-                     Die Attribute müssen wie folgt belegt sein
-
-                      Attribut          Wert 
-                      -------------------------------------------
-                      dn.*              Nicht vorhanden (Adressierung erfolgt über uid & certificateEntryID in Path).
-                      telematikID       Kann optional belegt werden.
-                            Wird telematikID angegeben, dann muss diese telematikID mit der telematikID im userCertificate übereinstimmen.
-                      Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
-                      entryType         Nicht vorhanden (wird vom Verzeichnisdienst belegt)    
-                      professionOID     Nicht vorhanden (wird vom Verzeichnisdienst belegt)  
-                      usage             Kann optional belegt werden.
-                      userCertificate   unverändert gegenüber VZD
-                      description       Kann optional belegt werden.
-
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userCertificate'
-        required: true
-      responses:
-        200:
-          description: OK
-                    #  Der aktualisierte Zertifikatseintrag wird zurückgegeben.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/userCertificate'
-        400:
-          description: Bad Request
-                   #   Invalid ID supplied or userCertificate changed
-          content: {}
-        401:
-          description: Unauthorized
-                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-                    #  Certificate not found
-          content: {}
-        405:
-          description: Method Not Allowed
-                    #  Invalid input
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        422:
-          description: Unprocessable Entity
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-    delete:
-      tags:
-      - Certificate Administration
-      summary: Zertifikatseintrag löschen
-            Dem Verzeichniseintrag muss immer mindestens ein Zertifikat zugeordnet sein. Wenn nach dem Löschen kein Zertifikat mehr dem Verzeichniseintrag zugeordnet wäre, muss die delete Operation abgelehnt werden. 
-      operationId: delete_Directory_Entry_Certificate
-      parameters:
-      - name: uid
-        in: path
-        description: ID vom übergeordneten Verzeichniseintrag
-        required: true
-        schema:
-          type: string
-      - name: certificateEntryID
-        in: path
-        description: ID von dem zu löschenden Zertifikatseintrag
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: OK
-          content: {}
-        400:
-          description: Bad Request
-                    #  Invalid ID supplied
-          content: {}
-        401:
-          description: Unauthorized
-                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-                     # Certificate not found
-          content: {}
 
 components:
 
@@ -752,11 +689,34 @@ components:
         domainID:
           maxItems: 100
           type: array
-          description: 'Ärzte: Betriebsstättennummer
+          description: 'Ärzte-> Betriebsstättennummer
                         Der Wert wird aus dem Zertifikat übernommen (Attribut organizationName)'
           items:
             type: string
             example: 345678975
+        owner:
+          maxItems: 100
+          type: array
+          description: Identifiziert den Eigentümer dieses Verzeichniseintrags, der Änderungen an ihm vornehmen darf.
+            Beim Anlegen eines neuen Verzeichniseintrags (add_Directory_Entry)
+              - Ist im add_Directory_Entry Request das Attribut "owner" nicht vorhanden oder enthält keine Werte
+                 o Wird vom VZD aus dem ID_TOKEN claim scope der Wert entnommen und als "owner" in dieses Attribut eingetragen. 
+              - Ist im add_Directory_Entry Request das Attribut "owner" vorhanden und mit Inhalten gefüllt
+                 o Übernimmt der VZD die Werte aus dem Request und trägt sie - nach Prüfung ihrer Gültigkeit - in den Verzeuichniseintrag ein. 
+                   Ist ein Wert aus dem Request nicht gültig, weist der VZD die Operation mit HTTP-Status-Code 422 ab.
+            Beim Ändern eines neuen Verzeichniseintrags (modify_Directory_Entry)
+              - Ist im modify_Directory_Entry Request das Attribut "owner" nicht vorhanden oder enthält keine Werte
+                 o Die Werte im aktuellen "owner" Attribut des Verzeichniseintrags bleiben erhalten.
+              - Ist im add_Directory_Entry Request das Attribut "owner" vorhanden und mit Inhalten gefüllt
+                 o Übernimmt der VZD die Werte aus dem Request und trägt sie - nach Prüfung ihrer Gültigkeit - in den Verzeuichniseintrag ein. 
+                   Ist ein Wert aus dem Request nicht gültig, weist der VZD die Operation mit HTTP-Status-Code 422 ab.
+          items:
+            type: string
+            example: KartenHerausgeberABC
+        maxKOMLEadr:
+          type: string
+          description: Maximale Anzahl von mail Adressen in den KOM-LE Fachdaten. Falls kein Wert eingetragen wurde, können beliebig viele mail Adressen in den KOM-LE Fachdaten eingetragen werden. Falls ein Wert eingetragen wurde, können maximal so viele mail Adressen in den KOM-LE Fachdaten eingetragen werden.
+          example: 1
         personalEntry:
           type: boolean
           description: Wird vom VZD eingetragen / Wert == TRUE, wenn alle Zertifikate
@@ -802,7 +762,31 @@ components:
     DirectoryEntries:
       type: array
       items:
-        $ref: '#/components/schemas/DirectoryEntry'
+       $ref: '#/components/schemas/DirectoryEntry'
+
+    searchControlValue:
+    # https://tools.ietf.org/html/rfc2696
+    # Mit den Parametern dieser Datenstruktur kann das Paging von LDAP Suchergebnissen entsprechend RFC2696 gesteuert werden.
+    # Mit dem Paging können alle (oder eine Teilmenge) eigenen Verzeichniseinträge gelesen werden, auch wenn das Limit von 100 Suchergebnissen überschritten wird.
+    # Paging ist nur für eigene Verzeichniseinträge erlaubt. Deshalb muss bei Verwendung des Pagings zwingend der "owner" Suchparameter angegeben werden 
+    # und den eigenen ownerID (entsprechend dem Wert im ID_Token) enthalten. Wird Paging nicht mit dem korrekten "owner" Suchparameter ausgeführt,
+    # wird mit einem Fehler (HTTP Status Code 403) geantwortet.
+    # Die Suchparameter müssen während eines Pagings (mit mehreren Request/Response Sequenzen) identisch sein (nur das "cookie" ändert sich). 
+      type: object
+      properties:
+        size:
+          type: integer
+      # Im Request gibt der Client die gewünschte Paging Größe an (Maximalgröße entsprechend TIP1-A_5552). 
+      #    Maximal diese Anzahl von Verzeichniseinträgen sind in einer Antwort enthalten.
+      # Im Response trägt der Verzeichnisdienst in diesen Parameter die gesamte Anzahl von gefundenen Verzeichniseinträge an.
+        cookie:
+          type: string
+      # Im ersten Request übergibt der Client einen leeren String in diesem Parameter. 
+      # In jedes Response trägt der Verzeichnisdienst in diesen Parameter ein Cookie ein, über den das Paging zum nächsten Ergebnis erfolgt.
+      # Der Client übernimmt dieses Cookie jeweils in den folgenden Request und erhält die nachsten Verzeichniseinträge.
+      # Für den Client ist das Cookie transparent und darf nicht von ihm manipuliert werden.
+      # In dem letzten Response - mit den letzten Verzeichniseinträgen - liefert der Verzeichnisdienst in diesem Parameter einen leeren String.
+
             
     Error:
       type: object

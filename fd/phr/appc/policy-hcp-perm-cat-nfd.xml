@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Mittelgranular: Kategorie "category_nfd" -->
-<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:nfd" xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides" Version="4.0">
+<!-- Mittelgranular: Kategorie "Notfalldaten" -->
+<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:nfd" xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides" Version="4.0">
 	<Target/>
 	<!--Notfalldatensatz -->
 	<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:categories:nfd:nfd" Effect="Permit">

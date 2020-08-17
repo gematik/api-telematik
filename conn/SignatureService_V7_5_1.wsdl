@@ -3,6 +3,9 @@
 <!-- 	                    Copyright (C) 2020 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History			
+			version: V7.5.1
+			===========
+			*** C_10147: Härtung Attribut Shorttext   
 			version: V7.5.0
 			===========
 			*** C_6997: Komfortsignatur   
@@ -26,11 +29,11 @@
 	<documentation>
 		Copyright (c) 2020, gematik GmbH. Alle Rechte vorbehalten.
 		Beschreibung: Konnektor Signatur Basisanwendung
-		version=7.5.0 
+		version=7.5.1 
 	</documentation>
 	<types>
 		<xs:schema>
-			<xs:import schemaLocation="SignatureService_V7_5_0.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.5"/>
+			<xs:import schemaLocation="SignatureService_V7_5_1.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.5"/>
 			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
 			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
 		</xs:schema>

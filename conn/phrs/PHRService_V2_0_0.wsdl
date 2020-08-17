@@ -3,6 +3,9 @@
 <!-- 	                    Copyright (C) 2020 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
+           version: V2.0.1 (R4.0.1: Version wird nur an 3.Stelle erhöht, da R4.0.1 das R4.0.0 ersetzt)
+				* Operation RemoveDocuments (ITI-86: Remove Documents) entfernt
+				* Operation DeleteDocumentSet neu (IHE RMD ITI-62: Remove Metadata)
             version: V2.0.0
 				* Operation RestrictedUpdateDocumentSet entfernt
             version: V1.4.0
@@ -25,7 +28,7 @@
 	<wsdl:documentation>
         Copyright (c) 2020, gematik GmbH. Alle Rechte vorbehalten.
         Beschreibung: Dienst zur Dokumentenwaltung der Fachanwendung ePA/ePF
-        Version=2.0.0
+        Version=2.0.1
     </wsdl:documentation>
 	<wsdl:types>
 		<xsd:schema>
@@ -62,12 +65,11 @@
 	<wsdl:message name="ProvideAndRegisterDocumentSet-bResponse_Message">
 		<wsdl:part name="bodyPart" element="rs:RegistryResponse"/>
 	</wsdl:message>
-	<wsdl:message name="RemoveDocuments_Message">
+	<wsdl:message name="DeleteDocumentSet_Message">
 		<wsdl:part name="headerPart" element="phrs:ContextHeader"/>
-		<wsdl:part name="bodyPart" element="rmd:RemoveDocumentsRequest"/>
+		<wsdl:part name="bodyPart" element="lcm:RemoveObjectsRequest"/>
 	</wsdl:message>
-	<wsdl:message name="RemoveDocumentsResponse_Message">
-		<wsdl:documentation>Remove Documents Response</wsdl:documentation>
+	<wsdl:message name="DeleteDocumentSetResponse_Message">
 		<wsdl:part name="bodyPart" element="rs:RegistryResponse"/>
 	</wsdl:message>
 	<wsdl:portType name="PHRService_PortType">
@@ -83,15 +85,15 @@
 			<wsdl:input message="phrsWSDL:ProvideAndRegisterDocumentSet-b_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b"/>
 			<wsdl:output message="phrsWSDL:ProvideAndRegisterDocumentSet-bResponse_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-bResponse"/>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_RemoveDocuments">
-			<wsdl:input message="phrsWSDL:RemoveDocuments_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
-			<wsdl:output message="phrsWSDL:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
+		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
+			<wsdl:input message="phrsWSDL:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSet"/>
+			<wsdl:output message="phrsWSDL:DeleteDocumentSetResponse_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSetResponse"/>
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="PHRService_Binding_Soap12" type="phrsWSDL:PHRService_PortType">
 		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsaw:UsingAddressing wsdl:required="true"/>
-		<wsdl:operation name="DocumentRegistry_RegistryStoredQuery" >
+		<wsdl:operation name="DocumentRegistry_RegistryStoredQuery">
 			<soap12:operation soapAction="urn:ihe:iti:2007:RegistryStoredQuery" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:header message="phrsWSDL:RegistryStoredQuery_Message" part="headerPart" use="literal"/>
@@ -101,7 +103,7 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_ProvideAndRegisterDocumentSet-b" >
+		<wsdl:operation name="DocumentRepository_ProvideAndRegisterDocumentSet-b">
 			<soap12:operation soapAction="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:header message="phrsWSDL:ProvideAndRegisterDocumentSet-b_Message" part="headerPart" use="literal"/>
@@ -121,10 +123,10 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_RemoveDocuments">
-			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
+		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
+			<soap12:operation soapAction="urn:ihe:iti:2010:DeleteDocumentSet" soapActionRequired="false"/>
 			<wsdl:input>
-				<soap12:header message="phrsWSDL:RemoveDocuments_Message" part="headerPart" use="literal"/>
+				<soap12:header message="phrsWSDL:DeleteDocumentSet_Message" part="headerPart" use="literal"/>
 				<soap12:body parts="bodyPart" use="literal"/>
 			</wsdl:input>
 			<wsdl:output>

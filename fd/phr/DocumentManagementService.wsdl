@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" name="DocumentManagementService" targetNamespace="urn:ihe:iti:xds-b:2007">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:ns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" name="DocumentManagementService" targetNamespace="urn:ihe:iti:xds-b:2007">
 	<wsdl:types>
 		<xsd:schema elementFormDefault="qualified" targetNamespace="urn:ihe:iti:xds-b:2007" xmlns:ihe="urn:ihe:iti:xds-b:2007">
 			<xsd:include schemaLocation="../../ext/IHE/XDS.b_DocumentRepository.xsd"/>
@@ -38,10 +38,10 @@
 	<wsdl:message name="RegistryStoredQueryResponse_Message">
 		<wsdl:part name="body" element="query:AdhocQueryResponse"/>
 	</wsdl:message>
-	<wsdl:message name="RemoveDocuments_Message">
-		<wsdl:part name="body" element="rmd:RemoveDocumentsRequest"/>
+	<wsdl:message name="DeleteDocumentSet_Message">
+		<wsdl:part name="body" element="lcm:RemoveObjectsRequest"/>
 	</wsdl:message>
-	<wsdl:message name="RemoveDocumentsResponse_Message">
+	<wsdl:message name="RegistryResponse">
 		<wsdl:part name="body" element="rs:RegistryResponse"/>
 	</wsdl:message>
 	<wsdl:message name="UpdateResponder_RestrictedUpdateDocumentSet">
@@ -63,9 +63,9 @@
 			<wsdl:input message="ihe:RegistryStoredQuery_Message" wsaw:Action="urn:ihe:iti:2007:CrossGatewayQuery"/>
 			<wsdl:output message="ihe:RegistryStoredQueryResponse_Message" wsaw:Action="urn:ihe:iti:2007:CrossGatewayQueryResponse"/>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_RemoveDocuments">
-			<wsdl:input message="ihe:RemoveDocuments_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
-			<wsdl:output message="ihe:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
+		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
+			<wsdl:input message="ihe:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
+			<wsdl:output message="ihe:RegistryResponse" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:portType name="I_Document_Management_Insurance_PortType">
@@ -87,9 +87,9 @@
 			<wsdl:input message="ihe:ProvideAndRegisterDocumentSet-b_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b"/>
 			<wsdl:output message="ihe:ProvideAndRegisterDocumentSet-bResponse_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-bResponse"/>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_RemoveDocuments">
-			<wsdl:input message="ihe:RemoveDocuments_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
-			<wsdl:output message="ihe:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
+		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
+			<wsdl:input message="ihe:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
+			<wsdl:output message="ihe:RegistryResponse" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
 		</wsdl:operation>
 		<wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
 			<wsdl:input message="ihe:UpdateResponder_RestrictedUpdateDocumentSet" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSet"/>
@@ -126,8 +126,8 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_RemoveDocuments">
-			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
+		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
+			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -179,7 +179,7 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="DocumentRepository_RemoveDocuments">
+		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
 			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>

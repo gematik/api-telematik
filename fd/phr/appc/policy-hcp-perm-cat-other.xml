@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Mittelgranular: Kategorie "category_other" -->
-<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:category_other" xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides" Version="4.0">
+<!-- Mittelgranular: Kategorie "Sonstige von der LEI bereitgestellte (nicht medizinische) Dokumente" -->
+<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:category_other" xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides" Version="4.0">
     <!-- practiceSettingCode = 1.3.6.1.4.1.19376.3.276.1.5.4 (ärztlich) -->
     <Target>
         <Resources>

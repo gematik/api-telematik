@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xacml:2.0:policy:schema:os ../../../ext/IHE/ihe-appc-xacml-combined-schema-1.0.xsd" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base" Version="4.0">
+
+<!-- BEISPIELPOLICY -->
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base" Version="4.0">
     <Target/>
     
     <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:container" Version="4.0">
@@ -140,101 +142,101 @@
     <!-- Setzen der mittelgranularen Berechtigung  -->
     <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:categories" Version="4.0">
         <Target/>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_emp" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Medikationsplan" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:emp
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_nfd" (Notfalldatensatz/Persönliche Erklärung) -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Notfalldaten" (Notfalldatensatz/Persönliche Erklärung) -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:nfd
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_eab" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "eArztbrief" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:eab
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_dentalrecord" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Zahnbonusheft" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:dentalrecord
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_childsrecord" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Kinderuntersuchungsheft" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:childsrecord
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_mothersrecord" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Mutterpass" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:mothersrecord
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_vaccination" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Impfpass" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:vaccination
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_patientdoc" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Vom Versicherten eingestellte Dokumente" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:patientdoc
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_ega" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "eGA-Daten" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:ega
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_receipt" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Quittungen" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:receipt
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_care" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Pflegedokumente" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:care
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_prescription" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Rezept" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:prescription
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_eau" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Arbeitsunfähigkeitsbescheinigung" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:eau
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_other" -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Sonstige von der LEI bereitgestellte (nicht medizinische) Dokumente" -->
         <PolicyIdReference>
             urn:gematik:policy-id:permissions-access-group-hcp:categories:other
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a1") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Hausarzt/ Hausärztin") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a1
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:practitioner
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a2") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Krankenhaus") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a2
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:hospital
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a3") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Labor- und Humangenetik") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a3
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:laboratory
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a4") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Physiotherapeuten") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a4
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:physiotherapy
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a5") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Psychotherapeuten") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a5
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:psychotherapy
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a6") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Dermatologie") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a6
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:dermatology
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a7") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Urologie/Gynäkologie") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a7
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:gynaecology_urology
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a8") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Zahnheilkunde und Mund-Kiefer-Gesichtschirurgie") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a8
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:dentistry_oms
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a9") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Weitere Fachärzte/Fachärztinnen") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a9
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:other_medical
         </PolicyIdReference>
-        <!-- Inkludieren für Berechtigung auf Kategorie "category_1a10") -->
+        <!-- Inkludieren für Berechtigung auf Kategorie "Weitere nicht-ärztliche Berufe") -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_1a10
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:other_non_medical
         </PolicyIdReference>
 
         <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt, wenn keine der oben genannten Kategorien passt -->

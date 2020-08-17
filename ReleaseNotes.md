@@ -1,3 +1,14 @@
+# Release 4.0.1-Pre1
+- VZD: changes in admin interface
+ - Konnektor: SignatureService hardening of attribute ShortText (C_10147)
+ - Konnektor: added old schema versions, which must be supported (C_10215)
+ - Konnektor (Fachmodul ePA): DocumentCategoryEnum improved
+ - Konnektor (Fachmodul ePA): operation RemoveDocuments removed
+ - Konnektor (Fachmodul ePA): operation DeleteDocumentSet added
+ - ePA: Policies for 4.0.1 improved
+ - ePA: Policy for eArztbrief added
+
+
 # Release 4.0.0
 - ePA: Fehlerkorrektur im PHRManagement- und PHRService
  - ePA: APPC-Policies für das kommende Release (neues Berechtigungssystem) angepasst.
