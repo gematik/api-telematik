@@ -1,3 +1,7 @@
+# Release 3.1.3-H3
+- Keine Änderungen gegenüber dem 3.1.3-H3-Pre1
+
+
 # Release 3.1.3-H3-Pre1
 - Konnektor: add old versions of Signature-, Encryption-, Signature Service (C_10215)
  - ePA FD: bugfixing
