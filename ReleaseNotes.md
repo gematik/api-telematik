@@ -1,3 +1,7 @@
+# Release 3.1.3-H4
+- Konnektor: C_10282 - Defaultwert für Parameter "Crypt" aus XML-Schema entfernen
+
+
 # Release 3.1.3-H3
 - Keine Änderungen gegenüber dem 3.1.3-H3-Pre1
 

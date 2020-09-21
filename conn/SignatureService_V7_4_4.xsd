@@ -4,6 +4,9 @@
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History  
+            version: V7.4.4
+			===========
+			*** C_10282: Defaultwert für Parameter "Crypt" aus XML-Schema entfernen              
 			version: V7.4.3
 			===========
 			*** C_6683: ECC-Migration   
@@ -48,7 +51,7 @@
         <complexType>
             <sequence>
                 <element ref="CONN:CardHandle"/>
-                <element name="Crypt" default="RSA" minOccurs="0">
+                <element name="Crypt" minOccurs="0">
                     <simpleType>
                         <restriction base="string">
                             <enumeration value="RSA"/>
