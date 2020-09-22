@@ -1,3 +1,7 @@
+# Release 3.1.3-H4.1
+NFDM: Fehlerhaft Veröffentlichung von NFD_Document_v1_5.xsd revidiert
+
+
 # Release 3.1.3-H4
 - Konnektor: C_10282 - Defaultwert für Parameter "Crypt" aus XML-Schema entfernen
 
