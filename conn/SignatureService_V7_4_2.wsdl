@@ -3,6 +3,9 @@
 <!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History			
+            version: V7.4.2
+			===========
+			*** C_10282: Defaultwert für Parameter "Crypt" aus XML-Schema entfernen
             version: V7.4.1
 			===========
 			*** C_6683: ECC-Migration              
@@ -27,7 +30,7 @@
 	</documentation>
     <types>
         <xs:schema>
-            <xs:import schemaLocation="SignatureService_V7_4_3.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.4"/>
+            <xs:import schemaLocation="SignatureService_V7_4_4.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.4"/>
             <xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
             <xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
         </xs:schema>

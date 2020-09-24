@@ -3,6 +3,9 @@
 <!-- 	                    Copyright (C) 2020 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History			
+            version: V7.5.2
+			===========
+			*** C_10282: Defaultwert für Parameter "Crypt" aus XML-Schema entfernen
 			version: V7.5.1
 			===========
 			*** C_10147: Härtung Attribut Shorttext   
@@ -33,7 +36,7 @@
 	</documentation>
 	<types>
 		<xs:schema>
-			<xs:import schemaLocation="SignatureService_V7_5_1.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.5"/>
+			<xs:import schemaLocation="SignatureService_V7_5_2.xsd" namespace="http://ws.gematik.de/conn/SignatureService/v7.5"/>
 			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
 			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
 		</xs:schema>

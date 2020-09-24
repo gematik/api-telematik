@@ -1,3 +1,9 @@
+# Release 4.0.1-Pre2
+- vzd: baseEntryOnly Suchparameter in GET Operation hinzugefügt
+ - Konnektor: C_10282 - Defaultwert für Parameter "Crypt" aus XML-Schema entfernen
+ - Konnektor, NFDM: revert C_7098 NFD_Document_1_5 -> 1_4
+
+
 # Release 4.0.1-Pre1
 - VZD: changes in admin interface
  - Konnektor: SignatureService hardening of attribute ShortText (C_10147)

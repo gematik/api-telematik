@@ -3,7 +3,11 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.2.0
+  version: 1.2.1
+  # Änderungen in Version 1.2.1
+  #   - /DirectoryEntries
+  #       read_Directory_Entry: 
+  #          Suchparameter "baseEntryOnly" ergänzt
   # Änderungen in Version 1.2.0
   #   - /DirectoryEntries
   #       read_Directory_Entry: 
@@ -202,6 +206,12 @@ paths:
         description: Erlaubt die Suche mit Hilfe des Attributs dataFromAuthority. 
         schema:
           type: string  
+      - name: baseEntryOnly
+        in: query
+        description: Mit baseEntryOnly = "true" wird nur der Basiseintrag (baseDirectoryEntry) im Response zurückgegeben. Falls nicht angegeben oder mit "false" belegt, wird der gesamte Verzeichniseintrag mit Zertifikaten und Fachdaten im Response zurückgegeben.
+        schema:
+          type: boolean
+          example: true
           
     # Paging Parameter entsprechend https://tools.ietf.org/html/rfc2696
     # Paging ist nur für eigene Verzeichniseinträge erlaubt. Deshalb muss bei
