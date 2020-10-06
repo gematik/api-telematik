@@ -27,3 +27,11 @@
 |tel\               |__Architektur und übergreifende Dokumente__
 |vpnzugd\           |__VPN-Zugangsdienst__
 |vzd\               |__Verzeichnisdienst__
+
+# Konnektor
+## Komfortsignatur
+Für den PTV4 mit Komfortsignatur enthält dieses Schemapaket auch
+- conn\SignatureService_V7_5_2.wsdl
+- conn\SignatureService_V7_5_2.xsd
+
+Der PTV4 Konnektor ohne Komfortsignatur muss diese nicht umsetzen.

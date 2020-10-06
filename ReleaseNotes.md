@@ -1,3 +1,10 @@
+# Release 3.1.3-H5-Pre1
+- Konnektor: add Comfort Signature (C_6997)
+ - Konnektor: fix versions AuthSignatureService (C_10306)
+ - Konnektor: fix CardService filenames and includes (C_10308)
+ - VZD: fix for more than 100 search results (C_10299)
+
+
 # Release 3.1.3-H4.1
 NFDM: Fehlerhaft Veröffentlichung von NFD_Document_v1_5.xsd revidiert
 

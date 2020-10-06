@@ -3,7 +3,20 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.1.0
+  version: 1.1.2
+  # Änderungen in Version 1.1.2
+  #   - /DirectoryEntries
+  #       get - Response Fehlercode 400 gestrichen. 
+  #       Bei mehr als 100 gefundenen Einträgen werden nur die ersten 100
+  #       gefundenen Einträge zurückgegeben (Response 200).
+  #   - /DirectoryEntries/Certificates
+  #       get - Response Fehlercode 400 gestrichen. 
+  #       Bei mehr als 100 gefundenen Einträgen werden nur die ersten 100
+  #       gefundenen Einträge zurückgegeben (Response 200).
+  # Änderungen in Version 1.1.1
+  #   - /DirectoryEntries/Certificates
+  #       get - UID ist kein Pflichtparameter mehr um die Suche mit der TelematikID zu ermöglichen
+  #   - Texte der HTTP Fehlercodes angepasst
 externalDocs:
   description: Schnittstelle zur Pflege der Verzeichniseinträge
   url: http://www.gematik.de
@@ -62,20 +75,20 @@ paths:
       responses:
         201:
           description: Created
-                       Der Verzeichniseintrag wurde angelegt. Zurückgegeben wird der distinguishedName des erzeugten Eintrags.
+                     # Der Verzeichniseintrag wurde angelegt. Zurückgegeben wird der distinguishedName des erzeugten Eintrags.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/distinguishedName'
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+                     # Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
           content: {}
         403:
           description: Forbidden
           content: {}
         405:
-          description: Invalid input
+          description: Method Not Allowed
           content:
             application/json:
               schema:
@@ -179,29 +192,22 @@ paths:
 
       responses:
         200:
-          description: successful operation
-                       Es werden alle zu dem Filter Parametern passenden Verzeichniseinträge - inklusive Zertifikaten und Fachdaten - zurückgegeben.
+          description: OK
+                      Es werden alle zu dem Filter Parametern passenden Verzeichniseinträge - inklusive Zertifikaten und Fachdaten - zurückgegeben. 
+                      Bei mehr als 100 gefundenen Einträgen werden nur die ersten 100 gefundenen Einträge zurückgegeben.          
           content:
             application/json:
               schema:
                   $ref: '#/components/schemas/DirectoryEntries'
-        400:
-          description: Bad Request
-                       Wird zurückgegeben wenn mehr als 100 Einträge gefunden wurden.
-                       In diesem Fall müssen die Filter Parameter vom Client genauer belegt werden.
-          content: 
-            application/json:
-              schema:
-               type: string
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response wird auf OAuth gesetzt.
+                    #  Der WWW-Authenticate Header im Response wird auf OAuth gesetzt.
           content: {}
         403:
           description: Forbidden
           content: {}
         404:
-          description: DirectoryEntry not found
+          description: Not Found
           content: {}
 
   /DirectoryEntries/{uid}/baseDirectoryEntries:
@@ -246,26 +252,28 @@ paths:
         required: true
       responses:
         200:
-          description: Der Verzeichniseintrag wurde aktualisiert.
+          description: OK
+                     # Der Verzeichniseintrag wurde aktualisiert.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/distinguishedName'
         400:
-          description: Invalid ID supplied
+          description: Bad Request
+                     # Invalid ID supplied
           content: {}
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+                     # Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
           content: {}
         403:
           description: Forbidden
           content: {}
         404:
-          description: DirectoryEntry not found
+          description: Not Found
           content: {}
         405:
-          description: Invalid input
+          description: Method Not Allowed
           content:
             application/json:
               schema:
@@ -289,20 +297,21 @@ paths:
           type: string
       responses:
         200:
-          description: Successful operation
+          description: OK
           content: {}
         400:
-          description: Invalid ID supplied
+          description: Bad Request
+                     # Invalid ID supplied
           content: {}
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
           content: {}
         403:
           description: Forbidden
           content: {}
         404:
-          description: DirectoryEntry not found
+          description: Not Found
           content: {}
 
   /DirectoryEntries/{uid}/Certificates:
@@ -342,20 +351,20 @@ paths:
       responses:
         201:
           description: Created
-                       Der Zertifikatseintrag wurde hinzugefügt. Zurückgegeben wird der distinguishedName des erzeugten Eintrags.
+                      # Der Zertifikatseintrag wurde hinzugefügt. Zurückgegeben wird der distinguishedName des erzeugten Eintrags.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/distinguishedName'
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
           content: {}
         403:
           description: Forbidden
           content: {}
         405:
-          description: Invalid input
+          description: Method Not Allowed
           content:
             application/json:
               schema:
@@ -380,7 +389,6 @@ paths:
       - name: uid
         in: query
         description: ID vom übergeordneten Verzeichniseintrag
-        required: true
         schema:
           type: string
       - name: certificateEntryID
@@ -416,29 +424,23 @@ paths:
 
       responses:
         200:
-          description: successful operation
-                       Es werden alle gefundenen Zertifikatseinträge zurückgegeben.
+          description: OK
+                    Es werden alle gefundenen Zertifikatseinträge zurückgegeben.
+                    Bei mehr als 100 gefundenen Einträgen werden nur die ersten 100 gefundenen Einträge zurückgegeben.
           content:
             application/json:
               schema:
                   $ref: '#/components/schemas/userCertificates'
-        400:
-          description: Bad Request
-                       Wird zurückgegeben wenn mehr als 100 Einträge gefunden wurden.
-                       In diesem Fall müssen die Filter Parameter vom Client genauer belegt werden.
-          content: 
-            application/json:
-              schema:
-               type: string
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
           content: {}
         403:
           description: Forbidden
           content: {}
         404:
-          description: Certificate not found
+          description: Not Found
+                    #  Certificate not found
           content: {}
 
   /DirectoryEntries/{uid}/Certificates/{certificateEntryID}:
@@ -484,26 +486,30 @@ paths:
         required: true
       responses:
         200:
-          description: Der aktualisierte Zertifikatseintrag wird zurückgegeben.
+          description: OK
+                    #  Der aktualisierte Zertifikatseintrag wird zurückgegeben.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/userCertificate'
         400:
-          description: Invalid ID supplied or userCertificate changed
+          description: Bad Request
+                   #   Invalid ID supplied or userCertificate changed
           content: {}
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
           content: {}
         403:
           description: Forbidden
           content: {}
         404:
-          description: Certificate not found
+          description: Not Found
+                    #  Certificate not found
           content: {}
         405:
-          description: Invalid input
+          description: Method Not Allowed
+                    #  Invalid input
           content:
             application/json:
               schema:
@@ -536,20 +542,22 @@ paths:
           type: string
       responses:
         200:
-          description: Successful operation
+          description: OK
           content: {}
         400:
-          description: Invalid ID supplied
+          description: Bad Request
+                    #  Invalid ID supplied
           content: {}
         401:
           description: Unauthorized
-                       Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
+                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
           content: {}
         403:
           description: Forbidden
           content: {}
         404:
-          description: Certificate not found
+          description: Not Found
+                     # Certificate not found
           content: {}
 
 components:
