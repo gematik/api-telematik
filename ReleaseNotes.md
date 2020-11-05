@@ -1,3 +1,8 @@
+# Release 3.1.3-H5
+- All: fix version in comments, documentation-, annotation tag and schema to be the same 
+ - Konnektor: remove LDSM (LogDatenSendeModul) XSD (C_7009) 
+
+
 # Release 3.1.3-H5-Pre1
 - Konnektor: add Comfort Signature (C_6997)
  - Konnektor: fix versions AuthSignatureService (C_10306)

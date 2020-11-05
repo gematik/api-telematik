@@ -26,7 +26,7 @@
     <documentation>
 		Copyright (c) 2016, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: Konnektor Signatur Basisanwendung
-		version=7.4.1 
+		version=7.4.2 
 	</documentation>
     <types>
         <xs:schema>

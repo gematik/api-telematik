@@ -17,7 +17,7 @@
 			* UnprotectedProperties im Rahmen von KOM-LE Änderungen
 
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:CRYPT="http://ws.gematik.de/conn/EncryptionService/v6.1" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" targetNamespace="http://ws.gematik.de/conn/EncryptionService/v6.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.1.1">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:CRYPT="http://ws.gematik.de/conn/EncryptionService/v6.1" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" targetNamespace="http://ws.gematik.de/conn/EncryptionService/v6.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.1.2">
     <annotation>
         <documentation xml:lang="de">
 			Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
