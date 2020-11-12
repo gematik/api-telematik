@@ -3,7 +3,17 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.2.1
+  version: 1.2.2
+  # Änderungen in Version 1.2.2
+  # Übernahme der Änderungen aus f_r313_hotfix_5 (version 1.1.2)
+  #   - /DirectoryEntries
+  #       get - Response Fehlercode 400 gestrichen. 
+  #       Bei mehr als 100 gefundenen Einträgen werden nur 100
+  #       gefundenen Einträge zurückgegeben (Response 200), falls kein Paging genutzt wird.
+  #   - /DirectoryEntries/Certificates
+  #       get - Response Fehlercode 400 gestrichen. 
+  #       Bei mehr als 100 gefundenen Einträgen werden nur 100
+  #       gefundenen Einträge zurückgegeben (Response 200).
   # Änderungen in Version 1.2.1
   #   - /DirectoryEntries
   #       read_Directory_Entry: 
@@ -235,22 +245,13 @@ paths:
         200:
           description: OK
                     #  Es werden alle zu dem Filter Parametern passenden Verzeichniseinträge - inklusive Zertifikaten und Fachdaten - zurückgegeben.
+                    # Bei mehr als 100 gefundenen Einträgen und ohne paging werden nur 100 gefundenen Einträge zurückgegeben.
           content:
             application/json:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/searchControlValue'
                   - $ref: '#/components/schemas/DirectoryEntries'
-
-
-        400:
-          description: Bad Request
-                    #  Wird zurückgegeben wenn mehr als 100 Einträge gefunden wurden.
-                    #  In diesem Fall müssen die Filter Parameter vom Client genauer belegt werden.
-          content: 
-            application/json:
-              schema:
-               type: string
         401:
           description: Unauthorized
                     #  Der WWW-Authenticate Header im Response wird auf OAuth gesetzt.
@@ -487,18 +488,11 @@ paths:
         200:
           description: OK
                     #  Es werden alle gefundenen Zertifikatseinträge zurückgegeben.
+                    # Bei mehr als 100 gefundenen Einträgen nur 100 gefundenen Einträge zurückgegeben.
           content:
             application/json:
               schema:
                   $ref: '#/components/schemas/userCertificates'
-        400:
-          description: Bad Request
-                     # Wird zurückgegeben wenn mehr als 100 Einträge gefunden wurden.
-                     # In diesem Fall müssen die Filter Parameter vom Client genauer belegt werden.
-          content: 
-            application/json:
-              schema:
-               type: string
         401:
           description: Unauthorized
                     #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.

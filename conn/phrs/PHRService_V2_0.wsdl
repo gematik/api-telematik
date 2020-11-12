@@ -32,7 +32,7 @@
     </wsdl:documentation>
 	<wsdl:types>
 		<xsd:schema>
-			<xsd:import namespace="http://ws.gematik.de/conn/phrs/PHRService/v2.0" schemaLocation="PHRService_V2_0_0.xsd"/>
+			<xsd:import namespace="http://ws.gematik.de/conn/phrs/PHRService/v2.0" schemaLocation="PHRService_V2_0.xsd"/>
 			<xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" schemaLocation="../../ext/ebRS/query.xsd"/>
 			<xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" schemaLocation="../../ext/ebRS/rs.xsd"/>
 			<xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" schemaLocation="../../ext/ebRS/lcm.xsd"/>

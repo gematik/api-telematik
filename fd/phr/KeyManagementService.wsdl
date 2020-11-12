@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2020 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+ 			version: V1.0
+			=============
+				* Initiale Version: Operationen zur Umschlüsselung-->
+<!-- ===================== End of Version History =============================== -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" xmlns:ns="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/fa/phrext/v1.0" xmlns:ns2="http://ws.gematik.de/fa/vsdm/vsd/v5.2" xmlns:ns3="urn:hl7-org:v3" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns4="http://www.w3.org/2000/09/xmldsig#" xmlns:ns5="http://www.w3.org/2001/04/xmlenc#" name="KeyManagementService" targetNamespace="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0">
+	<wsdl:documentation>
+		Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		version=1.0.1 
+	</wsdl:documentation>
+	<wsdl:types>
+		<xs:schema>
+			<xs:import schemaLocation="KeyManagementService.xsd" namespace="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0"/>
+			<xs:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="StartKeyChangeRequestMessage">
+		<wsdl:part name="body" element="tns:StartKeyChange"/>
+	</wsdl:message>
+	<wsdl:message name="StartKeyChangeResponseMessage">
+		<wsdl:part name="body" element="tns:StartKeyChangeResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetAllDocumentKeysRequestMessage">
+		<wsdl:part name="body" element="tns:GetAllDocumentKeys"/>
+	</wsdl:message>
+	<wsdl:message name="GetAllDocumentKeysResponseMessage">
+		<wsdl:part name="body" element="tns:GetAllDocumentKeysResponse"/>
+	</wsdl:message>
+	<wsdl:message name="PutAllDocumentKeysRequestMessage">
+		<wsdl:part name="body" element="tns:PutAllDocumentKeys"/>
+	</wsdl:message>
+	<wsdl:message name="PutAllDocumentKeysResponseMessage">
+		<wsdl:part name="body" element="tns:PutAllDocumentKeysResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FinishKeyChangeRequestMessage">
+		<wsdl:part name="body" element="tns:FinishKeyChange"/>
+	</wsdl:message>
+	<wsdl:message name="FinishKeyChangeResponseMessage">
+		<wsdl:part name="body" element="tns:FinishKeyChangeResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FaultMessage">
+		<wsdl:part name="body" element="gerror:Error"/>
+	</wsdl:message>
+	<wsdl:portType name="I_Key_Management_Insurant_PortType">
+		<wsdl:operation name="StartKeyChange">
+			<wsdl:input message="tns:StartKeyChangeRequestMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/StartKeyChange"/>
+			<wsdl:output message="tns:StartKeyChangeResponseMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/StartKeyChangeResponse"/>
+			<wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/StartKeyChangeFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllDocumentKeys">
+			<wsdl:input message="tns:GetAllDocumentKeysRequestMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/GetAllDocumentKeys"/>
+			<wsdl:output message="tns:GetAllDocumentKeysResponseMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/GetAllDocumentKeysResponse"/>
+			<wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/GetAllDocumentKeysFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="PutAllDocumentKeys">
+			<wsdl:input message="tns:PutAllDocumentKeysRequestMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/PutAllDocumentKeys"/>
+			<wsdl:output message="tns:PutAllDocumentKeysResponseMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/PutAllDocumentKeysResponse"/>
+			<wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/PutAllDocumentKeysFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="FinishKeyChange">
+			<wsdl:input message="tns:FinishKeyChangeRequestMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/FinishKeyChange"/>
+			<wsdl:output message="tns:FinishKeyChangeResponseMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/FinishKeyChangeResponse"/>
+			<wsdl:fault name="FaultMessage" message="tns:FaultMessage" wsaw:Action="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/FinishKeyChangeFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="I_Key_Management_Insurant_Binding_Soap12" type="tns:I_Key_Management_Insurant_PortType">
+		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsaw:UsingAddressing wsdl:required="true"/>
+		<wsdl:operation name="StartKeyChange">
+			<soap12:operation soapAction="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/StartKeyChange" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetAllDocumentKeys">
+			<soap12:operation soapAction="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/GetAllDocumentKeys" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="PutAllDocumentKeys">
+			<soap12:operation soapAction="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/PutAllDocumentKeys" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FinishKeyChange">
+			<soap12:operation soapAction="http://ws.gematik.de/fd/phr/I_Account_Management_Insurant/v1.0/FinishKeyChange" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="KeyManagementService">
+		<wsdl:port name="I_Key_Management_Insurant" binding="tns:I_Key_Management_Insurant_Binding_Soap12">
+			<soap12:address location="http://servicelocation/I_Key_Management_Insurant"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

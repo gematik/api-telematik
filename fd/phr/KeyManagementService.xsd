@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- Copyright (C) 2020 gematik GmbH. Alle Rechte vorbehalten.             -->
+<!-- ===================================================================== -->
+<!-- 
+		Version History
+		
+			version: V1.0.0
+			===============
+			*** Initiale Erstellung: Operationen für Umschlüsselung
+
+	 	End of Version History
+-->
+<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" targetNamespace="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<xs:import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="../../ext/xenc-schema.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+	<xs:import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
+	<xs:element name="StartKeyChange">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<xs:element name="ContextKey" type="phrc:KeyType">
+					<xs:annotation>
+						<xs:documentation>Neuer Kontextschlüssel</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="RollbackTime" type="xs:base64Binary">
+					<xs:annotation>
+						<xs:documentation>Zeitpunkt (UTC-Zeit), an dem ein Rollback durchgeführt werden muss; signierte xsd:dateTime, base64-kodiert</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StartKeyChangeResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AuthorizedIDList" type="AuthorizedID" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetAllDocumentKeys">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<xs:element name="OkDate" type="xs:base64Binary">
+					<xs:annotation>
+						<xs:documentation>
+						Zeitpunkt, an dem die Komponente Autorisierung PutForReplacement() erfolgreich ausgeführt hat.
+						Signierte xsd:dateTime, base64-kodiert
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetAllDocumentKeysResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DocumentKeyList" type="KeyList" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Liste aller Document Keys, jeweils verschlüsselt mit altem Aktenschlüssel</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PutAllDocumentKeys">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<xs:element name="DocumentKeyList" type="KeyList" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Liste aller Document Keys, jeweils verschlüsselt mit neuem Aktenschlüssel</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PutAllDocumentKeysResponse"/>
+	<xs:element name="FinishKeyChange">
+		<xs:complexType>
+			<xs:sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<xs:element name="Success" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>
+						true: Umschlüsselung erfolgreich; 
+						false: Umschlüsselung nicht erfolgreich 
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FinishKeyChangeResponse"/>
+	<!-- Datentypen-->
+	<xs:complexType name="AuthorizedID">
+		<xs:sequence>
+			<xs:element name="ID" type="xs:string"/>
+			<xs:element name="Type" type="AuthorizedIDType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AuthorizedIDType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="KVNR"/>
+			<xs:enumeration value="TELEMATIK_ID"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="KeyList">
+		<xs:annotation>
+			<xs:documentation>Schlüsseleinträge, eines pro verschlüsseltem Dokumentenschlüssel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Key" type="KeyType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KeyType">
+		<xs:sequence>
+			<xs:element name="DocumentUniqueId"/>
+			<xs:element ref="xenc:EncryptedData"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

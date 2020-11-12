@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\4" -->
-<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- gematik revision="\main\rel_online\rel_ors1\5" -->
 <!-- ===================================================================== -->
-<!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History
-            version: V8.1.2
-			* EnablePin, DisablePin ergänzt
-            version: V8.1.1
-            * Operation AuthorizeSMC entfernt 
-              (kompatible Änderung aus Sicht des Clientsystems, da AuthorizeSMC immer mit einem Fehler geantwortet hat)
             version: V8.1.0
-			* Anpassungen in CardService.xsd
-            * Operation AuthorizeSMC ergänzt
+			===========
+			***Anpassungen in CardService.xsd
+            ***Operation AuthorizeSMC ergänzt
 	 End of Version History-->
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDW="http://ws.gematik.de/conn/CardService/WSDL/v8.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/CardService/WSDL/v8.1">
 	<documentation>
-		Copyright (c) 2017, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: Dienst zur Verwaltung der Karten
-		version=8.1.2
+		version=8.1.0
 	</documentation>
 	<types>
 		<xs:schema xmlns="http://www.w3.org/2001/XMLSchema">
@@ -51,17 +46,11 @@
 	<message name="GetPinStatusResponseMessage">
 		<part name="parameter" element="CARD:GetPinStatusResponse"/>
 	</message>
-	<message name="EnablePinRequestMessage">
-		<part name="parameter" element="CARD:EnablePin"/>
+	<message name="AuthorizeSmcRequestMessage">
+		<part name="parameter" element="CARD:AuthorizeSmc"/>
 	</message>
-	<message name="EnablePinResponseMessage">
-		<part name="parameter" element="CARD:EnablePinResponse"/>
-	</message>
-	<message name="DisablePinRequestMessage">
-		<part name="parameter" element="CARD:DisablePin"/>
-	</message>
-	<message name="DisablePinResponseMessage">
-		<part name="parameter" element="CARD:DisablePinResponse"/>
+	<message name="AuthorizeSmcResponseMessage">
+		<part name="parameter" element="CARD:AuthorizeSmcResponse"/>
 	</message>
 	<message name="FaultMessage">
 		<part name="parameter" element="GERROR:Error"/>
@@ -87,14 +76,9 @@
 			<output message="CARDW:GetPinStatusResponseMessage"/>
 			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
 		</operation>
-		<operation name="EnablePin">
-			<input message="CARDW:EnablePinRequestMessage"/>
-			<output message="CARDW:EnablePinResponseMessage"/>
-			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
-		</operation>
-		<operation name="DisablePin">
-			<input message="CARDW:DisablePinRequestMessage"/>
-			<output message="CARDW:DisablePinResponseMessage"/>
+		<operation name="AuthorizeSMC">
+			<input message="CARDW:AuthorizeSmcRequestMessage"/>
+			<output message="CARDW:AuthorizeSmcResponseMessage"/>
 			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
 		</operation>
 	</portType>
@@ -148,20 +132,8 @@
 				<soap:fault name="FaultMessage" use="literal"/>
 			</fault>
 		</operation>
-		<operation name="EnablePin">
-			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#EnablePin"/>
-			<input>
-				<soap:body use="literal"/>
-			</input>
-			<output>
-				<soap:body use="literal"/>
-			</output>
-			<fault name="FaultMessage">
-				<soap:fault name="FaultMessage" use="literal"/>
-			</fault>
-		</operation>
-		<operation name="DisablePin">
-			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#DisablePin"/>
+		<operation name="AuthorizeSMC">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#AuthorizeSMC"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>

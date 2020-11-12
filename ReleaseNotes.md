@@ -1,3 +1,17 @@
+# Release 4.0.1
+- Konnektor: C_7009: remove of LDSM
+ - Konnektor: AuthSignatureService in 2 versions (C_10306)
+ - Konnektor: fix: version mismatches
+ - Konnektor: fix: CardService filenames and includes (C_10308)
+ - Konnektor/ePA: version V2.0.1 is consistent to WSDL
+ - Konnektor/ePA: renaming in V2_0: changes for V2.0.1 are also included 
+ - FD/ePA: operations for rekeying R4.0.1
+ - FD/ePA: correction: <fault name="FaultMessage"> must not contain use="literal"
+ - Consumer: fix: version mismatches
+ - VZD: fix: version mismatches
+ - VZD: Rel. 3.1.3 Hotfix 5 added (C_10299)
+
+
 # Release 4.0.1-Pre2
 - vzd: baseEntryOnly Suchparameter in GET Operation hinzugefügt
  - Konnektor: C_10282 - Defaultwert für Parameter "Crypt" aus XML-Schema entfernen

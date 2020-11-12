@@ -4,6 +4,10 @@
 <!-- ===================================================================== -->
 <!-- 
 		Version History
+			version: V1.2.0
+			===========
+			*** Feature Umschlüsselung mit neuen Operationen: startKeyChange, putForReplacement, finishKeyChange
+			
 			version: V1.1.4
 			===========
 			*** Korrektur Restriktion  [a-zA-Z] in Element DisplayName entfernt
@@ -33,7 +37,7 @@
 
 	 	End of Version History
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.4">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.2" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2020, gematik GmbH
@@ -170,6 +174,62 @@
 				<element name="AuthorizationInfo" type="phrs:AuthorizationInfoType" minOccurs="0" maxOccurs="unbounded"/>
 				<element name="AuthorizationKey" type="phrs:AuthorizationKeyType" minOccurs="0" maxOccurs="unbounded"/>
 			</choice>
+		</complexType>
+	</element>
+	<element name="startKeyChange">
+		<complexType>
+			<sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="ActorID" type="string"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="startKeyChangeResponse">
+		<complexType>
+			<sequence>
+				<element name="RollbackTime" type="base64Binary"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="putForReplacement">
+		<complexType>
+			<sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="ActorID" type="string"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<element name="AllEncryptedKeys" type="phrs:AuthorizationKeyType" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="putForReplacementResponse">
+		<complexType>
+			<sequence>
+				<element name="OkDate" type="base64Binary"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="finishKeyChange">
+		<complexType>
+			<sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!-- AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="ActorID" type="string"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<element name="Success" type="phrs:AuthorizationKeyType" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="finishKeyChangeResponse">
+		<complexType>
+			<sequence>
+				<element name="OkDate" type="boolean"/>
+			</sequence>
 		</complexType>
 	</element>
 	<complexType name="RecordStateType">

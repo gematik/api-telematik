@@ -20,7 +20,7 @@
 	</documentation>
 	<types>
 		<xs:schema xmlns="http://www.w3.org/2001/XMLSchema">
-			<xs:import schemaLocation="CardService.xsd" namespace="http://ws.gematik.de/conn/CardService/v8.1"/>
+			<xs:import schemaLocation="CardService_v8_1_1.xsd" namespace="http://ws.gematik.de/conn/CardService/v8.1"/>
 			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
 			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
 		</xs:schema>

@@ -9,7 +9,7 @@
 	<documentation>
 		Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: Basis-Consumer Verschlüsselung Basisanwendung
-		Version=1.0.0
+		Version=2.0.0
 </documentation>
 	<types>
 		<xs:schema>

@@ -28,7 +28,7 @@
 		</wsdl:documentation>
 	<wsdl:types>
 		<xs:schema>
-			<xs:import namespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0" schemaLocation="PHRManagementService_V2_0_0.xsd"/>
+			<xs:import namespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0" schemaLocation="PHRManagementService_V2_0.xsd"/>
 			<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
 			<xs:import namespace="http://www.w3.org/2006/05/addressing/wsdl" schemaLocation="../../ext/ws-addr-wsdl.xsd"/>
 		</xs:schema>
