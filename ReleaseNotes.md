@@ -1,3 +1,17 @@
+# Release 4.0.2-Pre1
+- Konnektor: add schema for operating data (C_10340)
+ - VPNZugD: add operation sendData (C_10340)
+ - ePA: add operation GetSignedAuditEvents (C_10360)
+ - ePA: add operation RemoveDocuments (C_10383)
+ - ePA: fix in operation DeleteDocumentSet
+ - KSR: limit String length in InfrastrukturKonfig.xsd (C_10314)
+ - KSR: limit character set for strings (ID, Name, DomainName) (C_10365)
+ - VSDM: add VSD Schema for PKV (C_10435)
+ - VZD: updated I_ Directory_Administration read_Directory_Entry: add unlimited results & search parameters telematikID and telematikID-SubStr (C_10334)
+ - VZD: add attributes countryCode and changeDateTime in data model (C_10334)
+ - VZD: removed I_Directory_Search (C_10334)
+
+
 # Release 4.0.1
 - Konnektor: C_7009: remove of LDSM
  - Konnektor: AuthSignatureService in 2 versions (C_10306)

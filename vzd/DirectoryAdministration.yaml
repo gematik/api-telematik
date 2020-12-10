@@ -3,7 +3,20 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.2.2
+  version: 1.3.0
+  # Änderungen in Version 1.3.0
+  #  - Die direkte Suche von Verzeichniseinträgen (baseDirectoryEntry) mit dem 
+  #  Suchparameter telematikID wird unterstützt.
+  #     o telematikID im baseDirectoryEntry hinzugefügt und in 
+  #       add_Directory_Entry, read_Directory_Entry und modify_Directory_Entry ergänzt
+  #  - Paging Parameter entfernt (für eigene Verzeichniseinträge und Verzeichniseinträge 
+  #    ohne owner wird die Begrenzung auf 100 Suchergebnisse aufgehoben)
+  #  - Operation read_Directory_Entry: Suchparameter telematikID-SubStr ergänzt
+  #  - Operation read_Directory_Entry: Suchparameter telematikID-SubStr ergänzt
+  #  - Datenmodell: "baseDirectoryEntry"
+  #     o Ländercode "countryCode" ergänzt und in Operationen hinzugefügt
+  #     o Änderungsdatum "changeDateTime" ergänzt
+  #
   # Änderungen in Version 1.2.2
   # Übernahme der Änderungen aus f_r313_hotfix_5 (version 1.1.2)
   #   - /DirectoryEntries
@@ -13,7 +26,8 @@ info:
   #   - /DirectoryEntries/Certificates
   #       get - Response Fehlercode 400 gestrichen. 
   #       Bei mehr als 100 gefundenen Einträgen werden nur 100
-  #       gefundenen Einträge zurückgegeben (Response 200).
+  #       gefundenen Einträge zurückgegeben (Response 200).                                                                                             
+  #
   # Änderungen in Version 1.2.1
   #   - /DirectoryEntries
   #       read_Directory_Entry: 
@@ -23,6 +37,7 @@ info:
   #       read_Directory_Entry: 
   #          Suchparameter "owner" ergänzt
   #          Paging Parameter ergänzt
+  #   - searchControlValue für Paging der Suchergebnisse ergänzt
   #   - /DirectoryEntries/{uid}/baseDirectoryEntries:
   #        modify_Directory_Entry: Fehlerkode 422 ergänzt (ungültiger owner im Request Parameter)
   #   - /DirectoryEntries/{uid}/Certificates/{certificateEntryID}:
@@ -34,7 +49,7 @@ info:
   #   - /DirectoryEntries/Certificates
   #       get - UID ist kein Pflichtparameter mehr um die Suche mit der TelematikID zu ermöglichen
   #   - Texte der HTTP Fehlercodes angepasst
-  #   - searchControlValue für Paging der Suchergebnisse ergänzt
+
 externalDocs:
   description: Schnittstelle zur Pflege der Verzeichniseinträge
   url: http://www.gematik.de
@@ -62,11 +77,18 @@ paths:
                        displayName   Kann optional belegt werden.
                        streetAddress Kann optional belegt werden.
                        postalCode    Kann optional belegt werden.
+                       countryCode   Kann optional belegt werden.
+                                     Falls nicht belegt, ergänzt der VZD den Code für Deutschland (Defaultwert).
                        localityName  Kann optional belegt werden.
                        stateOrProvinceName  Kann optional belegt werden.
                        title         Kann optional belegt werden.
                        organization  Kann optional belegt werden.
                        otherName     Kann optional belegt werden.
+                       telematikID Kann optional belegt werden.
+                          Das ist die telematikID in den Basisdaten (baseDirectoryEntry).
+                          Wird diese telematikID und userCertificate bzw. die telematikID in userCertificate angegeben, dann müssen diese telematikIDs übereinstimmen.
+                          Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
+
                        specialization  Kann optional belegt werden.
                        domainID      Kann optional belegt werden.
                        owner         Kann optional belegt werden (falls nicht belegt, dann vom VZD aus dem ID_Token entnommen).
@@ -80,13 +102,13 @@ paths:
                         dn.cn         Leer/nicht vorhanden (wird vom Verzeichnisdienst belegt)
                         telematikID   Kann optional belegt werden.
                           Wird telematikID und userCertificate angegeben, dann muss diese telematikID mit der telematikID im userCertificate übereinstimmen.
-                    Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
+                          Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
                         entryType     Nicht vorhanden (wird vom Verzeichnisdienst belegt)
                         professionOID Nicht vorhanden (wird vom Verzeichnisdienst belegt)
                         usage         Kann optional belegt werden.
                         userCertificate   Kann optional belegt werden (Format DER, Base64 kodiert)
                         description   Kann optional belegt werden.
-                     Entsprechend gemSpec_VZD wird ein Teil der Attribute durch den Verzeichnisdienst automatisch mit Werten aus dem Zertifikat gefüllt. Wenn in dieser Operation Attribute - für die dies erlaubt ist - mit einem Wert belegt werden, wird dieser Wert im Verzeichniseintrag gespeichert (auch wenn der Wert durch den Verzeichnisdienst aus dem Zertifikat entnommen werden kann).   
+                        Entsprechend gemSpec_VZD wird ein Teil der Attribute durch den Verzeichnisdienst automatisch mit Werten aus dem Zertifikat gefüllt. Wenn in dieser Operation Attribute - für die dies erlaubt ist - mit einem Wert belegt werden, wird dieser Wert im Verzeichniseintrag gespeichert (auch wenn der Wert durch den Verzeichnisdienst aus dem Zertifikat entnommen werden kann).   
         content:
           application/json:
             schema:
@@ -116,6 +138,7 @@ paths:
         422:
           description: Unprocessable Entity
                 # Z.B. Wert aus dem Request Attribut "owner" nicht gültig
+                # Bei unterschiedlichen telematikIDs (Parameter telematikID und Wert im userCertificate) wird die Operation mit Fehlercode 422 abgelehnt.
           content:
             application/json:
               schema:
@@ -163,6 +186,11 @@ paths:
         description: Erlaubt die Suche mit Hilfe des Attributs postalCode.
         schema:
           type: string  
+      - name: countryCode
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs countryCode.
+        schema:
+          type: string    
       - name: localityName
         in: query
         description: Erlaubt die Suche mit Hilfe des Attributs localityName.
@@ -188,6 +216,17 @@ paths:
         description: Erlaubt die Suche mit Hilfe des Attributs otherName.
         schema:
           type: string  
+      - name: telematikID
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs telematikID (die telematikID in den Basisdaten).
+        schema:
+          type: string  
+      - name: telematikID-SubStr
+        in: query
+        description: Erlaubt die Suche nach einem Substring am Anfang der telematikID (die telematikID in den Basisdaten).
+                      Entspricht der LDAP Filters Substring Assertion vom Typ "subInitial Component".
+        schema:
+          type: string  
       - name: specialization
         in: query
         description: Erlaubt die Suche mit Hilfe des Attributs specialization. 
@@ -204,6 +243,8 @@ paths:
         in: query
         description: Erlaubt die Suche mit Hilfe des Attributs owner. 
                      Der Verzeichniseintrag wird selektiert, wenn der angegebene owner im Attribut owner (array) des Verzeichniseintrags enthalten ist.
+                     Wenn der Parameter mit dem eigenen Wert des Clients belegt wird, werden alle gefundenen Einträge zurückgegeben (für eigene Einträge gilt das Limit von 100 Ergebnissen nicht).
+                     Zur Suche nach Einträge ohne owner ist der Parameter mit dem einem leeren String "" zu belegen. Auch in diesem Fall werden alle gefundenen Einträge zurückgegeben (für Einträge ohne owner gilt das Limit von 100 Ergebnissen nicht).
         schema:
           type: string  
       - name: personalEntry
@@ -223,35 +264,17 @@ paths:
           type: boolean
           example: true
           
-    # Paging Parameter entsprechend https://tools.ietf.org/html/rfc2696
-    # Paging ist nur für eigene Verzeichniseinträge erlaubt. Deshalb muss bei
-    # Verwendung des Pagings zwingend der "owner" Suchparameter angegeben werden 
-    # und den eigenen ownerID (entsprechend dem Wert im ID_Token claim scope) enthalten.
-      - name: pagingSize   
-        in: query
-        description: Paging Größe 
-           # Maximal diese Anzahl von Verzeichniseinträgen sind in einer Antwort enthalten. 
-        schema:
-         type: integer 
-      - name: cookie  
-        in: query
-        description: Paging Cookie
-          # Im ersten Request übergibt der Client einen leeren String in diesem Parameter. 
-          # In den Folgerequests übernimmt der Client dieses Cookie jeweils aus dem letzten Response und erhält die nachsten Verzeichniseinträge.
-        schema:
-         type: string 
-
       responses:
         200:
           description: OK
                     #  Es werden alle zu dem Filter Parametern passenden Verzeichniseinträge - inklusive Zertifikaten und Fachdaten - zurückgegeben.
-                    # Bei mehr als 100 gefundenen Einträgen und ohne paging werden nur 100 gefundenen Einträge zurückgegeben.
+                    # Bei mehr als 100 gefundenen Einträgen nur 100 gefundenen Einträge zurückgegeben.   
+                    # Wenn der Suchparameter "owner" mit dem eigenen Wert des Clients belegt wird, werden alle gefundenen Einträge zurückgegeben (für eigene Einträge gilt das Limit von 100 Ergebnissen nicht).
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/searchControlValue'
-                  - $ref: '#/components/schemas/DirectoryEntries'
+                  $ref: '#/components/schemas/DirectoryEntries'
+
         401:
           description: Unauthorized
                     #  Der WWW-Authenticate Header im Response wird auf OAuth gesetzt.
@@ -288,11 +311,17 @@ paths:
                       displayName   Kann optional belegt werden.
                       streetAddress Kann optional belegt werden.
                       postalCode    Kann optional belegt werden.
+                      countryCode   Kann optional belegt werden.
                       localityName  Kann optional belegt werden.
                       stateOrProvinceName  Kann optional belegt werden.
                       title         Kann optional belegt werden.
                       organization  Kann optional belegt werden.
                       otherName     Nicht vorhanden.
+                      telematikID   Kann optional belegt werden.
+                          Das ist die telematikID in den Basisdaten (baseDirectoryEntry).
+                          Sind Zertifikateseinträge (userCertificate) vorhanden, dann müssen die telematikIDs übereinstimmen.
+                          Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
+
                       specialization  Kann optional belegt werden.
                       domainID      Kann optional belegt werden.
                       owner         Kann optional belegt werden.
@@ -336,6 +365,7 @@ paths:
         422:
           description: Unprocessable Entity
                 # Z.B. Wert aus dem Request Attribut "owner" nicht gültig
+                # Bei unterschiedlichen telematikIDs (Parameter telematikID und Wert im userCertificate) wird die Operation mit Fehlercode 422 abgelehnt.
           content:
             application/json:
               schema:
@@ -399,7 +429,9 @@ paths:
                       dn.*              Nicht vorhanden (Adressierung erfolgt über uid in Path)    
                       telematikID       Kann optional belegt werden.
                             Wird telematikID angegeben, dann muss diese telematikID mit der telematikID im userCertificate übereinstimmen.
-                      Bei unterschiedlichen telematikID wird die Operation mit Fehlercode 422 abgelehnt.
+                            Die telematikID muss mit der telematikID in den Basisdaten (baseDirectoryEntry) übereinstimmen (falls dort angegeben).
+                            Falls die telematikID in den Basisdaten (baseDirectoryEntry) leer ist, muss sie auf den Wert aus dem Zertifikat bzw. dem hier angegebenen Wert gesetzt werden.
+                            Bei unterschiedlichen telematikIDs wird die Operation mit Fehlercode 422 abgelehnt.
                       entryType         Nicht vorhanden (wird vom Verzeichnisdienst belegt)        
                       professionOID     Nicht vorhanden (wird vom Verzeichnisdienst belegt)      
                       usage             Kann optional belegt werden 
@@ -433,6 +465,7 @@ paths:
                 $ref: '#/components/schemas/Error'
         422:
           description: Unprocessable Entity
+            # Bei unterschiedlichen telematikIDs (Parameter telematikID und Wert im userCertificate) wird die Operation mit Fehlercode 422 abgelehnt.
           content:
             application/json:
               schema:
@@ -488,11 +521,12 @@ paths:
         200:
           description: OK
                     #  Es werden alle gefundenen Zertifikatseinträge zurückgegeben.
-                    # Bei mehr als 100 gefundenen Einträgen nur 100 gefundenen Einträge zurückgegeben.
+                    # Bei mehr als 100 gefundenen Einträgen nur 100 gefundenen Einträge zurückgegeben.                                                                                                         
           content:
             application/json:
               schema:
                   $ref: '#/components/schemas/userCertificates'
+
         401:
           description: Unauthorized
                     #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden.
@@ -649,8 +683,9 @@ components:
           type: string
           description: 'Anzeigename, kann geändert werden. 
             Dieses Attribut wird genutzt um den Namen der Organisation gegenüber dem Anwender darzustellen (Verwendung als Filter-Attribut um die Suche einzuschränken und bei der Darstellung des Ergebnisses).
-              Der Wert wird von der pflegenden Stelle festgelegt.'
-          example:  Vorname Nachname
+              Der Wert wird von der pflegenden Stelle festgelegt.
+              Konvention für HBA Einträge: Name, Vorname'
+          example:  Name, Vorname
         streetAddress:
           type: string
           description: 'Straße und Hausnummer
@@ -661,6 +696,13 @@ components:
           description: 'Postleitzahl
                         Der Wert wird von der pflegenden Stelle festgelegt'
           example: 10117
+        countryCode:
+          type: string
+          maxLength: 2
+          description: 'Ländercode
+                        Entsprechend ISO-3166-1 ALPHA-2'
+                    # Falls das Attribut beim Anlegen des Datensatzes nicht beölegt wird, ergänzt der VZD den Code für Deutschland (Defaultwert).
+          example: DE        
         localityName:
           type: string
           description: 'Ort
@@ -683,6 +725,11 @@ components:
           type: string
           description: 'Anderer Name. 
                         Wird vom VZD aus dem Zertifikatsattribut otherName übernommen.'
+        telematikID:
+          type: string
+          description: 'Wird beim Anlegen des Eintrags vom VZD aus dem Zertifikat übernommen (Feld registrationNumber der Extension Admission).
+                    Falls der Basiseintrag (baseDirectoryEntry) ohne Zertifikat angelegt wird, kann in Operation add_Directory_Entry die telematikID angegeben werden.
+            Damit ist der Verzeichniseintrag bereits über die telematikID im baseDirectoryEntry auffindbar. Diese telematikID muss mit der telematikID aus dem Zertifikatseintrag (userCertificate) übereinstimmen. Simmten die telematikIDs nicht überein, wird die Operation mit Fehlercode 422 abgelehnt' 
         specialization:
           maxItems: 100
           type: array
@@ -702,6 +749,7 @@ components:
           maxItems: 100
           type: array
           description: Identifiziert den Eigentümer dieses Verzeichniseintrags, der Änderungen an ihm vornehmen darf.
+            Hat keinen Einfluss auf Fachdaten und Zertifikatsdaten.
             Beim Anlegen eines neuen Verzeichniseintrags (add_Directory_Entry)
               - Ist im add_Directory_Entry Request das Attribut "owner" nicht vorhanden oder enthält keine Werte
                  o Wird vom VZD aus dem ID_TOKEN claim scope der Wert entnommen und als "owner" in dieses Attribut eingetragen. 
@@ -732,6 +780,13 @@ components:
           description: Wird vom VZD eingetragen / Wert == TRUE, wenn der Verzeichnisdienst_Eintrag von dem Kartenherausgeber geschrieben wurde, Wert == FALSE sonst 
           readOnly: true
           example: true
+        changeDateTime:
+          type: string
+          format: date-time
+          description: Der VZD setzt dieses Attribut bei jeder Schreiboperation für den Datensatz (Basisdaten) auf die aktuelle Zeit. Format entsprechend RFC 3339, section 5.6.
+          readOnly: true
+          example: "2017-07-21T17:32:28Z"
+          
 
     DirectoryEntry:
       type: object
@@ -766,30 +821,7 @@ components:
     DirectoryEntries:
       type: array
       items:
-       $ref: '#/components/schemas/DirectoryEntry'
-
-    searchControlValue:
-    # https://tools.ietf.org/html/rfc2696
-    # Mit den Parametern dieser Datenstruktur kann das Paging von LDAP Suchergebnissen entsprechend RFC2696 gesteuert werden.
-    # Mit dem Paging können alle (oder eine Teilmenge) eigenen Verzeichniseinträge gelesen werden, auch wenn das Limit von 100 Suchergebnissen überschritten wird.
-    # Paging ist nur für eigene Verzeichniseinträge erlaubt. Deshalb muss bei Verwendung des Pagings zwingend der "owner" Suchparameter angegeben werden 
-    # und den eigenen ownerID (entsprechend dem Wert im ID_Token) enthalten. Wird Paging nicht mit dem korrekten "owner" Suchparameter ausgeführt,
-    # wird mit einem Fehler (HTTP Status Code 403) geantwortet.
-    # Die Suchparameter müssen während eines Pagings (mit mehreren Request/Response Sequenzen) identisch sein (nur das "cookie" ändert sich). 
-      type: object
-      properties:
-        size:
-          type: integer
-      # Im Request gibt der Client die gewünschte Paging Größe an (Maximalgröße entsprechend TIP1-A_5552). 
-      #    Maximal diese Anzahl von Verzeichniseinträgen sind in einer Antwort enthalten.
-      # Im Response trägt der Verzeichnisdienst in diesen Parameter die gesamte Anzahl von gefundenen Verzeichniseinträge an.
-        cookie:
-          type: string
-      # Im ersten Request übergibt der Client einen leeren String in diesem Parameter. 
-      # In jedes Response trägt der Verzeichnisdienst in diesen Parameter ein Cookie ein, über den das Paging zum nächsten Ergebnis erfolgt.
-      # Der Client übernimmt dieses Cookie jeweils in den folgenden Request und erhält die nachsten Verzeichniseinträge.
-      # Für den Client ist das Cookie transparent und darf nicht von ihm manipuliert werden.
-      # In dem letzten Response - mit den letzten Verzeichniseinträgen - liefert der Verzeichnisdienst in diesem Parameter einen leeren String.
+        $ref: '#/components/schemas/DirectoryEntry'
 
             
     Error:

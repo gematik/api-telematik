@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History
+            initial: V1.0.0
+     End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:CT="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" xmlns:OPD="http://ws.gematik.de/conn/OperatingData/v1.0" targetNamespace="http://ws.gematik.de/conn/OperatingData/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+    <import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+    <import namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1" schemaLocation="../tel/version/ProductInformation.xsd"/>
+    <import namespace="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" schemaLocation="CardTerminalInfo.xsd"/>
+    <annotation>
+        <documentation>Copyright (c) 2020, gematik GmbH. Alle Rechte vorbehalten.
+            Beschreibung: Schema für Betriebsdaten der Konnektoren und Kartenterminals</documentation>
+    </annotation>
+    <element name="OperatingData">
+        <annotation>
+            <documentation>Wurzelelement der Betriebsdaten</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="OperatingSite" minOccurs="0">
+                    <annotation>
+                        <documentation>Vom Konnektor bereitgestellte Informationen über die Betriebsumgebung</documentation>
+                    </annotation>
+                    <complexType>
+                        <sequence>
+                            <element name="ContractID" type="string">
+                                <annotation>
+                                    <documentation>
+                                    Vertragsnummer des TI-Teilnehmers beim VPN-Zugangsdienst. Wert von CONTRACT_ID_VPN_ZUGD.
+Der Konnektor muss das Element ContractID befüllen.
+Der VPN-ZugD muss das Element ContractID und dessen Inhalt löschen. 
+                                    </documentation>
+                                </annotation>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element ref="PI:ProductInformation">
+                    <annotation>
+                        <documentation>Produktinformationen des Konnektors (gemäß connector.sds)</documentation>
+                    </annotation>
+                </element>
+                <element name="Configuration">
+                    <annotation>
+                        <documentation>Konfiguration des Konnektors</documentation>
+                    </annotation>
+                    <complexType>
+                        <sequence>
+                            <element name="TIConnectionMode">
+                                <annotation>
+                                    <documentation>Wert von ANLW_ANBINDUNGS_MODUS</documentation>
+                                </annotation>
+                                <simpleType>
+                                    <restriction base="string">
+                                        <enumeration value="PARALLEL"/>
+                                        <enumeration value="SERIAL"/>
+                                    </restriction>
+                                </simpleType>
+                            </element>
+                            <element name="StandaloneMode">
+                                <annotation>
+                                    <documentation>Wert von MGM_STANDALONE_KON</documentation>
+                                </annotation>
+                                <simpleType>
+                                    <restriction base="boolean"/>
+                                </simpleType>
+                            </element>
+                            <element name="InternetMode">
+                                <annotation>
+                                    <documentation>Wert von ANLW_INTERNET_MODUS</documentation>
+                                </annotation>
+                                <simpleType>
+                                    <restriction base="string">
+                                        <enumeration value="SIS"/>
+                                        <enumeration value="IAG"/>
+                                        <enumeration value="NONE"/>
+                                    </restriction>
+                                </simpleType>
+                            </element>
+                            <element name="ClientConnectionMode">
+                                <annotation>
+                                    <documentation>Anbindung der Clientsysteme</documentation>
+                                </annotation>
+                                <complexType>
+                                    <sequence>
+                                        <element name="TLSMandatory">
+                                            <annotation>
+                                                <documentation>Wert von ANCL_TLS_MANDATORY (ENABLED = true, DISABLED = false)</documentation>
+                                            </annotation>
+                                            <simpleType>
+                                                <restriction base="boolean"/>
+                                            </simpleType>
+                                        </element>
+                                        <element name="CAUTMandatory">
+                                            <annotation>
+                                                <documentation>Wert von ANCL_CAUT_MANDATORY (ENABLED = true, DISABLED = false)</documentation>
+                                            </annotation>
+                                            <simpleType>
+                                                <restriction base="boolean"/>
+                                            </simpleType>
+                                        </element>
+                                        <element name="CAUTMode">
+                                            <annotation>
+                                                <documentation>Wert von ANCL_CAUT_MODE</documentation>
+                                            </annotation>
+                                            <simpleType>
+                                                <restriction base="string">
+                                                    <enumeration value="CERTIFICATE"/>
+                                                    <enumeration value="PASSWORD"/>
+                                                </restriction>
+                                            </simpleType>
+                                        </element>
+                                        <element name="DVDOpen">
+                                            <annotation>
+                                                <documentation>Wert von ANCL_DVD_OPEN (ENABLED = true, DISABLED = false)</documentation>
+                                            </annotation>
+                                            <simpleType>
+                                                <restriction base="boolean"/>
+                                            </simpleType>
+                                        </element>
+                                    </sequence>
+                                </complexType>
+                            </element>
+                            <element name="UpdateMode">
+                                <annotation>
+                                    <documentation/>
+                                </annotation>
+                                <complexType>
+                                    <sequence>
+                                        <element name="AutoDownload">
+                                            <annotation>
+                                                <documentation>Wert von MGM_KSR_AUTODOWNLOAD (ENABLED = true, DISABLED = false)</documentation>
+                                            </annotation>
+                                            <simpleType>
+                                                <restriction base="boolean"/>
+                                            </simpleType>
+                                        </element>
+                                        <element name="AutoUpdate">
+                                            <annotation>
+                                                <documentation>Wert von MGM_KSR_AUTO_UPDATE (ENABLED = true, DISABLED = false)</documentation>
+                                            </annotation>
+                                            <simpleType>
+                                                <restriction base="boolean"/>
+                                            </simpleType>
+                                        </element>
+                                    </sequence>
+                                </complexType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element ref="CONN:Connector">
+                    <annotation>
+                        <documentation>
+                        Zustandsinformationen des Konnektors (gemäß GetResourceInformation).
+In den ErrorConditions zu Kartenterminals darf der Konnektor die Kartenterminal ID (CtID) nicht mitsenden.
+                        </documentation>
+                    </annotation>
+                </element>
+                <element name="TrustStatus">
+                    <annotation>
+                        <documentation>Informationen über Vertrauenslisten und Sperrliste
+                        </documentation>
+                    </annotation>
+                    <complexType>
+                        <sequence>
+                            <element name="CRL" type="OPD:CRL_InfoType">
+                                <annotation>
+                                    <documentation>Informationen über die aktuelle Certificate Revocation List (CRL) im Konnektor</documentation>
+                                </annotation>
+                            </element>
+                            <element name="TSL" type="OPD:TSL_InfoType">
+                                <annotation>
+                                    <documentation>Informationen über die aktuelle Trust Service Status List (TSL) im Konnektor</documentation>
+                                </annotation>
+                            </element>
+                            <element name="BNetzA_VL" type="OPD:BNetzA_VL_InfoType">
+                                <annotation>
+                                    <documentation>Informationen über die aktuelle Vertrauensliste der Bundesnetzagentur (BNetzA-VL) im Konnektor</documentation>
+                                </annotation>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element name="ConnCertificates">
+                    <annotation>
+                        <documentation>
+                        Informationen über Zertifikate der gSMC-K.
+Der Konnektor muss CertificateData zu allen spezifizierten X.509-Zertifikaten auf den verbauten gSMC-Ks liefern (ECC und RSA).
+                        </documentation>
+                    </annotation>
+                    <complexType>
+                        <sequence>
+                            <element name="CertificateData" type="OPD:CertificateDataType" maxOccurs="unbounded"/>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element name="CardTerminals">
+                    <annotation>
+                        <documentation>Informationen über Kartenterminals</documentation>
+                    </annotation>
+                    <complexType>
+                        <sequence>
+                            <element name="CardTerminal" minOccurs="0" maxOccurs="unbounded">
+                                <complexType>
+                                    <sequence>
+                                        <element ref="PI:ProductInformation">
+                                            <annotation>
+                                                <documentation>Produktinformationen der Kartenterminals (gemäß GetResourceInformation/GetCardTerminals)
+                        </documentation>
+                                            </annotation>
+                                        </element>
+                                        <element name="CtCertificates">
+                                            <annotation>
+                                                <documentation>
+                                                Informationen über Zertifikate der gSMC-KT.
+Der Konnektor muss CertificateData für die C.SMKT.AUT-Zertifikate aller Kartenterminals im Korrelationsstatus "gepairt" und "aktiv" liefern.
+                                                </documentation>
+                                            </annotation>
+                                            <complexType>
+                                                <sequence>
+                                                    <element name="CertificateData" type="OPD:CertificateDataType" maxOccurs="unbounded">
+                                                        <annotation>
+                                                            <documentation/>
+                                                        </annotation>
+                                                    </element>
+                                                </sequence>
+                                            </complexType>
+                                        </element>
+                                    </sequence>
+                                </complexType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element name="OperatingSiteExtension" minOccurs="0">
+                    <annotation>
+                        <documentation>Vom VPN-Zugangsdienst bereitgestellte Informationen über die Betriebsumgebung</documentation>
+                    </annotation>
+                    <complexType>
+                        <sequence>
+                            <element name="SiteType">
+                                <annotation>
+                                    <documentation>
+                                    Betriebsstättenart.
+Der Konnektor darf das Element SiteType nicht befüllen.
+Der VPN-ZugD muss das Element SiteType befüllen. 
+                                    </documentation>
+                                </annotation>
+                                <simpleType>
+                                    <restriction base="string">
+                                        <enumeration value="EINZELPRAXIS"/>
+                                        <enumeration value="BAG"/>
+                                        <enumeration value="MVZ"/>
+                                        <enumeration value="KRANKENHAUS"/>
+                                        <enumeration value="APOTHEKE"/>
+                                        <enumeration value="SONSTIGE"/>
+                                        <!-- Der Wertebereich der Betriebsstättenart ist ein initialer Vorschlag und wird nach Abstimmung mit VPN-ZD-Anbietern finalisiert.-->
+                                    </restriction>
+                                </simpleType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+    <complexType name="TSL_InfoType">
+        <sequence>
+            <element name="SequenceNumber" type="positiveInteger">
+                <annotation>
+                    <documentation>Sequenznummer der TSL</documentation>
+                </annotation>
+            </element>
+            <element name="ListIssueDateTime" type="dateTime">
+                <annotation>
+                    <documentation>Erstellungsdatum der TSL</documentation>
+                </annotation>
+            </element>
+            <element name="NextUpdate" type="dateTime">
+                <annotation>
+                    <documentation>Nächste Aktualisierung der TSL</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="BNetzA_VL_InfoType">
+        <sequence>
+            <element name="SequenceNumber" type="positiveInteger">
+                <annotation>
+                    <documentation>Sequenznummer der BNetzA_VL</documentation>
+                </annotation>
+            </element>
+            <element name="ListIssueDateTime" type="dateTime">
+                <annotation>
+                    <documentation>Erstellungsdatum der BNetzA_VL</documentation>
+                </annotation>
+            </element>
+            <element name="NextUpdate" type="dateTime">
+                <annotation>
+                    <documentation>Nächste Aktualisierung der BNetzA_VL</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CRL_InfoType">
+        <sequence>
+            <element name="ListNumber" type="positiveInteger">
+                <annotation>
+                    <documentation>Sperrlistennummer der CRL</documentation>
+                </annotation>
+            </element>
+            <element name="ValidFrom" type="dateTime">
+                <annotation>
+                    <documentation>Gültigkeitsbeginn der CRL</documentation>
+                </annotation>
+            </element>
+            <element name="NextUpdate" type="dateTime">
+                <annotation>
+                    <documentation>Nächste Aktualisierung der CRL</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="CertificateDataType">
+        <sequence>
+            <element name="ICCSN" type="string"/>
+            <element name="subject_commonName" type="string"/>
+            <element name="serialNumber" type="string"/>
+            <element name="validity" type="date"/>
+        </sequence>
+    </complexType>
+</schema>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- gematik revision="\main\rel_online\rel_ors1\2" -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:VPNK="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:VPNK="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
 	<annotation>
 		<documentation>
 		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: VPN-Zugangsdienst, Provisioning Service
-		version=1.1.0
+		version=1.2.0
 	</documentation>
 	</annotation>
 	<!-- Imports -->
@@ -17,6 +16,38 @@
 	<element name="deregisterKonnektorResponse" type="VPNK:deregistrationResponseType"/>
 	<element name="registerStatusRequest" type="VPNK:registerStatusRequestType"/>
 	<element name="registerStatusResponse" type="VPNK:registerStatusResponseType"/>
+	<element name="sendDataRequest">
+		<complexType>
+			<sequence>
+				<element name="Base64Data">
+					<annotation>
+						<documentation>Die Base64 kodierten Daten.</documentation>
+					</annotation>
+					<complexType>
+						<attribute name="Name" type="string" use="required"/>
+						<attribute name="MimeType" type="string" use="required"/>
+					</complexType>
+				</element>
+				<element name="Type">
+					<annotation>
+						<documentation>Gibt an welcher Art die Daten sind, z.B. Betriebsdaten des Konnektors.</documentation>
+					</annotation>
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="OperatingDataConnector"/>
+						</restriction>
+					</simpleType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="sendDataResponse">
+		<complexType>
+			<sequence>
+				<element name="Timestamp" type="xsd:dateTime"/>
+			</sequence>
+		</complexType>
+	</element>
 	<!-- Types -->
 	<complexType name="registrationRequestType">
 		<sequence>
