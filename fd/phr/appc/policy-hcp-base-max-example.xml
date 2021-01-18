@@ -13,15 +13,14 @@
                 <Subject>
                     <SubjectMatch MatchId="urn:hl7-org:v3:function:II-equal">
                         <AttributeValue DataType="urn:hl7-org:v3#II">
-                            <InstanceIdentifier root="1.2.276.0.76.4.188" xmlns="urn:hl7-org:v3#II" extension="$Telematik_ID"/>
+                            <InstanceIdentifier root="1.2.276.0.76.4.188" xmlns="urn:hl7-org:v3" extension="$Telematik_ID"/>
                         </AttributeValue>
-                        <SubjectAttributeDesignator AttributeId="urn.gematik.subject.organization-id" DataType="urn:hl7-org:v3#II" MustBePresent="true"/>
+                        <SubjectAttributeDesignator AttributeId="urn:gematik:subject:organization-id" DataType="urn:hl7-org:v3#II" MustBePresent="true"/>
                     </SubjectMatch>
                 </Subject>
                 <Subject>
                     <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string"> $Name_der_LEI
-                        </AttributeValue>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">$Name_der_LEI</AttributeValue>
                         <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xspa:1.0:subject:organization" DataType="http://www.w3.org/2001/XMLSchema#string"/>
                     </SubjectMatch>
                 </Subject>
@@ -45,7 +44,7 @@
             <Environments>
                 <Environment>
                     <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:date-less-than-or-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#dateTime">$Min_Date</AttributeValue>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#date">$Min_Date</AttributeValue>
                         <EnvironmentAttributeDesignator DataType="http://www.w3.org/2001/XMLSchema#date" AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-date"/>
                     </EnvironmentMatch>
                     <!-- AND -->
@@ -129,9 +128,9 @@
     <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:levels" Version="4.0">
         <Target/>
         <!-- Inkludieren für Vertrauensstufe "normal" (VERPFLICHTEND) -->
-        <PolicyIdReference> urn:gematik:policy-set-id:permissions-access-group-hcp:levels:normal </PolicyIdReference> 
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:levels:normal</PolicyIdReference> 
         <!-- Inkludieren, wenn für Vertrauensstufe "erweitert" berechtigt werden soll -->
-        <PolicyIdReference> urn:gematik:policy-id:permissions-access-group-hcp:levels:extended </PolicyIdReference> 
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:levels:extended</PolicyIdReference> 
         <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt, wenn keine der oben genannten Kategorien passt -->
         <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:levels:default-deny" Version="4.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
             <Target/>
@@ -196,7 +195,7 @@
         </PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Sonstige von der LEI bereitgestellte (nicht medizinische) Dokumente" -->
         <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:other
+            urn:gematik:policy-id:permissions-access-group-hcp:categories:category_other
         </PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Hausarzt/ Hausärztin") -->
         <PolicyIdReference>
@@ -247,15 +246,15 @@
     </PolicySet>
 	
     <!-- Setzen der feingranularen Berechtigung: Blacklist -->
-	<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:blacklist" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0: rule-combining-algorithm:deny-overrides">
+	<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:blacklist" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
 		<Target/>
 		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:blacklist" Effect="Deny"> 
 			<Target>
 				<Resources>
 					<!-- Inkludieren: Je eine <Resource> pro Dokument auf der Blacklist -->
 					<Resource>
-						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0: function:string-equal">
-							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string"> $DocumentUniqueId </AttributeValue>
+						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string">$DocumentUniqueId</AttributeValue>
 							<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http//www.w3.org/2001/XMLSchema#string"/>
 						</ResourceMatch>
 					</Resource>
@@ -268,15 +267,15 @@
 
 	
     <!-- Setzen der feingranularen Berechtigung: Whitelist -->
-	<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:whitelist" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0: rule-combining-algorithm:permit-overrides">
+	<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:whitelist" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
 		<Target/>
 		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:whitelist" Effect="Permit">
 			<Target>
 				<Resources>
 					<!-- Inkludieren: Je eine <Resource> pro Dokument auf der Whitelist -->
 					<Resource>
-						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0: function:string-equal">
-							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string"> $DocumentUniqueId </AttributeValue>
+						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string">$DocumentUniqueId</AttributeValue>
 							<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http//www.w3.org/2001/XMLSchema#string"/>
 						</ResourceMatch>
 					</Resource>
