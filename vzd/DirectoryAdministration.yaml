@@ -3,7 +3,15 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.3.0
+  version: 1.5.0
+  # Änderungen in Version 1.5.0
+  #  - Attribut "owner" in "holder" umbenannt ("owner" ist in LDAP vordefiniert und kann deshalb nicht für den vorgesehenen Zweck genutzt werden)
+
+  # Änderungen in Version 1.4.0
+  #  - Operation read_Directory_Entry: Einschränkung auf 100 Suchergebnisse wieder eingeführt
+  #  - Operation read_Directory_Entry_for_Sync: Für die Datensynchronisation der Herausgeber mit dem VZD wird diese Suchabfrage ohne Limitierung auf 100 Suchergebnisse ergänzt. Die parallele Ausführung dieser Operation wird vom Server aus Performancegründen eingeschränkt.
+  #  - Attribut "usage" in Datenstruktur "userCertificate": "enum" im Format gestrichen.
+  #
   # Änderungen in Version 1.3.0
   #  - Die direkte Suche von Verzeichniseinträgen (baseDirectoryEntry) mit dem 
   #  Suchparameter telematikID wird unterstützt.
@@ -60,7 +68,8 @@ tags:
   description: Pflege der Verzeichniseinträge (Basiseinträge)
 - name: Certificate Administration
   description: Pflege der Zertifikatseinträge 
-
+- name: DirectoryEntry Synchronization
+  description: Synchronisation der Verzeichniseinträge (Basiseinträge) mit dem eigenen Datenbestand
 paths:
   /DirectoryEntries:
     post:
@@ -91,7 +100,7 @@ paths:
 
                        specialization  Kann optional belegt werden.
                        domainID      Kann optional belegt werden.
-                       owner         Kann optional belegt werden (falls nicht belegt, dann vom VZD aus dem ID_Token entnommen).
+                       holder         Kann optional belegt werden (falls nicht belegt, dann vom VZD aus dem ID_Token entnommen).
                        maxKOMLEadr   Kann optional belegt werden.
                        personalEntry Nicht vorhanden (wird vom Verzeichnisdienst belegt)
                        dataFromAuthority Nicht vorhanden (wird vom Verzeichnisdienst belegt)
@@ -137,7 +146,7 @@ paths:
                 $ref: '#/components/schemas/Error'
         422:
           description: Unprocessable Entity
-                # Z.B. Wert aus dem Request Attribut "owner" nicht gültig
+                # Z.B. Wert aus dem Request Attribut "holder" nicht gültig
                 # Bei unterschiedlichen telematikIDs (Parameter telematikID und Wert im userCertificate) wird die Operation mit Fehlercode 422 abgelehnt.
           content:
             application/json:
@@ -148,7 +157,7 @@ paths:
       tags:
       - DirectoryEntry Administration
       summary: Gesamten Verzeichniseintrag lesen
-      description: Liefert alle zum Filter passenden Verzeichniseinträge. Die angegebenen Parameter werden mit logischen UND verknüpft.
+      description: Liefert alle zum Filter passenden Verzeichniseinträge (maximal 100 Einträge). Die angegebenen Parameter werden mit logischen UND verknüpft.
       operationId: read_Directory_Entry
       parameters:
       - name: uid
@@ -239,12 +248,12 @@ paths:
                      Der Verzeichniseintrag wird selektiert, wenn die angegebene domainID im Attribut domainID (array) des Verzeichniseintrags enthalten ist.
         schema:
           type: string  
-      - name: owner
+      - name: holder
         in: query
-        description: Erlaubt die Suche mit Hilfe des Attributs owner. 
-                     Der Verzeichniseintrag wird selektiert, wenn der angegebene owner im Attribut owner (array) des Verzeichniseintrags enthalten ist.
-                     Wenn der Parameter mit dem eigenen Wert des Clients belegt wird, werden alle gefundenen Einträge zurückgegeben (für eigene Einträge gilt das Limit von 100 Ergebnissen nicht).
-                     Zur Suche nach Einträge ohne owner ist der Parameter mit dem einem leeren String "" zu belegen. Auch in diesem Fall werden alle gefundenen Einträge zurückgegeben (für Einträge ohne owner gilt das Limit von 100 Ergebnissen nicht).
+        description: Erlaubt die Suche mit Hilfe des Attributs holder. 
+                     Der Verzeichniseintrag wird selektiert, wenn der angegebene holder im Attribut holder (array) des Verzeichniseintrags enthalten ist.
+                     Wenn der Parameter mit dem eigenen Wert des Clients belegt wird, werden alle gefundenen Einträge zurückgegeben (maximal 100 Einträge).
+                     Zur Suche nach Einträge ohne holder ist der Parameter mit dem einem leeren String "" zu belegen. Auch in diesem Fall werden alle gefundenen Einträge zurückgegeben (maximal 100 Einträge).
         schema:
           type: string  
       - name: personalEntry
@@ -269,7 +278,6 @@ paths:
           description: OK
                     #  Es werden alle zu dem Filter Parametern passenden Verzeichniseinträge - inklusive Zertifikaten und Fachdaten - zurückgegeben.
                     # Bei mehr als 100 gefundenen Einträgen nur 100 gefundenen Einträge zurückgegeben.   
-                    # Wenn der Suchparameter "owner" mit dem eigenen Wert des Clients belegt wird, werden alle gefundenen Einträge zurückgegeben (für eigene Einträge gilt das Limit von 100 Ergebnissen nicht).
           content:
             application/json:
               schema:
@@ -285,6 +293,155 @@ paths:
         404:
           description: Not Found
           content: {}
+
+  /DirectoryEntriesSync:
+    get:
+      tags:
+      - DirectoryEntry Synchronization
+      summary: Synchronisation der Verzeichniseinträge zwischen VZD und Herausgeber
+      description: Liefert - analog zu read_Directory_Entry - alle zum Filter passenden Verzeichniseinträge. Im Unterschied zu read_Directory_Entry wird die Limitierung auf 100 Suchergebnisse aufgehoben. Die parallele Ausführung dieser Operation wird vom Server aus Performancegründen eingeschränkt.
+        Diese Operation soll nur genutzt werden, wenn mehr als 100 Suchergebnisse benötigt werden. Für alle anderen Suchanfragen soll Operation read_Directory_Entry genutzt werden.
+      operationId: read_Directory_Entry_for_Sync
+      parameters:
+      - name: uid
+        in: query
+        description: ID von dem Verzeichniseintrag (distinguishedName.uid)
+        schema:
+          type: string  
+      - name: givenName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs givenName.
+        schema:
+          type: string  
+      - name: sn
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs sn.
+        schema:
+          type: string  
+      - name: cn
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs cn.
+        schema:
+          type: string  
+      - name: displayName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs displayName.
+        schema:
+          type: string  
+      - name: streetAddress
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs streetAddress.
+        schema:
+          type: string  
+      - name: postalCode
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs postalCode.
+        schema:
+          type: string  
+      - name: countryCode
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs countryCode.
+        schema:
+          type: string    
+      - name: localityName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs localityName.
+        schema:
+          type: string  
+      - name: stateOrProvinceName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs stateOrProvinceName.
+        schema:
+          type: string  
+      - name: title
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs title.
+        schema:
+          type: string  
+      - name: organization
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs organization.
+        schema:
+          type: string  
+      - name: otherName
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs otherName.
+        schema:
+          type: string  
+      - name: telematikID
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs telematikID (die telematikID in den Basisdaten).
+        schema:
+          type: string  
+      - name: telematikID-SubStr
+        in: query
+        description: Erlaubt die Suche nach einem Substring am Anfang der telematikID (die telematikID in den Basisdaten).
+                      Entspricht der LDAP Filters Substring Assertion vom Typ "subInitial Component".
+        schema:
+          type: string  
+      - name: specialization
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs specialization. 
+                     Der Verzeichniseintrag wird selektiert, wenn die angegebene domainID im Attribut domainID (array) des Verzeichniseintrags enthalten ist.
+        schema:
+          type: string  
+      - name: domainID
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs domainID. 
+                     Der Verzeichniseintrag wird selektiert, wenn die angegebene domainID im Attribut domainID (array) des Verzeichniseintrags enthalten ist.
+        schema:
+          type: string  
+      - name: holder
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs holder. 
+                     Der Verzeichniseintrag wird selektiert, wenn der angegebene holder im Attribut holder (array) des Verzeichniseintrags enthalten ist.
+                     Wenn der Parameter mit dem eigenen Wert des Clients belegt wird, werden alle gefundenen Einträge zurückgegeben (für eigene Einträge gilt das Limit von 100 Ergebnissen nicht).
+                     Zur Suche nach Einträge ohne holder ist der Parameter mit dem einem leeren String "" zu belegen. Auch in diesem Fall werden alle gefundenen Einträge zurückgegeben (für Einträge ohne holder gilt das Limit von 100 Ergebnissen nicht).
+        schema:
+          type: string  
+      - name: personalEntry
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs personalEntry. 
+        schema:
+          type: string  
+      - name: dataFromAuthority
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs dataFromAuthority. 
+        schema:
+          type: string  
+      - name: baseEntryOnly
+        in: query
+        description: Mit baseEntryOnly = "true" wird nur der Basiseintrag (baseDirectoryEntry) im Response zurückgegeben. Falls nicht angegeben oder mit "false" belegt, wird der gesamte Verzeichniseintrag mit Zertifikaten und Fachdaten im Response zurückgegeben.
+        schema:
+          type: boolean
+          example: true
+          
+      responses:
+        200:
+          description: OK
+                    #  Es werden alle zu dem Filter Parametern passenden Verzeichniseinträge - inklusive Zertifikaten und Fachdaten - zurückgegeben.
+                    # Bei mehr als 100 gefundenen Einträgen nur 100 gefundenen Einträge zurückgegeben.   
+                    # Wenn der Suchparameter "holder" mit dem eigenen Wert des Clients belegt wird, werden alle gefundenen Einträge zurückgegeben (für eigene Einträge gilt das Limit von 100 Ergebnissen nicht).
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/DirectoryEntries'
+
+        401:
+          description: Unauthorized
+                    #  Der WWW-Authenticate Header im Response wird auf OAuth gesetzt.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+        503:
+          description: Service Unavailable
+          # Der Server schränkt die parallele Nutzung dieser Operation read_Directory_Entry_WL ein. Der Request kann nach einer angemessenen Zeitspanne wiederholt werden. 
+          content: {}  
+
 
   /DirectoryEntries/{uid}/baseDirectoryEntries:
     put:
@@ -324,7 +481,7 @@ paths:
 
                       specialization  Kann optional belegt werden.
                       domainID      Kann optional belegt werden.
-                      owner         Kann optional belegt werden.
+                      holder         Kann optional belegt werden.
                       maxKOMLEadr   Kann optional belegt werden.
                       personalEntry Nicht vorhanden.
                       dataFromAuthority Nicht vorhanden
@@ -364,7 +521,7 @@ paths:
                 $ref: '#/components/schemas/Error'
         422:
           description: Unprocessable Entity
-                # Z.B. Wert aus dem Request Attribut "owner" nicht gültig
+                # Z.B. Wert aus dem Request Attribut "holder" nicht gültig
                 # Bei unterschiedlichen telematikIDs (Parameter telematikID und Wert im userCertificate) wird die Operation mit Fehlercode 422 abgelehnt.
           content:
             application/json:
@@ -745,21 +902,21 @@ components:
           items:
             type: string
             example: 345678975
-        owner:
+        holder:
           maxItems: 100
           type: array
           description: Identifiziert den Eigentümer dieses Verzeichniseintrags, der Änderungen an ihm vornehmen darf.
             Hat keinen Einfluss auf Fachdaten und Zertifikatsdaten.
             Beim Anlegen eines neuen Verzeichniseintrags (add_Directory_Entry)
-              - Ist im add_Directory_Entry Request das Attribut "owner" nicht vorhanden oder enthält keine Werte
-                 o Wird vom VZD aus dem ID_TOKEN claim scope der Wert entnommen und als "owner" in dieses Attribut eingetragen. 
-              - Ist im add_Directory_Entry Request das Attribut "owner" vorhanden und mit Inhalten gefüllt
+              - Ist im add_Directory_Entry Request das Attribut "holder" nicht vorhanden oder enthält keine Werte
+                 o Wird vom VZD aus dem ID_TOKEN claim scope der Wert entnommen und als "holder" in dieses Attribut eingetragen. 
+              - Ist im add_Directory_Entry Request das Attribut "holder" vorhanden und mit Inhalten gefüllt
                  o Übernimmt der VZD die Werte aus dem Request und trägt sie - nach Prüfung ihrer Gültigkeit - in den Verzeuichniseintrag ein. 
                    Ist ein Wert aus dem Request nicht gültig, weist der VZD die Operation mit HTTP-Status-Code 422 ab.
             Beim Ändern eines neuen Verzeichniseintrags (modify_Directory_Entry)
-              - Ist im modify_Directory_Entry Request das Attribut "owner" nicht vorhanden oder enthält keine Werte
-                 o Die Werte im aktuellen "owner" Attribut des Verzeichniseintrags bleiben erhalten.
-              - Ist im add_Directory_Entry Request das Attribut "owner" vorhanden und mit Inhalten gefüllt
+              - Ist im modify_Directory_Entry Request das Attribut "holder" nicht vorhanden oder enthält keine Werte
+                 o Die Werte im aktuellen "holder" Attribut des Verzeichniseintrags bleiben erhalten.
+              - Ist im add_Directory_Entry Request das Attribut "holder" vorhanden und mit Inhalten gefüllt
                  o Übernimmt der VZD die Werte aus dem Request und trägt sie - nach Prüfung ihrer Gültigkeit - in den Verzeuichniseintrag ein. 
                    Ist ein Wert aus dem Request nicht gültig, weist der VZD die Operation mit HTTP-Status-Code 422 ab.
           items:

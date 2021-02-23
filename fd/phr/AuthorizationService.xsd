@@ -4,11 +4,14 @@
 <!-- ===================================================================== -->
 <!-- 
 		Version History
+			version: V1.4.0
+			===========
+			*** neue Operation Element GetNotificationInfo
+			
 			version: V1.3.0
 			===========
 			*** neue Operation Element GetSignedAuditEvents
-			
-		Version History
+
 			version: V1.2.0 (R4.0.2)
 			===========
 			*** Feature Umschlüsselung mit neuen Operationen: startKeyChange, putForReplacement, finishKeyChange
@@ -42,7 +45,7 @@
 
 	 	End of Version History
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.3.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2020, gematik GmbH
@@ -177,6 +180,25 @@
 		</complexType>
 	</element>
 	<element name="PutNotificationInfoResponse"/>
+	<element name="GetNotificationInfo">
+		<complexType>
+			<sequence>
+				<!-- element ref="SAML:Assertion"/ -->
+				<!--AuthenticationAssertion wird im SOAP-Header übertragen -->
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<element name="ActorID" type="string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetNotificationInfoResponse">
+		<complexType>
+			<sequence>
+				<element name="NotificationInfoList"> 
+					<element name="NotificationInfoListEntry " type="phr:NotificationInfoListEntryType"/>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
 	<element name="GetAuthorizationList">
 		<complexType>
 			<sequence>

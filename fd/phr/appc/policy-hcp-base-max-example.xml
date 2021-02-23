@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- BEISPIELPOLICY -->
-<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base" Version="4.0">
+<!-- BEISPIEL-POLICY -->
+<PolicySet xmlns="urn:oasis:names:tc:xacml:2.0:policy:schema:os" PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base" Version="4.0.2">
+    <!-- Name der Leistungserbringerinstitution -->
+    <Description>$Name_der_LEI</Description>
+
     <Target/>
     
-    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:container" Version="4.0">
+    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:container" Version="4.0.2">
+
         <Target>
 
             <!-- Leistungserbringerinstitution (repräsentiert durch ihre Telematik-ID) -->
@@ -16,13 +20,6 @@
                             <InstanceIdentifier root="1.2.276.0.76.4.188" xmlns="urn:hl7-org:v3#II" extension="$Telematik_ID"/>
                         </AttributeValue>
                         <SubjectAttributeDesignator AttributeId="urn.gematik.subject.organization-id" DataType="urn:hl7-org:v3#II" MustBePresent="true"/>
-                    </SubjectMatch>
-                </Subject>
-                <Subject>
-                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
-                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string"> $Name_der_LEI
-                        </AttributeValue>
-                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xspa:1.0:subject:organization" DataType="http://www.w3.org/2001/XMLSchema#string"/>
                     </SubjectMatch>
                 </Subject>
             </Subjects>
@@ -58,12 +55,13 @@
         </Target>
 
         <!-- ######################################################################
-            Entweder (Vertrauensstufe AND Kategorie erlaubt AND notBlacklisted) 
-            ODER Whitelist. Wenn JA, dann Permit, ansonsten Deny.
+            Der folgende Teil setzt folgende Auswertungsmechanik um: Permit, wenn 
+            (Vertrauensstufe AND Kategorie erlaubt AND notBlacklisted) OR Whitelist. 
+            Ansonsten Deny.
             ######################################################################
         -->
 
-        <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:all-permissions" Version="4.0">
+        <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:all-permissions" Version="4.0.2">
             <Target/>
 
             <!-- ##################################################################
@@ -71,15 +69,13 @@
                 ###################################################################
             -->
 
-            <PolicyIdReference>
-                urn:gematik:policy-id:permissions-access-group-hcp:whitelist
-            </PolicyIdReference>
+            <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:whitelist</PolicyIdReference>
 
             <!-- ##################################################################
                 Vertrauensstufe AND Kategorie erlaubt AND not Blacklisted
                 ###################################################################
             -->
-            <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:check-wo-whitelist" Version="4.0">
+            <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:deny-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:base:check-wo-whitelist" Version="4.0.2">
                 <Target/>        
                 
                     <!-- ##########################################################
@@ -89,9 +85,7 @@
                         ###########################################################
                     -->
 
-                    <PolicySetIdReference>
-                        urn:gematik:policy-set-id:permissions-access-group-hcp:levels
-                    </PolicySetIdReference>
+                    <PolicySetIdReference>urn:gematik:policy-set-id:permissions-access-group-hcp:levels</PolicySetIdReference>
 
                     <!-- ##########################################################
                         Mittelgranulare Berechtigung: Kategorien
@@ -100,9 +94,7 @@
                         ###########################################################
                     -->
                     
-                    <PolicySetIdReference>
-                        urn:gematik:policy-set-id:permissions-access-group-hcp:categories
-                    </PolicySetIdReference>
+                    <PolicySetIdReference>urn:gematik:policy-set-id:permissions-access-group-hcp:categories</PolicySetIdReference>
                     
                     
                     <!-- ##########################################################
@@ -112,13 +104,11 @@
                         ###########################################################
                     -->
 
-                    <PolicySetIdReference>
-                        urn:gematik:policy-id:permissions-access-group-hcp:blacklist
-                    </PolicySetIdReference>
+                    <PolicySetIdReference>urn:gematik:policy-id:permissions-access-group-hcp:blacklist</PolicySetIdReference>
             </PolicySet>
             
-            <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt -->
-            <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:base:default-deny" Version="4.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+            <!-- Default Policy/Rule (VERPFLICHTEND), welche immer Deny zurückgibt -->
+            <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:base:default-deny" Version="4.0.2" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
                 <Target/>
                 <Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:base:default-deny" Effect="Deny"/>
             </Policy>        
@@ -126,121 +116,73 @@
     </PolicySet>
 
 	<!-- Setzen der grobgranularen Berechtigung  -->
-    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:levels" Version="4.0">
+    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:levels" Version="4.0.2">
         <Target/>
         <!-- Inkludieren für Vertrauensstufe "normal" (VERPFLICHTEND) -->
-        <PolicyIdReference> urn:gematik:policy-set-id:permissions-access-group-hcp:levels:normal </PolicyIdReference> 
+        <PolicyIdReference>urn:gematik:policy-set-id:permissions-access-group-hcp:levels:normal</PolicyIdReference> 
         <!-- Inkludieren, wenn für Vertrauensstufe "erweitert" berechtigt werden soll -->
-        <PolicyIdReference> urn:gematik:policy-id:permissions-access-group-hcp:levels:extended </PolicyIdReference> 
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:levels:extended</PolicyIdReference> 
         <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt, wenn keine der oben genannten Kategorien passt -->
-        <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:levels:default-deny" Version="4.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+        <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:levels:default-deny" Version="4.0.2" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
             <Target/>
             <Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:levels:default-deny" Effect="Deny"/>
         </Policy>
     </PolicySet>
 
     <!-- Setzen der mittelgranularen Berechtigung  -->
-    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:categories" Version="4.0">
+    <PolicySet PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides" PolicySetId="urn:gematik:policy-set-id:permissions-access-group-hcp:categories" Version="4.0.2">
         <Target/>
         <!-- Inkludieren für Berechtigung auf Kategorie "Medikationsplan" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:emp
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:emp</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Notfalldaten" (Notfalldatensatz/Persönliche Erklärung) -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:nfd
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:nfd</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "eArztbrief" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:eab
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:eab</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Zahnbonusheft" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:dentalrecord
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:dentalrecord</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Kinderuntersuchungsheft" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:childsrecord
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:childsrecord</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Mutterpass" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:mothersrecord
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:mothersrecord</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Impfpass" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:vaccination
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:vaccination</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Vom Versicherten eingestellte Dokumente" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:patientdoc
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:patientdoc</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "eGA-Daten" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:ega
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:ega</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Quittungen" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:receipt
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:receipt</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Pflegedokumente" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:care
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:care</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Rezept" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:prescription
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:prescription</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Arbeitsunfähigkeitsbescheinigung" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:eau
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:eau</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Sonstige von der LEI bereitgestellte (nicht medizinische) Dokumente" -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:other
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:other</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Hausarzt/ Hausärztin") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:practitioner
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:practitioner</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Krankenhaus") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:hospital
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:hospital</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Labor- und Humangenetik") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:laboratory
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:laboratory</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Physiotherapeuten") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:physiotherapy
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:physiotherapy</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Psychotherapeuten") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:psychotherapy
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:psychotherapy</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Dermatologie") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:dermatology
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:dermatology</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Urologie/Gynäkologie") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:gynaecology_urology
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:gynaecology_urology</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Zahnheilkunde und Mund-Kiefer-Gesichtschirurgie") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:dentistry_oms
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:dentistry_oms</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Weitere Fachärzte/Fachärztinnen") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:other_medical
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:other_medical</PolicyIdReference>
         <!-- Inkludieren für Berechtigung auf Kategorie "Weitere nicht-ärztliche Berufe") -->
-        <PolicyIdReference>
-            urn:gematik:policy-id:permissions-access-group-hcp:categories:other_non_medical
-        </PolicyIdReference>
+        <PolicyIdReference>urn:gematik:policy-id:permissions-access-group-hcp:categories:other_non_medical</PolicyIdReference>
 
         <!-- Default Policy/Rule (VERPFLICHTEND), das immer Deny zurückgibt, wenn keine der oben genannten Kategorien passt -->
-        <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:default-deny" Version="4.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+        <Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:categories:default-deny" Version="4.0.2" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
             <Target/>
             <Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:categories:default-deny" Effect="Deny"/>
         </Policy>
@@ -255,17 +197,16 @@
 					<!-- Inkludieren: Je eine <Resource> pro Dokument auf der Blacklist -->
 					<Resource>
 						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0: function:string-equal">
-							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string"> $DocumentUniqueId </AttributeValue>
+							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string">$DocumentUniqueId</AttributeValue>
 							<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http//www.w3.org/2001/XMLSchema#string"/>
 						</ResourceMatch>
 					</Resource>
 				</Resources>
 			</Target>
 		</Rule>
-		<!-- Default Rule, das immer Permit zurückgibt, wenn ein Dokument nicht explizit auf der Blacklist gelistet ist -->
+		<!-- Default Rule, welche immer Permit zurückgibt, wenn ein Dokument nicht explizit auf der Blacklist gelistet ist -->
 		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:blacklist:default-permit" Effect="Permit"/>
 	</Policy>
-
 	
     <!-- Setzen der feingranularen Berechtigung: Whitelist -->
 	<Policy PolicyId="urn:gematik:policy-id:permissions-access-group-hcp:whitelist" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0: rule-combining-algorithm:permit-overrides">
@@ -276,14 +217,14 @@
 					<!-- Inkludieren: Je eine <Resource> pro Dokument auf der Whitelist -->
 					<Resource>
 						<ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0: function:string-equal">
-							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string"> $DocumentUniqueId </AttributeValue>
+							<AttributeValue DataType="http//www.w3.org/2001/XMLSchema#string">$DocumentUniqueId</AttributeValue>
 							<ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http//www.w3.org/2001/XMLSchema#string"/>
 						</ResourceMatch>
 					</Resource>
 				</Resources>
 			</Target>
 		</Rule>
-		<!-- Default Rule, das immer Deny zurückgibt, wenn ein Dokument nicht explizit auf der Whitelist ist -->
+		<!-- Default Rule, welche immer Deny zurückgibt, wenn ein Dokument nicht explizit auf der Whitelist ist -->
 		<Rule RuleId="urn:gematik:rule-id:permissions-access-group-hcp:whitelist:default-deny" Effect="Deny"/>
 	</Policy>
 	

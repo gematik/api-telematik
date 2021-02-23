@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Mit XMLSpy v2019 sp1 (x64) (http://www.altova.com) von n/a (Gematik) bearbeitet -->
-<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n (Gematik GmbH) -->
-<!-- Änderungen: -->
-<!-- 	V5.2.0	Basisversion für GKV -->
-<!--    V6.0.0  Schemaversion explizit für PKV auf Basis der Version 5.2.0 -->
-<!--    		(GKV nutzt weiterhin Version 5.2.0) -->
-<!--    		- (VD) 'ZusatzinfosPKV' alternativ zu 'ZusatzinfosGKV' hinzugefügt  -->
-<!--    		- (GVD) alle Elemente optional [0..1] -->
-<!--    		- Typ 'amount' und 'percent' eingefügt -->
-<!--    Die Version 6.0.0 ist für die Verwendung durch PKV vorgesehen. Das Elment 'ZusatzinfosGV' -->
-<!--    und alle fachlichen Elmente in den GVD werden nicht befüllt. -->
-<!--    GKVen KÖNNEN dieses -->
-<!--   	Schema ebenfalls nutzen (inhaltlich kompatibel zu V5.2.0). Da PKV keine GVD nutzen, -->
-<!--    sind alle (GVD-basierten) und verpflichtenden Elemente auf 'optional' ([0..1]) -->
-<!--    geändert worden. -->
-<!--   	Die Versionierung der Schemas für GVD (5.2.0) und PKV (6.0.0) erfolgt unabhängig -->
-<!-- 	voneinander und wird ggf. erst zukünftig zu einer gemeinsamen Version migriert.-->
+<!-- XML-Schema der Versichertenstammdaten (VSD) der eGK für Versicherte privater Kostenträger (PKV)-->
 <!-- -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsdm/vsd/v5.2" targetNamespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.0.0">
+<!-- Änderungen: -->
+<!-- 	Version 1.0.0	Initiale Version -->
+<!-- -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsdm/vsd/v5.2" targetNamespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
 	<xs:element name="UC_AllgemeineVersicherungsdatenXML">
 		<xs:complexType>
 			<xs:sequence>
@@ -58,176 +46,108 @@ Dieses Feld ist ausschließlich für das beschriebene Datum zu nutzen (gemäß �
 							<xs:element name="Zusatzinfos">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:choice>
-											<xs:element name="ZusatzinfosPKV">
-												<xs:annotation>
-													<xs:documentation xml:lang="de">Zusatzinformation private Krankenversicherung</xs:documentation>
-												</xs:annotation>
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="PkvVerbandstarif" type="VSD:codeDigits">
-															<xs:annotation>
-																<xs:documentation xml:lang="de">Der PKV-Verbandstarif wird angegeben durch den Wert:
+										<xs:element name="ZusatzinfosPKV">
+											<xs:annotation>
+												<xs:documentation xml:lang="de">Zusatzinformation private Krankenversicherung</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Tarifart" type="VSD:codeDigits">
+														<xs:annotation>
+															<xs:documentation xml:lang="de">Die Tarifart wird angegeben durch den Wert:
 01 = Individualtarif
 02 = Standardtarif
 03 = Basistarif
-04 = Notlagentarif
-
-
-</xs:documentation>
-															</xs:annotation>
-														</xs:element>
-														<xs:element name="TeilnahmeClinicCardVerfahren" type="VSD:boolean">
-															<xs:annotation>
-																<xs:documentation xml:lang="de">Gibt die Teilnahme des Kostenträgers des Versicherten am ClinicCard-Verfahren an.
+04 = Notlagentarif</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Beihilfeberechtigung" type="VSD:codeDigits" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Gibt den Anspruch des Versicherten auf Beihilfe an. Mögliche Werte:
+00 = keine Angabe
+01 = Beihilfeberechtigt</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="KVB_PBeaK" type="VSD:codeDigits" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Gibt die Zugehörigkeit des Versicherten zur KVB oder PBeaK an. Mögliche Werte:
+00 = keine Angabe
+01 = Postbeamtenkrankenkasse (PBeaKK)
+02 = Krankenversorgung der Bundesbahnbeamten (KVB)</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="StationaereLeistungen" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="TeilnahmeClinicCardVerfahren" type="VSD:boolean" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation xml:lang="de">Gibt die Teilnahme des Kostenträgers des Versicherten am ClinicCard-Verfahren an.
 0 = nein
-1 = ja
-</xs:documentation>
-															</xs:annotation>
-														</xs:element>
-														<xs:element name="Beihilfeberechtigung" type="VSD:codeDigits" minOccurs="0">
-															<xs:annotation>
-																<xs:documentation>Gibt den Anspruch des Versicherten auf Beihilfe an. Mögliche Werte:
-01 = Beihilfe
-02 = Postbeamtenkrankenkasse (PBeaKK)
-03 = Krankenversorgung der Bundesbahnbeamten (KVB)</xs:documentation>
-															</xs:annotation>
-														</xs:element>
-														<xs:element name="StationaereLeistungen" minOccurs="0" maxOccurs="10">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="WahlleistungUnterkunft" type="VSD:codeDigits">
-																		<xs:annotation>
-																			<xs:documentation xml:lang="de">Gibt die Art der Unterkunft an, die der Versicherte gewählt hat. 
-00  = keine Angabe
+1 = ja</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+																<xs:element name="WahlleistungUnterkunft" minOccurs="0" maxOccurs="3">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="ArtWahlleistungUnterkunft" type="VSD:codeDigits">
+																				<xs:annotation>
+																					<xs:documentation>Gibt die Art der Unterkunft an, die der Versicherte gewählt hat. 
+00 = keine Angabe
 01 = Einbett-Zimmer
 02 = Zweibett-Zimmer
 03 = Mehrbett-Zimmer
-04 = Differenz Zwei- und Einbettzimmerzuschlag
-</xs:documentation>
-																		</xs:annotation>
-																	</xs:element>
-																	<xs:element name="ProzentwertWahlleistungUnterkunft" type="VSD:percent" minOccurs="0">
-																		<xs:annotation>
-																			<xs:documentation xml:lang="de">Gibt den Leistungssatz in Prozent an. Wertebereich 000-100.
-</xs:documentation>
-																		</xs:annotation>
-																	</xs:element>
-																	<xs:element name="HoechstsatzWahlleistungUnterkunft" minOccurs="0">
-																		<xs:annotation>
-																			<xs:documentation xml:lang="de">Gibt den Höchstbetrag der Erstattung für die Wahlleistung Unterkunft an. (Volle EUR je Abrechnungstag). Wertebereich 000 -100</xs:documentation>
-																		</xs:annotation>
-																		<xs:simpleType>
-																			<xs:restriction base="VSD:amount"/>
-																		</xs:simpleType>
-																	</xs:element>
-																	<xs:element name="WahlleistungAerztlicheBehandlung" type="VSD:codeDigits" minOccurs="0">
-																		<xs:annotation>
-																			<xs:documentation xml:lang="de">Gibt den Umfang der ärztlichen Behandlung im stationären Bereich an.
-01 = Gesondert berechenbare Leistungen (Chefarztbehandlung)
+04 = Differenz Zwei- und Einbettzimmerzuschlag</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:choice>
+																				<xs:element name="HoechstbetragWahlleistungUnterkunft">
+																					<xs:annotation>
+																						<xs:documentation xml:lang="de">Gibt den Höchstbetrag der Erstattung für die Wahlleistung Unterkunft an. (Volle EUR je Abrechnungstag). Wertebereich 0 -99999</xs:documentation>
+																					</xs:annotation>
+																					<xs:simpleType>
+																						<xs:restriction base="VSD:amount"/>
+																					</xs:simpleType>
+																				</xs:element>
+																				<xs:element name="ProzentwertWahlleistungUnterkunft" type="VSD:percent">
+																					<xs:annotation>
+																						<xs:documentation xml:lang="de">Gibt den Leistungsumfang in Prozent an. Wertebereich 000-100.</xs:documentation>
+																					</xs:annotation>
+																				</xs:element>
+																			</xs:choice>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="WahlleistungAerztlicheBehandlung" minOccurs="0">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="ArtWahlleistungAerztlicheBehandlung" type="VSD:codeDigits">
+																				<xs:annotation>
+																					<xs:documentation>Gibt die Art der ärztlichen Behandlung im stationären Bereich an.
+00 = keine Angabe																		
+01 = besonders aberechenbare Leistungen (Chefarztbehandlung)
 02 = Allgemeine ärztliche Krankenhausleistung
-</xs:documentation>
-																		</xs:annotation>
-																	</xs:element>
-																	<xs:element name="ProzentwertWahlleistungAerztlicheBehandlung" type="VSD:percent" minOccurs="0">
-																		<xs:annotation>
-																			<xs:documentation xml:lang="de">Gibt den Leistungssatz in Prozent an. Wertebereich 000-100.
-</xs:documentation>
-																		</xs:annotation>
-																	</xs:element>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-												</xs:complexType>
-											</xs:element>
-											<xs:element name="ZusatzinfosGKV">
-												<xs:annotation>
-													<xs:documentation>Zusatzinformation gesetzliche Krankenversicherung</xs:documentation>
-												</xs:annotation>
-												<xs:complexType>
-													<xs:sequence>
-														<xs:element name="Versichertenart" type="VSD:codedString">
-															<xs:annotation>
-																<xs:documentation>Gibt die Versichertenart des Versicherten an.
-1 = Mitglied, 
-3 = Familienversicherter, 
-5 = Rentner und ihre Familienangehörigen
-</xs:documentation>
-															</xs:annotation>
-														</xs:element>
-														<xs:element name="Zusatzinfos_Abrechnung_GKV">
-															<xs:complexType>
-																<xs:sequence>
-																	<xs:element name="Kostenerstattung" minOccurs="0">
-																		<xs:annotation>
-																			<xs:documentation>Gibt an, ob der Kostentraeger den Nachweis der Inanspruchnahme von Leistungen der Abrechnungsart Kostenerstattung auf der eGK speichert. 
-vorhanden = Nachweis wird genutzt; 
-nichtvorhanden = Nachweis wird nicht genutzt</xs:documentation>
-																		</xs:annotation>
-																		<xs:complexType>
-																			<xs:sequence>
-																				<xs:element name="AerztlicheVersorgung" type="VSD:boolean">
-																					<xs:annotation>
-																						<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer die aerztliche Versorgung an.
-1 (true) = Kostenerstattung fuer aerztliche Versorgung
-0 (false) = keine Kostenerstattung fuer aerztliche Versorgung</xs:documentation>
-																					</xs:annotation>
-																				</xs:element>
-																				<xs:element name="ZahnaerztlicheVersorgung" type="VSD:boolean">
-																					<xs:annotation>
-																						<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer zahnaerztliche Versorgung an.
-1 (true) = Kostenerstattung fuer zahnaerztliche Versorgung
-0 (false) = keine Kostenerstattung fuer zahnaerztliche Versorgung</xs:documentation>
-																					</xs:annotation>
-																				</xs:element>
-																				<xs:element name="StationaererBereich" type="VSD:boolean">
-																					<xs:annotation>
-																						<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer den stationaeren Bereich an.
-1 (true) = Kostenerstattung fuer stationaeren Bereich 
-0 (false) = keine Kostenerstattung fuer stationaeren Bereich </xs:documentation>
-																					</xs:annotation>
-																				</xs:element>
-																				<xs:element name="VeranlassteLeistungen" type="VSD:boolean">
-																					<xs:annotation>
-																						<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer veranlasste Leistungen an.
-1 (true) = Kostenerstattung fuer veranlasste Leistungen
-0 (false) = keine Kostenerstattung fuer veranlasste Leistungen</xs:documentation>
-																					</xs:annotation>
-																				</xs:element>
-																			</xs:sequence>
-																		</xs:complexType>
-																	</xs:element>
-																	<xs:element name="WOP" type="VSD:numberWithLeadingZero">
-																		<xs:annotation>
-																			<xs:documentation>Das Kennzeichen WOP ist gemaess § 2 Abs. 2 der Vereinbarung zur Festsetzung des Durchschnittsbetrages gemaess Artikel 2 § 2 Abs. 2 des Gesetzes zur Einfuehrung des Wohnortprinzips bei Honorarvereinbarungen fuer Aerzte und Zahnaerzte und zur Krankenversichertenkarte gemaess § 291 Abs. 2 Fuenftes Sozialgesetzbuch (SGB V) erforderlich.
-01 = Schleswig-Holstein
-02 = Hamburg
-03 = Bremen
-17 = Niedersachsen
-20 = Westfalen-Lippe
-38 = Nordrhein
-46 = Hessen
-51 = Rheinland-Pfalz
-52 = Baden-Württemberg
-71 = Bayerns
-72 = Berlin
-73 = Saarland
-78 = Mecklenburg-Vorpommern
-83 = Brandenburg
-88 = Sachsen-Anhalt
-93 = Thüringen
-98 = Sachsen
-Gemäß Anlage 21 BMV-Ä und EKV.</xs:documentation>
-																		</xs:annotation>
-																	</xs:element>
-																</xs:sequence>
-															</xs:complexType>
-														</xs:element>
-													</xs:sequence>
-												</xs:complexType>
-											</xs:element>
-										</xs:choice>
+03 = Belegarzt erweitert</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="ProzentwertWahlleistungAerztlicheBehandlung" type="VSD:percent" minOccurs="0">
+																				<xs:annotation>
+																					<xs:documentation xml:lang="de">Gibt den Leistungsumfang in Prozent an. Wertebereich 000-100.</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="AllgemeineKrankenhausleistungen" type="VSD:percent" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Gibt den Leistungsumfang in Prozent an. Wertebereich 000-100.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
@@ -236,6 +156,11 @@ Gemäß Anlage 21 BMV-Ä und EKV.</xs:documentation>
 				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="CDM_VERSION" type="VSD:CDMVersion" use="required"/>
+			<xs:attribute name="KTR_TYP" type="VSD:KTRType" use="required" fixed="1">
+				<xs:annotation>
+					<xs:documentation>Kostenträgertyp des VSD-Schemas. Fester Wert = 1 für VSD-Schemas der PKV</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="UC_PersoenlicheVersichertendatenXML">
@@ -419,129 +344,26 @@ Als Anschriftenzusatz kann z. B. „Hinterhaus“ angegeben werden.</xs:document
 				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="CDM_VERSION" type="VSD:CDMVersion" use="required"/>
+			<xs:attribute name="KTR_TYP" type="VSD:KTRType" use="required" fixed="1">
+				<xs:annotation>
+					<xs:documentation>Kostenträgertyp des VSD-Schemas. Fester Wert = 1 für VSD-Schemas der PKV</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="UC_GeschuetzteVersichertendatenXML">
+		<xs:annotation>
+			<xs:documentation>Hinweis:
+					Dieses Schema definiert keine geschütztenVersichertendaten.
+Für die Befüllung einer eGK (EF.GVD) ist jedoch aus Konsistenzgründen eine XML-Datei auf Basis dieses Schemas erforderlich.</xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="Zuzahlungsstatus" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Es handelt sich um eine Pflichtangabe fuer GKV. 
-Hinweis: Dieses Datenfeld ist nicht frei auslesbar, sondern nur berechtigten Personen zugaenglich.</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Status" type="VSD:booleanInteger">
-								<xs:annotation>
-									<xs:documentation>Gibt an, ob fuer den Versicherten eine Befreiung von der Zuzahlungspflicht nach § 62 SGB V vorliegt.
-Hinweis: "Fuer eine befristete Uebergangszeit (die Frist ist noch festzulegen) wird bei der eGK der schuetzenswerte Teil der Versichertenstammdaten in derselben Form so in den  ungeschuetzten Container kopiert, dass der gesamte, ohne Zusatzauthentifizierung auslesbare Versichertendatensatz inhaltlich dem der heutigen KVK entspricht." [Archboard 33]
-1 (true) = von Zuzahlungspflicht befreit
-0 (false) = von Zuzahlungspflicht nicht befreit (Standard)</xs:documentation>
-								</xs:annotation>
-							</xs:element>
-							<xs:element name="Gueltig_bis" type="VSD:ISO8601Date" minOccurs="0">
-								<xs:annotation>
-									<xs:documentation>Gibt die Gueltigkeit der Befreiung von der Zuzahlungspflicht nach § 62 SGB V an.
-Dieses Datenobjekt ist erforderlich, um im Hinblick auf die Online-Aktualisierung ein „Massen-Update" des Zuzahlungsstatus zum Jahreswechsel zu entzerren.
-Wird nur angegeben, wenn Status Zuzahlung mit 1 (= befreit) angegeben ist.
-</xs:documentation>
-								</xs:annotation>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="BesonderePersonengruppe" type="VSD:codeDigits" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Gibt die Zugehoerigkeit des Versicherten zu einer besonderen Personengruppe an. Die Kennzeichnung erfolgt gemaess der Schluesseltabelle.
-4 = BSHG (Bundessozialhilfegesetz) § 264 SGB V, 
-6 = BVG (Gesetz über die Versorgung der Opfer des Krieges), 
-7 = SVA-Kennzeichnung für zwischenstaatliches Krankenversicherungsrecht: - Personen mit Wohnsitz im
-Inland, Abrechnung nach Aufwand, 
-8 = SVA-Kennzeichnung, pauschal,
-9 = Empfänger von Gesundheitsleistungen nach §§ 4 und 6 des Asylbewerberleistungsgesetzes (AsylbLG).
-</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="DMP_Kennzeichnung" type="VSD:codeDigits" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Gibt die Teilnahme des Versicherten an einem Disease Management Program an. Die Kennzeichnung erfolgt gemaess der Schluesseltabelle.
-1 = Diabetes mellitus Typ 2, 
-2 = Brustkrebs, 
-3 = Koronare Herzkrankheit, 
-4 = Diabetes mellitus Typ 1, 
-5 = Asthma bronchiale, 
-6 = COPD (chronic obstructive pulmonary disease), 
-7 = Chronische Herzinsuffizienz, 
-8 = Depression, 
-9 = Rückenschmerz
-Das DMP-Kennzeichen findet derzeit aufgrund bilateraler vertraglicher Verpflichtungen von einzelnen Kostenträgern und Leistungserbringern noch Verwendung. Zur Abbildung dieser Verträge zu Disease-Management-Programmen kann das DMP-Kennzeichen weiterhin gemäß §291 Abs. 2a Satz 3 SGB V auf der eGK gespeichert werden, da es sich dabei um Angaben nach § 53 SGB V bzw. Angaben zum Nachweis von zusätzlichen Vertragsverhältnissen handelt.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Selektivvertraege" minOccurs="0">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Aerztlich" type="VSD:codeDigit">
-								<xs:annotation>
-									<xs:documentation>Gibt an, ob fuer den Versicherten ein aerztlicher Selektivvertrag vorliegt.
-Dieses Datenfeld ist besonders schuetzenswert und daher nicht frei auslesbar, sondern nur berechtigten Personen zugaenglich.
-Schluesselverzeichnis:
-1 = aerztlicher Selektivvertrag liegt vor
-0 = aerztlicher Selektivvertrag liegt nicht vor 
-9 = aerztliches Selektivvertragskennzeichen wird nicht genutzt</xs:documentation>
-								</xs:annotation>
-							</xs:element>
-							<xs:element name="Zahnaerztlich" type="VSD:codeDigit">
-								<xs:annotation>
-									<xs:documentation>Gibt an, ob fuer den Versicherten ein zahnaerztlicher Selektivvertrag vorliegt.
-Dieses Datenfeld ist besonders schuetzenswert und daher nicht frei auslesbar, sondern nur berechtigten Personen zugaenglich.
-Schluesselverzeichnis:
-1 = zahnaerztlicher Selektivvertrag liegt vor
-0 = zahnaerztlicher Selektivvertrag liegt nicht vor 
-9 = zahnaerztliches Selektivvertragskennzeichen wird nicht genutzt</xs:documentation>
-								</xs:annotation>
-							</xs:element>
-							<xs:element name="Art" minOccurs="0">
-								<xs:annotation>
-									<xs:documentation>Gibt die Paragraphen des  SGB V an, in denen Selektivvertraege beschrieben sind.
-Die Angaben gelten fuer folgende Selektivvertraege:
-1. Stelle: Hausarztzentrierte Versorgung (§73b)
-2. Stelle: nicht besetzt
-3. Stelle: Strukturierte Behandlungsprogramme (§137f)
-4. Stelle: Integrierte Versorgung (§140a)
-Die Stellen 1 und 3 koennen den Wert = 1 (true) nur annehmen, wenn Aerztlich = 1 (true) ist.
-
-Die Stelle 4 kann sowohl zur Kennzeichnung aerztlicher als auch zahnaerztlicher Selektivvertraege genutzt werden.
-Beispiel: 1000
-Es liegt ein Selektivvertrag fuer die Hausarztzentrierte Versorgung nach §73b vor.
-In der Testphase koennen die Krankenkassen im geschuetzten Bereich die Paragraphen des SGB V, in denen Selektivvertraege beschrieben sind (§§73b, 137f, 140a), im Rahmen der offenen Speicherkapazitaet abbilden.</xs:documentation>
-								</xs:annotation>
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:pattern value="[0-1]{4}"/>
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="RuhenderLeistungsanspruch" minOccurs="0">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Beginn" type="VSD:ISO8601Date"/>
-							<xs:element name="Ende" type="VSD:ISO8601Date" minOccurs="0"/>
-							<xs:element name="ArtDesRuhens" type="VSD:codeDigit">
-								<xs:annotation>
-									<xs:documentation>Dieses Feld dient ausschließlich zur Angabe des ruhenden Leistungsanpruchs nach § 16 Abs. 3a und § 16 Abs. 1 bis 3 SGB V.
-Mögliche Ausprägungen des ruhenden Leistungsanspruchs sind:
-1 = vollständig
-2 = eingeschränkt								</xs:documentation>
-								</xs:annotation>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
 			<xs:attribute name="CDM_VERSION" type="VSD:CDMVersion" use="required"/>
+			<xs:attribute name="KTR_TYP" type="VSD:KTRType" use="required" fixed="1">
+				<xs:annotation>
+					<xs:documentation>Kostenträgertyp des VSD-Schemas. Fester Wert = 1 für VSD-Schemas der PKV</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="Kostentraeger">
@@ -600,16 +422,6 @@ Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) 
 			<xs:maxLength value="20"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="numberWithLeadingZero">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="[0-9]{2}"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="codedString">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="[0-9]"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:simpleType name="codeDigits">
 		<xs:restriction base="xs:integer">
 			<xs:totalDigits value="2"/>
@@ -618,11 +430,6 @@ Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) 
 	<xs:simpleType name="codeDigit">
 		<xs:restriction base="xs:integer">
 			<xs:totalDigits value="1"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="booleanInteger">
-		<xs:restriction base="xs:integer">
-			<xs:pattern value="0|1"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="boolean">
@@ -640,10 +447,18 @@ Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) 
 	</xs:simpleType>
 	<xs:simpleType name="CDMVersion">
 		<xs:annotation>
-			<xs:documentation>Version 5.3.X </xs:documentation>
+			<xs:documentation>Version 1.0.X </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="KTRType">
+		<xs:annotation>
+			<xs:documentation>Kostenträger Typ. (Zur Unterscheidung der Kostenträgertypen GKV, PKV und weiteren)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="1"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="insurantId">

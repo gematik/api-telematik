@@ -1,3 +1,15 @@
+# Release 4.0.2
+- KSR: limit FQDN according to RFC1035
+ - VZD/DirectoryAdministration: new operation read_Directory_Entry_for_Sync and removal of enum formats for attribute usage
+ - VZD/DirectoryAdministraton: renamed owner to holder
+ - ePA: simplifying APPC Policies (C_10475)
+ - ePA: new interface GetNotificationInfo (C_10469)
+ - FDV/testtreiber: interface update
+ - FDV/testtreiber: errorMessage renamed to statusMessages (C_10385)
+ - VSDS: update schema Schema_VSD_PKV.xsd and new schema Pruefungsnachweis_PKV.xsd
+ - VSDS: new values for DMP_Kennzeichnung in Schema_VSD.xsd
+
+
 # Release 4.0.2-Pre1
 - Konnektor: add schema for operating data (C_10340)
  - VPNZugD: add operation sendData (C_10340)

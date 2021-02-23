@@ -5,10 +5,14 @@
 <!-- ===================================================================== -->
 <!-- Version History
 
+			version: V1.4 (R4.0.2)
+			===========
+			*** neue Operation Element GetNotificationInfo
+			
 			version: V1.3 (R4.0.2)
 			===========
 			*** neue Operation Element GetSignedAuditEvents
-			
+
 			version: V1.2 (R4.0.1)
 			===========
 			*** Feature Umschlüsselung mit neuen Operationen: startKeyChange, putForReplacement, finishKeyChange
@@ -75,6 +79,12 @@
 	</message>
 	<message name="PutNotificationInfoResponseMessage">
 		<part name="parameter" element="phrs:PutNotificationInfoResponse"/>
+	</message>
+	<message name="GetNotificationInfoRequestMessage">
+		<part name="parameter" element="phrs:GetNotificationInfo"/>
+	</message>
+	<message name="GetNotificationInfoResponseMessage">
+		<part name="parameter" element="phrs:GetNotificationInfoResponse"/>
 	</message>
 	<message name="CheckRecordExistsRequestMessage">
 		<part name="parameter" element="phrs:CheckRecordExists"/>
@@ -169,6 +179,11 @@
 		<operation name="PutNotificationInfo">
 			<input message="phrs:PutNotificationInfoRequestMessage"/>
 			<output message="phrs:PutNotificationInfoResponseMessage"/>
+			<fault name="FaultMessage" message="phrs:FaultMessage"/>
+		</operation>
+		<operation name="GetNotificationInfo">
+			<input message="phrs:GetNotificationInfoRequestMessage"/>
+			<output message="phrs:GetNotificationInfoResponseMessage"/>
 			<fault name="FaultMessage" message="phrs:FaultMessage"/>
 		</operation>
 		<operation name="GetAuthorizationList">
@@ -325,6 +340,18 @@
 		</operation>
 		<operation name="PutNotificationInfo">
 			<soap12:operation soapAction="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0#PutNotificationInfo"/>
+			<input>
+				<soap12:body use="literal"/>
+			</input>
+			<output>
+				<soap12:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetNotificationInfo">
+			<soap12:operation soapAction="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0#GetNotificationInfo"/>
 			<input>
 				<soap12:body use="literal"/>
 			</input>

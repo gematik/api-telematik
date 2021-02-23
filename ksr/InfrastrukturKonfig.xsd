@@ -4,7 +4,8 @@
 			* length limits for stings introduced
 			* character set limits for strings (ID, Name, DomainName) added
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:TICONF="http://ws.gematik.de/ticonf/v1.0" targetNamespace="http://ws.gematik.de/ticonf/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.1">
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:TICONF="http://ws.gematik.de/ticonf/v1.0" targetNamespace="http://ws.gematik.de/ticonf/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.1">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2020, gematik GmbH
@@ -32,7 +33,7 @@
 											<simpleType>
 												<restriction base="string">
 													<maxLength value="100"/>
-													<pattern value="[a-zA-Z0-9.\-]"/>
+													<pattern value="[a-zA-Z0-9.\-]*"/>
 												</restriction>
 											</simpleType>
 										</element>
@@ -40,7 +41,7 @@
 											<simpleType>
 												<restriction base="string">
 													<maxLength value="100"/>
-													<pattern value="[a-zA-Z 0-9_.\-äöüÄÖÜß]"/>
+													<pattern value="[a-zA-Z 0-9_.\-äöüÄÖÜß]*"/>
 												</restriction>
 											</simpleType>
 										</element>
@@ -61,7 +62,7 @@
 																	<simpleType>
 																		<restriction base="string">
 																			<maxLength value="100"/>
-																			<pattern value="[a-zA-Z0-9.\-]*[a-zA-Z0-9.]"/>
+																			<pattern value="[a-zA-Z]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*"/>
 																		</restriction>
 																	</simpleType>
 																</element>
