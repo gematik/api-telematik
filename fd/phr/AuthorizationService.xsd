@@ -193,8 +193,12 @@
 	<element name="GetNotificationInfoResponse">
 		<complexType>
 			<sequence>
-				<element name="NotificationInfoList"> 
-					<element name="NotificationInfoListEntry " type="phr:NotificationInfoListEntryType"/>
+				<element name="NotificationInfoList">
+					<complexType>
+						<sequence>									
+							<element name="NotificationInfoListEntry" type="phr:NotificationInfoListEntryType"/>
+						</sequence>
+					</complexType>				
 				</element>
 			</sequence>
 		</complexType>

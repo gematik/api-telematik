@@ -1,3 +1,6 @@
+# Release 4.0.2-1
+epa: Bugfix in AuthenticationService
+
 # Release 4.0.2
 - KSR: limit FQDN according to RFC1035
  - VZD/DirectoryAdministration: new operation read_Directory_Entry_for_Sync and removal of enum formats for attribute usage

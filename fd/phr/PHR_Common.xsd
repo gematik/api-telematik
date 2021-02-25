@@ -83,9 +83,9 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="NotificationInfoListEntryType">
-		<xs:sequence> 
-			<xs:element type="ActorID" name="String" minOccurs="1" maxOccurs="1"/>
-			<xs:element type="NotificationInfo" name="String" minOccurs="1" maxOccurs="1"/>
+		<xs:sequence>
+			<xs:element name="ActorID" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="NotificationInfo" type="xs:string" minOccurs="1" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="DischargeLetterContainer" type="tns:DischargeLetterContainerType"/>
