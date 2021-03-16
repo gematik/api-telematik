@@ -1,3 +1,9 @@
+# Release 4.0.2-2
+- FdV: GetNotificationInfoList added
+ - FdV: GetNotificationInformationRequestDTO added
+ - FdV: Spelling corrected
+
+
 # Release 4.0.2-1
 epa: Bugfix in AuthenticationService
 

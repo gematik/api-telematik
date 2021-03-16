@@ -359,6 +359,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseDTO'
 
+  /GetNotificationInfoList:
+    post:
+      tags:
+        - "administration"
+      summary: Hinterlegte Benachrichtigungsadressen abfragen
+      description: Umsetzung Operation I_FdV::getNotificationInformation (A_21255);
+      operationId: getNotificationInformation_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetNotificationInformationRequestDTO'
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetNotificationInformationResponseDTO'
+
+
   /changeProvider:
     post:
       tags:
@@ -1220,7 +1241,7 @@ components:
       required:
         - success
 
-    PermissonProp:
+    PermissionProp:
       type: object
       description: Enthält alle Informationen, was genau berechtigt wurde,
         d.h. alle Details zur vergebenen grob-, mittel- und
@@ -1269,11 +1290,6 @@ components:
           description: Zugriff gueltig bis einschließlich; full-date notation as defined by RFC 3339, section 5.6
           example: 2017-07-21
       required:
-        - permissionAccessLevel
-        - permissionAccessCategories
-        - permissionAccessWhitelist
-        - permissionAccessBlacklist
-        - validFrom
         - validThrough
 
     PermissionEntry:
@@ -1286,7 +1302,7 @@ components:
           type: string
           description: Name des Berechtigten
         permissionLeiProperties:
-          $ref: '#/components/schemas/PermissonProp'
+          $ref: '#/components/schemas/PermissionProp'
       required:
         - telematikOrInsurantId
         - name
@@ -1327,7 +1343,7 @@ components:
           type: string
           description: Name der LEI
         permissionLeiProperties:
-          $ref: '#/components/schemas/PermissonProp'
+          $ref: '#/components/schemas/PermissionProp'
       required:
         - account
 
@@ -1351,8 +1367,6 @@ components:
       required:
         - account
         - representativeInsurantId
-        - representativeName
-        - representativeNotificationInfo
 
     PermissionInsuranceDTO:
       type: object
@@ -1394,6 +1408,30 @@ components:
       required:
         - account
         - notificationInformation
+
+    GetNotificationInformationRequestDTO:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/Login'
+      required:
+        - account
+
+    GetNotificationInformationResponseDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        statusMessage:
+          type: string
+        notificationInfoList:
+          type: array
+          items:
+            type: string
+            description: Email Adresse des Vertreters
+      required:
+        - success
+        - notificationInfoList
 
     NotificationInformationWithId:
       type: object
@@ -1526,8 +1564,8 @@ components:
             - NotificationPeriod
             - ShowPermissionOnAddDocuments
             - UseEGK
-            - # TODO Ins Englische übersetzt
             - SignatureServiceURL
+            - DefaultConfidentialityCode
           description: Schluesselwerte fuer die in A_15292 definierten Parameter, die durch den Nutzer fuer die Konfiguration des FdV eingegeben werden.; OwnerInsurantId - Versicherten-ID des Aktenkontoinhabers, Teil der Akten-ID; OwnerFqdnProvider - FQDN Anbieter ePA-Aktensystem des Aktenkontoinhabers; OwnerDeviceName - Gerätename des GdV; In der Testtreiber-Konfiguration können 2 Vertretungen eingerichtet werden.; Representation1Name - Name des zu Vertretenden; Representation1InsurantId - Versicherten-ID des zu Vertretenden, Teil der Akten-ID; Representation1FqdnProvider - FQDN Anbieter ePA-Aktensystem des zu Vertretenden; Notifcation - Benachrichtigungen aktivieren; NotificationPeriod - Benachrichtigungszeitraum; ShowPermissionOnAddDocuments - Dokumente einstellen Berechtigte anzeigen; UseEGK (boolean) - gibt an, ob fuer die Authentisierung die eGK oder die alternative kryptographische Versichertenidentitaet genutzt wird.
         configurationEntryValue:
           type: string
