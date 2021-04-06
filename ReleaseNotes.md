@@ -1,3 +1,9 @@
+# Release 4.0.2-3
+- Konnektor: Minus character escaped in pattern attribute Shorttext (C_10614)
+ - FdV: GetNotificationInfoList, GetNotificationInformationRequestDTO added; Spelling corrected (testtreiber_fdv.yaml)
+ - ePA: Bugfix in AuthorizationService
+
+
 # Release 4.0.2-2
 - FdV: GetNotificationInfoList added
  - FdV: GetNotificationInformationRequestDTO added
