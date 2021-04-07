@@ -1,4 +1,5 @@
 # Release 4.0.2-3
+- Konnektor: Context added to GetSignatureMode request. CardHandle, Context removed from GetSignatureModeResponse (C_10555)
 - Konnektor: Minus character escaped in pattern attribute Shorttext (C_10614)
  - FdV: GetNotificationInfoList, GetNotificationInformationRequestDTO added; Spelling corrected (testtreiber_fdv.yaml)
  - ePA: Bugfix in AuthorizationService
