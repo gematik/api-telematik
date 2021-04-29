@@ -3,7 +3,12 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.5.0
+  version: 1.5.1
+  # Änderungen in Version 1.5.1
+  #  - Header 'Accept: application/json' wird bei delete_Directory_Entry benötigt.
+  #    Dies wird durch Angabe von "application/json" für den content von dem
+  #    Response mit HTTP Status 200 gewährleistet. 
+  #
   # Änderungen in Version 1.5.0
   #  - Attribut "owner" in "holder" umbenannt ("owner" ist in LDAP vordefiniert und kann deshalb nicht für den vorgesehenen Zweck genutzt werden)
 
@@ -547,7 +552,9 @@ paths:
       responses:
         200:
           description: OK
-          content: {}
+          content:
+            application/json:
+                schema: {}
         400:
           description: Bad Request
                      # Invalid ID supplied

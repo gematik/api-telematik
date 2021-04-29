@@ -5,7 +5,7 @@
 <!-- Änderungen: -->
 <!-- 	Version 1.0.0	Initiale Version -->
 <!-- -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsdm/vsd/v5.2" targetNamespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsdm/vsd_pkv/v1.0" targetNamespace="http://ws.gematik.de/fa/vsdm/vsd_pkv/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
 	<xs:element name="UC_AllgemeineVersicherungsdatenXML">
 		<xs:complexType>
 			<xs:sequence>

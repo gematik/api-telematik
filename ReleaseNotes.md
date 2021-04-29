@@ -1,3 +1,8 @@
+# Release 4.0.2-4
+- VZD: Header 'Accept: application/json' added to delete_Directory_Entry.
+ - VSDM: Correction of namespace for schema vsd pkv
+
+
 # Release 4.0.2-3
 - Konnektor: Context added to GetSignatureMode request. CardHandle, Context removed from GetSignatureModeResponse (C_10555)
 - Konnektor: Minus character escaped in pattern attribute Shorttext (C_10614)
