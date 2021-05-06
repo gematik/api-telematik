@@ -1,3 +1,8 @@
+# Release 3.1.3-H9
+- Konnektor: Context added to GetSignatureMode request. CardHandle, Context removed from GetSignatureModeResponse. (C_10555)
+ - Konnektor: Fixed Pattern Attribut Shorttext (C_10614)
+
+
 # Release 3.1.3-H5
 - All: fix version in comments, documentation-, annotation tag and schema to be the same 
  - Konnektor: remove LDSM (LogDatenSendeModul) XSD (C_7009) 
