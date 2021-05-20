@@ -1,4 +1,4 @@
- Schnittstellendefinitionen im XSD- und WSDL-Format für alle im Release definierten Produkttypversionen
+Schnittstellendefinitionen im XSD- und WSDL-Format für alle im Release definierten Produkttypversionen
 
  # Struktur
 

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- Mit XMLSpy v2019 sp1 (x64) (http://www.altova.com) von n/a (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
-<!-- Copyright (C) 2020 gematik GmbH. Alle Rechte vorbehalten.             -->
+<!-- Copyright (C) 2021 gematik GmbH. Alle Rechte vorbehalten.             -->
 <!-- ===================================================================== -->
 <!-- 
 		Version History
+					version: V1.2.1
+			===========
+			*** added paging functionality to getAuditEvents
+
 			version: V1.2.0 (R4.0.2)
 			===========
 			*** neue Operation Element GetSignedAuditEvents
 
-		Version History
 			version: V1.1.1 (R3.1.1)
 			===========
 			*** Korrektur Element GetAuditEvents complexType ergänzt
@@ -20,25 +23,66 @@
 
 	 	End of Version History
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phr="http://ws.gematik.de/fa/phr/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:phra="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
-	<annotation>
-		<documentation xml:lang="de">
-			Copyright (c) 2018, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
-			Schema-Beschreibung der Schnittstellen der Komponente Authentisierung des Versicherten.
-		</documentation>
-	</annotation>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:phra="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1" targetNamespace="http://ws.gematik.de/fd/phrs/I_Authentication_Insurant/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.1">
 	<import namespace="urn:oasis:names:tc:SAML:2.0:assertion" schemaLocation="../../ext/saml-schema-assertion-2.0.xsd"/>
 	<import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
 	<import namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512" schemaLocation="../../ext/ws-trust-1.3.xsd"/>
-	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="PHR_Common.xsd"/>
 	<element name="GetAuditEvents">
-		<complexType/>
+		<complexType>
+			<sequence>
+				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
+				<element name="DeviceID" type="phr:DeviceIdType"/>
+				<element name="PageSize" minOccurs="0">
+					<simpleType>
+						<restriction base="integer">
+							<minInclusive value="1"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="PageNumber" minOccurs="0">
+					<simpleType>
+						<restriction base="integer">
+							<minInclusive value="1"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="LastDay" type="date" minOccurs="0"/>
+			</sequence>
+		</complexType>
 	</element>
 	<element name="GetAuditEventsResponse">
 		<complexType>
 			<sequence>
 				<element ref="phrext:AuditMessage" minOccurs="0" maxOccurs="unbounded"/>
-				<element ref="tel:Error" minOccurs="0"/>
+				<element name="PageSize" minOccurs="0">
+					<simpleType>
+						<restriction base="integer">
+							<minInclusive value="1"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="PageNumber" minOccurs="0">
+					<simpleType>
+						<restriction base="integer">
+							<minInclusive value="1"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="TotalPages" minOccurs="0">
+					<simpleType>
+						<restriction base="integer">
+							<minInclusive value="0"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="TotalEntries" minOccurs="0">
+					<simpleType>
+						<restriction base="integer">
+							<minInclusive value="0"/>
+						</restriction>
+					</simpleType>
+				</element>
 			</sequence>
 		</complexType>
 	</element>

@@ -5,6 +5,11 @@
 <!-- ===================================================================== -->
 <!-- Version History
 
+			version: V1.5
+			===========
+			*** neue Operation Element GetKtrTelematikID
+			*** neue Operation Element GetRecordProviderList
+
 			version: V1.4 (R4.0.2)
 			===========
 			*** neue Operation Element GetNotificationInfo
@@ -86,11 +91,23 @@
 	<message name="GetNotificationInfoResponseMessage">
 		<part name="parameter" element="phrs:GetNotificationInfoResponse"/>
 	</message>
+	<message name="GetKtrTelematikIDRequestMessage">
+		<part name="parameter" element="phrs:GetKtrTelematikID"/>
+	</message>
+	<message name="GetKtrTelematikIDResponseMessage">
+		<part name="parameter" element="phrs:GetKtrTelematikIDResponse"/>
+	</message>
 	<message name="CheckRecordExistsRequestMessage">
 		<part name="parameter" element="phrs:CheckRecordExists"/>
 	</message>
 	<message name="CheckRecordExistsResponseMessage">
 		<part name="parameter" element="phrs:CheckRecordExistsResponse"/>
+	</message>
+	<message name="GetRecordProviderListRequestMessage">
+		<part name="parameter" element="phrs:GetRecordProviderList"/>
+	</message>
+	<message name="GetRecordProviderListResponseMessage">
+		<part name="parameter" element="phrs:GetRecordProviderListResponse"/>
 	</message>
 	<message name="GetAuthorizationListRequestMessage">
 		<part name="parameter" element="phrs:GetAuthorizationList"/>
@@ -184,6 +201,16 @@
 		<operation name="GetNotificationInfo">
 			<input message="phrs:GetNotificationInfoRequestMessage"/>
 			<output message="phrs:GetNotificationInfoResponseMessage"/>
+			<fault name="FaultMessage" message="phrs:FaultMessage"/>
+		</operation>
+		<operation name="GetKtrTelematikID">
+			<input message="phrs:GetKtrTelematikIDRequestMessage"/>
+			<output message="phrs:GetKtrTelematikIDResponseMessage"/>
+			<fault name="FaultMessage" message="phrs:FaultMessage"/>
+		</operation>
+		<operation name="GetRecordProviderList">
+			<input message="phrs:GetRecordProviderListRequestMessage"/>
+			<output message="phrs:GetRecordProviderListResponseMessage"/>
 			<fault name="FaultMessage" message="phrs:FaultMessage"/>
 		</operation>
 		<operation name="GetAuthorizationList">
@@ -362,8 +389,32 @@
 				<soap12:fault name="FaultMessage" use="literal"/>
 			</fault>
 		</operation>
+		<operation name="GetKtrTelematikID">
+			<soap12:operation soapAction="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0#GetKtrTelematikID"/>
+			<input>
+				<soap12:body use="literal"/>
+			</input>
+			<output>
+				<soap12:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
 		<operation name="GetAuthorizationList">
 			<soap12:operation soapAction="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0#GetAuthorizationList" soapActionRequired="true"/>
+			<input>
+				<soap12:body use="literal"/>
+			</input>
+			<output>
+				<soap12:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetRecordProviderList">
+			<soap12:operation soapAction="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0#GetRecordProviderList" soapActionRequired="true"/>
 			<input>
 				<soap12:body use="literal"/>
 			</input>

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Mit XMLSpy v2020 rel. 2 (x64) (http://www.altova.com) von Dr. Matthias Unverzagt (enpasos GmbH) bearbeitet -->
+<!-- Mit XMLSpy v2019 sp1 (x64) (http://www.altova.com) von n/a (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                               -->
 <!-- ===================================================================== -->
 <!-- Version History
+
+			version: V1.2
+			===========
+			*** added TelematikIdType
+			*** added RecordProviderListEntryType
+			*** removed namespace vsd:, insurantId now local
 
 			version: V1.1
 			===========
@@ -15,9 +21,10 @@
 			*** Initiale Erstellung
 
 	 End of Version History-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hl7="urn:hl7-org:v3" xmlns:vsd="http://ws.gematik.de/fa/vsdm/vsd/v5.2" xmlns:tns="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/fa/phr/v1.1" elementFormDefault="qualified">
+<!--   xmlns:vsd="http://ws.gematik.de/fa/vsdm/vsd/v5.2"  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:hl7="urn:hl7-org:v3" xmlns:tns="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/fa/phr/v1.1" elementFormDefault="qualified">
 	<xs:import namespace="urn:hl7-org:v3" schemaLocation="../../ext/HL7V3/NE2008/coreschemas/infrastructureRoot.xsd"/>
-	<xs:import namespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" schemaLocation="../../fa/vsds/Schema_VSD.xsd"/>
+	<!--xs:import namespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" schemaLocation="../../fa/vsds/Schema_VSD.xsd"/-->
 	<xs:element name="RecordIdentifier" type="tns:RecordIdentifierType"/>
 	<xs:element name="DeviceId" type="tns:DeviceIdType"/>
 	<xs:element name="PHRKey" type="tns:PHRKeyType"/>
@@ -37,7 +44,7 @@
 				<xs:documentation>OID for unalterable part of KVNR</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="extension" type="vsd:insurantId" use="required">
+		<xs:attribute name="extension" type="tns:insurantId" use="required">
 			<xs:annotation>
 				<xs:documentation>unalterable part of KVNR</xs:documentation>
 			</xs:annotation>
@@ -68,7 +75,7 @@
 			<xs:element name="RecordKey" type="tns:KeyType"/>
 			<xs:element name="ContextKey" type="tns:KeyType"/>
 		</xs:sequence>
-		<xs:attribute name="insurant" type="vsd:insurantId" use="required"/>
+		<xs:attribute name="insurant" type="tns:insurantId" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="KeyType">
 		<xs:simpleContent>
@@ -82,10 +89,19 @@
 			<xs:pattern value="urn:oid:(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="TelematikIdType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
 	<xs:complexType name="NotificationInfoListEntryType">
 		<xs:sequence>
 			<xs:element name="ActorID" type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="NotificationInfo" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RecordProviderListEntryType">
+		<xs:sequence>
+			<xs:element name="FQDN" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ProviderName" type="xs:string" minOccurs="1" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="DischargeLetterContainer" type="tns:DischargeLetterContainerType"/>
@@ -115,4 +131,12 @@
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:attribute>
+	<xs:simpleType name="insurantId">
+		<xs:annotation>
+			<xs:documentation>1. Stelle: Alpha-Zeichen (A - Z, ohne Umlaute), 2. bis 9. Stelle: 8-stellige lfd. Zaehlnummer, 10. Stelle: Pruefziffer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z][0-9]{8}[0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

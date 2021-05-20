@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Version History
+
+			version: V1.1
+			===========
+			*** reintegration of RemoceDocuments in I_Document_Management_Insurant for backward
+			*** compatibility to EPA 1.0
+
+			version: V1.0
+			===========
+			*** release version for R4.0.1
+			
+	 End of Version History-->
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:ns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" name="DocumentManagementService" targetNamespace="urn:ihe:iti:xds-b:2007">
 	<wsdl:types>
 		<xsd:schema elementFormDefault="qualified" targetNamespace="urn:ihe:iti:xds-b:2007" xmlns:ihe="urn:ihe:iti:xds-b:2007">
@@ -97,6 +109,10 @@
 			<wsdl:input message="ihe:ProvideAndRegisterDocumentSet-b_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b"/>
 			<wsdl:output message="ihe:ProvideAndRegisterDocumentSet-bResponse_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-bResponse"/>
 		</wsdl:operation>
+        <wsdl:operation name="DocumentRepository_RemoveDocuments">
+            <wsdl:input message="ihe:RemoveDocuments_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
+            <wsdl:output message="ihe:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
+        </wsdl:operation>
 		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
 			<wsdl:input message="ihe:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
 			<wsdl:output message="ihe:DeleteDocumentSetResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveMetadataResponse"/>
@@ -198,6 +214,15 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
+        <wsdl:operation name="DocumentRepository_RemoveDocuments">
+            <soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
 		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
 			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
 			<wsdl:input>

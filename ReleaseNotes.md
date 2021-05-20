@@ -1,3 +1,11 @@
+# Release 4.0.2-5
+- ePA: removed testtreiber_fdv (now in epa/src)
+ - ePA: Added comments to new RecordStateType elements
+ - ePA: removed namespace vsd: in PHR_Commons
+ - ePA: Parameter restriction for GetAuditEvents
+ - ePA: Changes according to ePA-Maintenance P21.1
+
+
 # Release 4.0.2-4
 - VZD: Header 'Accept: application/json' added to delete_Directory_Entry.
  - VSDM: Correction of namespace for schema vsd pkv

@@ -5,13 +5,17 @@
 <!-- 
 		Version History
 		
+			version: V1.1.0
+			===============
+			*** removed parameter RollbackTime in operation startKeyChange
+
 			version: V1.0.0
 			===============
 			*** Initiale Erstellung: Operationen für Umschlüsselung
 
 	 	End of Version History
 -->
-<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" targetNamespace="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" targetNamespace="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
 	<xs:import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="../../ext/xenc-schema.xsd"/>
 	<xs:import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
 	<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
@@ -24,11 +28,6 @@
 				<xs:element name="ContextKey" type="phrc:KeyType">
 					<xs:annotation>
 						<xs:documentation>Neuer Kontextschlüssel</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="RollbackTime" type="xs:base64Binary">
-					<xs:annotation>
-						<xs:documentation>Zeitpunkt (UTC-Zeit), an dem ein Rollback durchgeführt werden muss; signierte xsd:dateTime, base64-kodiert</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
