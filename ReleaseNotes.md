@@ -1,3 +1,14 @@
+# Release 4.0.2-6
+- epa: fixed wrong type of OkDate to dateTime in finishKeyChangeResponse (AccountManagementService.xsd)
+ - epa: removed wrong parameter RecordIdentifier and DeviceID from GetAuditEvents (AccountManagementService.xsd)
+ - epa: removed wrong parameter RecordIdentifier and DeviceID from GetAuditEvents (AccountManagementService.xsd)
+ - epa: fixed wrong parameters in ResumeAccountRequest (AuthorizationService.xsd)
+ - epa: fixed cardinality of ActorID in GetNotificationInfo to 0..1 (AuthorizationService.xsd)
+ - epa: fixed cardinality of NotificationInfoListEntry in GetNotificationInfoResponse to unbound (AuthorizationService.xsd)
+ - epa: added RestrictedUpdateDocumentSet to I_Document_Management (DocumentManagementService.wsdl)
+ - epa: bugfix Actions in DeleteDocumentSet (DocumentManagementService.wsdl)
+
+
 # Release 4.0.2-5
 - ePA: removed testtreiber_fdv (now in epa/src)
  - ePA: Added comments to new RecordStateType elements

@@ -3,7 +3,11 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.5.1
+  version: 1.6.0
+  # Änderungen in Version 1.6.0
+  #  - getInfo Operation - inklusive den dazugehörenden Schema Objekten "InfoObject", "Contact" und "License" - hinzugefügt.
+  #  - Attribute professionOID und entryType zusätzlich in die Basisdaten - als Kopie aus den Zertifikatsdaten (userCertificate) aufgenommen. Diese Attribute wurden ebenfalls in die read_Directory_Entry Operation als Suchparameter aufgenommen.
+  #
   # Änderungen in Version 1.5.1
   #  - Header 'Accept: application/json' wird bei delete_Directory_Entry benötigt.
   #    Dies wird durch Angabe von "application/json" für den content von dem
@@ -69,6 +73,8 @@ externalDocs:
 servers:
 - url: https://to.be.defined/
 tags:
+- name: getInfo DirectoryEntry Administration
+  description: Diese Operation liefert Metadaten über diese Schnittstelle
 - name: DirectoryEntry Administration
   description: Pflege der Verzeichniseinträge (Basiseinträge)
 - name: Certificate Administration
@@ -76,6 +82,29 @@ tags:
 - name: DirectoryEntry Synchronization
   description: Synchronisation der Verzeichniseinträge (Basiseinträge) mit dem eigenen Datenbestand
 paths:
+  /:
+    get:
+      tags:
+      - getInfo DirectoryEntry Administration
+      summary: Diese Operation liefert Metadaten über diese Schnittstelle
+      description: Liefert die Metadaten aus dem Info Object diese OpenAPI Spezifikation und ergänzt sie.
+      operationId: getInfo
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/InfoObject'
+        401:
+          description: Unauthorized
+                    #  Der WWW-Authenticate Header im Response wird auf OAuth gesetzt.
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+
+
   /DirectoryEntries:
     post:
       tags:
@@ -269,6 +298,18 @@ paths:
       - name: dataFromAuthority
         in: query
         description: Erlaubt die Suche mit Hilfe des Attributs dataFromAuthority. 
+        schema:
+          type: string  
+      - name: professionOID
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs professionOID. 
+                     Selektiert der Verzeichniseintrag, wenn der angegebene Wert in den professionOID's (array) des Basiseintrags vorhanden ist. 
+        schema:
+          type: string  
+      - name: entryType
+        in: query
+        description: Erlaubt die Suche mit Hilfe des Attributs entryType. 
+                     Selektiert der Verzeichniseintrag, wenn der angegebene Wert in den entryType's (array) des Basiseintrags vorhanden ist. 
         schema:
           type: string  
       - name: baseEntryOnly
@@ -950,7 +991,24 @@ components:
           description: Der VZD setzt dieses Attribut bei jeder Schreiboperation für den Datensatz (Basisdaten) auf die aktuelle Zeit. Format entsprechend RFC 3339, section 5.6.
           readOnly: true
           example: "2017-07-21T17:32:28Z"
-          
+        professionOID:
+          maxItems: 100
+          minItems: 0
+          type: array
+          readOnly: true
+          items:
+            type: string
+            description: Wird vom VZD beim Hinzufügen eines Zertifikatseintrags (userCertificate) ebenfalls hier in den Basiseintrag eingefügt, wenn der Wert von professionOID noch nicht hier in den Basisdaten vorhanden ist.
+              Beim Löschen eines Zertifikatseintrags werden die professionOID's dieses Zertifikatseintrags auch in den Basisdaten entfernt, falls sie nicht in anderen (noch gültigen und verlinkten) Zertifikatseinträgen vorhanden sind.
+        entryType:
+          maxItems: 10
+          minItems: 0
+          type: array
+          readOnly: true
+          items:
+            type: string
+            description: Wird vom VZD beim Hinzufügen eines Zertifikatseintrags (userCertificate) ebenfalls hier in den Basiseintrag eingefügt, wenn der Wert von entryType noch nicht hier in den Basisdaten vorhanden ist.
+              Beim Löschen eines Zertifikatseintrags wird der entryType dieses Zertifikatseintrags auch in den Basisdaten entfernt, falls er nicht in anderen (noch gültigen und verlinkten) Zertifikatseinträgen vorhanden ist.
 
     DirectoryEntry:
       type: object
@@ -999,6 +1057,74 @@ components:
         attributeError:
           description: Beschreibung des erkannten Fehlers
           type: string
+
+    InfoObject:
+      required:
+      - title
+      - version
+      readOnly: true
+      type: object
+      properties:
+        title:
+          type: string
+          description: Der Titel der Anwendung
+          example: "I_Directory_Administration"
+        description:
+          type: string
+          description: Eine kurze Beschreibung der Anwendung
+          example: "REST Schnittstelle zur Pflege der Verzeichniseinträge.
+            Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich."
+        termsOfService:
+          type: string
+          format: uri
+          description: Eine URL zu den Terms of Service für dieses API.
+          example: "http://example.com/terms/"
+        contact:
+          $ref: '#/components/schemas/Contact'
+        license:
+          $ref: '#/components/schemas/License'
+        version:
+          type: string
+          description: Die Version von dem OpenAPI Document (YAML Datei)
+          example: "1.6.0"
+
+    Contact:
+      readOnly: true
+      description: Die Kontaktinformationen für diese Schnittstelle.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Der Name von der Kontaktperson / -Organisation
+          example: "Firma 123"
+        url:
+          type: string
+          format: uri
+          description: Eine URL zu den Kontaktinformationen für dieses API.
+                       In dem Dokument unter dieser URL muss ein Link zum Download der aktuell genutzten YAML Datei dieser Schnittstelle hinterlegt sein.
+          example: "http://www.example.com/support"
+        email:
+          type: string
+          format: email
+          description: Der E-Mail Adresse der Kontaktperson / -Organisation.
+          example: "support@example.com"
+
+    License:
+      required:
+      - name
+      readOnly: true
+      description: Der Lizenzinformationen für diese Schnittstelle.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Der Lizenzname
+          example: "Apache 2.0"
+        url:
+          type: string
+          description: Eine URL zu den Lizenzinformationen für dieses API.
+          example: "https://www.apache.org/licenses/LICENSE-2.0.html"
+
 
   securitySchemes:
     OAuth2:

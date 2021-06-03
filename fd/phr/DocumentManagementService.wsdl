@@ -3,8 +3,9 @@
 
 			version: V1.1
 			===========
-			*** reintegration of RemoceDocuments in I_Document_Management_Insurant for backward
-			*** compatibility to EPA 1.0
+			*** reintegration of RemoceDocuments in I_Document_Management_Insurant for backward compatibility to EPA 1.0
+			*** added RestrictedUpdateDocumentSet to I_Document_Management
+			*** bugfix Actions in DeleteDocumentSet
 
 			version: V1.0
 			===========
@@ -89,6 +90,10 @@
 			<wsdl:input message="ihe:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSet"/>
 			<wsdl:output message="ihe:DeleteDocumentSetResponse_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSetResponse"/>
 		</wsdl:operation>
+		<wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
+			<wsdl:input message="ihe:UpdateResponder_RestrictedUpdateDocumentSet" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSet"/>
+			<wsdl:output message="ihe:UpdateResponder_RestrictedUpdateDocumentSetResponse" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSetResponse"/>
+		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:portType name="I_Document_Management_Insurance_PortType">
 		<wsdl:operation name="DocumentRepository_ProvideAndRegisterDocumentSet-b">
@@ -114,8 +119,8 @@
             <wsdl:output message="ihe:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
         </wsdl:operation>
 		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
-			<wsdl:input message="ihe:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
-			<wsdl:output message="ihe:DeleteDocumentSetResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveMetadataResponse"/>
+			<wsdl:input message="ihe:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSet"/>
+			<wsdl:output message="ihe:DeleteDocumentSetResponse_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSetResponse"/>
 		</wsdl:operation>
 		<wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
 			<wsdl:input message="ihe:UpdateResponder_RestrictedUpdateDocumentSet" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSet"/>
@@ -163,6 +168,15 @@
 		</wsdl:operation>
 		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
 			<soap12:operation soapAction="urn:ihe:iti:2010:DeleteDocumentSet" soapActionRequired="false" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
+			<soap12:operation soapAction="urn:ihe:iti:2018:RestrictedUpdateDocumentSet" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -224,7 +238,7 @@
             </wsdl:output>
         </wsdl:operation>
 		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
-			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
+			<soap12:operation soapAction="urn:ihe:iti:2010:DeleteDocumentSet" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
