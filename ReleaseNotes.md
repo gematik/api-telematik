@@ -1,3 +1,7 @@
+# Release 4.0.2-7
+- ePA: bugfix binding "mixed style" (DocumentManagementService.wsdl)
+
+
 # Release 4.0.2-6
 - epa: fixed wrong type of OkDate to dateTime in finishKeyChangeResponse (AccountManagementService.xsd)
  - epa: removed wrong parameter RecordIdentifier and DeviceID from GetAuditEvents (AccountManagementService.xsd)

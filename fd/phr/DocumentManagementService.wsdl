@@ -158,7 +158,7 @@
 			</wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="DocumentRepository_RemoveDocuments">
-			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false" style="document"/>
+			<soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -167,7 +167,7 @@
 			</wsdl:output>
 		</wsdl:operation>
 		<wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
-			<soap12:operation soapAction="urn:ihe:iti:2010:DeleteDocumentSet" soapActionRequired="false" style="document"/>
+			<soap12:operation soapAction="urn:ihe:iti:2010:DeleteDocumentSet" soapActionRequired="false"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
