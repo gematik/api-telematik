@@ -1,3 +1,10 @@
+# Release 4.0.3-Pre1
+- ePA 2.0.4: C_10766 - removed GetRecordProviderList from AuthorizationService
+ - ePA 2.0.4: add version v1.3 in Version History (PHR_Common.xsd)
+ - ePA 2.0.4: remove pattern from DisplayName of DeviceIdType (PHR_Common.xsd)
+ - ePA 2.0.4: add include schemaLocation="../../ext/IHE/RMD.xsd" in DocumentManagementService.wsdl
+
+
 # Release 4.0.2-7
 - ePA: bugfix binding "mixed style" (DocumentManagementService.wsdl)
 

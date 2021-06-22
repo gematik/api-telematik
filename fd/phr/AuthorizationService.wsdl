@@ -5,6 +5,10 @@
 <!-- ===================================================================== -->
 <!-- Version History
 
+			version: V1.6
+			===========
+			*** Operation GetRecordProviderList entfernt
+
 			version: V1.5
 			===========
 			*** neue Operation Element GetKtrTelematikID
@@ -103,12 +107,6 @@
 	<message name="CheckRecordExistsResponseMessage">
 		<part name="parameter" element="phrs:CheckRecordExistsResponse"/>
 	</message>
-	<message name="GetRecordProviderListRequestMessage">
-		<part name="parameter" element="phrs:GetRecordProviderList"/>
-	</message>
-	<message name="GetRecordProviderListResponseMessage">
-		<part name="parameter" element="phrs:GetRecordProviderListResponse"/>
-	</message>
 	<message name="GetAuthorizationListRequestMessage">
 		<part name="parameter" element="phrs:GetAuthorizationList"/>
 	</message>
@@ -206,11 +204,6 @@
 		<operation name="GetKtrTelematikID">
 			<input message="phrs:GetKtrTelematikIDRequestMessage"/>
 			<output message="phrs:GetKtrTelematikIDResponseMessage"/>
-			<fault name="FaultMessage" message="phrs:FaultMessage"/>
-		</operation>
-		<operation name="GetRecordProviderList">
-			<input message="phrs:GetRecordProviderListRequestMessage"/>
-			<output message="phrs:GetRecordProviderListResponseMessage"/>
 			<fault name="FaultMessage" message="phrs:FaultMessage"/>
 		</operation>
 		<operation name="GetAuthorizationList">
@@ -403,18 +396,6 @@
 		</operation>
 		<operation name="GetAuthorizationList">
 			<soap12:operation soapAction="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0#GetAuthorizationList" soapActionRequired="true"/>
-			<input>
-				<soap12:body use="literal"/>
-			</input>
-			<output>
-				<soap12:body use="literal"/>
-			</output>
-			<fault name="FaultMessage">
-				<soap12:fault name="FaultMessage" use="literal"/>
-			</fault>
-		</operation>
-		<operation name="GetRecordProviderList">
-			<soap12:operation soapAction="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.0#GetRecordProviderList" soapActionRequired="true"/>
 			<input>
 				<soap12:body use="literal"/>
 			</input>

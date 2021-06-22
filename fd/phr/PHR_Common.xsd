@@ -5,6 +5,10 @@
 <!-- ===================================================================== -->
 <!-- Version History
 
+			version: V1.3
+			===========
+			*** remove pattern from DisplayName of DeviceIdType
+
 			version: V1.2
 			===========
 			*** added TelematikIdType
@@ -59,7 +63,6 @@
 				<xs:restriction base="xs:string">
 					<xs:minLength value="1"/>
 					<xs:maxLength value="64"/>
-					<xs:pattern value="(([a-zA-Z0-9]+) ?)*([a-zA-Z0-9]+)"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>

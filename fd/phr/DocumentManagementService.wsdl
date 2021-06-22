@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Version History
 
+			version: V1.2
+			*** remove element name="RemoveDocumentsRequest" and add include schemaLocation="../../ext/IHE/RMD.xsd"
+			
 			version: V1.1
 			===========
 			*** reintegration of RemoceDocuments in I_Document_Management_Insurant for backward compatibility to EPA 1.0
@@ -30,7 +33,7 @@
 			<xsd:include schemaLocation="../../ext/ebRS/query.xsd"/>
 		</xsd:schema>
 		<xsd:schema elementFormDefault="qualified" targetNamespace="urn:ihe:iti:rmd:2017" xmlns:rmd="urn:ihe:iti:rmd:2017">
-			<xsd:element name="RemoveDocumentsRequest" type="ihe:RetrieveDocumentSetRequestType"/>
+			<xsd:include schemaLocation="../../ext/IHE/RMD.xsd"/>
 		</xsd:schema>
 	</wsdl:types>
 	<wsdl:message name="ProvideAndRegisterDocumentSet-b_Message">

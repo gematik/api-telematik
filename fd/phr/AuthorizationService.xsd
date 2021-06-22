@@ -5,6 +5,11 @@
 <!-- ===================================================================== -->
 <!-- 
 		Version History
+			version: V1.5.3
+			===========
+			*** removed GetRecordProviderList and RecordProviderListType
+
+		Version History
 			version: V1.5.2
 			===========
 			*** fixed wrong type of OkDate to dateTime in finishKeyChangeResponse
@@ -71,7 +76,7 @@
 
 	 	End of Version History
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.5.2">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" xmlns:SAML="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tel="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/fd/phrs/AuthorizationService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.5.3">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2021, gematik GmbH
@@ -96,21 +101,6 @@
 		<complexType>
 			<sequence>
 				<element name="KtrTelematikID" type="phr:TelematikIdType"/>
-			</sequence>
-		</complexType>
-	</element>
-	<element name="GetRecordProviderList">
-		<complexType>
-			<sequence>
-				<element name="RecordIdentifier" type="phr:RecordIdentifierType"/>
-				<element name="DeviceID" type="phr:DeviceIdType"/>
-			</sequence>
-		</complexType>
-	</element>
-	<element name="GetRecordProviderListResponse">
-		<complexType>
-			<sequence>
-				<element name="RecordProviderList" type="phrs:RecordProviderListType"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -454,11 +444,6 @@
 		<sequence>
 			<element name="InsurantId" type="phr:InsurantIdType"/>
 			<element name="validTo" type="date"/>
-		</sequence>
-	</complexType>
-	<complexType name="RecordProviderListType">
-		<sequence>
-			<element name="RecordProviderListEntry" type="phr:RecordProviderListEntryType" minOccurs="0" maxOccurs="unbounded"/>
 		</sequence>
 	</complexType>
 </schema>
