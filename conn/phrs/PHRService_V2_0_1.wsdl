@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!-- 	                    Copyright (C) 2020 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- 	                    Copyright (C) 2021 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
+           version: V2.0.1 (R4.0.1: Version wird nur an 3.Stelle erhöht, da R4.0.1 das R4.0.0 ersetzt)
+				* Operation RemoveDocuments (ITI-86: Remove Documents) entfernt
+				* Operation DeleteDocumentSet neu (IHE RMD ITI-62: Remove Metadata)
+            version: V2.0.0
+				* Operation RestrictedUpdateDocumentSet entfernt
+            version: V1.4.0 (abgekündigt)
+				* Operation RestrictedUpdateDocumentSet ist abgekündigt und wird mit Fehler 7400 beendet
             version: V1.3.0
                 *  Für sämtliche Operationen soapActionRequired="false"  
                    Für sämtiche PortType Bindings <wsaw:UsingAddressing wsdl:required="true"/>
@@ -17,15 +24,15 @@
 				* 01.01.2019
 				* Initiale Version-->
 <!-- ===================== End of Version History =============================== -->
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:hl7="urn:hl7-org:v3" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:phrs="http://ws.gematik.de/conn/phrs/PHRService/v1.3" xmlns:phrsWSDL="http://ws.gematik.de/conn/phrs/PHRService/WSDL/v1.3" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:ns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" name="PHRService" targetNamespace="http://ws.gematik.de/conn/phrs/PHRService/WSDL/v1.3">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rmd="urn:ihe:iti:rmd:2017" xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:hl7="urn:hl7-org:v3" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:phrs="http://ws.gematik.de/conn/phrs/PHRService/v2.0" xmlns:phrsWSDL="http://ws.gematik.de/conn/phrs/PHRService/WSDL/v2.0" xmlns:ihe="urn:ihe:iti:xds-b:2007" xmlns:ns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" name="PHRService" targetNamespace="http://ws.gematik.de/conn/phrs/PHRService/WSDL/v2.0">
     <wsdl:documentation>
         Copyright (c) 2020, gematik GmbH. Alle Rechte vorbehalten.
         Beschreibung: Dienst zur Dokumentenwaltung der Fachanwendung ePA/ePF
-        Version=1.3.0
+        Version=2.0.1
     </wsdl:documentation>
     <wsdl:types>
         <xsd:schema>
-            <xsd:import namespace="http://ws.gematik.de/conn/phrs/PHRService/v1.3" schemaLocation="PHRService.xsd"/>
+            <xsd:import namespace="http://ws.gematik.de/conn/phrs/PHRService/v2.0" schemaLocation="PHRService_V2_0_1.xsd"/>
             <xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" schemaLocation="../../ext/ebRS/query.xsd"/>
             <xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" schemaLocation="../../ext/ebRS/rs.xsd"/>
             <xsd:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" schemaLocation="../../ext/ebRS/lcm.xsd"/>
@@ -58,19 +65,11 @@
     <wsdl:message name="ProvideAndRegisterDocumentSet-bResponse_Message">
         <wsdl:part name="bodyPart" element="rs:RegistryResponse"/>
     </wsdl:message>
-    <wsdl:message name="RemoveDocuments_Message">
+    <wsdl:message name="DeleteDocumentSet_Message">
         <wsdl:part name="headerPart" element="phrs:ContextHeader"/>
-        <wsdl:part name="bodyPart" element="rmd:RemoveDocumentsRequest"/>
+        <wsdl:part name="bodyPart" element="lcm:RemoveObjectsRequest"/>
     </wsdl:message>
-    <wsdl:message name="RemoveDocumentsResponse_Message">
-        <wsdl:documentation>Remove Documents Response</wsdl:documentation>
-        <wsdl:part name="bodyPart" element="rs:RegistryResponse"/>
-    </wsdl:message>
-    <wsdl:message name="UpdateResponder_RestrictedUpdateDocumentSet">
-        <wsdl:part name="headerPart" element="phrs:ContextHeader"/>
-        <wsdl:part name="bodyPart" element="lcm:SubmitObjectsRequest"/>
-    </wsdl:message>
-    <wsdl:message name="UpdateResponder_RestrictedUpdateDocumentSetResponse">
+    <wsdl:message name="DeleteDocumentSetResponse_Message">
         <wsdl:part name="bodyPart" element="rs:RegistryResponse"/>
     </wsdl:message>
     <wsdl:portType name="PHRService_PortType">
@@ -86,13 +85,9 @@
             <wsdl:input message="phrsWSDL:ProvideAndRegisterDocumentSet-b_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b"/>
             <wsdl:output message="phrsWSDL:ProvideAndRegisterDocumentSet-bResponse_Message" wsaw:Action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-bResponse"/>
         </wsdl:operation>
-        <wsdl:operation name="DocumentRepository_RemoveDocuments">
-            <wsdl:input message="phrsWSDL:RemoveDocuments_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocuments"/>
-            <wsdl:output message="phrsWSDL:RemoveDocumentsResponse_Message" wsaw:Action="urn:ihe:iti:2017:RemoveDocumentsResponse"/>
-        </wsdl:operation>
-        <wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
-            <wsdl:input message="phrsWSDL:UpdateResponder_RestrictedUpdateDocumentSet" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSet"/>
-            <wsdl:output message="phrsWSDL:UpdateResponder_RestrictedUpdateDocumentSetResponse" wsaw:Action="urn:ihe:iti:2018:RestrictedUpdateDocumentSetResponse"/>
+        <wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
+            <wsdl:input message="phrsWSDL:DeleteDocumentSet_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSet"/>
+            <wsdl:output message="phrsWSDL:DeleteDocumentSetResponse_Message" wsaw:Action="urn:ihe:iti:2010:DeleteDocumentSetResponse"/>
         </wsdl:operation>
     </wsdl:portType>
     <wsdl:binding name="PHRService_Binding_Soap12" type="phrsWSDL:PHRService_PortType">
@@ -128,20 +123,10 @@
                 <soap12:body use="literal"/>
             </wsdl:output>
         </wsdl:operation>
-        <wsdl:operation name="DocumentRepository_RemoveDocuments">
-            <soap12:operation soapAction="urn:ihe:iti:2017:RemoveDocuments" soapActionRequired="false"/>
+        <wsdl:operation name="DocumentRegistry_DeleteDocumentSet">
+            <soap12:operation soapAction="urn:ihe:iti:2010:DeleteDocumentSet" soapActionRequired="false"/>
             <wsdl:input>
-                <soap12:header message="phrsWSDL:RemoveDocuments_Message" part="headerPart" use="literal"/>
-                <soap12:body parts="bodyPart" use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap12:body use="literal"/>
-            </wsdl:output>
-        </wsdl:operation>
-        <wsdl:operation name="UpdateResponder_RestrictedUpdateDocumentSet">
-            <soap12:operation soapAction="urn:ihe:iti:2018:RestrictedUpdateDocumentSet" soapActionRequired="false"/>
-            <wsdl:input>
-                <soap12:header message="phrsWSDL:UpdateResponder_RestrictedUpdateDocumentSet" part="headerPart" use="literal"/>
+                <soap12:header message="phrsWSDL:DeleteDocumentSet_Message" part="headerPart" use="literal"/>
                 <soap12:body parts="bodyPart" use="literal"/>
             </wsdl:input>
             <wsdl:output>

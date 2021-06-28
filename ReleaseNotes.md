@@ -1,3 +1,10 @@
+# Release 4.0.3
+- VPN_ZugD: Reverted ProvisioningService namespace to 1.1 (C_10724)
+ - Konnektor (ePA): Removed PHRService 1.4.0. File names adapted to service version 2.0.1 (C_10725)
+ - Konnektor (ePA): Removed files PHRService_V2_0.wsdl/xsd (C_10725)
+ - Konnektor (Operating Data): Update SiteType value range, UpdateMode optional (C_10701)
+
+
 # Release 4.0.3-Pre1
 - ePA 2.0.4: C_10766 - removed GetRecordProviderList from AuthorizationService
  - ePA 2.0.4: add version v1.3 in Version History (PHR_Common.xsd)
