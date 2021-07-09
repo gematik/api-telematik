@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2019 sp2 (x64) (http://www.altova.com) von n/a (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
 			version: V2.0.0
-				*  ePA 2.0.1 	DocumentCategoryEnum geändert für ad-Hoc Berechtigung (mittelgranular)
-                *  ePA 2.0 		AuthorizationConfigurationType für ad-Hoc Berechtigung (grobgranular, mittelgranular) 
+				*   DocumentCategoryEnum geändert für ad-Hoc Berechtigung (kategoriebasierte Berechtigung)
+                * 	AuthorizationConfigurationType für ad-Hoc Berechtigung (Vertraulichkeitsstufe, kategoriebasierte Berechtigung) 
             version: V1.3.0
                 *  Für sämtliche Operationen soapActionRequired="false"  
                    Für sämtiche PortType Bindings <wsaw:UsingAddressing required="true"/>
@@ -74,15 +75,15 @@
 			<sequence>
 				<element name="AuthorizationConfidentiality" type="phrm:AuthorizationConfidentialityEnum">
 					<annotation>
-						<documentation xml:lang="de">Vertrauensstufen - grobgranular</documentation>
+						<documentation xml:lang="de">Vertraulichkeitsstufe</documentation>
 					</annotation>
 				</element>
 				<element name="DocumentCategoryList">
 					<annotation>
-						<documentation xml:lang="de">Vergabe der Berechtigung auf Basis von Dokumentenkategorien - mittelgranular</documentation>
+						<documentation xml:lang="de">Vergabe der Berechtigung auf Basis von Dokumentenkategorien - kategoriebasierte Berechtigung</documentation>
 					</annotation>
 					<complexType>
-						<sequence minOccurs="0" maxOccurs="unbounded">
+						<sequence minOccurs="1" maxOccurs="unbounded">
 							<element name="DocumentCategoryElement" type="phrm:DocumentCategoryEnum"/>
 						</sequence>
 					</complexType>

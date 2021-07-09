@@ -1,3 +1,9 @@
+# Release 4.0.3-1
+Changes for ePA Release 2.0.4
+ - ePA_2.0.4: clarification for DocumentUniqueId type (now rim:LongName in KeyManagementService.xsd)
+ - ePA_2.0.4: changed cardinality of DocumentCategorElement in DocumentCategoryList (C_10796, PHRManagementService_V2_0.xsd)
+
+
 # Release 4.0.3
 - VPN_ZugD: Reverted ProvisioningService namespace to 1.1 (C_10724)
  - Konnektor (ePA): Removed PHRService 1.4.0. File names adapted to service version 2.0.1 (C_10725)

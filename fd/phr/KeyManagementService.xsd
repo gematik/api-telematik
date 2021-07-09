@@ -5,6 +5,10 @@
 <!-- 
 		Version History
 		
+			version: V1.2.0
+			===============
+			*** added type for DocumentUniqueId and namespace urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0
+
 			version: V1.1.0
 			===============
 			*** removed parameter RollbackTime in operation startKeyChange
@@ -15,11 +19,12 @@
 
 	 	End of Version History
 -->
-<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" targetNamespace="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+<xs:schema xmlns="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" xmlns:phrext="http://ws.gematik.de/fa/phrext/v1.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:gerror="http://ws.gematik.de/tel/error/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:xenc="http://www.w3.org/2001/04/xmlenc#" targetNamespace="http://ws.gematik.de/fd/phr/I_Key_Management/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.2.0">
 	<xs:import namespace="http://www.w3.org/2001/04/xmlenc#" schemaLocation="../../ext/xenc-schema.xsd"/>
 	<xs:import namespace="http://ws.gematik.de/fa/phrext/v1.0" schemaLocation="../../ext/IHE/healthcare-security-audit.xsd"/>
 	<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
 	<xs:import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
+	<xs:import namespace="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" schemaLocation="../../ext/ebRS/rim.xsd"/>
 	<xs:element name="StartKeyChange">
 		<xs:complexType>
 			<xs:sequence>
@@ -121,7 +126,7 @@
 	</xs:complexType>
 	<xs:complexType name="KeyType">
 		<xs:sequence>
-			<xs:element name="DocumentUniqueId"/>
+			<xs:element name="DocumentUniqueId" type="rim:LongName"/>
 			<xs:element ref="xenc:EncryptedData"/>
 		</xs:sequence>
 	</xs:complexType>
