@@ -1,3 +1,8 @@
+# Release 4.0.3-2
+Changes for ePA Release 2.0.4-1
+ - ePA_2.0.4-1: add parameter ProviderEncCertificate to SuspendAccountRequest (AccountManagementService.xsd)
+
+
 # Release 4.0.3-1
 Changes for ePA Release 2.0.4
  - ePA_2.0.4: clarification for DocumentUniqueId type (now rim:LongName in KeyManagementService.xsd)
