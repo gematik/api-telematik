@@ -1,3 +1,7 @@
+# Release 4.0.3-3
+- VZD: new operation delete_Directory_Entry_Certificate
+
+
 # Release 4.0.3-2
 Changes for ePA Release 2.0.4-1
  - ePA_2.0.4-1: add parameter ProviderEncCertificate to SuspendAccountRequest (AccountManagementService.xsd)

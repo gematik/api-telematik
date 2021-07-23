@@ -3,7 +3,19 @@ info:
   title: I_Directory_Administration
   description: REST Schnittstelle zur Pflege der Verzeichniseinträge.
               Über diese Schnittstelle können Verzeichniseinträge inklusive Zertifikaten erzeugt, aktualisiert und gelöscht werden. Die Administration von Fachdaten erfolgt über Schnittstelle I_Directory_Application_Maintenance und wird durch die Fachanwendungen durchgeführt. Lesender Zugriff auf die Fachdaten ist mit Operation getDirectoryEntries in vorliegender Schnittstelle möglich.
-  version: 1.6.0
+  version: 1.6.3
+    # Änderungen in Version 1.6.3
+  #  - Operation "delete_Directory_Entry_Certificate" hinzugefügt.
+  #
+  # Änderungen in Version 1.6.2
+  #  - Im Datenmodell für Attribut "changeDateTime" den Format String "date-time" auskommentiert. Mit dieser Format Vorgabe ist kein Code mehr generierbar. Es soll sich aber weiterhin an das Format gehalten werden.
+  #
+  # Änderungen in Version 1.6.1
+  #  - modify_Directory_Entry Operation - responses:
+  #      Für Response 200 Header "X-maxKOMLEadr-Limit" hinzugefügt
+  #      Über diesen Header wird dem Client angezeigt, ob die Anzahl der aktuell - in den Fachdaten - hinterlegten mail Adressen den Wert in Attribut maxKOMLEadr übersteigt. 
+  #  - KOM-LE_Version in Schema FAD1 hinzugefügt
+  #
   # Änderungen in Version 1.6.0
   #  - getInfo Operation - inklusive den dazugehörenden Schema Objekten "InfoObject", "Contact" und "License" - hinzugefügt.
   #  - Attribute professionOID und entryType zusätzlich in die Basisdaten - als Kopie aus den Zertifikatsdaten (userCertificate) aufgenommen. Diese Attribute wurden ebenfalls in die read_Directory_Entry Operation als Suchparameter aufgenommen.
@@ -541,6 +553,20 @@ paths:
         200:
           description: OK
                      # Der Verzeichniseintrag wurde aktualisiert.
+          headers:
+            X-maxKOMLEadr-Limit:
+              schema:
+                type: integer
+                example: 0
+                description:  Anzahl der hinterlegten mail Adressen in den KOM-LE Fachdaten, die den aktuellen (nach eventuellem Update durch diese Operation) Wert Attribut maxKOMLEadr übersteigen.
+                  Wenn der Parameter maxKOMLEadr im Request nicht genutzt wurde, wird ebenfall der aktuelle Wert von Attribut maxKOMLEadr als Berechnungsgrundlage genutzt.
+                  Beispiele
+                    a) maxKOMLEadr (nach Ausführung des Updates) = 1
+                       hinterlegte mail Adressen in den KOM-LE Fachdaten = 1
+                       -> X-maxKOMLEadr-Limit = 0
+                    a) maxKOMLEadr (nach Ausführung des Updates) = 1
+                       hinterlegte mail Adressen in den KOM-LE Fachdaten = 3
+                       -> X-maxKOMLEadr-Limit = 2
           content:
             application/json:
               schema:
@@ -744,6 +770,66 @@ paths:
                     #  Certificate not found
           content: {}
 
+  /DirectoryEntries/{uid}/Certificates/{certificateEntryID}:
+    delete:
+      tags:
+      - Certificate Administration
+      summary: Zertifikatseintrag löschen
+            Dem Verzeichniseintrag muss immer mindestens ein Zertifikat zugeordnet sein. Wenn nach dem Löschen kein Zertifikat mehr dem Verzeichniseintrag zugeordnet wäre, muss die delete Operation abgelehnt werden. 
+      operationId: delete_Directory_Entry_Certificate
+      parameters:
+      - name: uid
+        in: path
+        description: ID vom übergeordneten Verzeichniseintrag
+        required: true
+        schema:
+          type: string
+      - name: certificateEntryID
+        in: path
+        description: ID von dem zu löschenden Zertifikatseintrag
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content: {}
+        400:
+          description: Bad Request
+                    #  Invalid uid supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+                    #  Der WWW-Authenticate Header im Response muss auf OAuth gesetzt werden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+                     # Certificate not found (certificateEntryID)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        409:
+          description: Conflict
+                     # nach dem Löschen wäre dem Verzeichniseintrag kein Zertifikat mehr zugeordnet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+
 
 components:
 
@@ -834,6 +920,9 @@ components:
             type: string
             description: 'E-Mail-Adresse'
           readOnly: true
+        KOM-LE_Version:
+          type: string
+          description: Die höchste KOM-LE_Version der KIM Clientmodule des KIM Kunden
 
     distinguishedName:
       required:
@@ -987,7 +1076,7 @@ components:
           example: true
         changeDateTime:
           type: string
-          format: date-time
+#          format: date-time Mit dieser Format Vorgabe ist kein Code mehr generierbar, deshalb auskommentiert. Es soll sich aber weiterhin an das Format gehalten werden.
           description: Der VZD setzt dieses Attribut bei jeder Schreiboperation für den Datensatz (Basisdaten) auf die aktuelle Zeit. Format entsprechend RFC 3339, section 5.6.
           readOnly: true
           example: "2017-07-21T17:32:28Z"
@@ -1016,7 +1105,7 @@ components:
         DirectoryEntryBase:
           $ref: '#/components/schemas/baseDirectoryEntry'
         userCertificates:
-          maxItems: 50
+          maxItems: 100
           minItems: 0
           type: array
           items:
@@ -1034,7 +1123,7 @@ components:
         DirectoryEntryBase:
           $ref: '#/components/schemas/baseDirectoryEntry'
         userCertificates:
-          maxItems: 50
+          maxItems: 100
           minItems: 0
           type: array
           items:
