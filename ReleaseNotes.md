@@ -1,3 +1,6 @@
+# Release 4.0.4
+- VPNZugD: data type of user data specified (C_10805 in ProvisioningService.xsd)\n - Structure: directories /tel and /ext linked via subtree with the repo api-ePA\n - Structure: content of the directory /phr moved to the repo api-ePA\n - Other: Readme updated\n
+
 # Release 4.0.3-3
 - VZD: new operation delete_Directory_Entry_Certificate
 

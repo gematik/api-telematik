@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:VPNK="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.1">
+<!-- ===================================================================== -->
+<!--                        Copyright (C) 2021 gematik. Alle Rechte vorbehalten.                                 -->
+<!-- ===================================================================== -->
+<!-- Version History  
+            version: V1.1.2
+            ===========
+            *** C_10805: Darstellung der kodierten Daten spezifiziert 
+     End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:VPNK="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.2">
     <annotation>
         <documentation>
 		Copyright (c) 2021, gematik GmbH. Alle Rechte vorbehalten.
 		Beschreibung: VPN-Zugangsdienst, Provisioning Service
-		version=1.1.1
+		version=1.1.2
 	</documentation>
     </annotation>
     <!-- Imports -->
@@ -24,8 +32,12 @@
                         <documentation>Die Base64 kodierten Daten.</documentation>
                     </annotation>
                     <complexType>
-                        <attribute name="Name" type="string" use="required"/>
-                        <attribute name="MimeType" type="string" use="required"/>
+                        <simpleContent>
+                            <extension base="xs:base64Binary">
+                                <attribute name="Name" type="string" use="required"/>
+                                <attribute name="MimeType" type="string" use="required"/>
+                            </extension>
+                        </simpleContent>
                     </complexType>
                 </element>
                 <element name="Type">
