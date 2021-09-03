@@ -1,3 +1,6 @@
+# Release test_remove_files
+Test git behaviour without ignoring removals
+
 # Release 4.0.4
 - VPNZugD: data type of user data specified (C_10805 in ProvisioningService.xsd)\n - Structure: directories /tel and /ext linked via subtree with the repo api-ePA\n - Structure: content of the directory /phr moved to the repo api-ePA\n - Other: Readme updated\n
 
