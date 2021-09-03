@@ -1,3 +1,6 @@
+# Release 4.0.4-0
+- Structure: removals from content of the directory /phr corrected\n
+
 # Release test_remove_files
 Test git behaviour without ignoring removals
 
