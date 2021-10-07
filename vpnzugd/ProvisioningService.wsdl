@@ -64,7 +64,7 @@
     <wsdl:binding name="regBinding" type="VPNKW:provisioningPortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
         <wsdl:operation name="regOperation">
-            <soap:operation soapAction="urn:#regOperation"/>
+            <soap:operation soapAction="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1#regOperation"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -76,7 +76,7 @@
             </wsdl:fault>
         </wsdl:operation>
         <wsdl:operation name="deregOperation">
-            <soap:operation soapAction="urn:#deregOperation"/>
+            <soap:operation soapAction="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1#deregOperation"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -88,7 +88,7 @@
             </wsdl:fault>
         </wsdl:operation>
         <wsdl:operation name="statusOperation">
-            <soap:operation soapAction="urn:#statusOperation"/>
+            <soap:operation soapAction="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1#statusOperation"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -100,7 +100,7 @@
             </wsdl:fault>
         </wsdl:operation>
         <wsdl:operation name="sendDataOperation">
-            <soap:operation soapAction="urn:#sendDataOperation"/>
+            <soap:operation soapAction="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1#sendDataOperation"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
