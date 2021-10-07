@@ -7,7 +7,7 @@
             ===========
             *** C_10805: Darstellung der kodierten Daten spezifiziert 
      End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:VPNK="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.2">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:VPNK="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/vpnzugd/ProvisioningService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.2">
     <annotation>
         <documentation>
 		Copyright (c) 2021, gematik GmbH. Alle Rechte vorbehalten.
