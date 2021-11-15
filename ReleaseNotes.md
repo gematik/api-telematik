@@ -1,3 +1,8 @@
+# Release 4.0.4-1
+- Structure: File OperatingData_vpnzugd_hardened.xsd added to directory vpnzugd
+
+ 
+
 # Release 4.0.4-0
 - Structure: removals from content of the directory /phr corrected
 

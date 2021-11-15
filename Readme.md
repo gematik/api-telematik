@@ -26,4 +26,4 @@ Dieses Repository enthÃ¤lt Schnittstellendefinitionen im XSD- und WSDL-Format fÃ
 |vpnzugd\           |                   |__VPN-Zugangsdienst__
 |vzd\               |                   |__Verzeichnisdienst__
 ### Hinweis zum Umzug der Schnittstelle des Aktensystems
-   > Die Schnittstellen des Aktensystems wurden aus diesem Repository nach https://github.com/gematik/api-ePA.git verlagert und werden hier nicht weiter gepflegt.
+   > Die Schnittstellen des ePA-Aktensystems wurden aus diesem Repository nach https://github.com/gematik/api-ePA.git verlagert und werden hier nicht weiter gepflegt.
