@@ -33,7 +33,7 @@
                     </annotation>
                     <complexType>
                         <simpleContent>
-                            <extension base="xs:base64Binary">
+                            <extension base="xsd:base64Binary">
                                 <attribute name="Name" type="string" use="required"/>
                                 <attribute name="MimeType" type="string" use="required"/>
                             </extension>
