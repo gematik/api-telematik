@@ -1,3 +1,13 @@
+# Release 4.0.5-Pre
+- epa: new (additional) version 2.0.1 for PHRManagementService (C-10933) 
+
+  
+- epa: new operation GetAuthorizationState in PHRManagementService_2.0.1 (C-10933) 
+
+  
+- epa: new upper limit for DocumentCategoryElement cardinality (PHRManagementService_2.0.1)(C-10836) 
+
+
 # Release 4.0.4-1
 - Structure: File OperatingData_vpnzugd_hardened.xsd added to directory vpnzugd
 
