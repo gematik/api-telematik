@@ -1,3 +1,7 @@
+# Release 4.1.0
+- ePA: Sequence AuditMessages added (C_10890)
+
+
 # Release 4.0.5-Pre
 - epa: new (additional) version 2.0.1 for PHRManagementService (C-10933) 
 
