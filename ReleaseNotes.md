@@ -1,3 +1,10 @@
+# Release 4.1.0-1
+- VZD: Update DirectoryAdministration.yaml
+
+ 
+- VPNZugD: xsd:base64Binary fixed (C_10996)
+
+
 # Release 4.1.0
 - ePA: Sequence AuditMessages added (C_10890)
 
