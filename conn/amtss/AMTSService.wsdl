@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors2\2" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:AMTS="http://ws.gematik.de/conn/amts/AMTSService/v1.0" xmlns:ns="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns1="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns5="http://ws.gematik.de/fa/amts/AMTS_Einwilligung_Document/v1.0" xmlns:ns6="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" name="AMTS" targetNamespace="http://ws.gematik.de/conn/amts/AMTSService/v1.0">
+	<documentation>
+		Copyright (c) 2016, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Dienste der Anwendung eMP/AMTS-Datenmanagement
+		version=1.0.0
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="AMTSService.xsd" namespace="http://ws.gematik.de/conn/amts/AMTSService/v1.0"/>
+			<xs:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="ReadMPRequestMessage">
+		<part name="parameter" element="AMTS:ReadMP"/>
+	</message>
+	<message name="ReadMPResponseMessage">
+		<part name="parameter" element="AMTS:ReadMPResponse"/>
+	</message>
+	<message name="WriteMPRequestMessage">
+		<part name="parameter" element="AMTS:WriteMP"/>
+	</message>
+	<message name="WriteMPResponseMessage">
+		<part name="parameter" element="AMTS:WriteMPResponse"/>
+	</message>
+	<message name="ReadConsentRequestMessage">
+		<part name="parameter" element="AMTS:ReadConsent"/>
+	</message>
+	<message name="ReadConsentResponseMessage">
+		<part name="parameter" element="AMTS:ReadConsentResponse"/>
+	</message>
+	<message name="WriteConsentRequestMessage">
+		<part name="parameter" element="AMTS:WriteConsent"/>
+	</message>
+	<message name="WriteConsentResponseMessage">
+		<part name="parameter" element="AMTS:WriteConsentResponse"/>
+	</message>
+	<message name="DeleteConsentRequestMessage">
+		<part name="parameter" element="AMTS:DeleteConsent"/>
+	</message>
+	<message name="DeleteConsentResponseMessage">
+		<part name="parameter" element="AMTS:DeleteConsentResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="AMTSServicePortType">
+		<operation name="ReadMP">
+			<input message="AMTS:ReadMPRequestMessage"/>
+			<output message="AMTS:ReadMPResponseMessage"/>
+			<fault name="FaultMessage" message="AMTS:FaultMessage"/>
+		</operation>
+		<operation name="WriteMP">
+			<input message="AMTS:WriteMPRequestMessage"/>
+			<output message="AMTS:WriteMPResponseMessage"/>
+			<fault name="FaultMessage" message="AMTS:FaultMessage"/>
+		</operation>
+		<operation name="ReadConsent">
+			<input message="AMTS:ReadConsentRequestMessage"/>
+			<output message="AMTS:ReadConsentResponseMessage"/>
+			<fault name="FaultMessage" message="AMTS:FaultMessage"/>
+		</operation>
+		<operation name="WriteConsent">
+			<input message="AMTS:WriteConsentRequestMessage"/>
+			<output message="AMTS:WriteConsentResponseMessage"/>
+			<fault name="FaultMessage" message="AMTS:FaultMessage"/>
+		</operation>
+		<operation name="DeleteConsent">
+			<input message="AMTS:DeleteConsentRequestMessage"/>
+			<output message="AMTS:DeleteConsentResponseMessage"/>
+			<fault name="FaultMessage" message="AMTS:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="AMTSServiceBinding" type="AMTS:AMTSServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ReadMP">
+			<soap:operation soapAction="http://ws.gematik.de/conn/amtss/AMTSService/WSDL/v1.0#ReadMP"/>
+			<!-- Muss soapAction befüllt sein? -->
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="WriteMP">
+			<soap:operation soapAction="http://ws.gematik.de/conn/amtss/AMTSService/WSDL/v1.0#WriteMP"/>
+			<!-- Muss soapAction befüllt sein? -->
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="ReadConsent">
+			<soap:operation soapAction="http://ws.gematik.de/conn/amtss/AMTSService/WSDL/v1.0#ReadConsent"/>
+			<!-- Muss soapAction befüllt sein? -->
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="WriteConsent">
+			<soap:operation soapAction="http://ws.gematik.de/conn/amtss/AMTSService/WSDL/v1.0#WriteConsent"/>
+			<!-- Muss soapAction befüllt sein? -->
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="DeleteConsent">
+			<soap:operation soapAction="http://ws.gematik.de/conn/amtss/AMTSService/WSDL/v1.0#DeleteConsent"/>
+			<!-- Muss soapAction befüllt sein? -->
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="AMTSService">
+		<port name="AMTSServicePort" binding="AMTS:AMTSServiceBinding">
+			<soap:address location="http://unspecified"/>
+		</port>
+	</service>
+</definitions>

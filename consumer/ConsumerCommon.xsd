@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- Version History  
+			version: V1.0.0
+				initial version
+			version: V2.0.0
+				added dss:Base64Data to DocumentType
+	 End of Version History--><schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:CONSUMER="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten. 
+			Beschreibung: Definition gemeinsamer Typen fÃ¼r die Consumer-Dienste
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+	<import namespace="urn:oasis:names:tc:dss:1.0:core:schema" schemaLocation="../ext/oasis-dss-core-schema-v1.0-os.xsd"/>
+	<element name="Status">
+		<annotation>
+			<documentation>
+				Beschreibt den Status bzw. die aufgetretenen Fehler bei
+				der AusfÃ¼hrung einer Operation.
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Result">
+					<annotation>
+						<documentation>
+							Beschreibt den AusfÃ¼hrunggstatus der
+							gesamten Operation. MÃ¶gliche Werte sind in
+							der Enumeration ResultEnum angegeben.
+							Allerdings kÃ¶nnen pro Operation weitere
+							Werte definiert werden.
+						</documentation>
+					</annotation>
+				</element>
+				<element ref="GERROR:Error" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="Result">
+		<annotation>
+			<documentation>
+				EnthÃ¤lt den AussfÃ¼hrungsstatus, entweder fÃ¼r die ganze
+				Operation oder fÃ¼r einen einzelnen Schritt.
+			</documentation>
+		</annotation>
+		<simpleType>
+			<restriction base="token">
+				<enumeration value="OK"/>
+				<enumeration value="Warning"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<simpleType name="ResultEnum">
+		<annotation>
+			<documentation>
+				Enumeration der mÃ¶glichen Werte fÃ¼r Result. Kann pro
+				Operation neu definiert werden. Jedoch muss immer
+				mindestens der Wert ERROR vorhanden sein.
+			</documentation>
+		</annotation>
+		<restriction base="token">
+			<enumeration value="ERROR"/>
+			<enumeration value="OK"/>
+			<enumeration value="WARNING"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="CardHandleType">
+		<restriction base="string">
+			<maxLength value="128"/>
+		</restriction>
+	</simpleType>
+	<element name="CardHandle" type="CONSUMER:CardHandleType"/>
+	<element name="ErrorState">
+		<complexType>
+			<sequence>
+				<element name="ErrorCondition">
+					<simpleType>
+						<restriction base="string">
+							<maxLength value="128"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="Severity">
+					<simpleType>
+						<restriction base="token">
+							<enumeration value="Fatal"/>
+							<enumeration value="Error"/>
+							<enumeration value="Warning"/>
+							<enumeration value="Info"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="Type">
+					<simpleType>
+						<restriction base="token">
+							<enumeration value="Operation"/>
+							<enumeration value="Security"/>
+							<enumeration value="Infrastructure"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="Value" type="boolean"/>
+				<element name="ValidFrom" type="dateTime"/>
+			</sequence>
+		</complexType>
+	</element>
+	<complexType name="AttachmentType">
+		<sequence>
+			<element name="Data" type="base64Binary"/>
+			<element name="RefURI" type="anyURI"/>
+		</sequence>
+	</complexType>
+	<element name="Document" type="CONSUMER:DocumentType"/>
+	<complexType name="DocumentType">
+		<complexContent>
+			<extension base="dss:DocumentBaseType">
+				<choice>
+					<element name="Base64XML" type="base64Binary"/>
+					<element ref="dss:Base64Data"/>
+				</choice>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="OperatingState">
+		<complexType>
+			<sequence maxOccurs="unbounded">
+				<element ref="CONSUMER:ErrorState"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="XmlSchema" type="CONSUMER:AttachmentType"/>
+	<element name="XslStylesheet" type="CONSUMER:AttachmentType"/>
+</schema>

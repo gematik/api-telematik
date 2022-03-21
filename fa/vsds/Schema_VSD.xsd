@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_opb1\rel_ors2\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n (Gematik GmbH) -->
+<!-- Aenderungen: -->
+<!-- V5.2.0 (redaktionell):	Werte 10 (Rheuma) und 11 (Osteoporose) im Kommentar zu -->
+<!--                        DMP_Kennzeichnung aufgenommen-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:VSD="http://ws.gematik.de/fa/vsdm/vsd/v5.2" targetNamespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="5.2.0">
+	<xs:element name="UC_AllgemeineVersicherungsdatenXML">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Versicherter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Versicherungsschutz">
+								<xs:complexType>
+									<xs:annotation>
+										<xs:documentation>Es handelt sich um eine Pflichtangabe.</xs:documentation>
+									</xs:annotation>
+									<xs:sequence>
+										<xs:element name="Beginn" type="VSD:ISO8601Date">
+											<xs:annotation>
+												<xs:documentation>Gibt den Beginn des Versicherungsschutzes (hier: Leistungsanspruch) des Versicherten bei dem unter Klasse Kostentraeger angegebenen Kostentraeger an. </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Ende" type="VSD:ISO8601Date" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Gibt das Datum des Endes der Mitgliedschaft des Versicherten bei dem unter Klasse Kostentraeger angegebenen Kostentraeger an oder das Datum des Fristablaufs bei befristeter Gueltigkeit der Karte.
+Dieses Feld ist ausschließlich für das beschriebene Datum zu nutzen (gemäß § 291 SGB V).</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Kostentraeger">
+											<xs:complexType>
+												<xs:complexContent>
+													<xs:extension base="VSD:Kostentraeger">
+														<xs:sequence>
+															<xs:element name="AbrechnenderKostentraeger" type="VSD:Kostentraeger" minOccurs="0"/>
+														</xs:sequence>
+													</xs:extension>
+												</xs:complexContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Zusatzinfos">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ZusatzinfosGKV">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Versichertenart" type="VSD:codedString">
+														<xs:annotation>
+															<xs:documentation>Gibt die Versichertenart des Versicherten an.
+1 = Mitglied, 
+3 = Familienversicherter, 
+5 = Rentner und ihre Familienangehörigen
+</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="Zusatzinfos_Abrechnung_GKV">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Kostenerstattung" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Gibt an, ob der Kostentraeger den Nachweis der Inanspruchnahme von Leistungen der Abrechnungsart Kostenerstattung auf der eGK speichert. 
+vorhanden = Nachweis wird genutzt; 
+nichtvorhanden = Nachweis wird nicht genutzt</xs:documentation>
+																	</xs:annotation>
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="AerztlicheVersorgung" type="VSD:boolean">
+																				<xs:annotation>
+																					<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer die aerztliche Versorgung an.
+1 (true) = Kostenerstattung fuer aerztliche Versorgung
+0 (false) = keine Kostenerstattung fuer aerztliche Versorgung</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="ZahnaerztlicheVersorgung" type="VSD:boolean">
+																				<xs:annotation>
+																					<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer zahnaerztliche Versorgung an.
+1 (true) = Kostenerstattung fuer zahnaerztliche Versorgung
+0 (false) = keine Kostenerstattung fuer zahnaerztliche Versorgung</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="StationaererBereich" type="VSD:boolean">
+																				<xs:annotation>
+																					<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer den stationaeren Bereich an.
+1 (true) = Kostenerstattung fuer stationaeren Bereich 
+0 (false) = keine Kostenerstattung fuer stationaeren Bereich </xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																			<xs:element name="VeranlassteLeistungen" type="VSD:boolean">
+																				<xs:annotation>
+																					<xs:documentation>Gibt die vom Versicherten gewaehlte Kostenerstattung fuer veranlasste Leistungen an.
+1 (true) = Kostenerstattung fuer veranlasste Leistungen
+0 (false) = keine Kostenerstattung fuer veranlasste Leistungen</xs:documentation>
+																				</xs:annotation>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="WOP" type="VSD:numberWithLeadingZero">
+																	<xs:annotation>
+																		<xs:documentation>Das Kennzeichen WOP ist gemaess § 2 Abs. 2 der Vereinbarung zur Festsetzung des Durchschnittsbetrages gemaess Artikel 2 § 2 Abs. 2 des Gesetzes zur Einfuehrung des Wohnortprinzips bei Honorarvereinbarungen fuer Aerzte und Zahnaerzte und zur Krankenversichertenkarte gemaess § 291 Abs. 2 Fuenftes Sozialgesetzbuch (SGB V) erforderlich.
+01 = Schleswig-Holstein
+02 = Hamburg
+03 = Bremen
+17 = Niedersachsen
+20 = Westfalen-Lippe
+38 = Nordrhein
+46 = Hessen
+51 = Rheinland-Pfalz
+52 = Baden-Württemberg
+71 = Bayerns
+72 = Berlin
+73 = Saarland
+78 = Mecklenburg-Vorpommern
+83 = Brandenburg
+88 = Sachsen-Anhalt
+93 = Thüringen
+98 = Sachsen
+Gemäß Anlage 21 BMV-Ä und EKV.</xs:documentation>
+																	</xs:annotation>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="CDM_VERSION" type="VSD:CDMVersion" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UC_PersoenlicheVersichertendatenXML">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Versicherter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Versicherten_ID" type="VSD:insurantId">
+								<xs:annotation>
+									<xs:documentation>Die Versicherten-ID ist der 10-stellige unveraenderliche Teil der 30-stelligen Krankenversichertennummer.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Person">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Geburtsdatum" type="VSD:ISO8601Date">
+											<xs:annotation>
+												<xs:documentation>Gibt das Geburtsdatum des Versicherten an.
+Hinweis: Das Geburtsjahr MUSS immer gefuellt werden. Bei Inlaendern ist immer ein logisch richtiges Geburtsdatum anzugeben. Bei Auslaendern gilt folgendes: Zumindest das Geburtsjahr ist immer anzugeben. Im Geburtstag oder im Geburtstag und im Geburtsmonat ist bei Ausländern „00“ bzw. „0000“ zulässig, wenn der Geburtstag und der Geburtsmonat nicht zu ermitteln sind.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Vorname">
+											<xs:annotation>
+												<xs:documentation>Gibt den Vornamen der Person an.
+Alle Vornamen der Person (max. 5) werden eingegeben. Mehrere Vornamen werden durch Leerzzeichen oder Bindestrich getrennt.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="VSD:name">
+													<xs:minLength value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Nachname">
+											<xs:annotation>
+												<xs:documentation>Gibt den Nachnamen der Person an.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="VSD:name">
+													<xs:minLength value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Geschlecht" type="VSD:gender">
+											<xs:annotation>
+												<xs:documentation>Gibt das Geschlecht des Versicherten an. ("M" = maennlich, "W" = weiblich, "X" = unbestimmt, "D" = divers).</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Vorsatzwort" type="VSD:nameExtension" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Gibt die Vorsatzwoerter der Person an.
+Mehrere Vorsatzwörter werden durch Leerzeichen getrennt angegeben.
+Anlage 6 (Tabelle der gültigen Vorsatzworte) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Namenszusatz" type="VSD:nameExtension" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Gibt die Namenszusaetze der Person an, z. B.: Freiherr
+Mehrere Namenzusätze werden durch Leerzeichen getrennt angegeben.
+Anlage 7 (Tabelle der gültigen Namenszusätze) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="Titel" type="VSD:nameExtension" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Gibt die akademischen Grade der Person an.
+Mehrere Titel werden durch Leerzeichen getrennt angegeben.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="PostfachAdresse" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Postleitzahl" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Gibt die Postleitzahl der Strassen- oder Postfachadresse an. Die Befüllung des Feldes Postleitzahl erfolgt gemäß den Festlegungen der DEÜV. In Verbindung mit dem Wohnsitzländercode "D" für Deutschland MUSS die
+Postleitzahl 5-stellig numerisch sein. Soweit Angaben zur Adresse und zum Postfach gemacht werden, MUSS die Postleitzahl zu beiden Adressdaten vorhanden sein. Bei Anschriften ohne Postleitzahl wird das Feld nicht verwendet.</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="10"/>
+																<xs:minLength value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Ort">
+														<xs:annotation>
+															<xs:documentation>Gibt den Ort zur Strassen- und oder Postfachadresse an. 
+Soweit Angaben zur Adresse und zum Postfach gemacht werden, MUSS der Ort zu beiden Adressdaten vorhanden sein.
+Abweichung zur Festlegung in DEÜV (Feldlänge = 34)</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="40"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Postfach">
+														<xs:annotation>
+															<xs:documentation>Gibt das Postfach der Person an.</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="8"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Land" type="VSD:LandType"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="StrassenAdresse" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Postleitzahl" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Gibt die Postleitzahl der Strassen- oder Postfachadresse an. Die Befüllung des Feldes Postleitzahl erfolgt gemäß den Festlegungen der DEÜV. In Verbindung mit dem Wohnsitzländercode "D" für Deutschland MUSS die
+Postleitzahl 5-stellig numerisch sein. Soweit Angaben zur Adresse und zum Postfach gemacht werden, MUSS die Postleitzahl zu beiden Adressdaten vorhanden sein. Bei Anschriften ohne Postleitzahl wird das Feld nicht verwendet.</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="10"/>
+																<xs:minLength value="1"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Ort">
+														<xs:annotation>
+															<xs:documentation>Gibt den Ort zur Strassen- und oder Postfachadresse an. 
+Soweit Angaben zur Adresse und zum Postfach gemacht werden, MUSS der Ort zu beiden Adressdaten vorhanden sein.
+Abweichung zur Festlegung in DEÜV (Feldlänge = 34)</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="40"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Land" type="VSD:LandType"/>
+													<xs:element name="Strasse" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Gibt den Namen der Strasse an.
+Wenn die Hausnummer nicht separat abgelegt werden kann, ist es zulässig, die Hausnummer in das Feld Straße zu übernehmen.
+Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp </xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="46"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Hausnummer" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Gibt die Hausnummer in der Strasse der Person an.
+Pflichtangabe soweit bekannt, wenn die Hausnummer nicht separat abgelegt werden kann, ist es zulässig, die Hausnummer in das Feld Straße zu übernehmen. 
+Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp </xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="9"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Anschriftenzusatz" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Gibt die relevanten Zusaetze zur Anschrift an.
+Als Anschriftenzusatz kann z. B. „Hinterhaus“ angegeben werden.</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="40"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="CDM_VERSION" type="VSD:CDMVersion" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UC_GeschuetzteVersichertendatenXML">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Zuzahlungsstatus">
+					<xs:annotation>
+						<xs:documentation>Es handelt sich um eine Pflichtangabe fuer GKV. 
+Hinweis: Dieses Datenfeld ist nicht frei auslesbar, sondern nur berechtigten Personen zugaenglich.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Status" type="VSD:booleanInteger">
+								<xs:annotation>
+									<xs:documentation>Gibt an, ob fuer den Versicherten eine Befreiung von der Zuzahlungspflicht nach § 62 SGB V vorliegt.
+Hinweis: "Fuer eine befristete Uebergangszeit (die Frist ist noch festzulegen) wird bei der eGK der schuetzenswerte Teil der Versichertenstammdaten in derselben Form so in den  ungeschuetzten Container kopiert, dass der gesamte, ohne Zusatzauthentifizierung auslesbare Versichertendatensatz inhaltlich dem der heutigen KVK entspricht." [Archboard 33]
+1 (true) = von Zuzahlungspflicht befreit
+0 (false) = von Zuzahlungspflicht nicht befreit (Standard)</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Gueltig_bis" type="VSD:ISO8601Date" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Gibt die Gueltigkeit der Befreiung von der Zuzahlungspflicht nach § 62 SGB V an.
+Dieses Datenobjekt ist erforderlich, um im Hinblick auf die Online-Aktualisierung ein „Massen-Update" des Zuzahlungsstatus zum Jahreswechsel zu entzerren.
+Wird nur angegeben, wenn Status Zuzahlung mit 1 (= befreit) angegeben ist.
+</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BesonderePersonengruppe" type="VSD:codeDigits" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Gibt die Zugehoerigkeit des Versicherten zu einer besonderen Personengruppe an. Die Kennzeichnung erfolgt gemaess der Schluesseltabelle.
+4 = BSHG (Bundessozialhilfegesetz) § 264 SGB V, 
+6 = BVG (Gesetz über die Versorgung der Opfer des Krieges), 
+7 = SVA-Kennzeichnung für zwischenstaatliches Krankenversicherungsrecht: - Personen mit Wohnsitz im
+Inland, Abrechnung nach Aufwand, 
+8 = SVA-Kennzeichnung, pauschal,
+9 = Empfänger von Gesundheitsleistungen nach §§ 4 und 6 des Asylbewerberleistungsgesetzes (AsylbLG).
+</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DMP_Kennzeichnung" type="VSD:codeDigits" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Gibt die Teilnahme des Versicherten an einem Disease Management Program an. Die Kennzeichnung erfolgt gemaess der Schluesseltabelle.
+1 = Diabetes mellitus Typ 2, 
+2 = Brustkrebs, 
+3 = Koronare Herzkrankheit, 
+4 = Diabetes mellitus Typ 1, 
+5 = Asthma bronchiale, 
+6 = COPD (chronic obstructive pulmonary disease), 
+7 = Chronische Herzinsuffizienz, 
+8 = Depression, 
+9 = Rückenschmerz
+10 = Rheuma
+11 = Osteoporose
+Das DMP-Kennzeichen findet derzeit aufgrund bilateraler vertraglicher Verpflichtungen von einzelnen Kostenträgern und Leistungserbringern noch Verwendung. Zur Abbildung dieser Verträge zu Disease-Management-Programmen kann das DMP-Kennzeichen weiterhin gemäß §291 Abs. 2a Satz 3 SGB V auf der eGK gespeichert werden, da es sich dabei um Angaben nach § 53 SGB V bzw. Angaben zum Nachweis von zusätzlichen Vertragsverhältnissen handelt.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Selektivvertraege">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Aerztlich" type="VSD:codeDigit">
+								<xs:annotation>
+									<xs:documentation>Gibt an, ob fuer den Versicherten ein aerztlicher Selektivvertrag vorliegt.
+Dieses Datenfeld ist besonders schuetzenswert und daher nicht frei auslesbar, sondern nur berechtigten Personen zugaenglich.
+Schluesselverzeichnis:
+1 = aerztlicher Selektivvertrag liegt vor
+0 = aerztlicher Selektivvertrag liegt nicht vor 
+9 = aerztliches Selektivvertragskennzeichen wird nicht genutzt</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Zahnaerztlich" type="VSD:codeDigit">
+								<xs:annotation>
+									<xs:documentation>Gibt an, ob fuer den Versicherten ein zahnaerztlicher Selektivvertrag vorliegt.
+Dieses Datenfeld ist besonders schuetzenswert und daher nicht frei auslesbar, sondern nur berechtigten Personen zugaenglich.
+Schluesselverzeichnis:
+1 = zahnaerztlicher Selektivvertrag liegt vor
+0 = zahnaerztlicher Selektivvertrag liegt nicht vor 
+9 = zahnaerztliches Selektivvertragskennzeichen wird nicht genutzt</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="Art" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Gibt die Paragraphen des  SGB V an, in denen Selektivvertraege beschrieben sind.
+Die Angaben gelten fuer folgende Selektivvertraege:
+1. Stelle: Hausarztzentrierte Versorgung (§73b)
+2. Stelle: nicht besetzt
+3. Stelle: Strukturierte Behandlungsprogramme (§137f)
+4. Stelle: Integrierte Versorgung (§140a)
+Die Stellen 1 und 3 koennen den Wert = 1 (true) nur annehmen, wenn Aerztlich = 1 (true) ist.
+
+Die Stelle 4 kann sowohl zur Kennzeichnung aerztlicher als auch zahnaerztlicher Selektivvertraege genutzt werden.
+Beispiel: 1000
+Es liegt ein Selektivvertrag fuer die Hausarztzentrierte Versorgung nach §73b vor.
+In der Testphase koennen die Krankenkassen im geschuetzten Bereich die Paragraphen des SGB V, in denen Selektivvertraege beschrieben sind (§§73b, 137f, 140a), im Rahmen der offenen Speicherkapazitaet abbilden.</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:pattern value="[0-1]{4}"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RuhenderLeistungsanspruch" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Beginn" type="VSD:ISO8601Date"/>
+							<xs:element name="Ende" type="VSD:ISO8601Date" minOccurs="0"/>
+							<xs:element name="ArtDesRuhens" type="VSD:codeDigit">
+								<xs:annotation>
+									<xs:documentation>Dieses Feld dient ausschließlich zur Angabe des ruhenden Leistungsanpruchs nach § 16 Abs. 3a und § 16 Abs. 1 bis 3 SGB V.
+Mögliche Ausprägungen des ruhenden Leistungsanspruchs sind:
+1 = vollständig
+2 = eingeschränkt								</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="CDM_VERSION" type="VSD:CDMVersion" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Kostentraeger">
+		<xs:sequence>
+			<xs:element name="Kostentraegerkennung">
+				<xs:annotation>
+					<xs:documentation>Gibt den Kostentraeger des Versicherten an. Es handelt sich um das bundesweit gueltige Institutionskennzeichen (IK) des jeweiligen Kostentraegers.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:totalDigits value="9"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Kostentraegerlaendercode">
+				<xs:annotation>
+					<xs:documentation>Gibt den Kostentraegerlaendercode vom Kostentraeger des Versicherten an.
+Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Name" type="VSD:name">
+				<xs:annotation>
+					<xs:documentation>Gibt den Namen der Institution/Organisation an.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LandType">
+		<xs:sequence>
+			<xs:element name="Wohnsitzlaendercode">
+				<xs:annotation>
+					<xs:documentation>Gibt das Land zu der Strassen- und oder Postfachadresse an. 
+Soweit Angaben zur Adresse und zum Postfach gemacht werden, muss der Wohnsitzlaendercode zu beiden Adressdaten vorhanden sein.
+Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="name">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="45"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nameExtension">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="numberWithLeadingZero">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="codedString">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="codeDigits">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="codeDigit">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="booleanInteger">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="0|1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="boolean">
+		<xs:restriction base="xs:boolean">
+			<xs:pattern value="0|1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ISO8601Date">
+		<xs:annotation>
+			<xs:documentation>Format: YYYYMMDD (ISO-8601) </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{4}(0[0-9]|1[012])(0[0-9]|[12][0-9]|3[01])"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CDMVersion">
+		<xs:annotation>
+			<xs:documentation>Version 5.2.X </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="insurantId">
+		<xs:annotation>
+			<xs:documentation>1. Stelle: Alpha-Zeichen (Wertebereich A - Z, ohne Umlaute), 2. bis 9. Stelle: 8-stellige lfd. Zaehlnummer (Eine Ziffernfolge, in der mehr als drei gleiche Ziffern hintereinander auftreten, ist auszuschliessen), 10. Stelle: Pruefziffer</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z][0-9]{8}[0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="gender">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

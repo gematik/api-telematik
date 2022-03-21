@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors2\1" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/conn/amts/AMTSService/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" targetNamespace="http://ws.gematik.de/conn/amts/AMTSService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2016, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Schema-Beschreibung des Fachmoduls AMTS.
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0" schemaLocation="../CardServiceCommon.xsd"/>
+	<!-- Operation ReadMP -->
+	<element name="ReadMP">
+		<complexType>
+			<sequence>
+				<element ref="CONN:EhcHandle"/>
+				<element ref="CONN:HpcHandle"/>
+				<element ref="CCTX:Context"/>
+				<element name="UsingPIN">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="AMTS-PIN"/>
+							<enumeration value="Vertreter-PIN"/>
+						</restriction>
+					</simpleType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ReadMPResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="MPData" type="base64Binary"/>
+				<element name="EGKValid" type="boolean"/>
+				<element name="EGKUsage">
+					<simpleType>
+						<restriction base="integer">
+							<minInclusive value="0"/>
+							<maxInclusive value="100"/>
+						</restriction>
+					</simpleType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- Operation WriteMP -->
+	<element name="WriteMP">
+		<complexType>
+			<sequence>
+				<element ref="CONN:EhcHandle"/>
+				<element ref="CONN:HpcHandle"/>
+				<element ref="CCTX:Context"/>
+				<element name="MPData" type="base64Binary"/>
+				<element name="UsingPIN">
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="AMTS-PIN"/>
+							<enumeration value="Vertreter-PIN"/>
+						</restriction>
+					</simpleType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="WriteMPResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="EGKValid" type="boolean"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- Operation ReadConsent -->
+	<element name="ReadConsent">
+		<complexType>
+			<sequence>
+				<element ref="CONN:EhcHandle"/>
+				<element ref="CONN:HpcHandle"/>
+				<element ref="CCTX:Context"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ReadConsentResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="ConsentData" type="base64Binary"/>
+				<element name="EGKValid" type="boolean"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- Operation WriteConsent -->
+	<element name="WriteConsent">
+		<complexType>
+			<sequence>
+				<element ref="CONN:EhcHandle"/>
+				<element ref="CONN:HpcHandle"/>
+				<element ref="CCTX:Context"/>
+				<element name="ConsentData" type="base64Binary"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="WriteConsentResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="EGKValid" type="boolean"/>
+			</sequence>
+		</complexType>
+	</element>
+	<!-- Operation DeleteConsent -->
+	<element name="DeleteConsent">
+		<complexType>
+			<sequence>
+				<element ref="CONN:EhcHandle"/>
+				<element ref="CONN:HpcHandle"/>
+				<element ref="CCTX:Context"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="DeleteConsentResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="EGKValid" type="boolean"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

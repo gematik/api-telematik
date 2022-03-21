@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+            version: V2.0.0
+                *  ePA 2.0: PHRManagementService.xsd mit V2.0; ad-Hoc Berechtigung (grobgranular, mittelgranular)   
+            version: V1.3.0
+                *  Für sämtliche Operationen soapActionRequired="false"  
+                   Für sämtiche PortType Bindings <wsaw:UsingAddressing required="true"/>
+  			version: V1.2.0
+				* 15.03.2019
+				* C_6798 RegisterSMB und ActivateAlternativeIdentity => Operationen gelöscht (Schlüsselgenerierungsdienst)
+  			version: V1.1.0
+				* 14.02.2019
+				* C_6682: GetAuthorizationList => Operation neu hinzugefügt
+				* C_6685: ActivateAlternativeIdentity => Operation neu hinzugefügt
+                * C_6766: <annotation> Tag um <documentation> entfernt
+            version: V1.0.0
+				* 01.01.2019
+				* Initiale Version-->
+<!-- ===================== End of Version History =============================== -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0" xmlns:phrmw="http://ws.gematik.de/conn/phrs/PHRManagementService/WSDL/v2.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:ns="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns1="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns5="http://ws.gematik.de/fa/vsdm/vsd/v5.2" name="PHRManagementService" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/WSDL/v2.0">
+	<wsdl:documentation>
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Dienst zur Konfiguration und Verwaltung der Fachanwendung ePA/ePF
+			Version=2.0.0
+		</wsdl:documentation>
+	<wsdl:types>
+		<xs:schema>
+			<xs:import namespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0" schemaLocation="PHRManagementService_V2_0.xsd"/>
+			<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+			<xs:import namespace="http://www.w3.org/2006/05/addressing/wsdl" schemaLocation="../../ext/ws-addr-wsdl.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="ActivateAccountRequestMessage">
+		<wsdl:part name="parameter" element="phrm:ActivateAccount"/>
+	</wsdl:message>
+	<wsdl:message name="ActivateAccountResponseMessage">
+		<wsdl:part name="parameters" element="phrm:ActivateAccountResponse"/>
+	</wsdl:message>
+	<wsdl:message name="RequestFacilityAuthorizationRequestMessage">
+		<wsdl:part name="parameters" element="phrm:RequestFacilityAuthorization"/>
+	</wsdl:message>
+	<wsdl:message name="RequestFacilityAuthorizationResponseMessage">
+		<wsdl:part name="parameters" element="phrm:RequestFacilityAuthorizationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="FaultMessage">
+		<wsdl:part name="parameter" element="GERROR:Error"/>
+	</wsdl:message>
+	<wsdl:message name="GetHomeCommunityIDRequestMessage">
+		<wsdl:part name="parameters" element="phrm:GetHomeCommunityID"/>
+	</wsdl:message>
+	<wsdl:message name="GetHomeCommunityIDResponseMessage">
+		<wsdl:part name="parameters" element="phrm:GetHomeCommunityIDResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetAuthorizationListRequestMessage">
+		<wsdl:part name="parameters" element="phrm:GetAuthorizationList"/>
+	</wsdl:message>
+	<wsdl:message name="GetAuthorizationListResponseMessage">
+		<wsdl:part name="parameters" element="phrm:GetAuthorizationListResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="PHRManagementServicePortType">
+		<wsdl:operation name="ActivateAccount">
+			<wsdl:input message="phrmw:ActivateAccountRequestMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/ActivateAccount"/>
+			<wsdl:output message="phrmw:ActivateAccountResponseMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/ActivateAccountResponse"/>
+			<wsdl:fault name="FaultMessage" message="phrmw:FaultMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/ActivateAccountFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="RequestFacilityAuthorization">
+			<wsdl:input message="phrmw:RequestFacilityAuthorizationRequestMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/RequestFacilityAuthorization"/>
+			<wsdl:output message="phrmw:RequestFacilityAuthorizationResponseMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/RequestFacilityAuthorizationResponse"/>
+			<wsdl:fault name="FaultMessage" message="phrmw:FaultMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/RequestFacilityAuthorizationFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetHomeCommunityID">
+			<wsdl:input message="phrmw:GetHomeCommunityIDRequestMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetHomeCommunityID"/>
+			<wsdl:output message="phrmw:GetHomeCommunityIDResponseMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetHomeCommunityIDResponse"/>
+			<wsdl:fault name="FaultMessage" message="phrmw:FaultMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetHomeCommunityIDFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthorizationList">
+			<wsdl:input message="phrmw:GetAuthorizationListRequestMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetAuthorizationList"/>
+			<wsdl:output message="phrmw:GetAuthorizationListResponseMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetAuthorizationListResponse"/>
+			<wsdl:fault name="FaultMessage" message="phrmw:FaultMessage" wsaw:Action="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetAuthorizationListFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="PHRManagementServiceBinding" type="phrmw:PHRManagementServicePortType">
+		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsaw:UsingAddressing wsdl:required="true"/>
+		<wsdl:operation name="ActivateAccount">
+			<soap12:operation soapAction="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/ActivateAccount" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="RequestFacilityAuthorization">
+			<soap12:operation soapAction="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/RequestFacilityAuthorization" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetHomeCommunityID">
+			<soap12:operation soapAction="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetHomeCommunityID" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthorizationList">
+			<soap12:operation soapAction="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0/GetAuthorizationList" soapActionRequired="false"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap12:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="PHRManagementService">
+		<wsdl:port name="PHRManagementServicePort" binding="phrmw:PHRManagementServiceBinding">
+			<soap12:address location="http://unspecified"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

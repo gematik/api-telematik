@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History
+            version: V1.0.0
+			* initiale Version
+            version: V2.0.0
+			* changed namespace CONSUMER, CERT, targetNameSpace
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERT="http://ws.gematik.de/consumer/CertificateService/v2.0" xmlns:CONSUMER="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/CertificateService/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<annotation>
+		<documentation xml:lang="de">Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Schema fÃ¼r den Zertifikatsdienst des Basis-Consumer</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+	<import namespace="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" schemaLocation="ConsumerCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" schemaLocation="CertificateServiceCommon.xsd"/>
+	<!-- ================== Operation VerifyCertificate     ===================== -->
+	<element name="VerifyCertificate">
+		<annotation>
+			<documentation>PrÃ¼ft den Status eines X.509-Zertifikats</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CERTCMN:X509Certificate"/>
+				<element name="VerificationTime" type="dateTime" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<simpleType name="VerificationResultType">
+		<restriction base="token">
+			<enumeration value="VALID"/>
+			<enumeration value="INCONCLUSIVE"/>
+			<enumeration value="INVALID"/>
+		</restriction>
+	</simpleType>
+	<element name="VerifyCertificateResponse">
+		<annotation>
+			<documentation>Antwort der Operation VerifyCertificate. EnthÃ¤lt die Statusinformation.</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Status"/>
+				<element name="VerificationStatus">
+					<complexType>
+						<sequence>
+							<element name="VerificationResult" type="CERT:VerificationResultType"/>
+							<element ref="GERROR:Error" minOccurs="0">
+								<annotation>
+									<documentation>
+							Beschreibt fÃ¼r den Fall Result == "ERROR"
+							den Fehler fÃ¼r die gesamte Operation.
+						</documentation>
+								</annotation>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="RoleList">
+					<complexType>
+						<sequence>
+							<element name="Role" maxOccurs="unbounded">
+								<simpleType>
+									<restriction base="string">
+										<maxLength value="100"/>
+									</restriction>
+								</simpleType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

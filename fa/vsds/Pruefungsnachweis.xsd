@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ws.gematik.de/fa/vsdm/pnw/v1.0" targetNamespace="http://ws.gematik.de/fa/vsdm/pnw/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<xs:element name="PN">
+		<xs:annotation>
+			<xs:documentation>PN = Prüfungsnachweis 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TS">
+					<xs:annotation>
+						<xs:documentation>TS = Timestamp. Gibt das Datum und die Uhrzeit der Onlinepruefung und -aktualisierung durch den Leistungserbringer an.
+Format: YYYYMMDDHHMMSS (ISO-8601)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:pattern value="\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])([01][0-9]|2[0-3])[0-5][0-9][0-5][0-9]"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="E" type="codeDigit">
+					<xs:annotation>
+						<xs:documentation>E = Ergebnis. Gibt das Ergebnis der Onlinepruefung und -aktualisierung durch den Leistungserbringer an. 
+Schluesselverzeichnis:					
+1 = Aktualisierung VSD auf eGK durchgefuehrt
+2 = Keine Aktualisierung VSD auf eGK erforderlich
+3 = Aktualisierung VSD auf eGK technisch nicht moeglich
+4 = Authentifizierungzertifikat eGK ungueltig
+5 = Onlinepruefung des Authentifizierungszertifikats technisch nicht moeglich
+6 = Aktualisierung VSD auf eGK technisch nicht moeglich und maximaler Offline-Zeitraum ueberschritten</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EC" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>EC = ErrorCode. Der ErrorCode dient zur genauen Beschreibung des aufgetretenen Fehlers bei der Onlinepruefung und -aktulaisierung.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:integer">
+							<xs:totalDigits value="5"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="PZ" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>PZ = Prüfziffer. Die Pruefziffer des Fachdienstes ist Bestandteil des Pruefungsnachweises, der zur Abrechnung aerztlicher Leistungen dem Datensatz gemaess § 295 SGB V beigefuegt werden soll. Die genau zu uebermittelnden Bestandteile des Pruefungsnachweises im Abrechnungsdatensatz nach § 295 SGB V sind Gegenstand von vertraglichen Vereinbarungen. 
+Die Prüfziffer ist als einheitliche kryptografische Funktion (z.B. Hash) über zwei Teile festgelegt:
+1: Vorgangskennung des Kostenträgers
+2: Kryptografisches Material						
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:base64Binary">
+							<xs:maxLength value="65"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="CDM_VERSION" type="CDMVersion" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="CDMVersion">
+		<xs:annotation>
+			<xs:documentation>Version 1.0.X </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="codeDigit">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

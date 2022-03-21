@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History
+            version: V1.0.0
+				initiale Version
+            version: V2.0.0
+				changed namespace CERT,CERTW
+	 End of Version History-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:CERT="http://ws.gematik.de/consumer/CertificateService/v2.0" xmlns:CERTW="http://ws.gematik.de/consumer/CertificateService/WSDL/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/CertificateService/WSDL/v2.0">
+	<documentation>
+		Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Zertifikatsdienst des Basis-Consumer
+		version=2.0.0
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="CertificateService.xsd" namespace="http://ws.gematik.de/consumer/CertificateService/v2.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="VerifyCertificateRequestMessage">
+		<part name="parameter" element="CERT:VerifyCertificate"/>
+	</message>
+	<message name="VerifyCertificateResponseMessage">
+		<part name="parameter" element="CERT:VerifyCertificateResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="CertificateServicePortType">
+		<operation name="VerifyCertificate">
+			<input message="CERTW:VerifyCertificateRequestMessage"/>
+			<output message="CERTW:VerifyCertificateResponseMessage"/>
+			<fault name="FaultMessage" message="CERTW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="CertificateServiceBinding" type="CERTW:CertificateServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="VerifyCertificate">
+			<soap:operation soapAction="http://ws.gematik.de/consumer/CertificateService/v1.0#VerifyCertificate" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="CertificateService">
+		<port name="CertificateServicePort" binding="CERTW:CertificateServiceBinding">
+			<soap:address location="http://ti-consumer/certificateservice"/>
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<!-- Version History 
+            
+            version: V6.1.2
+			===========
+			* C_6683: ECC-Migration
+
+			version: V6.1.1
+			===========
+			* P14.9: C_6060 Verwendung des Parameters KeyReference
+
+            version: V6.1.0
+			===========
+			* UnprotectedProperties im Rahmen von KOM-LE Änderungen
+
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:CRYPT="http://ws.gematik.de/conn/EncryptionService/v6.1" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" targetNamespace="http://ws.gematik.de/conn/EncryptionService/v6.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="6.1.2">
+    <annotation>
+        <documentation xml:lang="de">
+			Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Schema-Beschreibung für die Encryption Basisanwendung
+		</documentation>
+    </annotation>
+    <import namespace="urn:oasis:names:tc:dss:1.0:core:schema" schemaLocation="../ext/oasis-dss-core-schema-v1.0-os.xsd"/>
+    <import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+    <import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="ConnectorContext.xsd"/>
+    <element name="EncryptDocument">
+        <complexType>
+            <sequence>
+                <element ref="CCTX:Context"/>
+                <element name="RecipientKeys">
+                    <complexType>
+                        <sequence>
+                            <element ref="CRYPT:CertificateOnCard" minOccurs="0"/>
+                            <element ref="CRYPT:Certificate" minOccurs="0" maxOccurs="unbounded"/>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element ref="CONN:Document"/>
+                <element name="OptionalInputs" minOccurs="0">
+                    <complexType>
+                        <sequence>
+                            <element ref="CRYPT:EncryptionType" minOccurs="0"/>
+                            <element ref="CRYPT:Element" minOccurs="0" maxOccurs="unbounded"/>
+                            <element ref="CRYPT:UnprotectedProperties" minOccurs="0"/>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="EncryptDocumentResponse">
+        <complexType>
+            <sequence>
+                <element ref="CONN:Status"/>
+                <element name="OptionalOutputs" minOccurs="0"/>
+                <element ref="CONN:Document" minOccurs="0"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="CertificateOnCard" type="CRYPT:KeyOnCardType"/>
+    <element name="PrivateKeyOnCard" type="CRYPT:KeyOnCardType"/>
+    <element name="Certificate" type="base64Binary"/>
+    <element name="EncryptionType">
+        <simpleType>
+            <restriction base="anyURI">
+                <enumeration value="http://www.w3.org/TR/xmlenc-core/"/>
+                <enumeration value="urn:ietf:rfc:5652"/>
+                <enumeration value="urn:ietf:rfc:5751"/>
+            </restriction>
+        </simpleType>
+    </element>
+    <element name="Element">
+        <complexType>
+            <simpleContent>
+                <extension base="string">
+                    <attribute name="Type" use="required">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="http://www.w3.org/2001/04/xmlenc#Element"/>
+                                <enumeration value="http://www.w3.org/2001/04/xmlenc#Content"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                </extension>
+            </simpleContent>
+        </complexType>
+    </element>
+    <element name="DecryptDocument">
+        <complexType>
+            <sequence>
+                <element ref="CCTX:Context"/>
+                <element ref="CRYPT:PrivateKeyOnCard"/>
+                <element ref="CONN:Document"/>
+                <element name="OptionalInputs" minOccurs="0"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="DecryptDocumentResponse">
+        <complexType>
+            <sequence>
+                <element ref="CONN:Status"/>
+                <element ref="CONN:Document" minOccurs="0"/>
+                <element name="OptionalOutputs" minOccurs="0"/>
+            </sequence>
+        </complexType>
+    </element>
+    <simpleType name="CommonStepsEnum">
+        <restriction base="token">
+            <enumeration value="EncryptXMLData"/>
+            <enumeration value="DecryptXMLData"/>
+        </restriction>
+    </simpleType>
+    <simpleType name="EncryptionStepResultEnum">
+        <restriction base="token">
+            <enumeration value="ERROR"/>
+            <enumeration value="OK"/>
+        </restriction>
+    </simpleType>
+    <complexType name="KeyOnCardType">
+        <sequence>
+            <element ref="CONN:CardHandle"/>
+            <element name="KeyReference" default="C.ENC" minOccurs="0">
+                <simpleType>
+                    <restriction base="string"/>
+                </simpleType>
+            </element>
+            <element name="Crypt" minOccurs="0">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="RSA"/>
+                        <enumeration value="ECC"/>
+                        <enumeration value="RSA_ECC"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="UnprotectedProperties" type="dss:PropertiesType"/>
+</schema>

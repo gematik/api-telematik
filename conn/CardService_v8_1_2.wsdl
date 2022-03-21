@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\4" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+            version: V8.1.2
+			* EnablePin, DisablePin ergänzt
+            version: V8.1.1
+            * Operation AuthorizeSMC entfernt 
+              (kompatible Änderung aus Sicht des Clientsystems, da AuthorizeSMC immer mit einem Fehler geantwortet hat)
+            version: V8.1.0
+			* Anpassungen in CardService.xsd
+            * Operation AuthorizeSMC ergänzt
+	 End of Version History-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDW="http://ws.gematik.de/conn/CardService/WSDL/v8.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/CardService/WSDL/v8.1">
+	<documentation>
+		Copyright (c) 2017, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Dienst zur Verwaltung der Karten
+		version=8.1.2
+	</documentation>
+	<types>
+		<xs:schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<xs:import schemaLocation="CardService_v8_1_3.xsd" namespace="http://ws.gematik.de/conn/CardService/v8.1"/>
+			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="VerifyPinRequestMessage">
+		<part name="parameter" element="CARD:VerifyPin"/>
+	</message>
+	<message name="VerifyPinResponseMessage">
+		<part name="parameter" element="CARD:VerifyPinResponse"/>
+	</message>
+	<message name="ChangePinRequestMessage">
+		<part name="parameter" element="CARD:ChangePin"/>
+	</message>
+	<message name="ChangePinResponseMessage">
+		<part name="parameter" element="CARD:ChangePinResponse"/>
+	</message>
+	<message name="UnblockPinRequestMessage">
+		<part name="parameter" element="CARD:UnblockPin"/>
+	</message>
+	<message name="UnblockPinResponseMessage">
+		<part name="parameter" element="CARD:UnblockPinResponse"/>
+	</message>
+	<message name="GetPinStatusRequestMessage">
+		<part name="parameter" element="CARD:GetPinStatus"/>
+	</message>
+	<message name="GetPinStatusResponseMessage">
+		<part name="parameter" element="CARD:GetPinStatusResponse"/>
+	</message>
+	<message name="EnablePinRequestMessage">
+		<part name="parameter" element="CARD:EnablePin"/>
+	</message>
+	<message name="EnablePinResponseMessage">
+		<part name="parameter" element="CARD:EnablePinResponse"/>
+	</message>
+	<message name="DisablePinRequestMessage">
+		<part name="parameter" element="CARD:DisablePin"/>
+	</message>
+	<message name="DisablePinResponseMessage">
+		<part name="parameter" element="CARD:DisablePinResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="CardServicePortType">
+		<operation name="VerifyPin">
+			<input message="CARDW:VerifyPinRequestMessage"/>
+			<output message="CARDW:VerifyPinResponseMessage"/>
+			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
+		</operation>
+		<operation name="ChangePin">
+			<input message="CARDW:ChangePinRequestMessage"/>
+			<output message="CARDW:ChangePinResponseMessage"/>
+			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
+		</operation>
+		<operation name="UnblockPin">
+			<input message="CARDW:UnblockPinRequestMessage"/>
+			<output message="CARDW:UnblockPinResponseMessage"/>
+			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
+		</operation>
+		<operation name="GetPinStatus">
+			<input message="CARDW:GetPinStatusRequestMessage"/>
+			<output message="CARDW:GetPinStatusResponseMessage"/>
+			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
+		</operation>
+		<operation name="EnablePin">
+			<input message="CARDW:EnablePinRequestMessage"/>
+			<output message="CARDW:EnablePinResponseMessage"/>
+			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
+		</operation>
+		<operation name="DisablePin">
+			<input message="CARDW:DisablePinRequestMessage"/>
+			<output message="CARDW:DisablePinResponseMessage"/>
+			<fault name="FaultMessage" message="CARDW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="CardServiceBinding" type="CARDW:CardServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="VerifyPin">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#VerifyPin"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="ChangePin">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#ChangePin"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="UnblockPin">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#UnblockPin"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetPinStatus">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#GetPinStatus"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="EnablePin">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#EnablePin"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="DisablePin">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CardService/v8.1#DisablePin"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="CardService">
+		<port name="CardServicePort" binding="CARDW:CardServiceBinding">
+			<soap:address location="http://ti-konnektor/cardservice"/>
+		</port>
+	</service>
+</definitions>

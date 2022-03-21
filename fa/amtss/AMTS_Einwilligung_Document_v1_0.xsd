@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors2\8" -->
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- Version History            
+			version: V1.0.1
+			Redaktionelle Änderungen durch Kommentierungsverfahren des GKV-SV 
+			im Zuge des R2.1.2 (GKV-SV_09)
+			=============
+	 End of Version History-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS_Einwilligung="http://ws.gematik.de/fa/amtss/AMTS_Einwilligung_Document/v1.0" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Einwilligung_Document/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.1">
+	<xs:element name="Einwilligung">
+		<xs:annotation>
+			<xs:documentation>Daten zur Einwilligung in die Fachanwendung eMP/AMTS-Datenmanagement
+
+Die Datentypen und Wertebereiche folgen der Fachanwendung VSDM.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Version" fixed="1.0.1">
+					<xs:annotation>
+						<xs:documentation>Name: Version
+
+Beschreibung: Version der Einwilligungsdaten / des Informationsmodells nach Spezifikation der gematik
+
+Befüllung / Format: xxx.yyy.zzz, fixed</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="11"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Einwilligungsdatum" type="xs:date">
+					<xs:annotation>
+						<xs:documentation>Name: Einwilligungsdatum
+
+Beschreibung: Datum der Erstellung der Einwilligung
+
+Befüllung / Format: ---</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Nachname">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Nachname
+
+Beschreibung: Nachname des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
+
+Befüllung / Format: analog VSDM</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="45"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Vorname">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Vorname
+
+Beschreibung: Vorname des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
+
+Befüllung / Format: analog VSDM</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="45"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Postleitzahl">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Postleitzahl
+
+Beschreibung: Postleitzahl als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
+
+Befüllung / Format: analog VSDM (Die Befüllung des Feldes Postleitzahl erfolgt gemäß den Festlegungen der DEÜV)</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Ort">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Ort
+
+Beschreibung: Ort als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
+
+Befüllung / Format: analog VSDM</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Strasse">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Straße
+
+Beschreibung: Straße als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
+
+Befüllung / Format: analog VSDM: Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="46"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Hausnummer">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Hausnummer
+
+Beschreibung: Hausnummer als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
+
+Befüllung / Format: analog VSDM: Anlage 9.4 (Datensätze und Datenbausteine sowie Fehlerkatalog) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="9"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Anschriftenzusatz" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Anschriftenzusatz
+
+Beschreibung: Anschriftenzusatz als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte. Als Anschriftenzusatz kann z. B. "Hinterhaus" angegeben werden.
+
+Befüllung / Format: analog VSDM</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="40"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="Wohnsitzlaendercode" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Name: LE-Wohnsitzländercode
+
+Beschreibung: Wohnsitzländercode als Teil der Adresse des Leistungserbringers, bei dem die Einwilligung des Versicherten in die Fachanwendung eMP/AMTS-Datenmanagement erfolgte
+
+Befüllung / Format: analog VSDM: Anlage 8 (Staatsangehörigkeit und Länderkennzeichen für Auslandsanschriften) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="3"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

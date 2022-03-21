@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\3" -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0.0"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	targetNamespace="http://ws.gematik.de/cm/cc/CmCcCommon/v2.0"
+	xmlns:TNS="http://ws.gematik.de/cm/cc/CmCcCommon/v2.0"
+	xmlns:CM="http://ws.gematik.de/cm/common/CmCommon/v2.0">
+
+	<xs:annotation>
+		<xs:documentation xml:lang='de'>
+			Copyright (c) 2007, gematik - Gesellschaft für
+			Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten.
+
+			Beschreibung: Card Management - Card Communication Service -
+			Common. Dieses Schema definiert allgemeine Teile für einen
+			Card Communication Service.
+
+			Author: Marcus Sasse.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://ws.gematik.de/cm/common/CmCommon/v2.0"
+		schemaLocation="../common/CmCommon.xsd">
+	</xs:import>
+
+	<xs:element name="Command" type="xs:hexBinary"></xs:element>
+
+	<xs:simpleType name="CommandStatusCodeType">
+		<xs:restriction base="xs:hexBinary">
+			<xs:length value="2"></xs:length>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="CommandStatusCode"
+		type="TNS:CommandStatusCodeType">
+	</xs:element>
+
+	<xs:element name="StatusCodeExpected"
+		type="TNS:CommandStatusCodeType">
+	</xs:element>
+
+	<xs:element name="CommandItem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="TNS:Command"></xs:element>
+				<xs:element ref="TNS:StatusCodeExpected"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="CommandPackage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="TNS:CommandItem" maxOccurs="unbounded"
+					minOccurs="1">
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="LastIfOk" type="xs:boolean"
+				use="optional">
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="UpdatePerformed">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CM:UpdateId"></xs:element>
+				<xs:element ref="CM:Receipt" minOccurs="0"></xs:element>
+				<xs:element name="AdditionalInfo" minOccurs="0"></xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="Close">
+		<xs:complexType />
+	</xs:element>
+
+	<xs:element name="CommandResponse" type="xs:hexBinary"></xs:element>
+
+	<xs:element name="Abort">
+		<xs:complexType>
+			<xs:attribute name="CommandSentToCard" type="xs:boolean"
+				use="optional" default="true" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

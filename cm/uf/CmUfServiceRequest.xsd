@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\2" -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:TNS="http://ws.gematik.de/cm/uf/CmUfServiceRequest/v2.0" xmlns:CM="http://ws.gematik.de/cm/common/CmCommon/v2.0" targetNamespace="http://ws.gematik.de/cm/uf/CmUfServiceRequest/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<xs:annotation>
+		<xs:documentation xml:lang="de">
+			Copyright (c) 2007, gematik - Gesellschaft für
+			Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten.
+
+			Beschreibung: Card Management - Update Flag Service -
+			Request. Dieses Schema definiert den Request an einen Update
+			Flag Service. 
+
+			Author: Marcus Sasse.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://ws.gematik.de/cm/common/CmCommon/v2.0" schemaLocation="../common/CmCommon.xsd"/>
+	<xs:element name="GetUpdateFlags">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CM:Iccsn"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SetUpdateFlag">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CM:Iccsn"/>
+				<xs:element ref="CM:UpdateFlag"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DeleteUpdateFlag">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CM:ServiceLocalization"/>
+				<xs:element ref="CM:Iccsn"/>
+				<xs:element ref="CM:UpdateId"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
