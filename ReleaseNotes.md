@@ -1,3 +1,8 @@
+# Release 4.1.1
+- Konnektor: Datatype of manifest/Reference/@URI corrected in hardened schemas (C_11022)
+
+
+
 # Release 4.1.0-1
 - VZD: Update DirectoryAdministration.yaml
 

@@ -90,6 +90,16 @@
         <attribute name="URI" type="ds:LocalRefURI" use="optional"/> <!-- Schemahärtung -->
         <attribute name="Type" type="anyURI" use="optional"/>
     </complexType>
+    <complexType name="ReferenceWithAnyUriType">
+        <sequence>
+            <element ref="ds:Transforms"/>
+            <element ref="ds:DigestMethod"/>
+            <element ref="ds:DigestValue"/>
+        </sequence>
+        <attribute name="Id" type="ID" use="optional"/>
+        <attribute name="URI" type="anyURI" use="optional"/>
+        <attribute name="Type" type="anyURI" use="optional"/>
+    </complexType>
     <element name="Transforms" type="ds:TransformsType"/>
     <complexType name="TransformsType">
         <sequence>
@@ -228,7 +238,7 @@
     <element name="Manifest" type="ds:ManifestType"/>
     <complexType name="ManifestType">
         <sequence>
-            <element ref="ds:Reference" maxOccurs="25"/> <!-- Schemahärtung -->
+            <element name="Reference" type="ds:ReferenceWithAnyUriType" maxOccurs="25"/> <!-- Schemahärtung -->
         </sequence>
         <attribute name="Id" type="ID" use="required"/>
     </complexType>

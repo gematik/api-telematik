@@ -13,3 +13,7 @@ validation.jenkinsfile
 publish.jenkinsfile
 release.jenkinsfile
 validation.jenkinsfile
+
+publish.jenkinsfile
+release.jenkinsfile
+validation.jenkinsfile
