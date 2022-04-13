@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- 	                    Copyright (C) 2022 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
+			version: V2.5.1
+				* Ein RegEx für UserAgent hinzugefügt
 			version: V2.5.0
 				* Erweiterung von DocumentCategoryEnum um diga; ad-Hoc Berechtigung
             version: V2.0.1
@@ -26,13 +28,13 @@
 <!-- ===================== End of Version History =============================== -->
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.5" xmlns:phrmw="http://ws.gematik.de/conn/phrs/PHRManagementService/WSDL/v2.5" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:ns="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns1="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns5="http://ws.gematik.de/fa/vsdm/vsd/v5.2" xmlns:ns6="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns7="urn:hl7-org:v3" name="PHRManagementService" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/WSDL/v2.5">
 	<wsdl:documentation>
-			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Copyright (c) 2022, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 			Beschreibung: Dienst zur Konfiguration und Verwaltung der Fachanwendung ePA/ePF
-			Version=2.5.0
+			Version=2.5.1
 		</wsdl:documentation>
 	<wsdl:types>
 		<xs:schema>
-			<xs:import namespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.5" schemaLocation="PHRManagementService_V2_5_0.xsd"/>
+			<xs:import namespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.5" schemaLocation="PHRManagementService_V2_5_1.xsd"/>
 			<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
 			<xs:import namespace="http://www.w3.org/2006/05/addressing/wsdl" schemaLocation="../../ext/ws-addr-wsdl.xsd"/>
 		</xs:schema>

@@ -1,3 +1,7 @@
+# Release 5.0.2
+- ePA: RegEx for UserAgent pattern added
+
+
 # Release 5.0.1
 - Konnektor: Datatype of manifest/Reference/@URI corrected in hardened schemas (C_11022)
 
