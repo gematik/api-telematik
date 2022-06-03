@@ -1,3 +1,7 @@
+# Release 4.1.2-Pre1
+- C_11076: Made some elements optional in Operating Data
+
+
 # Release 4.1.1
 - Konnektor: Datatype of manifest/Reference/@URI corrected in hardened schemas (C_11022)
 
