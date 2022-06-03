@@ -1,3 +1,6 @@
+# Release 5.0.3-Pre1
+C_11076: Made some elements optional in Operating Data
+
 # Release 5.0.2
 - ePA: RegEx for UserAgent pattern added
 
