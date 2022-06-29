@@ -1,3 +1,10 @@
+# Release 4.1.2
+- Konnektor: In Operating Data made some elements and subelements optional (C_11076)
+
+ 
+- VZD: Dummy DirectoryAdministration.yaml removed
+
+
 # Release 4.1.2-Pre1
 - C_11076: Made some elements optional in Operating Data
 
