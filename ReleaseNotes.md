@@ -1,3 +1,10 @@
+# Release 5.0.3
+- VPN-ZugD: In Operating Data schema locations corrected for namespace imports.
+
+
+- VZD: Dummy DirectoryAdministration.yaml removed.
+
+
 # Release 5.0.3-Pre1
 C_11076: Made some elements optional in Operating Data
 
