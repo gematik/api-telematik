@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- Version History 
+			version: V1.0.0
+				* inital Version
+			version: V2.0.0
+				changed KeyOnCardType: KeyReference removed, Crypt added.
+				changed OptionalInputs: CRYPT:Element removed
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:CRYPT="http://ws.gematik.de/consumer/EncryptionService/v2.0" xmlns:CONSUMER="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" targetNamespace="http://ws.gematik.de/consumer/EncryptionService/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Schema-Beschreibung fÃ¼r die Encryption Basisanwendung des Basis-Consumer
+		</documentation>
+	</annotation>
+	<import namespace="urn:oasis:names:tc:dss:1.0:core:schema" schemaLocation="../ext/oasis-dss-core-schema-v1.0-os.xsd"/>
+	<import namespace="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" schemaLocation="ConsumerCommon.xsd"/>
+	<element name="EncryptDocument">
+		<complexType>
+			<sequence>
+				<element name="RecipientKeys">
+					<complexType>
+						<sequence>
+							<element ref="CRYPT:CertificateOnCard" minOccurs="0"/>
+							<element ref="CRYPT:Certificate" minOccurs="0" maxOccurs="unbounded"/>
+						</sequence>
+					</complexType>
+				</element>
+				<element ref="CONSUMER:Document"/>
+				<element name="OptionalInputs" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element ref="CRYPT:EncryptionType" minOccurs="0"/>
+							<element ref="CRYPT:UnprotectedProperties" minOccurs="0"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="EncryptDocumentResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Status"/>
+				<element ref="CONSUMER:Document" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="CertificateOnCard" type="CRYPT:KeyOnCardType"/>
+	<element name="PrivateKeyOnCard" type="CRYPT:KeyOnCardType"/>
+	<element name="Certificate" type="base64Binary"/>
+	<element name="EncryptionType">
+		<simpleType>
+			<restriction base="anyURI">
+				<enumeration value="http://www.w3.org/TR/xmlenc-core/"/>
+				<enumeration value="urn:ietf:rfc:5652"/>
+				<enumeration value="urn:ietf:rfc:5751"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="DecryptDocument">
+		<complexType>
+			<sequence>
+				<element ref="CRYPT:PrivateKeyOnCard"/>
+				<element ref="CONSUMER:Document"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="DecryptDocumentResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Status"/>
+				<element ref="CONSUMER:Document" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<complexType name="KeyOnCardType">
+		<sequence>
+			<element ref="CONSUMER:CardHandle"/>
+			<element minOccurs="0" name="Crypt">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="RSA"/>
+						<enumeration value="ECC"/>
+						<enumeration value="RSA_ECC"/>
+					</restriction>
+				</simpleType>
+			</element>
+		</sequence>
+	</complexType>
+	<element name="UnprotectedProperties" type="dss:PropertiesType"/>
+</schema>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\3" -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:CERT="http://ws.gematik.de/conn/CertificateService/v6.0" xmlns:CERTW="http://ws.gematik.de/conn/CertificateService/WSDL/v6.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/CertificateService/WSDL/v6.0">
+	<documentation>
+		Copyright (c) 2012, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Zertifikatsdienst
+		version=6.0.0
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="CertificateService.xsd" namespace="http://ws.gematik.de/conn/CertificateService/v6.0"/>
+			<xs:import schemaLocation="ConnectorContext.xsd" namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="CheckCertificateExpirationRequestMessage">
+		<part name="parameter" element="CERT:CheckCertificateExpiration"/>
+	</message>
+	<message name="CheckCertificateExpirationResponseMessage">
+		<part name="parameter" element="CERT:CheckCertificateExpirationResponse"/>
+	</message>
+	<message name="ReadCardCertificateRequestMessage">
+		<part name="parameter" element="CERT:ReadCardCertificate"/>
+	</message>
+	<message name="ReadCardCertificateResponseMessage">
+		<part name="parameter" element="CERT:ReadCardCertificateResponse"/>
+	</message>
+	<message name="VerifyCertificateRequestMessage">
+		<part name="parameter" element="CERT:VerifyCertificate"/>
+	</message>
+	<message name="VerifyCertificateResponseMessage">
+		<part name="parameter" element="CERT:VerifyCertificateResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="CertificateServicePortType">
+		<operation name="CheckCertificateExpiration">
+			<input message="CERTW:CheckCertificateExpirationRequestMessage"/>
+			<output message="CERTW:CheckCertificateExpirationResponseMessage"/>
+			<fault name="FaultMessage" message="CERTW:FaultMessage"/>
+		</operation>
+		<operation name="ReadCardCertificate">
+			<input message="CERTW:ReadCardCertificateRequestMessage"/>
+			<output message="CERTW:ReadCardCertificateResponseMessage"/>
+			<fault name="FaultMessage" message="CERTW:FaultMessage"/>
+		</operation>
+		<operation name="VerifyCertificate">
+			<input message="CERTW:VerifyCertificateRequestMessage"/>
+			<output message="CERTW:VerifyCertificateResponseMessage"/>
+			<fault name="FaultMessage" message="CERTW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="CertificateServiceBinding" type="CERTW:CertificateServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="CheckCertificateExpiration">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CertificateService/v6.0#CheckCertificateExpiration" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="ReadCardCertificate">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CertificateService/v6.0#ReadCardCertificate" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="VerifyCertificate">
+			<soap:operation soapAction="http://ws.gematik.de/conn/CertificateService/v6.0#VerifyCertificate" style="document"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="CertificateService">
+		<port name="CertificateServicePort" binding="CERTW:CertificateServiceBinding">
+			<soap:address location="http://ti-konnektor/certificateservice"/>
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                 -->
+<!-- ===================================================================== -->
+<!-- Version History            
+            version: V1.0.0
+				initial version
+            version: V2.0.0
+				changed nmaespace SIG	 
+	 End of Version History-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SIG="http://ws.gematik.de/consumer/SignatureService/v2.0" xmlns:SIGW="http://ws.gematik.de/consumer/SignatureService/WSDL/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/SignatureService/WSDL/v2.0">
+	<documentation>
+		Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Basis-Consumer Signatur Basisanwendung
+		version=2.0.0 
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="SignatureService.xsd" namespace="http://ws.gematik.de/consumer/SignatureService/v2.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="VerifyDocumentRequestMessage">
+		<part name="parameter" element="SIG:VerifyDocument"/>
+	</message>
+	<message name="VerifyDocumentResponseMessage">
+		<part name="parameter" element="SIG:VerifyDocumentResponse"/>
+	</message>
+	<message name="SignDocumentRequestMessage">
+		<part name="parameter" element="SIG:SignDocument"/>
+	</message>
+	<message name="SignDocumentResponseMessage">
+		<part name="parameter" element="SIG:SignDocumentResponse"/>
+	</message>
+	<message name="ExternalAuthenticateRequestMessage">
+		<part name="parameter" element="SIG:ExternalAuthenticate"/>
+	</message>
+	<message name="ExternalAuthenticateResponseMessage">
+		<part name="parameter" element="SIG:ExternalAuthenticateResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="SignatureServicePortType">
+		<operation name="VerifyDocument">
+			<input message="SIGW:VerifyDocumentRequestMessage"/>
+			<output message="SIGW:VerifyDocumentResponseMessage"/>
+			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
+		</operation>
+		<operation name="SignDocument">
+			<input message="SIGW:SignDocumentRequestMessage"/>
+			<output message="SIGW:SignDocumentResponseMessage"/>
+			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
+		</operation>
+		<operation name="ExternalAuthenticate">
+			<input message="SIGW:ExternalAuthenticateRequestMessage"/>
+			<output message="SIGW:ExternalAuthenticateResponseMessage"/>
+			<fault name="FaultMessage" message="SIGW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="SignatureServiceBinding" type="SIGW:SignatureServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="VerifyDocument">
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v1.0#VerifyDocument"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="SignDocument">
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v1.0#SignDocument"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="ExternalAuthenticate">
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v1.0#ExternalAuthenticate"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="SignatureService">
+		<port name="SignatureServicePort" binding="SIGW:SignatureServiceBinding">
+			<soap:address location="http://ti-consumer/signatureservice"/>
+		</port>
+	</service>
+</definitions>

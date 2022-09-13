@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\10" -->
+<!-- Mit XMLSpy v2009 sp1 (http://www.altova.com) von n.n (gematik Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH) bearbeitet -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CONN="http://ws.gematik.de/conn/ServiceInformation/v2.0" targetNamespace="http://ws.gematik.de/conn/ServiceInformation/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<annotation>
+		<documentation>Copyright (c) 2012, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Schema fuer die Servicebeschreibung</documentation>
+	</annotation>
+	<element name="Abstract" type="string">
+		<annotation>
+			<documentation>Kurze Beschreibung</documentation>
+		</annotation>
+	</element>
+	<element name="ServiceInformation" type="CONN:ServicesType">
+		<annotation>
+			<documentation>Liste der Dienste</documentation>
+		</annotation>
+	</element>
+	<complexType name="EndpointType">
+		<attribute name="Location" use="required">
+			<simpleType>
+				<restriction base="anyURI">
+					<maxLength value="2048"/>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	<complexType name="ServiceType">
+		<sequence>
+			<element ref="CONN:Abstract"/>
+			<element name="Versions" type="CONN:VersionsType">
+				<annotation>
+					<documentation>Liste der unterstützten Versionen</documentation>
+				</annotation>
+			</element>
+		</sequence>
+		<attribute name="Name" use="required">
+			<simpleType>
+				<restriction base="string"/>
+			</simpleType>
+		</attribute>
+	</complexType>
+	<complexType name="WSDLLocationType">
+		<attribute name="Location" use="required">
+			<simpleType>
+				<restriction base="anyURI">
+					<maxLength value="2048"/>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	<complexType name="ServicesType">
+		<sequence>
+			<element name="Service" type="CONN:ServiceType" maxOccurs="unbounded">
+				<annotation>
+					<documentation>Beschreibt einen Dienst</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="VersionType">
+		<sequence>
+			<element ref="CONN:Abstract"/>
+			<element name="Endpoint" type="CONN:EndpointType" minOccurs="0">
+				<annotation>
+					<documentation>Endpunkt des Dienstes</documentation>
+				</annotation>
+			</element>
+			<element name="EndpointTLS" type="CONN:EndpointType" minOccurs="1">
+				<annotation>
+					<documentation>Endpunkt des Dienstes</documentation>
+				</annotation>
+			</element>
+			<element name="WSDL" type="CONN:WSDLLocationType" minOccurs="0">
+				<annotation>
+					<documentation>Adresse der WSDL-Beschreibung</documentation>
+				</annotation>
+			</element>
+		</sequence>
+		<attribute name="TargetNamespace" type="anyURI"/>
+		<attribute name="Version" type="string"/>
+	</complexType>
+	<complexType name="VersionsType">
+		<sequence>
+			<element name="Version" type="CONN:VersionType" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+</schema>

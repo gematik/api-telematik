@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_ors2\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<!-- Version History            
+			version: V2.0.1
+			===========
+			*** C_6388: Verwendung von Attributzertifikaten entfernt
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERTCMN="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" targetNamespace="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.1">
+    <annotation>
+        <documentation xml:lang="de">
+			Copyright (c) 2012, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH.
+				Alle Rechte vorbehalten.
+			Beschreibung: Schema für gemeinsam nutzbare Elemente des Zertifikatsdienstes
+		</documentation>
+    </annotation>
+    <!-- ====== Definiert die reservierten Werte für Zertifikatsreferenzen ========= -->
+    <simpleType name="CertRefEnum">
+        <restriction base="token">
+            <enumeration value="C.AUT"/>
+            <enumeration value="C.ENC"/>
+            <enumeration value="C.SIG"/>
+            <enumeration value="C.QES"/>
+        </restriction>
+    </simpleType>
+    <element name="X509DataInfoList" type="CERTCMN:X509DataInfoListType"/>
+    <simpleType name="CheckCertificateDetailEnum">
+        <restriction base="token">
+            <enumeration value="CERT_SIG_ERROR"/>
+            <enumeration value="BUILD_CHAIN_FAILED"/>
+            <enumeration value="CHECK_REVOCATION_FAILED"/>
+            <enumeration value="CERT_REVOKED"/>
+            <enumeration value="CERT_EXPIRED"/>
+            <enumeration value="CERT_BAD_FORMAT"/>
+            <enumeration value="POLICY_ERROR"/>
+            <enumeration value="QC_STATEMENT_ERROR"/>
+            <enumeration value="WRONG_ROLE"/>
+            <enumeration value="UNKNOWN_CRITICAL_EXTENSIONS"/>
+            <enumeration value="CERT_REVOKED_AFTER"/>
+            <enumeration value="NO_REVOCATION_CHECK"/>
+            <enumeration value="TSL_OUT_OF_DATE"/>
+            <enumeration value="QUALIFIED"/>
+        </restriction>
+    </simpleType>
+    <complexType name="CheckCertificateDetailsType">
+        <sequence>
+            <element name="CheckCertificateDetail" type="CERTCMN:CheckCertificateDetailEnum" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <element name="CheckCertificateDetails" type="CERTCMN:CheckCertificateDetailsType"/>
+    <complexType name="X509DataInfoListType">
+        <sequence>
+            <element name="X509DataInfo" maxOccurs="unbounded">
+                <complexType>
+                    <sequence>
+                        <element name="CertRef" type="CERTCMN:CertRefEnum"/>
+                        <element name="X509Data" minOccurs="0">
+                            <complexType>
+                                <sequence>
+                                    <element name="X509IssuerSerial">
+                                        <complexType>
+                                            <sequence>
+                                                <element name="X509IssuerName" type="string"/>
+                                                <element name="X509SerialNumber" type="string"/>
+                                            </sequence>
+                                        </complexType>
+                                    </element>
+                                    <element name="X509SubjectName" type="string"/>
+                                    <element ref="CERTCMN:X509Certificate"/>
+                                </sequence>
+                            </complexType>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="X509Certificate" type="base64Binary"/>
+</schema>

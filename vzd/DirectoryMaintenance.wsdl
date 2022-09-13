@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors2\1" -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:VZDW="http://ws.gematik.de/vzd/DirectoryMaintenance/WSDL/v1.0" xmlns:VZD="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0" targetNamespace="http://ws.gematik.de/vzd/DirectoryMaintenance/WSDL/v1.0">
+	<wsdl:documentation>
+		Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Verzeichnisdienst, Schnittstelle Directory Maintenance Definition 1.0
+		version=1.0.0
+	</wsdl:documentation>
+	<wsdl:types>
+		<xs:schema>
+			<xs:import namespace="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0" schemaLocation="DirectoryMaintenance.xsd"/>
+			<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+		</xs:schema> 
+	</wsdl:types>
+	<wsdl:message name="add">
+		<wsdl:part name="request" element="VZD:addDirectoryEntry"/>
+	</wsdl:message>
+	<wsdl:message name="read">
+		<wsdl:part name="request" element="VZD:readDirectoryEntry"/>
+	</wsdl:message>
+	<wsdl:message name="modify">
+		<wsdl:part name="request" element="VZD:modifyDirectoryEntry"/>
+	</wsdl:message>
+	<wsdl:message name="delete">
+		<wsdl:part name="request" element="VZD:deleteDirectoryEntry"/>
+	</wsdl:message>
+	<wsdl:message name="response">
+		<wsdl:part name="response" element="VZD:responseMsg"/>
+	</wsdl:message>
+	<wsdl:message name="readResponse">
+		<wsdl:part name="response" element="VZD:readResponseMsg"/>
+	</wsdl:message>
+	<wsdl:message name="FaultMessage">
+		<wsdl:part name="parameter" element="GERROR:Error"/>
+	</wsdl:message>
+	<wsdl:portType name="directoryMaintenancePortType">
+		<wsdl:operation name="add">
+			<wsdl:input message="VZDW:add"/>
+			<wsdl:output message="VZDW:response"/>
+			<wsdl:fault name="FaultMessage" message="VZDW:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="read">
+			<wsdl:input message="VZDW:read"/>
+			<wsdl:output message="VZDW:readResponse"/>
+			<wsdl:fault name="FaultMessage" message="VZDW:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="modify">
+			<wsdl:input message="VZDW:modify"/>
+			<wsdl:output message="VZDW:response"/>
+			<wsdl:fault name="FaultMessage" message="VZDW:FaultMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="delete">
+			<wsdl:input message="VZDW:delete"/>
+			<wsdl:output message="VZDW:response"/>
+			<wsdl:fault name="FaultMessage" message="VZDW:FaultMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="directoryMaintenanceBinding" type="VZDW:directoryMaintenancePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="add">
+			<soap:operation soapAction="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0#addOperation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="read">
+			<soap:operation soapAction="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0#readOperation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="modify">
+			<soap:operation soapAction="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0#modifyOperation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="delete">
+			<soap:operation soapAction="http://ws.gematik.de/vzd/DirectoryMaintenance/v1.0#deleteOperation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="directoryMaintenanceService">
+		<wsdl:port name="directoryMaintenancePort" binding="VZDW:directoryMaintenanceBinding">
+			<soap:address location="https://server.example"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

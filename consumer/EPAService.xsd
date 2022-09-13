@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History 
+			version: V1.0.0
+				* inital Version
+            version: V1.0.1
+                * Korrektur namespace phr (vormals tns)
+                * namespace dss, CONSUMER gelöscht
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:EPA="http://ws.gematik.de/consumer/EPAService/v1.0" xmlns:vsd="http://ws.gematik.de/fa/vsdm/vsd/v5.2" xmlns:phr="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/consumer/EPAService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.1">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Schema-Beschreibung KTR-Consumer ePA Anwendung
+			Version=1.0.1
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/fa/vsdm/vsd/v5.2" schemaLocation="../fa/vsds/Schema_VSD.xsd"/>
+	<import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../fd/phr/PHR_Common.xsd"/>
+	<element name="Logout">
+		<annotation>
+			<documentation>Ausführen des Anwendungsfalls Logout Aktensession</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="insurantId" type="vsd:insurantId" minOccurs="1" maxOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="LogoutResponse"/>
+	<element name="PutDocuments">
+		<annotation>
+			<documentation>Ausführen des Anwendungsfalls Dokumente einstellen</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="insurantId" type="vsd:insurantId" minOccurs="1" maxOccurs="1"/>
+				<element name="HomeCommunityId" type="phr:HomeCommunityIdType" minOccurs="1" maxOccurs="1"/>
+				<element name="Kostentraegerkennung" minOccurs="1" maxOccurs="1">
+					<annotation>
+						<documentation>Gibt den Kostentraeger des Versicherten an. Es handelt sich um das bundesweit gueltige Institutionskennzeichen (IK) des jeweiligen Kostentraegers.</documentation>
+					</annotation>
+					<simpleType>
+						<restriction base="integer">
+							<totalDigits value="9"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="SubmissionSet">
+					<complexType>
+						<sequence>
+							<element name="title" type="string" minOccurs="0" maxOccurs="1"/>
+							<element name="comments" type="string" minOccurs="0" maxOccurs="1"/>
+							<element name="contentTypeCode" type="string" minOccurs="0" maxOccurs="1"/>
+							<element name="Document" minOccurs="1" maxOccurs="unbounded">
+								<complexType>
+									<sequence>
+										<element name="Data" type="base64Binary" minOccurs="1" maxOccurs="1"/>
+										<element name="comments" type="string" minOccurs="0" maxOccurs="1"/>
+										<element name="formatCode" type="string" minOccurs="1" maxOccurs="unbounded"/>
+										<element name="languageCode" type="string" minOccurs="1" maxOccurs="1"/>
+										<element name="mimeType" type="string" minOccurs="1" maxOccurs="1"/>
+										<element name="serviceStartTime" type="string" minOccurs="0" maxOccurs="1"/>
+										<element name="serviceStopTime" type="string" minOccurs="0" maxOccurs="1"/>
+										<element name="title" type="string" minOccurs="0" maxOccurs="1"/>
+										<element name="typeCode" type="string" minOccurs="1" maxOccurs="1"/>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PutDocumentsResponse"/>
+</schema>

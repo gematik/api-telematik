@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors1\1" -->
+<wsdl:definitions name="I_Monitoring_Update" targetNamespace="http://ws.gematik.de/tel/stoerungsampel/wsdl/v1.1" 
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:tns="http://ws.gematik.de/tel/stoerungsampel/v1.1" 
+	xmlns:tnsw="http://ws.gematik.de/tel/stoerungsampel/wsdl/v1.1"
+	xmlns:err="http://ws.gematik.de/tel/error/v2.0" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" >
+	
+	<wsdl:documentation>
+	Telematik Störungsampel WSDL-Datei
+	Version: 1.0.3
+	Last change: 21.11.2014
+	Author: Michael Gingele, NetDescribe GmbH, Germany
+	Contact: support@netdescribe.com
+	</wsdl:documentation>
+		<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:import
+				namespace="http://ws.gematik.de/tel/stoerungsampel/v1.1"
+				schemaLocation="./I_Monitoring_Update10.xsd">
+			</xsd:import>
+			<xsd:import
+				namespace="http://ws.gematik.de/tel/error/v2.0"
+				schemaLocation="../tel/error/TelematikError.xsd">
+			</xsd:import>
+		</xsd:schema>
+    </wsdl:types>
+	
+	<wsdl:message name="update">
+		<wsdl:part name="in" element="tns:request"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="response">
+		<wsdl:part name="out" element="tns:response"></wsdl:part>
+	</wsdl:message>
+	
+	<wsdl:message name="faultMessage">
+		<wsdl:part name="update_Information_fault" element="err:Error"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="update">
+		<wsdl:documentation>Port type update: periodic updates for performance values</wsdl:documentation>
+		<wsdl:operation name="update">
+			<wsdl:documentation>Operation put (Porttype update): Transfer data to stoerungsampel
+Required parameters:
+id = unique id of system
+message = message with data 
+Response:
+id =unique id of stoerungsampel
+response = acknowledgement (true/false) and unique ticket id</wsdl:documentation>
+			<wsdl:input message="tnsw:update" name="update_Information_in" ></wsdl:input>
+			<wsdl:output message="tnsw:response" name="update_Information_out"></wsdl:output>
+            <wsdl:fault message="tnsw:faultMessage" name="update_Information_fault" ></wsdl:fault>
+        </wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="update_Information" type="tnsw:update" >
+		<wsdl:documentation>supported operations: update
+		in: Message update with element request
+		out: Message response with element response
+		fault: Message gematik-SOAP-Fault with gematik-SOAP-Fault
+		
+		request, response: Definition in I_Monitoring_Update10.xsd
+		fault: Definition in TelematikError.xsd
+		</wsdl:documentation>
+			<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="update">
+			<soap:operation soapAction="http://ws.gematik.de/tel/stoerungsampel/v1.1/update_Information" />
+			<wsdl:input name="update_Information_in">
+				<soap:body use="literal" parts="in"/>
+			</wsdl:input>
+			<wsdl:output name="update_Information_out">
+				<soap:body use="literal" parts="out"/>
+			</wsdl:output>
+			<wsdl:fault name="update_Information_fault"> 
+				<soap:fault name="update_Information_fault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+
+	<wsdl:service name="I_Monitoring_Update">
+		<wsdl:documentation>
+Interface I_Monitoring_Update: SOAP interface for data exchange, max message size is limited by a receiver confguration
+		</wsdl:documentation>
+	   	<wsdl:port name="i_mon_update" binding="tnsw:update_Information">
+			<wsdl:documentation>service point for data; $host$ must be changed to valid ip and port for stoerungsampel</wsdl:documentation>
+            <soap:address location="https://$host$/I_Monitoring_Update10"/>
+        </wsdl:port>
+ 	</wsdl:service>
+</wsdl:definitions>

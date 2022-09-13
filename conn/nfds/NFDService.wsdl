@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\7" -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFD="http://ws.gematik.de/conn/nfds/NFDService/v1.0" xmlns:NFDW="http://ws.gematik.de/conn/nfds/NFDService/WSDL/v1.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" name="NFDService" targetNamespace="http://ws.gematik.de/conn/nfds/NFDService/WSDL/v1.0">
+	<documentation>
+    Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+    Beschreibung: Dienste zum Verwalten des Notfalldatensatzes der eGK
+	version=1.0.0 
+  </documentation>
+	<types>
+		<xs:schema>
+			<xs:import namespace="http://ws.gematik.de/conn/nfds/NFDService/v1.0" schemaLocation="NFDService.xsd"/>
+			<xs:import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../../tel/error/TelematikError.xsd"/>
+		</xs:schema>
+	</types>
+	<message name="ReadNFDRequestMessage">
+		<part name="parameter" element="NFD:ReadNFD"/>
+	</message>
+	<message name="ReadNFDResponseMessage">
+		<part name="parameters" element="NFD:ReadNFDResponse"/>
+	</message>
+	<message name="WriteNFDRequestMessage">
+		<part name="parameters" element="NFD:WriteNFD"/>
+	</message>
+	<message name="WriteNFDResponseMessage">
+		<part name="parameters" element="NFD:WriteNFDResponse"/>
+	</message>
+	<message name="EraseNFDRequestMessage">
+		<part name="parameters" element="NFD:EraseNFD"/>
+	</message>
+	<message name="EraseNFDResponseMessage">
+		<part name="parameters" element="NFD:EraseNFDResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="NFDServicePortType">
+		<operation name="ReadNFD">
+			<input message="NFDW:ReadNFDRequestMessage"/>
+			<output message="NFDW:ReadNFDResponseMessage"/>
+			<fault name="FaultMessage" message="NFDW:FaultMessage"/>
+		</operation>
+		<operation name="WriteNFD">
+			<input message="NFDW:WriteNFDRequestMessage"/>
+			<output message="NFDW:WriteNFDResponseMessage"/>
+			<fault name="FaultMessage" message="NFDW:FaultMessage"/>
+		</operation>
+		<operation name="EraseNFD">
+			<input message="NFDW:EraseNFDRequestMessage"/>
+			<output message="NFDW:EraseNFDResponseMessage"/>
+			<fault name="FaultMessage" message="NFDW:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="NFDServiceBinding" type="NFDW:NFDServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ReadNFD">
+			<soap:operation soapAction="http://ws.gematik.de/conn/nfds/NFDService/WSDL/v1.0#ReadNFD"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="WriteNFD">
+			<soap:operation soapAction="http://ws.gematik.de/conn/nfds/NFDService/WSDL/v1.0#WriteNFD"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="EraseNFD">
+			<soap:operation soapAction="http://ws.gematik.de/conn/nfds/NFDService/WSDL/v1.0#EraseNFD"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="NFDService">
+		<port name="NFDServicePort" binding="NFDW:NFDServiceBinding">
+			<soap:address location="http://unspecified"/>
+		</port>
+	</service>
+</definitions>
