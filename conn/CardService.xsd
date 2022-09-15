@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\5" -->
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                 -->
+<!-- ===================================================================== -->
+<!-- Version History
+            version: V8.1.0
+			* CardVersion: Anpassung an G2-Karten
+            * ProductInformation update auf Version 1.1.0
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0"  targetNamespace="http://ws.gematik.de/conn/CardService/v8.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="8.1.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2014, gematik - Gesellschaft für
+			Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten.
+			Beschreibung: Dienst zur Verwaltung der Karten
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0" schemaLocation="CardServiceCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1" schemaLocation="../tel/version/ProductInformation.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="ConnectorContext.xsd"/>
+	<element name="Pin" type="CARD:PinType"/>
+	<element name="Puk" type="CARD:PinType"/>
+	<element name="OldPin" type="CARD:PinType"/>
+	<element name="NewPin" type="CARD:PinType"/>
+	<element name="Kvnr">
+		<simpleType>
+			<restriction base="CARDCMN:KvnrType">
+				<length value="10"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="CardHolderName" type="string"/>
+	<element name="CertificateExpirationDate" type="date"/>
+	<simpleType name="RequestCardResultEnum">
+		<restriction base="string">
+			<enumeration value="ERROR"/>
+			<enumeration value="OK"/>
+			<enumeration value="ALREADY_INSERTED"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="PinStatusEnum">
+		<restriction base="string">
+			<enumeration value="VERIFIED"/>
+			<enumeration value="TRANSPORT_PIN"/>
+			<enumeration value="EMPTY_PIN"/>
+			<enumeration value="BLOCKED"/>
+			<enumeration value="VERIFIABLE"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="PinType">
+		<restriction base="string">
+			<maxLength value="256"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="CommonStepsEnum">
+		<annotation>
+			<documentation>
+				Arbeitsschritte, die von allen Fachanwendungen genutzt
+				werden können
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="CheckCardHandle"/>
+			<enumeration value="VerifyPin"/>
+			<enumeration value="VerifyEhcPin"/>
+			<enumeration value="VerifyHpcPin"/>
+			<enumeration value="VerifySmcPin"/>
+			<enumeration value="WriteToEhc"/>
+			<enumeration value="ReadFromEhc"/>
+			<enumeration value="Logging"/>
+			<enumeration value="CheckEhcBlocking"/>
+			<enumeration value="FullfillAccessConditions"/>
+			<enumeration value="CardToCard"/>
+		</restriction>
+	</simpleType>
+	<complexType name="VersionInfoType">
+		<sequence>
+			<element name="Major" type="unsignedShort"/>
+			<element name="Minor" type="unsignedShort"/>
+			<element name="Revision" type="unsignedShort"/>
+		</sequence>
+	</complexType>
+	<complexType name="CardInfoType">
+		<sequence>
+			<element ref="CONN:CardHandle"/>
+			<element ref="CARDCMN:CardType"/>
+			<element name="CardVersion" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="COSVersion" type="CARD:VersionInfoType"/>
+						<element name="ObjectSystemVersion" type="CARD:VersionInfoType"/>
+						<element name="CardPTPersVersion" type="CARD:VersionInfoType" minOccurs="0"/>
+						<element name="DataStructureVersion" type="CARD:VersionInfoType" minOccurs="0"/>
+						<element name="LoggingVersion" type="CARD:VersionInfoType" minOccurs="0"/>
+						<element name="ATRVersion" type="CARD:VersionInfoType" minOccurs="0"/>
+						<element name="GDOVersion" type="CARD:VersionInfoType" minOccurs="0"/>
+						<element name="KeyInfoVersion" type="CARD:VersionInfoType" minOccurs="0"/>
+					</sequence>
+				</complexType>
+			</element>
+			<element ref="CARDCMN:Iccsn" minOccurs="0"/>
+			<element ref="CARDCMN:CtId"/>
+			<element ref="CARDCMN:SlotId"/>
+			<element name="InsertTime" type="dateTime"/>
+			<element ref="CARD:CardHolderName" minOccurs="0"/>
+			<element ref="CARD:Kvnr" minOccurs="0"/>
+			<element ref="CARD:CertificateExpirationDate" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="CardInfoErrType">
+		<complexContent>
+			<extension base="CARD:CardInfoType">
+				<sequence>
+					<element ref="GERROR:Error" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="Cards">
+		<complexType>
+			<sequence>
+				<element ref="CARD:Card" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="Card" type="CARD:CardInfoType"/>
+	<element name="VerifyPin">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<element ref="CONN:CardHandle"/>
+				<element ref="CARDCMN:PinTyp"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="VerifyPinResponse" type="CARDCMN:PinResponseType"/>
+	<element name="ChangePin">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<element ref="CONN:CardHandle"/>
+				<element ref="CARDCMN:PinTyp"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ChangePinResponse" type="CARDCMN:PinResponseType"/>
+	<element name="GetPinStatus">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<element ref="CONN:CardHandle"/>
+				<element ref="CARDCMN:PinTyp"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="GetPinStatusResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="PinStatus" type="CARD:PinStatusEnum" minOccurs="0"/>
+				<element name="LeftTries" type="nonNegativeInteger" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="UnblockPin">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<element ref="CONN:CardHandle"/>
+				<element ref="CARDCMN:PinTyp"/>
+				<element name="SetNewPin" type="boolean" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="UnblockPinResponse" type="CARDCMN:PinResponseType"/>
+	<element name="AuthorizeSmc">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<element ref="CONN:HpcHandle"/>
+				<element ref="CONN:SmcHandle"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="AuthorizeSmcResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

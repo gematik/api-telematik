@@ -1,0 +1,1597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- 
+	Datenmodell eMP/AMTS-Datenmanagement (Ausbaustufe A)
+
+	basierend auf
+
+	Bundeseinheitlicher Medikationsplan (BMP) (bmp_V2.6.xsd)
+	01. Juli 2019, Version 2.6
+
+	verantwortliche Organisation: gematik Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH
+-->
+<!-- Version History
+			version: V1.6.0
+			===========
+			*** C_7070: Attribut "v" BMP Versionsnummer und "iv" Version eMP/AMTS: "fixed value" entfernt; Attribut "ps" "fixed value" entfernt und Aktuallisierung der BMP Version
+			
+			version: V1.5.0
+			===========
+			*** C_6892: Nachtrag der OID für das Attribut @oid
+			*** C_6828: Hinzufügen Geschlecht "divers"
+
+			version: V1.4.0
+			===========
+			*** C_6611: Hinzufügen von Validitätskriterien zur genaueren Spezifikation des PZN-Bezugs
+			*** C_6629: Entfernen der Attribute mit Status "prohibited"
+			
+			version: V1.3.0
+			===========
+			*** C_6514: Bundeseinheitlicher Medikationsplan (BMP) (bmp_V2.5.xsd), 2018-06-30, Version 2.5.0
+			
+			version: V1.2.0
+			===========
+			*** C_6409: Bundeseinheitlicher Medikationsplan (BMP) (bmp2.4.1.xsd), 2017-06-26 Version 2.4.1
+			
+			version: V1.1.0
+			===========
+			*** Bundeseinheitlicher Medikationsplan (BMP) (bmp024.xsd), 2017-04-30 Version 2.4
+            
+			version: V1.0.0
+			===========
+			*** Bundeseinheitlicher Medikationsplan (BMP) (bmp023.xsd), 2016-07-15 Version 2.3
+	 End of Version History-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:AMTS="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.6" targetNamespace="http://ws.gematik.de/fa/amtss/AMTS_Document/v1.6" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.6.0">
+	<xs:element name="MP">
+		<xs:annotation>
+			<xs:documentation>eMP/AMTS-Daten</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="P">
+					<xs:annotation>
+						<xs:documentation>Name: Versicherter
+
+Beschreibung: Daten zur Identifizierung des Versicherten</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="g" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Vorname
+
+Beschreibung: Vorname des Versicherten
+
+Befüllung / Format: analog VSDM
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="45"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="f" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Nachname
+
+Beschreibung: Nachname des Versicherten
+
+Befüllung / Format: analog VSDM
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="45"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="egk" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Versicherten-ID
+
+Beschreibung: Die Versicherten-ID ist der 10-stellige unveränderliche Teil der 30-stelligen Krankenversichertennummer.
+
+Befüllung / Format: analog VSDM, A000000000
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="10"/>
+									<xs:pattern value="[A-Z]\d{9}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="b" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Geburtsdatum
+
+Beschreibung: Geburtsdatum des Versicherten - Das Geburtsjahr muss immer gefüllt werden. Bei Inländern ist immer ein logisch richtiges Geburtsdatum anzugeben. Bei Ausländern gilt folgendes: Zumindest das Geburtsjahr ist immer anzugeben. Im Geburtstag oder im Geburtstag und im Geburtsmonat ist bei Ausländern "00" bzw. "0000" zulässig, wenn der Geburtstag und der Geburtsmonat nicht zu ermitteln sind.
+
+Befüllung / Format: analog VSDM, YYYYMMDD (ISO-8601)
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="8"/>
+									<xs:pattern value="\d{4}(0[0-9]|1[012])(0[0-9]|[12][0-9]|3[01])"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="s" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Geschlecht
+
+Beschreibung: Administrative Geschlecht des Versicherten 
+
+Befüllung / Format: analog VSDM, "M" = männlich, "W" = weiblich, "D" = divers, "X" = unbestimmt
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="1"/>
+									<xs:pattern value="[A-Z]"/>
+									<xs:enumeration value="M">
+										<xs:annotation>
+											<xs:documentation>männlich</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="W">
+										<xs:annotation>
+											<xs:documentation>weiblich</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="D">
+										<xs:annotation>
+											<xs:documentation>divers</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="X">
+										<xs:annotation>
+											<xs:documentation>unbestimmt</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="sd" type="xs:boolean" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Geschlecht
+
+Beschreibung: Kennzeichen, ob das administrative Geschlecht des Versicherten auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Geschlecht auf BMP drucken, false = Geschlecht nicht auf BMP drucken
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="t" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Titel
+
+Beschreibung: Gibt die akademischen Grade des Versicherten an. Mehrere Titel werden durch Leerzeichen getrennt angegeben.
+
+Befüllung / Format: analog VSDM
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="v" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Vorsatzwort
+
+Beschreibung: Gibt die Vorsatzwörter des Versicherten an. Mehrere Vorsatzwörter werden durch Leerzeichen getrennt angegeben.
+
+Befüllung / Format: analog VSDM, Anlage 6 (Tabelle der gültigen Vorsatzworte) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="z" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Namenszusatz
+
+Beschreibung. Gibt die Namenszusätze des Versicherten an, z. B.: Freiherr. Mehrere Namenzusätze werden durch Leerzeichen getrennt angegeben.
+
+Befüllung / Format: analog VSDM, Anlage 7 (Tabelle der gültigen Namenszusätze) zur DEÜV, siehe www.gkv-datenaustausch.de/arbeitgeber/deuev/gemeinsame_rundschreiben/gemeinsame_rundschreiben.jsp
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="A">
+					<xs:annotation>
+						<xs:documentation>Name: Daten zur letzten Aktualisierung
+
+Beschreibung: Daten zur letzten Aktualisierung der eMP/AMTS-Daten: Zeitpunkt und Identifikation der Instanz (LE oder Organisation)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="t" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Datum letzte Änderung
+
+Beschreibung: Datum und Uhrzeit der letzten Änderung der eMP/AMTS-Daten
+
+Befüllung / Format: YYYY-MM-DDThh:mm:ss
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:dateTime">
+									<xs:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="n" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Name
+
+Beschreibung: Bezeichnung der Instanz, die die letzte eMP/AMTS-Aktualisierung durchgeführt hat, Leistungserbringer oder Organisationseinheit, (Arztpraxis, Krankenhaus/Station, Zahnarztpraxis, Apotheke)
+
+Befüllung / Format: Freitext
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="80"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="s" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Straße
+
+Beschreibung: Straße mit Hausnummer als Teil der Adresse der Instanz, die die letzte eMP/AMTS-Aktualisierung durchgeführt hat
+
+Befüllung / Format: Freitext
+
+Info:  Hier hat die Straße die max. Länge 30, da das Attribut vom BMP 1:1 übernommen wurde. In der Einwilligung erfolgt die Ablage der Straße analog dem Projekt VSDM (max. Länge 46).
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="30"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="z" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Postleitzahl
+
+Beschreibung: PLZ als Teil der Adresse der Instanz, die die letzte eMP/AMTS-Aktualisierung durchgeführt hat
+
+Befüllung / Format: 5-stellige Nummer (Werte des PLZ-Katalogs der Deutschen Post)
+
+Info: Hier hat die PLZ die Länge 5, da das Attribut vom BMP 1:1 übernommen wurde. In der Einwilligung erfolgt die Ablage der PLZ analog dem Projekt VSDM (Länge 10).
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="5"/>
+									<xs:pattern value="\d{5}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="c" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Ort
+
+Beschreibung: Ort als Teil der Adresse der Instanz, die die letzte eMP/AMTS-Aktualisierung durchgeführt hat
+
+Befüllung / Format: Freitext
+
+Info:  Hier hat der Ort die max. Länge 20, da das Attribut vom BMP 1:1 übernommen wurde. In der Einwilligung erfolgt die Ablage des Ortes analog dem Projekt VSDM (max. Länge 40).
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="20"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="p" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Telefon
+
+Beschreibung: Telefonnummer der Instanz, die die letzte eMP/AMTS-Aktualisierung durchgeführt hat
+
+Befüllung / Format: Freitext
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="20"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="e" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: E-Mail
+
+Beschreibung: E-Mail der Instanz, die die letzte eMP/AMTS-Aktualisierung durchgeführt hat
+
+Befüllung / Format: Freitext
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="80"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="lanr" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Lebenslange Arztnummer
+
+Beschreibung: Lebenslage Identifikationsnummer eines Arztes 
+
+Befüllung / Format: 9-stellige Nummer
+
+Validitätskriterium: Es muss immer genau eines der drei Attribute lanr, idf und kik vorhanden sein.
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="9"/>
+									<xs:pattern value="\d{9}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="idf" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Apotheken-IDF
+
+Beschreibung: Identifikationsnummer einer Apotheke
+
+Befüllung / Format: 7-stellige Nummer
+
+Validitätskriterium: Es muss immer genau eines der drei Attribute lanr, idf und kik vorhanden sein.
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="7"/>
+									<xs:pattern value="\d{7}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="kik" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Krankenhaus-IK
+
+Beschreibung: Institutionskennzeichen Krankenhaus
+
+Befüllung / Format: 9-stellige Nummer
+
+Validitätskriterium: Es muss immer genau eines der drei Attribute lanr, idf und kik vorhanden sein.
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="9"/>
+									<xs:pattern value="\d{9}"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="O" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Name: Individualparameter des Versicherten</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="ai" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Allergien und Unverträglichkeiten
+
+Beschreibung: Zusätzliche Allergien und Unverträglichkeiten
+
+Befüllung / Format: Freitext
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="aid" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Allergien und Unverträglichkeiten
+
+Beschreibung: Kennzeichen, ob Allergien und Unverträglichkeiten auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Allergien und Unverträglichkeiten auf BMP drucken, false = Allergien und Unverträglichkeiten nicht auf BMP drucken
+
+Validitätskriterium: Falls das Attribut ai angegeben ist, muss auch das Attribut aid angegeben werden. Falls das Attribut ai nicht angegeben ist, darf das Attribut aid nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="p" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Schwanger
+
+Beschreibung: Kennzeichen zur Schangerschaft
+
+Befüllung / Format: Wenn eine Schwangerschaft vorliegt, wird das Attribut angegeben (p="1"). Ansonsten wird das Attribut weggelassen. Dies bedeutet, dass keine Aussage über eine Schwangerschaft möglich ist.
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="1"/>
+									<xs:enumeration value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="pd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Schwangerschaft
+
+Beschreibung: Kennzeichen, ob das Kennzeichen zur Schwangerschaft auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Kennzeichen zur Schwangerschaft auf BMP drucken, false = Kennzeichen zur Schwangerschaft nicht auf BMP drucken
+
+Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut pd angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut pd nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="b" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Stillend
+
+Beschreibung: Kennzeichen Stillend
+
+Befüllung / Format: Wenn die Versicherte stillend ist, wird das Attribut angegeben (b="1"). Ansonsten wird das Attribut weggelassen. Dies bedeutet, dass keine Aussgage zum Stillen möglich ist.
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:length value="1"/>
+									<xs:enumeration value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="bd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Stillend
+
+Beschreibung: Kennzeichen, ob das Kennzeichen zum Stillen auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Kennzeichen Stillend auf BMP drucken, false = Kennzeichen Stillend nicht auf BMP drucken
+
+Validitätskriterium: Falls das Attribut b angegeben ist, muss auch das Attribut bd angegeben werden. Falls das Attribut b nicht angegeben ist, darf das Attribut bd nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="w" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Gewicht
+
+Beschreibung: Gewicht des Versicherten
+
+Befüllung / Format: kg
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="1"/>
+									<xs:maxInclusive value="999"/>
+									<xs:minExclusive value="0"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="wd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Gewicht
+
+Beschreibung: Kennzeichen, ob das Gewicht des Versicherten auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Gewicht auf BMP drucken, false = Gewicht nicht auf BMP drucken
+
+Validitätskriterium: Falls das Attribut w angegeben ist, muss auch das Attribut wd angegeben werden. Falls das Attribut w nicht angegeben ist, darf das Attribut wd nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="h" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Größe
+
+Beschreibung: Körpergröße des Versicherten
+
+Befüllung / Format: cm
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:minInclusive value="10"/>
+									<xs:maxInclusive value="299"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="hd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Größe
+
+Beschreibung: Kennzeichen, ob die Größe des Versicherten auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Größe auf BMP drucken, false = Größe nicht auf BMP drucken
+
+Validitätskriterium: Falls das Attribut h angegeben ist, muss auch das Attribut hd angegeben werden. Falls das Attribut h nicht angegeben ist, darf das Attribut hd nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="c" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Kreatininwert
+
+Beschreibung: Kreatininwert des Versicherten
+
+Befüllung / Format: mg/dl
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:decimal">
+									<xs:fractionDigits value="2"/>
+									<xs:minInclusive value="0"/>
+									<xs:maxExclusive value="10"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="cda" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Erfassungsdatum Kreatininwert
+
+Beschreibung: Datum an dem der Kreatininwert des Versicherten erfasst wurde
+
+Befüllung / Format: ---
+
+Validitätskriterium: Falls das Attribut c nicht angegeben ist, darf das Attribut cda nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:date"/>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="cd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Kreatininwert
+
+Beschreibung: Kennzeichen, ob der Kreatininwert des Versicherten auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Kreatininwert auf BMP drucken, false = Kreatininwert nicht auf BMP drucken
+
+Validitätskriterium: Falls das Attribut c angegeben ist, muss auch das Attribut cd angegeben werden. Falls das Attribut c nicht angegeben ist, darf das Attribut cd nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="x" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Parameterfreitext
+
+Beschreibung: Ergänzung von Parametern
+
+Befüllung / Format: Freitext, maximal 2 manuelle Umbrüche können jeweils mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut x darf nicht mehr als 2 Tildezeichen enthalten ("~").
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="77"/>
+									<xs:minLength value="1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="xd" type="xs:boolean" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Druckkennzeichen Parameterfreitext
+
+Beschreibung: Kennzeichen, ob der Freitext zur Ergänzung von Parametern auf dem BMP gedruckt werden soll
+
+Befüllung / Format: true = Parameterfreitext auf BMP drucken, false = Parameterfreitext nicht auf BMP drucken
+
+Validitätskriterium: Falls das Attribut x angegeben ist, muss auch das Attribut xd angegeben werden. Falls das Attribut x nicht angegeben ist, darf das Attribut xd nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="et" type="xs:date" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Entbindungstermin
+
+Beschreibung: Errechneter Entbindungstermin der Versicherten
+
+Befüllung / Format: ---
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="U" minOccurs="0" maxOccurs="10">
+					<xs:annotation>
+						<xs:documentation>Name: Arzneimittelallergien und Arzneimittelunverträglichkeiten des Versicherten</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="re" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Reaktion
+
+Beschreibung: Angabe zur Schilderung der allergischen Reaktionen, die auf die eingetragenen Substanzen/Substanzgruppen zurückzuführen sind
+
+Befüllung / Format: Freitext
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="75"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="su" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Substanz / Substanzgruppe (Freitext)
+
+Beschreibung: Fertigarzneimittel, Stoffe oder Stoffgruppe auf die allergisch reagiert wird
+
+Befüllung / Format: Freitext
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="q" use="required">
+							<xs:annotation>
+								<xs:documentation>Name: Quelle
+
+Beschreibung: Angabe, woher die Information zur Arzneimittelallergie oder Arzneimittelunverträglichkeit des Versicherten stammt
+
+Befüllung / Format: "ärztlich diagnostiziert" oder "Eigenangabe"
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="ärztlich diagnostiziert"/>
+									<xs:enumeration value="Eigenangabe"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="S" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Name: Blöcke
+
+Beschreibung: Blöcke mit Überschrift (Gruppierungen von Medikationseinträgen)</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice maxOccurs="unbounded">
+							<xs:element name="M">
+								<xs:annotation>
+									<xs:documentation>Name: Medikation
+
+Befüllung / Format: Falls für eine Medikation eine PZN angegeben ist, sollen auch alle über die PZN aus einer Arzneimitteldatenbank ableitbaren Attribute (inklusive Wirkstoffe) angegeben werden. Die Inhalte kommen dann entweder aus einer Arzneimitteldatenbank oder sind vom Anwender anders zu belegen.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="AMTS:meTyp">
+											<xs:sequence>
+												<xs:element name="W" minOccurs="0" maxOccurs="unbounded">
+													<xs:annotation>
+														<xs:documentation>Name: Wirkstoffe und Wirkstärken
+
+Beschreibung: Wirkstoffe und Wirkstärken einer Medikation
+
+Befüllung / Format: Die Werte sind aus der PZN abzuleiten oder vom Anwender manuell einzutragen.</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:attribute name="w" use="required">
+															<xs:annotation>
+																<xs:documentation>Name: Wirkstoff
+
+Beschreibung: Bezeichnung eines Wirkstoffes
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Falls das Attribut w angegeben ist, dürfen die Attribute p und ps nicht angegeben werden. 
+
+Aus BMP: Ja</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:minLength value="1"/>
+																	<xs:maxLength value="80"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+														<xs:attribute name="s" use="optional">
+															<xs:annotation>
+																<xs:documentation>Name: Wirkstärke Freitext
+
+Beschreibung: Bezeichnung der Wirkstärke
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Die Attribute s und gwe dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:minLength value="1"/>
+																	<xs:maxLength value="15"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+														<xs:attribute name="gwe" use="optional">
+															<xs:annotation>
+																<xs:documentation>Name: Wirkstärke strukturiert
+
+Beschreibung: Strukturierte Darstellung einer Wirkstärke
+
+Befüllung / Format: [Wirkstoffmenge mit Wirkstoffmengeneinheit]/[Bezugsgrößenmenge mit Bezugsgrößenmengeneinheit] z.B. "5mg/1ml"
+
+Validitätskriterium: Die Attribute s und gwe dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+															</xs:annotation>
+															<xs:simpleType>
+																<xs:restriction base="xs:string">
+																	<xs:minLength value="1"/>
+																	<xs:maxLength value="15"/>
+																</xs:restriction>
+															</xs:simpleType>
+														</xs:attribute>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attribute name="p" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Modifizierte PZN
+
+Beschreibung: Pharmazentralnummer einer Fertigarzneimittelpackung
+
+Befüllung / Format: nach Code-System in Attribut ps
+
+Validitätskriterium: Falls das Attribut p angegeben ist, dürfen die Attribute a, f und das Element W nicht angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:int">
+														<xs:maxInclusive value="99999999"/>
+														<xs:minInclusive value="1"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="ps" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Code-System PZN
+
+Beschreibung: Code-System für die PZN
+
+Befüllung / Format: z.B. BMP v2.5, Kapitel 8.3.1, Tabelle 3
+
+Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="30"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="a" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Arzneimittelname
+
+Beschreibung: Freitextliche Bezeichnung eines Fertigarzneimittels
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Falls das Attribut a angegeben ist, dürfen die Attribute p und ps nicht angegeben werden. 
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="50"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="f" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Darreichungsform Code
+
+Beschreibung: Darreichungsform als IFA Code
+
+Befüllung / Format: nach Code-System in Attribut fs
+
+Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden. Falls das Attribut f angegeben ist, dürfen die Attribute p und ps nicht angegeben werden. 
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:length value="3"/>
+														<xs:pattern value="[A-Z]{3}"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="fs" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.40">
+												<xs:annotation>
+													<xs:documentation>Name: Darreichungsform Code-System
+
+Beschreibung: Code-System für die Darreichungsform
+
+Befüllung / Format: OID, fixed
+
+Validitätskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut fs angegeben werden. Falls das Attribut f nicht angegeben ist, darf das Attribut fs nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="30"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="fd" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Darreichungsform Freitext
+
+Beschreibung: Darreichungsform als Freitext, entweder definiert oder fehlend (dann bei Ausdruck ggf. aus PZN abgeleitet)
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden. 
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="7"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="m" type="AMTS:dosierungTyp" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Dosierschema morgens
+
+Beschreibung: Dosierung als 4-teiliges Schema (morgens)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute m und t dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="d" type="AMTS:dosierungTyp" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Dosierschema mittags
+
+Beschreibung: Dosierung als 4-teiliges Schema (mittags)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute d und t dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="v" type="AMTS:dosierungTyp" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Dosierschema abends
+
+Beschreibung: Dosierung als 4-teiliges Schema (abends)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute v und t dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="h" type="AMTS:dosierungTyp" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Dosierschema zur Nacht
+
+Beschreibung: Dosierung als 4-teiliges Schema (zur Nacht)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute h und t dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="t" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Dosierschema Freitext
+
+Beschreibung: Freitextdosierung
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Das Attribut t darf nicht gleichzeitig mit den Attributen m, d, v und h angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="20"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="du" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Dosiereinheit strukturiert
+
+Beschreibung: Dosiereinheit als Code
+
+Befüllung / Format: nach Code-System in Attribut dus
+
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:pattern value="[#0-9a-v]"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="dus" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.41">
+												<xs:annotation>
+													<xs:documentation>Name: Dosiereinheit Code-System
+
+Beschreibung: Code-System der Dosiereinheit
+
+Befüllung / Format: OID, fixed
+
+Validitätskriterium: Falls das Attribut du angegeben ist, muss auch das Attribut dus angegeben werden. Falls das Attribut du nicht angegeben ist, darf das Attribut dus nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="30"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="dud" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Dosiereinheit Freitext
+
+Beschreibung: Dosiereinheit als Freitext
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="2"/>
+														<xs:maxLength value="20"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="i" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Hinweise
+
+Beschreibung: Hinweise zur Anwendung, Lagerung, Einnahme, etc.
+
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut i darf nicht mehr als ein Tildezeichen enthalten ("~").
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="80"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="r" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: Behandlungsgrund
+
+Beschreibung: Grund für die Behandlung mit der Medikation in patiententauglicher Form
+
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut r darf nicht mehr als ein Tildezeichen enthalten ("~").
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="50"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="x" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: gebundene Zusatzzeile
+
+Beschreibung: Freitextzeile, die sich auf diese Medikation bezieht, ergänzende Informationen zur Dosierung oder weitergehende Hinweise, die in den Feldern des Medikationseintrages nicht untergebracht werden können
+
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut x darf nicht mehr als ein Tildezeichen enthalten ("~").
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="200"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="X">
+								<xs:annotation>
+									<xs:documentation>Name: Freitextzeile
+
+Beschreibung: Sonstiger Hinweis (Zeile) als Freitext</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="AMTS:meTyp">
+											<xs:attribute name="t" use="required">
+												<xs:annotation>
+													<xs:documentation>Name: Freitext
+
+Beschreibung: Text ohne Bezug zu einem Medikationseintrag
+
+Befüllung / Format: Freitext, maximal 1 manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalten ("~").
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:maxLength value="200"/>
+														<xs:minLength value="1"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="R">
+								<xs:annotation>
+									<xs:documentation>Name: Rezeptur
+
+Beschreibung: Rezeptut als Freitext</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="AMTS:meTyp">
+											<xs:attribute name="t" use="required">
+												<xs:annotation>
+													<xs:documentation>Name: Freitext
+
+Beschreibung: Text ohne Bezug zu einem Medikationseintrag
+
+Befüllung / Format: Freitext, maximal 1 manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalten ("~").
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:maxLength value="200"/>
+														<xs:minLength value="1"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+											<xs:attribute name="x" use="optional">
+												<xs:annotation>
+													<xs:documentation>Name: gebundene Zusatzzeile
+
+Beschreibung: Freitextzeile, die sich auf diese Rezeptur bezieht, ergänzende Informationen zur Dosierung oder weitergehende Hinweise, die in der vorausgehenden Rezepturzeile nicht untergebracht werden können
+
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut x darf nicht mehr als ein Tildezeichen enthalten ("~").
+
+Aus BMP: Ja</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:minLength value="1"/>
+														<xs:maxLength value="200"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="t" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Freitextzwischenüberschrift
+
+Beschreibung: Bezeichnung einer Überschrift, die in der Reihenfolge nachfolgende Medikationseinträge zusammenfasst und diesen Einträgen eine Überschrift gibt.
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Die Attribute t und c dürfen nicht gleichzeitig angegeben werden. Ab dem 2. Block (AMTS:MP/AMTS:S) muss immer genau eines der zwei Attribute t und c vorhanden sein.
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="c" use="optional">
+							<xs:annotation>
+								<xs:documentation>Name: Zwischenüberschrift Code
+
+Beschreibung: Zwischenüberschrift (Codes siehe Dokumentation)
+
+Befüllung / Format: nach Code-System in Attribut cs
+
+Validitätskriterium: Die Attribute t und c dürfen nicht gleichzeitig angegeben werden. Ab dem 2. Block (AMTS:MP/AMTS:S) muss immer genau eines der zwei Attribute t und c vorhanden sein.
+
+Aus BMP: Ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="411">
+										<xs:annotation>
+											<xs:documentation>Bedarfsmedikation</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="412">
+										<xs:annotation>
+											<xs:documentation>Dauermedikation</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="413">
+										<xs:annotation>
+											<xs:documentation>Intramuskuläre Anwendung</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="414">
+										<xs:annotation>
+											<xs:documentation>Besondere Anwendung</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="415">
+										<xs:annotation>
+											<xs:documentation>Intravenöse Anwendung</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="416">
+										<xs:annotation>
+											<xs:documentation>Anwendung unter die Haut</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="417">
+										<xs:annotation>
+											<xs:documentation>Fertigspritze</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="418">
+										<xs:annotation>
+											<xs:documentation>Selbstmedikation</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="419">
+										<xs:annotation>
+											<xs:documentation>Allergiehinweise</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="421">
+										<xs:annotation>
+											<xs:documentation>Wichtige Hinweise</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="422">
+										<xs:annotation>
+											<xs:documentation>Wichtige Angaben</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="423">
+										<xs:annotation>
+											<xs:documentation>zu besonderen Zeiten anzuwendende Medikamente</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="424">
+										<xs:annotation>
+											<xs:documentation>zeitlich befristet anzuwendende Medikamente</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="cs" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.42">
+							<xs:annotation>
+								<xs:documentation>Name: Zwischenüberschrift Code-System
+
+Beschreibung: Zwischenüberschrift in codierter Form
+
+Befüllung / Format: OID, fixed
+
+Validitätskriterium: Falls das Attribut c angegeben ist, muss auch das Attribut cs angegeben werden. Falls das Attribut c nicht angegeben ist, darf das Attribut cs nicht angegeben werden.
+
+Aus BMP: Nein</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:minLength value="1"/>
+									<xs:maxLength value="30"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="v" use="required">
+				<xs:annotation>
+					<xs:documentation>Name: Version BMP
+
+Beschreibung: Versionsnummer des zugrunde liegenden BMP
+
+Befüllung / Format: z.B. BMP v2.3 entspricht "023"
+
+Aus BMP: Ja</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="3"/>
+						<xs:pattern value="\d*"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="U" use="required">
+				<xs:annotation>
+					<xs:documentation>Name: Instanz-ID BMP
+
+Beschreibung: Weltweit eindeutige Instanz-ID zur Identifikation eines BMP-Ausdrucks
+
+Befüllung / Format: GUID - Global Unique Identifier (gleich für alle Seiten des BMP)
+
+Aus BMP: Ja</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="32"/>
+						<xs:pattern value="[A-F0-9]{32}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="l" use="required" fixed="de-DE">
+				<xs:annotation>
+					<xs:documentation>Name: Sprach- / Länderkennzeichen
+
+Beschreibung: Sprachkennzeichen und Länderkennzeichen
+
+Befüllung / Format: Sprach- und Länderkennzeichen werden mit ISO-Werten getrennt durch Bindestrich ("-") angegeben, fixed
+
+Aus BMP: Ja</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="5"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="llcs" use="required" fixed="ISO 639-1">
+				<xs:annotation>
+					<xs:documentation>Name: Sprachkennzeichen-Code-System
+
+Beschreibung: Code-System für das Sprachkennzeichen
+
+Befüllung / Format: "ISO 639-1", fixed
+
+Aus BMP: Nein
+</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="lccs" use="required" fixed="ISO 3166-1">
+				<xs:annotation>
+					<xs:documentation>Name: Länderkennzeichen-Code-System
+
+Beschreibung: Code-System für das Länderkennzeichen
+
+Befüllung / Format: "ISO 3166-1", fixed
+
+
+Aus BMP: Nein</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="iv" use="required">
+				<xs:annotation>
+					<xs:documentation>Name: Version eMP/AMTS
+
+Beschreibung: Version der verwendeten eMP/AMTS-Daten / des Informationsmodells nach Spezifikation der gematik
+
+Befüllung / Format: xxx.yyy.zzz
+
+Aus BMP: Nein</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="11"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="oid" use="required" fixed="1.2.276.0.76.7.7">
+				<xs:annotation>
+					<xs:documentation>Name: ID eMP/AMTS
+
+Beschreibung: Eindeutiger Identifier in der gematik-Objektnomenklatur
+
+Befüllung / Format: Freitext, fixed
+
+Aus BMP: Nein</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="on" use="required" fixed="eMP/AMTS">
+				<xs:annotation>
+					<xs:documentation>Name: Identifikationsname
+
+Beschreibung: Bezeichnung für das gesamte Objekt
+
+Befüllung / Format: Freitext, fixed
+
+Aus BMP: Nein</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="8"/>
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="so" use="required" fixed="eGK">
+				<xs:annotation>
+					<xs:documentation>Name: Speicherort
+
+Beschreibung: Speicherort der eMP/AMTS-Daten
+
+Befüllung / Format: Freitext, fixed
+
+Aus BMP: Nein</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ko" use="optional">
+				<xs:annotation>
+					<xs:documentation>Name: übergeordneter LE-Kommentar
+
+Beschreibung: Leistungserbringer ausgerichteter Kommentar der im Zusammenhang mit dem gesamten eMP/AMTS-Datensatz steht, im Gegensatz zu den zeilenbezogenen Kommentaren.
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: -
+
+Aus BMP: Nein</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="0"/>
+						<xs:maxLength value="500"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="dosierungTyp">
+		<xs:annotation>
+			<xs:documentation>Dosierungen nach BMP-Spezifikation</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4"/>
+			<xs:pattern value="([1-9]\d{0,3})|([1-9]\d,\d)|(\d,\d{1,2})|1/8|1/2|2/3|1/3|1/4|3/4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="meTyp">
+		<xs:annotation>
+			<xs:documentation>Übergreifende Attribute eines Medikationseintrages</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="dm" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Name: Kennzeichen Dauermedikation
+
+Beschreibung: Kennzeichnet einen Medikationseintrag als Dauermedikation
+
+Befüllung / Format: true = Eintrag ist eine Dauermedikation, false = Eintrag ist keine Dauermedikation. Falls das Attribut nicht angegeben ist, ist keine Aussage dazu möglich.
+
+Validitätskriterium: Ein sonstiger Hinweis (AMTS:MP/AMTS:S/AMTS:X) darf das Attribut dm nicht enthalten.
+
+Aus BMP: Nein</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ed" type="xs:date" use="optional">
+			<xs:annotation>
+				<xs:documentation>Name: Datum Status "beendet"
+
+Beschreibung: Datum des voraussichtlichen oder bereits eingetretenen Endes der zugehörigen Medikation
+
+Befüllung / Format: ---
+
+Aus BMP: Nein</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ied" type="xs:date" use="required">
+			<xs:annotation>
+				<xs:documentation>Name: Ersterfassungsdatum
+
+Beschreibung: Datum der initialen Erfassung des Medikationseintrages
+
+Befüllung / Format: ---
+
+Aus BMP: Nein</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="icd" type="xs:date" use="optional">
+			<xs:annotation>
+				<xs:documentation>Name: Änderungsdatum
+
+Beschreibung: Datum der letzten Änderung des Medikationseintrages
+
+Befüllung / Format: ---
+
+Aus BMP: Nein</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ko" use="optional">
+			<xs:annotation>
+				<xs:documentation>Name: Kommentar
+
+Beschreibung: Ein Freitext für beliebige Kommentare oder Hinweise zwischen Leistungserbringern ohne inhaltliche Vorgaben mit Bezug auf die Medikation
+
+Befüllung / Format: Freitext
+
+Aus BMP: Nein</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:maxLength value="400"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="bmp" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Name: Kennzeichen BMP
+
+Beschreibung: Kennzeichnet einen Medikationseintrag als § 31a SGB V relevanten Eintrag, der im Falle eines Ausdruckes nach § 31a SGB V zu berücksichtigen ist
+
+Befüllung / Format: true = Eintrag relevant für BMP, false = Eintrag nicht relevant für BMP
+
+Aus BMP: Nein</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="hi" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Name: Kennzeichen historisiert
+
+Beschreibung: Kennzeichnet einen Medikationseintrag als historisiert (Medikation, die zum aktuellen Tagesdatum nicht mehr eingenommen wird; Medikation, deren Einnahme für einen unbestimmten Zeitraum ausgesetzt ist; etc.)
+
+Befüllung / Format: true = Eintrag historisiert, false = Eintrag nicht historisiert
+
+Aus BMP: Nein</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

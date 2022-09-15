@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\1" -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by n.n. (gematik) -->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:PoPP="http://ws.gematik.de/conn/popp/PoPPService/v1.0" name="PoPP" targetNamespace="http://ws.gematik.de/conn/popp/PoPPService/v1.0">
+	<documentation>
+		Copyright (c) 2011, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: Dienste zum Erzeugen eines Anwesenheitsnachweises
+	</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="PoPPService.xsd" namespace="http://ws.gematik.de/conn/popp/PoPPService/v1.0"/>
+			<xs:import schemaLocation="../../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="PerformPoPPRequestMessage">
+		<part name="parameter" element="PoPP:performPoPP"/>
+	</message>
+	<message name="PerformPoPPResponseMessage">
+		<part name="parameter" element="PoPP:performPoPPResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="PoPPServicePortType">
+		<operation name="PerformPoPP">
+			<input message="PoPP:PerformPoPPRequestMessage"/>
+			<output message="PoPP:PerformPoPPResponseMessage"/>
+			<fault name="FaultMessage" message="PoPP:FaultMessage"/>
+		</operation>
+	</portType>
+	<binding name="PoPPServiceBinding" type="PoPP:PoPPServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="PerformPoPP">
+			<soap:operation soapAction="http://ws.gematik.de/conn/popp/PoPPService/v1.0#PerformPoPP"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="PoPPService">
+		<port name="PoPPServicePort" binding="PoPP:PoPPServiceBinding">
+			<soap:address location="http://unspecified"/>
+		</port>
+	</service>
+</definitions>

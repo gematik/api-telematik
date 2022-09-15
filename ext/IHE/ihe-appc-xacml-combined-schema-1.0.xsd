@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_ors2\2" -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:oasis:names:tc:xacml:2.0:policy:schema:os" elementFormDefault="qualified" version="1.0">
+	<xs:import namespace="urn:hl7-org:v3" schemaLocation="ihe-appc-xacml-hl7-datatypes-base-1.0.xsd"/>
+	<xs:include schemaLocation="../access_control-xacml-2.0-policy-schema-os.xsd"/>
+</xs:schema>

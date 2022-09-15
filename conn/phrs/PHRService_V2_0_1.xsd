@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2021 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+			version: V2.0.1 (R4.0.1: Version wird nur an 3.Stelle erhöht, da R4.0.1 das R4.0.0 ersetzt)
+				* Operation RemoveDocuments (ITI-86: Remove Documents) entfernt
+				* Operation DeleteDocumentSet neu (IHE RMD ITI-62: Remove Metadata)
+            version: V2.0.0
+				* Operation RestrictedUpdateDocumentSet entfernt
+            version: V1.4.0 (abgekündigt)
+				* Operation RestrictedUpdateDocumentSet ist abgekündigt und wird mit Fehler 7400 beendet
+            version: V1.3.0
+                *  Für sämtliche Operationen soapActionRequired="false"  
+                   Für sämtiche PortType Bindings <wsaw:UsingAddressing wsdl:required="true"/>
+   			version: V1.2.0
+				* 21.01.2020
+				* PHRService_PortType in PHRService.wsdl definiert
+ 			version: V1.1.0
+				* 15.05.2019
+				* Update PHR_Common.xsd
+            version: V1.0.0
+				* 01.01.2019
+				* Initiale Version-->
+<!-- ===================== End of Version History =============================== -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrs="http://ws.gematik.de/conn/phrs/PHRService/v2.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/conn/phrs/PHRService/v2.0" targetNamespace="http://ws.gematik.de/conn/phrs/PHRService/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.1">
+    <annotation>
+        <documentation xml:lang="de">
+			Copyright (c) 2020, gematik GmbH. Alle Rechte vorbehalten.
+			Schema-Beschreibung für den Web Service PHRService des Fachmoduls ePA/ePF.
+			Version=2.0.1
+		</documentation>
+    </annotation>
+    <import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+    <import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
+    <element name="ContextHeader">
+        <complexType>
+            <sequence>
+                <element ref="CCTX:Context" minOccurs="0"/>
+                <element name="RecordIdentifier" type="phrc:RecordIdentifierType"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

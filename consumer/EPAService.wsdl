@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History
+            version: V1.0.0
+			* initiale Version
+	 End of Version History-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:EPA="http://ws.gematik.de/consumer/EPAService/v1.0" xmlns:EPAW="http://ws.gematik.de/consumer/EPAService/WSDL/v1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:ns="http://ws.gematik.de/consumer/EPAService/WSDL/v1.0" targetNamespace="http://ws.gematik.de/consumer/EPAService/WSDL/v1.0">
+	<documentation>
+		Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		Beschreibung: KTR-Consumer ePA Anwendung
+		Version=1.0.0
+</documentation>
+	<types>
+		<xs:schema>
+			<xs:import schemaLocation="EPAService.xsd" namespace="http://ws.gematik.de/consumer/EPAService/v1.0"/>
+			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+		</xs:schema>
+	</types>
+	<message name="LogoutRequestMessage">
+		<part name="parameter" element="EPA:Logout"/>
+	</message>
+	<message name="LogoutResponseMessage">
+		<part name="parameter" element="EPA:LogoutResponse"/>
+	</message>
+	<message name="PutDocumentsRequestMessage">
+		<part name="parameter" element="EPA:PutDocuments"/>
+	</message>
+	<message name="PutDocumentsResponseMessage">
+		<part name="parameter" element="EPA:PutDocumentsResponse"/>
+	</message>
+	<message name="FaultMessage">
+		<part name="parameter" element="GERROR:Error"/>
+	</message>
+	<portType name="EPAServicePortType">
+		<operation name="Logout">
+			<input message="EPAW:LogoutRequestMessage"/>
+			<output message="EPAW:LogoutResponseMessage"/>
+			<fault name="FaultMessage" message="EPAW:FaultMessage"/>
+		</operation>
+		<operation name="PutDocuments">
+			<input message="EPAW:PutDocumentsRequestMessage"/>
+			<output message="EPAW:PutDocumentsResponseMessage"/>
+			<fault name="FaultMessage" message="EPAW:FaultMessage"/>
+		</operation>
+	</portType>
+		<binding name="EPAServiceBinding" type="EPAW:EPAServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Logout">
+			<soap:operation soapAction="http://ws.gematik.de/consumer/EPAService/v1.0#Logout"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="PutDocuments">
+			<soap:operation soapAction="http://ws.gematik.de/consumer/EPAService/v1.0#PutDocuments"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="EPAService">
+		<port name="EPAServicePort" binding="EPAW:EPAServiceBinding">
+			<soap:address location="http://ti-consumer/epaservice"/>
+		</port>
+	</service>
+</definitions>

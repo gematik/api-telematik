@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History            
+			version: V1.0.0
+				* initiale Version
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" targetNamespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH.
+				Alle Rechte vorbehalten.
+			Beschreibung: Schema fÃ¼r gemeinsam nutzbare Elemente des Zertifikatsdienstes des Basis Consumer
+		</documentation>
+	</annotation>
+	<!-- ====== Definiert die reservierten Werte fÃ¼r Zertifikatsreferenzen ========= -->
+	<simpleType name="CheckCertificateDetailEnum">
+		<restriction base="token">
+			<enumeration value="CERT_SIG_ERROR"/>
+			<enumeration value="BUILD_CHAIN_FAILED"/>
+			<enumeration value="CHECK_REVOCATION_FAILED"/>
+			<enumeration value="CERT_REVOKED"/>
+			<enumeration value="CERT_EXPIRED"/>
+			<enumeration value="CERT_BAD_FORMAT"/>
+			<enumeration value="POLICY_ERROR"/>
+			<enumeration value="QC_STATEMENT_ERROR"/>
+			<enumeration value="WRONG_ROLE"/>
+			<enumeration value="UNKNOWN_CRITICAL_EXTENSIONS"/>
+			<enumeration value="CERT_REVOKED_AFTER"/>
+			<enumeration value="NO_REVOCATION_CHECK"/>
+			<enumeration value="TSL_OUT_OF_DATE"/>
+			<enumeration value="QUALIFIED"/>
+		</restriction>
+	</simpleType>
+	<complexType name="CheckCertificateDetailsType">
+		<sequence>
+			<element name="CheckCertificateDetail" type="CERTCMN:CheckCertificateDetailEnum" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<element name="CheckCertificateDetails" type="CERTCMN:CheckCertificateDetailsType"/>
+	<element name="X509Certificate" type="base64Binary"/>
+</schema>

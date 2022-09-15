@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History  
+			version: V1.1.0
+			===========
+			*** C_6892: Nachtrag der OID für ID_DPE
+			version: V1.0.1
+			===========
+			*** C_6462: Aufhebung der Pflicht zur Schriftform für die  Einwilligungserklärung
+	 End of Version History-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" xmlns:DPE="http://ws.gematik.de/fa/nfds/DPE_Document/v1.1" targetNamespace="http://ws.gematik.de/fa/nfds/DPE_Document/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.0">
+	<xs:annotation>
+		<xs:documentation>
+		xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten. Beschreibung: Definition des Aufbaus des Datensatzes für persönliche Erklärungen des Versicherten
+		</xs:documentation>
+	</xs:annotation>
+	<!--Importe-Anfang-->
+	<xs:import namespace="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" schemaLocation="../nfds/common/NFDM_Common_v1_1.xsd"/>
+	<!-- Importe-Ende-->
+	<xs:element name="DPE_Document">
+		<xs:annotation>
+			<xs:documentation>Gesamtheit der persönlichen Erklärungen des Versicherten. 
+Daten zu persönlichen Erklärungen werden als Verweise auf Ablageorte behandlet. Es werden keinerlei Detaildaten abgespeichert.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="DPE:Persoenliche_Erklaerungen"/>
+			</xs:sequence>
+			<xs:attribute name="DPE_Version" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Persoenliche_Erklaerungen">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="DPE_Versicherter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="NFDM:Versicherter"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DPE_Versicherter_Einwilligung" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Information, bei welchem Arzt die Erklärung der Einwilligung zur Nutzung der NFD auf eGK hinterlegt ist.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DPE_VE_Arzt_Nachname">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="45"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="DPE_VE_Arzt_Vorname">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="45"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="DPE_VE_Ablageort" type="DPE:DPE_Adresse"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DPE_Gewebe_Organspendeerklaerung" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DPE_GO_Ablageort" type="DPE:DPE_Adresse" minOccurs="0"/>
+							<xs:element name="DPE_GO_Beschreibung">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="200"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="DPE_GO_letzte_Aktualisierung" type="xs:date" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DPE_Vorsorgevollmacht" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DPE_VV_Ablageort" type="DPE:DPE_Adresse" minOccurs="0"/>
+							<xs:element name="DPE_VV_Beschreibung">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="200"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="DPE_VV_Bevollmaechtigter">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DPE_VV_E-Mail" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="40"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DPE_VV_Faxnummer" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="25"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DPE_VV_Name_Bevollmaechtigter">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DPE_VV_Vorname_Bevollmaechtigter">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DPE_VV_Telefon_Bevollmaechtigter">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="25"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="DPE_VV_Adresse_Bevollmaechtigter" type="DPE:DPE_Adresse"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="DPE_VV_letzte_Aktualisierung" type="xs:date" use="required"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DPE_Patientenverfuegung" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DPE_PV_Ablageort" type="DPE:DPE_Adresse" minOccurs="0"/>
+							<xs:element name="DPE_PV_Beschreibung">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="200"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="DPE_PV_letzte_Aktualisierung" type="xs:date" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="ID_DPE" use="required" fixed="1.2.276.0.76.7.9">
+				<xs:annotation>
+					<xs:documentation>OID für das Datenmodell des Datensatzes persönliche Erklärung</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DPE_letzte_Aktualisierung_time" type="xs:time" use="required"/>
+			<xs:attribute name="DPE_letzte_Aktualisierung_date" type="xs:date" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DPE_Adresse">
+		<xs:annotation>
+			<xs:documentation>Adressinformationen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="NFDM:Adresse"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

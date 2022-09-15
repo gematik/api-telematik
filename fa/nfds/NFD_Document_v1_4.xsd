@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+			version: V1.4.0
+			===========
+			*** C_6892: Nachtrag der OID für ID_NFD
+			*** C_6827: Hinzufügen Geschlecht "divers"
+
+			version: V1.3.0
+			===========
+			*** C_6629: Entfernen der Attribute mit Status "prohibited"
+
+            version: V1.2.0
+			===========
+			***  C_6514: Synchronisation mit eMP/AMTS (BMPv2.5)
+			
+			version: V1.1.1
+			===========
+			*** C_6462: Aufhebung der Pflicht zur Schriftform für die  Einwilligungserklärung
+     
+			version: V1.1.0
+			===========
+			***  Synchronisation mit eMP/AMTS (BMPv2.4)
+	 End of Version History-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:NFDM="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" xmlns:NFD="http://ws.gematik.de/fa/nfds/NFD_Document/v1.4" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://ws.gematik.de/fa/nfds/NFD_Document/v1.4" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4.0">
+	<xs:annotation>
+		<xs:documentation>
+		xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten. Beschreibung: XML-Definition des Aufbaus des Notfalldatensatzes mit Medikationsdatenformaten von AMTS
+		</xs:documentation>
+	</xs:annotation>
+	<!--Importe-Anfang-->
+	<xs:import namespace="http://ws.gematik.de/fa/nfds/common/NFDM_Common/v1.1" schemaLocation="../nfds/common/NFDM_Common_v1_1.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../../ext/xmldsig-core-schema.xsd"/>
+	<!-- Importe-Ende-->
+	<xs:element name="NFD_Document">
+		<xs:annotation>
+			<xs:documentation>Dokument mit medizinisch relevanten Informationen für den Notfall sowie der entsprechenden Signaturinformation.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="NFD:Notfalldaten">
+					<xs:annotation>
+						<xs:documentation>Medizinisch relevante Informationen für den Notfall</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="NFD:SignatureArzt">
+					<xs:annotation>
+						<xs:documentation>Signaturinformationen zu medizinisch relevanten Informationen für den Notfall</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="NFD_Version" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Notfalldaten">
+		<xs:annotation>
+			<xs:documentation>Medizinisch relevante Informationen für den Notfall</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NFD_Versicherter">
+					<xs:annotation>
+						<xs:documentation>Gesamtheit der Verwaltungsdaten des Versicherten</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="NFDM:Versicherter"/>
+							<xs:element name="NFD_Behandelnder_Arzt_Institution" minOccurs="0" maxOccurs="3">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="NFD_BAI_Arzt_Nachname">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NFD_BAI_Arzt_Vorname" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NFD_BAI_Institution_Bezeichnung" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NFD_BAI_Arzt_Bezeichnung" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NFD_BAI_Adresse" type="NFD:NFD_Adresse" minOccurs="0"/>
+										<xs:element name="NFD_BAI_Kommunikation" type="NFD:NFD_Kommunikationsdaten" maxOccurs="3"/>
+									</xs:sequence>
+									<xs:attribute name="BAI_Art" use="required">
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:pattern value="Arzt|Institution"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:attribute>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="NFD_Benachrichtigungskontakt" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="NFD_BK_Bezeichnung">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NFD_BK_Nachname">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NFD_BK_Vorname" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="45"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="NFD_BK_Kommunikation" type="NFD:NFD_Kommunikationsdaten" maxOccurs="3"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="NFD_Versicherter_Kommunikation" type="NFD:NFD_Kommunikationsdaten" minOccurs="0" maxOccurs="3"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NFD_Versicherter_Einwilligung">
+					<xs:annotation>
+						<xs:documentation>Daten zur Einwilligung des Versicherten in die Nutzung der Notfalldaten. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NFD_VE_Arzt_Nachname">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="45"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NFD_VE_Arzt_Vorname">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="45"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="NFD_VE_Adresse" type="NFD:NFD_Adresse"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NFD_Befunddaten" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Gesamtheit der Befunddaten des Versicherten</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Besondere_Hinweise" type="NFD:Besondere_Hinweise" minOccurs="0"/>
+							<xs:element name="Allergien_Unvertraeglichkeiten" minOccurs="0" maxOccurs="10">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Substanz" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="50"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Reaktion" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="75"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Diagnosen" minOccurs="0" maxOccurs="20">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Diagnose_Code" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="10"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Diagnose_Text">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="255"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Diagnose_Zeitpunkt" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="15"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Diagnosesicherheit" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="1"/>
+													<xs:enumeration value=""/>
+													<xs:enumeration value="A"/>
+													<xs:enumeration value="G"/>
+													<xs:enumeration value="V"/>
+													<xs:enumeration value="Z"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Seitenlokalisation" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="1"/>
+													<xs:enumeration value="L"/>
+													<xs:enumeration value="R"/>
+													<xs:enumeration value="B"/>
+													<xs:enumeration value=""/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Diagnose_Code_System" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Kennzeichen_Code_System">
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:maxLength value="15"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="DC_Version" type="xs:string" use="optional"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NFD_Medikationseintrag" minOccurs="0" maxOccurs="20">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+							<xs:choice>
+								<xs:element name="M" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Name: Medikation
+
+Befüllung / Format: Falls für eine Medikation eine PZN angegeben ist, müssen auch alle über die PZN aus einer Arzneimitteldatenbank ableitbaren Attribute (inklusive Wirkstoffe) angegeben werden. Die Inhalte müssen dann entweder der Arzneimitteldatenbank entsprechen oder sind vom Anwender anders zu belegen.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:complexContent>
+											<xs:extension base="NFD:meTyp">
+												<xs:sequence>
+													<xs:element name="W" minOccurs="0" maxOccurs="unbounded">
+														<xs:annotation>
+															<xs:documentation>Name: Wirkstoffe und Wirkstärken
+
+Beschreibung: Wirkstoffe und Wirkstärken einer Medikation
+
+Befüllung / Format: Die Werte sind aus der PZN abzuleiten oder vom Anwender manuell einzutragen.
+
+Validitätskriterium: Falls das Attribut p angegeben ist, muss mindestens ein Element W mit den Attributen w und (s oder gwe) angegeben werden.</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:attribute name="w" use="required">
+																<xs:annotation>
+																	<xs:documentation>Name: Wirkstoff
+
+Beschreibung: Bezeichnung eines Wirkstoffes
+
+Befüllung / Format: Freitext</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:minLength value="1"/>
+																		<xs:maxLength value="80"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:attribute>
+															<xs:attribute name="s">
+																<xs:annotation>
+																	<xs:documentation>Name: Wirkstärke Freitext
+
+Beschreibung: Bezeichnung der Wirkstärke
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Die Attribute s und gwe dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:minLength value="1"/>
+																		<xs:maxLength value="15"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:attribute>
+															<xs:attribute name="gwe">
+																<xs:annotation>
+																	<xs:documentation>Name: Wirkstärke strukturiert
+
+Beschreibung: Strukturierte Darstellung einer Wirkstärke
+
+Befüllung / Format: [Wirkstoffmenge mit Wirkstoffmengeneinheit]/[Bezugsgrößenmenge mit Bezugsgrößenmengeneinheit] z.B. "5mg/1ml"
+
+Validitätskriterium: Die Attribute s und gwe dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+																</xs:annotation>
+																<xs:simpleType>
+																	<xs:restriction base="xs:string">
+																		<xs:minLength value="1"/>
+																		<xs:maxLength value="15"/>
+																	</xs:restriction>
+																</xs:simpleType>
+															</xs:attribute>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="p" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Modifizierte PZN
+
+Beschreibung: Pharmazentralnummer einer Fertigarzneimittelpackung
+
+Befüllung / Format: nach Code-System in Attribut ps</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:int">
+															<xs:maxInclusive value="99999999"/>
+															<xs:minInclusive value="1"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="ps" use="optional" fixed="BMP v2.5, Kap 8.3.1, Tab 3">
+													<xs:annotation>
+														<xs:documentation>Name: Code-System PZN
+
+Beschreibung: Code-System für die PZN
+
+Befüllung / Format: BMP v2.5, Kapitel 8.3.1, Tabelle 3, fixed
+
+Validitätskriterium: Falls das Attribut p angegeben ist, muss auch das Attribut ps angegeben werden. Falls das Attribut p nicht angegeben ist, darf das Attribut ps nicht angegeben werden.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="30"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="a" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Arzneimittelname
+
+Beschreibung: Freitextliche Bezeichnung eines Fertigarzneimittels
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: ---</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="50"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="f" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Darreichungsform Code
+
+Beschreibung: Darreichungsform als IFA Code
+
+Befüllung / Format: nach Code-System in Attribut fs
+
+Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:length value="3"/>
+															<xs:pattern value="[A-Z]{3}"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="fs" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.40">
+													<xs:annotation>
+														<xs:documentation>Name: Darreichungsform Code-System
+
+Beschreibung: Code-System für die Darreichungsform
+
+Befüllung / Format: BMP v2.5, Anhang 3, Tabelle 8, fixed
+
+Validitätskriterium: Falls das Attribut f angegeben ist, muss auch das Attribut fs angegeben werden. Falls das Attribut f nicht angegeben ist, darf das Attribut fs nicht angegeben werden.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="30"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="fd" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Darreichungsform Freitext
+
+Beschreibung: Darreichungsform als Freitext, entweder definiert oder fehlend (dann bei Ausdruck ggf. aus PZN abgeleitet)
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Die Attribute f und fd dürfen nicht gleichzeitig angegeben werden. </xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="7"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="m" type="NFD:dosierungTyp" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Dosierschema morgens
+
+Beschreibung: Dosierung als 4-teiliges Schema (morgens)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute m und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="d" type="NFD:dosierungTyp" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Dosierschema mittags
+
+Beschreibung: Dosierung als 4-teiliges Schema (mittags)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute d und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="v" type="NFD:dosierungTyp" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Dosierschema abends
+
+Beschreibung: Dosierung als 4-teiliges Schema (abends)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute v und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="h" type="NFD:dosierungTyp" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Dosierschema zur Nacht
+
+Beschreibung: Dosierung als 4-teiliges Schema (zur Nacht)
+
+Befüllung / Format: Wenn nicht angegeben = "0"
+
+Validitätskriterium: Die Attribute h und t dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+												<xs:attribute name="t" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Dosierschema Freitext
+
+Beschreibung: Freitextdosierung
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Das Attribut t darf nicht gleichzeitig mit den Attributen m, d, v und h angegeben werden.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="20"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="du" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Dosiereinheit strukturiert
+
+Beschreibung: Dosiereinheit als Code
+
+Befüllung / Format: nach Code-System in Attribut dus
+
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:pattern value="[#0-9a-v]"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="dus" use="optional" fixed="1.2.276.0.76.3.1.1.5.2.41">
+													<xs:annotation>
+														<xs:documentation>Name: Dosiereinheit Code-System
+
+Beschreibung: Code-System der Dosiereinheit
+
+Befüllung / Format: OID, BMP v2.5, Anhang 4, fixed
+
+Validitätskriterium: Falls das Attribut du angegeben ist, muss auch das Attribut dus angegeben werden. Falls das Attribut du nicht angegeben ist, darf das Attribut dus nicht angegeben werden.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="30"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="dud" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Dosiereinheit Freitext
+
+Beschreibung: Dosiereinheit als Freitext
+
+Befüllung / Format: Freitext
+
+Validitätskriterium: Die Attribute du und dud dürfen nicht gleichzeitig angegeben werden.</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="2"/>
+															<xs:maxLength value="20"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+												<xs:attribute name="i" use="optional">
+													<xs:annotation>
+														<xs:documentation>Name: Hinweise
+
+Beschreibung: Hinweise zur Anwendung, Lagerung, Einnahme, etc.
+
+Befüllung / Format: Freitext, maximal ein manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut i darf nicht mehr als ein Tildezeichen enthalten ("~").</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:minLength value="1"/>
+															<xs:maxLength value="80"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:extension>
+										</xs:complexContent>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="R" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Name: Rezeptur
+
+Beschreibung: Rezeptut als Freitext</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:complexContent>
+											<xs:extension base="NFD:meTyp">
+												<xs:attribute name="t" use="required">
+													<xs:annotation>
+														<xs:documentation>Name: Freitext
+
+Beschreibung: Text ohne Bezug zu einem Medikationseintrag
+
+Befüllung / Format: Freitext, maximal 1 manueller Umbruch kann mit einer Tilde ("~") gekennzeichnet werden
+
+Validitätskriterium: Das Attribut t darf nicht mehr als 1 Tildezeichen enthalten ("~").</xs:documentation>
+													</xs:annotation>
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:maxLength value="200"/>
+															<xs:minLength value="1"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:extension>
+										</xs:complexContent>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NFD_Freiwillige_Zusatzinformationen" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Zusätzliche Angaben auf Wunsch des Versicherten</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Freiwillige_Zusatzinformationen" minOccurs="0">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="100"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="ID_NFD" use="required" fixed="1.2.276.0.76.7.8">
+				<xs:annotation>
+					<xs:documentation>OID für das Datenmodell des Notfalldatensatzes</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ID" type="xs:ID" use="required">
+				<xs:annotation>
+					<xs:documentation>ID zur Referenzierung durch die Signatur</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="NFD_letzte_Aktualisierung_date" type="xs:date" use="required"/>
+			<xs:attribute name="NFD_letzte_Aktualisierung_time" type="xs:time" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SignatureArzt">
+		<xs:annotation>
+			<xs:documentation>Signaturinformationen zu medizinisch relevanten Informationen für den Notfall</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="NFD_Adresse">
+		<xs:annotation>
+			<xs:documentation>Adressinformationen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="NFDM:Adresse"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NFD_Kommunikationsdaten">
+		<xs:annotation>
+			<xs:documentation>Informationen zur Erreichbarkeit</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="NFDM:Kommunikationsdaten"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Diagnose_Indikation">
+		<xs:annotation>
+			<xs:documentation>Angabe, ob ein Eintrag durch einen Arzt eingetragen wurde, der nicht aktuell den Datensatz bearbeitet</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="DI_Arzt" type="NFD:DI_Arzt" minOccurs="0"/>
+			<xs:element name="DI_Institution" type="NFD:DI_Institution" minOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="DI_Art" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:pattern value="Arzt|Institution"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DI_Arzt">
+		<xs:sequence>
+			<xs:element name="DI_Arzt_Name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="45"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DI_Arzt_Fachgebiet">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="35" fixed="false"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DI_Arzt_Ort">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DI_Institution">
+		<xs:sequence>
+			<xs:element name="DI_Institution_Name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="75"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DI_Institution_Fachabteilung">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DI_Institution_Ort">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="40"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Besondere_Hinweise">
+		<xs:sequence>
+			<xs:element name="Schwangerschaft" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Entbindungstermin_Errechnet" nillable="true" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:date"/>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Schwangerschaft">
+							<xs:annotation>
+								<xs:documentation>0 = keine Angabe 1 = ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:boolean">
+									<xs:pattern value="0|1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Implantate" minOccurs="0" maxOccurs="10">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Datum_Implantation" nillable="true" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="15"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Implantate">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Typenbezeichnung" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="60"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Kommunikationsstoerungen" minOccurs="0" maxOccurs="3">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Kommunikationsstoerung">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Weglaufgefaehrdung" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Weglaufgefaehrdung">
+							<xs:annotation>
+								<xs:documentation>0 = keine Angabe 1 = ja</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="1"/>
+									<xs:pattern value="0|1"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Weglaufgefaehrdung_Erlaeuterung">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="175"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Sonstige_Hinweise" minOccurs="0" maxOccurs="3">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="sonstige_Hinweise">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="175"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="diagnostiziert_indiziert" type="NFD:Diagnose_Indikation" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="meTyp">
+		<xs:annotation>
+			<xs:documentation>(Struktur aus eMP/AMTS übernommen, Inhalte werden für NFD nicht verwendet)</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:simpleType name="dosierungTyp">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([1-9]\d{0,3})|([1-9]\d,\d)|(\d,\d{1,2})|1/8|1/2|2/3|1/3|1/4|3/4"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

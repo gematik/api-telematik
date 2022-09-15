@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History
+            version: V1.0.2 - Im Servicenamen "IdpServiceActiveRequestor" wurde ein kleines "L" durch ein großes "i" ersetzt
+End of Version History-->
+<wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2005/08/addressing" xmlns:wsap10="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ISAR="http://ws.gematik.de/conn/tbauth/IdpServiceActiveRequestor/v1.0" targetNamespace="http://ws.gematik.de/conn/tbauth/IdpServiceActiveRequestor/v1.0">
+    <wsdl:documentation>
+		Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+		version=1.0.2 
+	</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema>
+            <xs:import schemaLocation="../../ext/ws-trust-1.3.xsd" namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="RequestSecurityTokenResponseMsg">
+        <wsdl:part name="response" element="wst:RequestSecurityTokenResponse">
+		</wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="RequestSecurityTokenMsg">
+        <wsdl:part name="request" element="wst:RequestSecurityToken">
+		</wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="RequestSecurityTokenResponseCollectionMsg">
+        <wsdl:part name="responseCollection" element="wst:RequestSecurityTokenResponseCollection">
+		</wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="STS">
+        <wsdl:operation name="Cancel">
+            <wsdl:input message="ISAR:RequestSecurityTokenMsg" wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Cancel">
+			</wsdl:input>
+            <wsdl:output message="ISAR:RequestSecurityTokenResponseMsg" wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/CancelFinal">
+			</wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Issue">
+            <wsdl:input message="ISAR:RequestSecurityTokenMsg" wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue">
+			</wsdl:input>
+            <wsdl:output message="ISAR:RequestSecurityTokenResponseCollectionMsg" wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal">
+			</wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Renew">
+            <wsdl:input message="ISAR:RequestSecurityTokenMsg" wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Renew">
+			</wsdl:input>
+            <wsdl:output message="ISAR:RequestSecurityTokenResponseMsg" wsam:Action="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/RenewFinal">
+			</wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="Transport_Binding" type="ISAR:STS">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsp:PolicyReference URI="#Transport_policy"/>
+        <wsdl:operation name="Issue">
+            <soap:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Cancel">
+            <soap:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Cancel"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Renew">
+            <soap:operation soapAction="http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Renew"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="IdpServiceActiveRequestor">
+        <wsdl:port name="Transport_Port" binding="ISAR:Transport_Binding">
+            <soap:address location="https://konnektor.konlan/sts/Transport"/>
+        </wsdl:port>
+    </wsdl:service>
+    <wsp:Policy wsu:Id="Transport_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <wsap10:UsingAddressing/>
+                <sp:TransportBinding xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                    <wsp:Policy>
+                        <sp:TransportToken>
+                            <wsp:Policy>
+                                <sp:HttpsToken RequireClientCertificate="false"/>
+                            </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256Sha256/>
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Lax/>
+                            </wsp:Policy>
+                        </sp:Layout>
+                        <sp:IncludeTimestamp/>
+                    </wsp:Policy>
+                </sp:TransportBinding>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</wsdl:definitions>

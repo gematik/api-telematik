@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\1" -->
+<!-- Version History
+            version: V3.1.0
+            * ProductInformation update auf Version 1.1.0
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CONN="http://ws.gematik.de/conn/ServiceDirectory/v3.1" xmlns:SI="http://ws.gematik.de/conn/ServiceInformation/v2.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" targetNamespace="http://ws.gematik.de/conn/ServiceDirectory/v3.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.1.0">
+	<import namespace="http://ws.gematik.de/conn/ServiceInformation/v2.0" schemaLocation="ServiceInformation.xsd"/>
+	<import namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1" schemaLocation="../tel/version/ProductInformation.xsd"/>
+	<annotation>
+		<documentation>Copyright (c) 2014, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
+			Beschreibung: Schema für den Service Directory Service, der die verfügbaren Dienste des Konnektors auflistet.</documentation>
+	</annotation>
+	<element name="Abstract" type="string">
+		<annotation>
+			<documentation>Kurze Beschreibung</documentation>
+		</annotation>
+	</element>
+	<element name="ConnectorServices">
+		<annotation>
+			<documentation>Wurzelelement der Dienstbeschreibung</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="PI:ProductInformation"/>
+				<element name="TLSMandatory" type="boolean"/>
+				<element name="ClientAutMandatory" type="boolean"/>
+				<element ref="SI:ServiceInformation"/>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gematik revision="\main\rel_online\rel_ors1\rel_opb1\rel_ors2\1" -->
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2014 gematik. Alle Rechte vorbehalten.                                        -->
+<!-- ===================================================================== -->
+<!-- Version History
+            version: V1.1.0
+			* CardService: Update von 8.0 auf 8.1
+            version: V1.1.1
+			* C_4788: Anpassung Element DisplayMsg
+            version: V1.1.2
+			* C_6439: Typisierung des Elements TimeOut
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CT="http://ws.gematik.de/conn/CardTerminalService/v1.1" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns1="http://ws.gematik.de/conn/CardService/v8.1" targetNamespace="http://ws.gematik.de/conn/CardTerminalService/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.2">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2014, gematik - Gesellschaft für
+			Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte
+			vorbehalten.
+			Beschreibung: Dienst zur Verwaltung der Karten
+		</documentation>
+	</annotation>
+	<import namespace="http://ws.gematik.de/conn/CardService/v8.1" schemaLocation="CardService.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0" schemaLocation="CardServiceCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="ConnectorContext.xsd"/>
+	<element name="RequestCard">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<element ref="CT:Slot"/>
+				<element ref="CARDCMN:CardType" minOccurs="0"/>
+				<element ref="CT:DisplayMsg" minOccurs="0"/>
+				<element ref="CT:TimeOut" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="RequestCardResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+				<element name="AlreadyInserted" type="boolean" minOccurs="0"/>
+				<element ref="CARD:Card" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="EjectCard">
+		<complexType>
+			<sequence>
+				<element ref="CCTX:Context"/>
+				<choice>
+					<element ref="CONN:CardHandle"/>
+					<element ref="CT:Slot"/>
+				</choice>
+				<element ref="CT:DisplayMsg" minOccurs="0"/>
+				<element ref="CT:TimeOut" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="EjectCardResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONN:Status"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="Slot">
+		<complexType>
+			<sequence>
+				<element ref="CARDCMN:CtId"/>
+				<element ref="CARDCMN:SlotId"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="DisplayMsg">
+		<simpleType>
+			<restriction base="string">
+				<maxLength value="48"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="TimeOut" type="nonNegativeInteger"/>
+</schema>

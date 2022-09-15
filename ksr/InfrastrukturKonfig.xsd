@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History
+            version: V1.0.1
+			* length limits for stings introduced
+			* character set limits for strings (ID, Name, DomainName) added
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:TICONF="http://ws.gematik.de/ticonf/v1.0" targetNamespace="http://ws.gematik.de/ticonf/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.1">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2020, gematik GmbH
+			Alle Rechte vorbehalten.
+			Beschreibung: Konfigurationsdienst
+		</documentation>
+	</annotation>
+	<element name="Infrastructure">
+		<complexType>
+			<sequence>
+				<element name="Version">
+					<simpleType>
+						<restriction base="string">
+							<pattern value="[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" id="version"/>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="InventoryNetworks">
+					<complexType>
+						<sequence maxOccurs="unbounded">
+							<element name="InventoryNetwork">
+								<complexType>
+									<sequence>
+										<element name="ID">
+											<simpleType>
+												<restriction base="string">
+													<maxLength value="100"/>
+													<pattern value="[a-zA-Z0-9.\-]*"/>
+												</restriction>
+											</simpleType>
+										</element>
+										<element name="Name">
+											<simpleType>
+												<restriction base="string">
+													<maxLength value="100"/>
+													<pattern value="[a-zA-Z 0-9_.\-äöüÄÖÜß]*"/>
+												</restriction>
+											</simpleType>
+										</element>
+										<element name="Networks">
+											<complexType>
+												<sequence maxOccurs="unbounded">
+													<element name="Network" type="TICONF:Network"/>
+												</sequence>
+											</complexType>
+										</element>
+										<element name="DNS">
+											<complexType>
+												<sequence>
+													<element name="Domain">
+														<complexType>
+															<sequence>
+																<element name="DomainName">
+																	<simpleType>
+																		<restriction base="string">
+																			<maxLength value="100"/>
+																			<pattern value="[a-zA-Z]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*"/>
+																		</restriction>
+																	</simpleType>
+																</element>
+																<element name="Servers">
+																	<complexType>
+																		<sequence maxOccurs="unbounded">
+																			<element name="Server" type="TICONF:Host"/>
+																		</sequence>
+																	</complexType>
+																</element>
+															</sequence>
+														</complexType>
+													</element>
+												</sequence>
+											</complexType>
+										</element>
+										<element name="History">
+											<complexType>
+												<sequence>
+													<element name="ValidFromDate" type="date"/>
+													<element name="ValidTilDate" type="date"/>
+													<element name="LastChangeDate" type="date"/>
+												</sequence>
+											</complexType>
+										</element>
+									</sequence>
+								</complexType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<complexType name="Network">
+		<sequence>
+			<element name="NetworkAddress">
+				<simpleType>
+					<restriction base="string">
+						<maxLength value="40"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="NetworkPrefix">
+				<simpleType>
+					<restriction base="string">
+						<maxLength value="40"/>
+					</restriction>
+				</simpleType>
+			</element>
+		</sequence>
+	</complexType>
+	<simpleType name="Host">
+		<restriction base="string">
+			<maxLength value="100"/>
+		</restriction>
+	</simpleType>
+</schema>

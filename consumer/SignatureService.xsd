@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mit XMLSpy v2014 rel. 2 sp1 (http://www.altova.com) von Gematik GmbH (Gematik) bearbeitet -->
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                 -->
+<!-- ===================================================================== -->
+<!-- Version History  
+			version: V1.0.0
+				initial version
+			version: V2.0.0
+				changed OptionalInputs: IncludeObjects removed
+										SignaturePlacement removed
+										ReturnUpdatedSignature removed
+										Schemas removed
+										GenerateUnderSignaturePolicy removed
+				changed VerifyDocumentResponse:OptionalOutputs:	DocumentWithSignature removed
+																UpdatedSignature removed
+				changed namespace SIG, targetNameSpace
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/consumer/SignatureService/v2.0" xmlns:CRYPT="http://ws.gematik.de/consumer/EncryptionService/v2.0" xmlns:CONSUMER="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/SignatureService/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+	<annotation>
+		<documentation xml:lang="de">
+			Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten. 
+			Beschreibung: Schema fÃ¼r den Signaturdienst des Basis-Consumer
+			Version: 1.0.0
+		</documentation>
+	</annotation>
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../ext/xmldsig-core-schema.xsd"/>
+	<import namespace="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" schemaLocation="../ext/oasis-dssx-1.0-profiles-sigpolicy-schema-cd01.xsd"/>
+	<import namespace="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" schemaLocation="../ext/oasis-dssx-1.0-profiles-vr-cd1.xsd"/>
+	<import namespace="urn:oasis:names:tc:dss:1.0:core:schema" schemaLocation="../ext/oasis-dss-core-schema-v1.0-os.xsd"/>
+	<import namespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" schemaLocation="CertificateServiceCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/consumer/EncryptionService/v2.0" schemaLocation="EncryptionService.xsd"/>
+	<import namespace="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" schemaLocation="ConsumerCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
+	<element name="SignDocument">
+		<complexType>
+			<sequence>
+				<!--				<element ref="CONSUMER:CardHandle"/> -->
+				<element ref="CRYPT:PrivateKeyOnCard"/>
+				<element ref="SIG:SignRequest" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SignRequest">
+		<complexType>
+			<sequence>
+				<element name="OptionalInputs" minOccurs="0">
+					<complexType>
+						<all>
+							<element ref="dss:SignatureType" minOccurs="0"/>
+							<element ref="dss:Properties" minOccurs="0"/>
+							<element ref="SIG:IncludeEContent" minOccurs="0"/>
+						</all>
+					</complexType>
+				</element>
+				<element ref="SIG:Document"/>
+			</sequence>
+			<attribute name="RequestID" type="string" use="required"/>
+		</complexType>
+	</element>
+	<element name="SignatureSchemes">
+		<simpleType>
+			<restriction base="string">
+				<enumeration value="RSASSA-PSS"/>
+				<enumeration value="RSASSA-PKCS1-v1_5"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="DocumentWithSignature" type="SIG:DocumentType"/>
+	<element name="SignDocumentResponse">
+		<complexType>
+			<sequence>
+				<element ref="SIG:SignResponse" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SignResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Status"/>
+				<element name="OptionalOutputs" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element ref="SIG:DocumentWithSignature" minOccurs="0"/>
+							<element ref="vr:VerificationReport" minOccurs="0"/>
+						</sequence>
+					</complexType>
+				</element>
+				<element ref="dss:SignatureObject" minOccurs="0"/>
+			</sequence>
+			<attribute name="RequestID" type="string" use="required"/>
+		</complexType>
+	</element>
+	<element name="VerifyDocument">
+		<complexType>
+			<sequence>
+				<element name="OptionalInputs" minOccurs="0">
+					<complexType>
+						<all>
+							<element name="VerifyManifests" minOccurs="0"/>
+							<element ref="SIG:UseVerificationTime" minOccurs="0"/>
+							<element ref="dss:AdditionalKeyInfo" minOccurs="0"/>
+							<element ref="vr:ReturnVerificationReport" minOccurs="0"/>
+							<element ref="dss:Schemas" minOccurs="0"/>
+						</all>
+					</complexType>
+				</element>
+				<element ref="SIG:Document" minOccurs="0"/>
+				<element ref="dss:SignatureObject" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="UseVerificationTime" type="dss:UseVerificationTimeType"/>
+	<element name="VerifyDocumentResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Status"/>
+				<element name="VerificationResult" type="SIG:VerificationResultType"/>
+				<element name="OptionalOutputs" minOccurs="0">
+					<complexType>
+						<sequence>
+							<element ref="dss:VerifyManifestResults" minOccurs="0"/>
+							<element ref="vr:VerificationReport" minOccurs="0"/>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ExternalAuthenticate">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:CardHandle"/>
+				<element name="OptionalInputs" minOccurs="0">
+					<complexType>
+						<all>
+							<element ref="dss:SignatureType" minOccurs="0"/>
+							<element ref="SIG:SignatureSchemes" minOccurs="0"/>
+						</all>
+					</complexType>
+				</element>
+				<element ref="SIG:BinaryString"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ExternalAuthenticateResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Status"/>
+				<element ref="dss:SignatureObject" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="Deselected"/>
+	<element name="SignatureForm">
+		<simpleType>
+			<restriction base="token">
+				<enumeration value="urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:BES"/>
+				<enumeration value="urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:ES-T"/>
+				<enumeration value="urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:ES-C"/>
+				<enumeration value="urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:ES-X"/>
+				<enumeration value="urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:ES-X-L"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="IncludeEContent" type="boolean"/>
+	<element name="Document" type="SIG:DocumentType"/>
+	<complexType name="DocumentType">
+		<complexContent>
+			<extension base="CONSUMER:DocumentType">
+				<attribute name="ShortText" type="string" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="BinaryString" type="SIG:BinaryDocumentType"/>
+	<complexType name="BinaryDocumentType">
+		<complexContent>
+			<extension base="dss:DocumentBaseType">
+				<all>
+					<element ref="dss:Base64Data"/>
+				</all>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="VerificationResultType">
+		<sequence>
+			<element name="HighLevelResult">
+				<simpleType>
+					<restriction base="token">
+						<enumeration value="VALID"/>
+						<enumeration value="INCONCLUSIVE"/>
+						<enumeration value="INVALID"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="TimestampType">
+				<simpleType>
+					<restriction base="token">
+						<enumeration value="SIGNATURE_EMBEDDED_TIMESTAMP"/>
+						<enumeration value="QUALIFIED_TIMESTAMP"/>
+						<enumeration value="USER_DEFINED_TIMESTAMP"/>
+						<enumeration value="SYSTEM_TIMESTAMP"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="Timestamp" type="dateTime"/>
+		</sequence>
+	</complexType>
+	<element name="ShortText">
+		<simpleType>
+			<restriction base="string">
+				<maxLength value="1000"/>
+			</restriction>
+		</simpleType>
+	</element>
+	<element name="CounterSignatureMarker">
+		<complexType>
+			<sequence>
+				<element name="SignatureValueReference" maxOccurs="unbounded">
+					<complexType>
+						<attribute name="IdRef" type="IDREF"/>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="DisplayableAttributes">
+		<complexType>
+			<sequence>
+				<element name="DisplayableAttribute" maxOccurs="unbounded">
+					<complexType>
+						<sequence>
+							<element name="Key">
+								<simpleType>
+									<restriction base="string">
+										<maxLength value="80"/>
+									</restriction>
+								</simpleType>
+							</element>
+							<element name="Value">
+								<simpleType>
+									<restriction base="string">
+										<maxLength value="8000"/>
+									</restriction>
+								</simpleType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="ReferenceToSignerCertificate" type="boolean"/>
+</schema>
