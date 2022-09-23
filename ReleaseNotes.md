@@ -1,3 +1,7 @@
+# Release 5.0.4-Pre1
+- ePA: maxOccur changed to 25 in DocumentCategoryList (C_11196)
+
+
 # Release 5.0.3
 - VPN-ZugD: In Operating Data schema locations corrected for namespace imports.
 
