@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Mit XMLSpy v2019 sp2 (x64) (http://www.altova.com) von n/a (Gematik) bearbeitet -->
 <!-- ===================================================================== -->
 <!-- 	                    Copyright (C) 2019 gematik. Alle Rechte vorbehalten.                                        -->
 <!-- ===================================================================== -->
 <!-- Version History
-			version: V2.0.0
-				*   DocumentCategoryEnum geändert für ad-Hoc Berechtigung (kategoriebasierte Berechtigung)
-                * 	AuthorizationConfigurationType für ad-Hoc Berechtigung (Vertraulichkeitsstufe, kategoriebasierte Berechtigung) 
             version: V1.3.0
                 *  Für sämtliche Operationen soapActionRequired="false"  
                    Für sämtiche PortType Bindings <wsaw:UsingAddressing required="true"/>
@@ -22,80 +18,44 @@
 				* 01.01.2019
 				* Initiale Version-->
 <!-- ===================== End of Version History =============================== -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:phrm="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.3" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:phrc="http://ws.gematik.de/fa/phr/v1.1" xmlns:ns1="http://ws.gematik.de/fa/phr/v1.1" targetNamespace="http://ws.gematik.de/conn/phrs/PHRManagementService/v1.3" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.3.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 			Schema-Beschreibung für den Web Service PHRManagementService des Fachmoduls ePA/ePF.
-			Version=2.0.0
+			Version=1.3.0
 		</documentation>
 	</annotation>
 	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
 	<import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
 	<import namespace="http://ws.gematik.de/fa/phr/v1.1" schemaLocation="../../fd/phr/PHR_Common.xsd"/>
-	<simpleType name="AuthorizationConfidentialityEnum">
-		<restriction base="string">
-			<enumeration value="normal"/>
-			<enumeration value="extended"/>
-		</restriction>
-	</simpleType>
-	<simpleType name="DocumentCategoryEnum">
-		<restriction base="string">
-			<enumeration value="practitioner"/>
-			<enumeration value="hospital"/>
-			<enumeration value="laboratory"/>
-			<enumeration value="physiotherapy"/>
-			<enumeration value="psychotherapy"/>
-			<enumeration value="dermatology"/>
-			<enumeration value="gynaecology_urology"/>
-			<enumeration value="dentistry_oms"/>
-			<enumeration value="other_medical"/>
-			<enumeration value="other_non_medical"/>
-			<enumeration value="emp"/>
-			<enumeration value="nfd"/>
-			<enumeration value="eab"/>
-			<enumeration value="dentalrecord"/>
-			<enumeration value="childsrecord"/>
-			<enumeration value="mothersrecord"/>
-			<enumeration value="vaccination"/>
-			<enumeration value="patientdoc"/>
-			<enumeration value="ega"/>
-			<enumeration value="receipt"/>
-			<enumeration value="care"/>
-			<enumeration value="prescription"/>
-			<enumeration value="eau"/>
-			<enumeration value="other"/>
-		</restriction>
-	</simpleType>
-	<element name="AuthorizationConfiguration">
-		<complexType>
-			<annotation>
-				<documentation xml:lang="de">Policy Document</documentation>
-			</annotation>
-			<sequence>
-				<element name="AuthorizationConfidentiality" type="phrm:AuthorizationConfidentialityEnum">
-					<annotation>
-						<documentation xml:lang="de">Vertraulichkeitsstufe</documentation>
-					</annotation>
-				</element>
-				<element name="DocumentCategoryList">
-					<annotation>
-						<documentation xml:lang="de">Vergabe der Berechtigung auf Basis von Dokumentenkategorien - kategoriebasierte Berechtigung</documentation>
-					</annotation>
-					<complexType>
-						<sequence minOccurs="1" maxOccurs="unbounded">
-							<element name="DocumentCategoryElement" type="phrm:DocumentCategoryEnum"/>
-						</sequence>
-					</complexType>
-				</element>
-				<element name="ExpirationDate" type="date">
-					<annotation>
-						<documentation xml:lang="de">Ablaufdatum der Zugriffsberechtigung</documentation>
-					</annotation>
-				</element>
-			</sequence>
-		</complexType>
-	</element>
+	<complexType name="AuthorizationConfigurationType">
+		<annotation>
+			<documentation xml:lang="de">Policy Document</documentation>
+		</annotation>
+		<sequence>
+			<element name="Vers_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente des Versicherten gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="LE_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente der Leistungserbringer gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="KTR_Docs" type="boolean">
+				<annotation>
+					<documentation xml:lang="de">Berechtigung für Dokumente der Krankenkassen gemäß [gemSpec_Dokumentenverwaltung]</documentation>
+				</annotation>
+			</element>
+			<element name="ExpirationDate" type="date">
+				<annotation>
+					<documentation xml:lang="de">Ablaufdatum der Zugriffsberechtigung</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
 	<element name="ActivateAccount">
 		<complexType>
 			<sequence>
@@ -141,7 +101,7 @@
 						<documentation xml:lang="de">Verweis auf die eGK, die den Zugriff auf das Aktenkonto vergeben kann (Versicherter oder Vertreter)</documentation>
 					</annotation>
 				</element>
-				<element ref="phrm:AuthorizationConfiguration">
+				<element name="AuthorizationConfiguration" type="phrm:AuthorizationConfigurationType">
 					<annotation>
 						<documentation xml:lang="de">Information, wofür und für welche Dauer eine Berechtigung erteilt wird</documentation>
 					</annotation>

@@ -24,7 +24,7 @@
     [1] http://www.w3.org/Consortium/Legal/copyright-software-19980720
     [2] http://www.w3.org/Consortium/Legal/IPR-FAQ-20000620.html#DTD
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" targetNamespace="http://www.w3.org/2000/09/xmldsig#" elementFormDefault="qualified" version="0.1">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" targetNamespace="http://www.w3.org/2000/09/xmldsig#" elementFormDefault="qualified" version="0.2">
     <import namespace="http://uri.etsi.org/01903/v1.3.2#" schemaLocation="XAdES_NFDM_hardened.xsd"/>
     <!-- Basic Types Defined for Signatures -->
     <simpleType name="CryptoBinary">
