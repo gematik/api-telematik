@@ -1,3 +1,8 @@
+# Release 4.1.3
+- ePA: PHRManagementService_V2_0.xsd and PHRManagementService_V2_0.wsdl removed (C_11252)
+
+
+
 # Release 4.1.2
 - Konnektor: In Operating Data made some elements and subelements optional (C_11076)
 
