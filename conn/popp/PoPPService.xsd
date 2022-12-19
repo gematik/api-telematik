@@ -1,32 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Mit XMLSpy v2019 sp1 (x64) (http://www.altova.com) von n/a (Gematik) bearbeitet -->
-<!-- gematik revision="\main\rel_online\4" -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:PoPP="http://ws.gematik.de/conn/vsds/PoPPService/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns1="http://ws.gematik.de/conn/popp/PoPPService/v1.0" targetNamespace="http://ws.gematik.de/conn/popp/PoPPService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
-	<annotation>
-		<documentation xml:lang="de">
-			Copyright (c) 2011, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
-			Schema-Beschreibung für die PoPP-Schnittstelle des Fachmoduls Proof of Patient Presence.
+<!-- ===================================================================== -->
+<!-- 	                    Copyright (C) 2022 gematik GmbH. Alle Rechte vorbehalten.                                 -->
+<!-- ===================================================================== -->
+<!-- Version History			
+            version: V1.0.0
+			===============
+            *** Revision 13.12.2022
+                Rückgabeparameter POPP:PKey ergänzt
+                Typ von Rückgabeparameter POPP:PoPPToken geändert in string
+            *** Revision 18.11.2022
+                Rückgabeparameter CONN:Status ergänzt
+                Schreibweise der Element-Namen angepasst
+			*** initial 13.09.2022
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:PoPP="http://ws.gematik.de/conn/vsds/PoPPService/v1.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:POPP="http://ws.gematik.de/conn/popp/PoPPService/v1.0" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" targetNamespace="http://ws.gematik.de/conn/popp/PoPPService/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+    <annotation>
+        <documentation xml:lang="de">
+			Copyright (c) 2022, gematik GmbH. Alle Rechte vorbehalten.
+			Schema für die Schnittstelle des Moduls Proof of Patient Presence (PoPP).
 		</documentation>
-	</annotation>
-	<import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
-	<element name="performPoPP">
-		<complexType>
-			<sequence>
-				<element name="EhcHandle" type="string"/>
-				<element name="HpcHandle" type="string"/>
-				<element ref="CCTX:Context"/>
-			</sequence>
-		</complexType>
-	</element>
-	<element name="performPoPPResponse">
-		<complexType>
-			<sequence>
-				<element name="PoPPToken" minOccurs="0">
-					<simpleType>
-						<restriction base="base64Binary"/>
-					</simpleType>
-				</element>
-			</sequence>
-		</complexType>
-	</element>
+    </annotation>
+    <import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="../ConnectorCommon.xsd"/>
+    <import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0" schemaLocation="../ConnectorContext.xsd"/>
+    <element name="PerformPoPP">
+        <complexType>
+            <sequence>
+                <element name="EhcHandle" type="string"/>
+                <element name="HpcHandle" type="string"/>
+                <element ref="CCTX:Context"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="PerformPoPPResponse">
+        <complexType>
+            <sequence>
+                <element ref="CONN:Status"/>
+                <element name="PoPP">
+                    <complexType>
+                        <sequence>
+                            <element name="PoPPToken" type="string"/>
+                            <element name="PKey">
+                                <simpleType>
+                                    <restriction base="base64Binary"/>
+                                </simpleType>
+                            </element>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
 </schema>
