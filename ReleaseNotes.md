@@ -1,3 +1,7 @@
+# Release 5.0.6
+- Konnektor: Semantic Changes (C_11276)
+
+
 # Release 5.0.5
 - ePA: Semantic change => If some operation calls are not ePA capable the processing is aborted and returns an error (C_11334)
 
