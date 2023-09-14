@@ -365,17 +365,48 @@ Inland, Abrechnung nach Aufwand,
 				<xs:element name="DMP_Kennzeichnung" type="VSD:codeDigits" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Gibt die Teilnahme des Versicherten an einem Disease Management Program an. Die Kennzeichnung erfolgt gemaess der Schluesseltabelle.
-1 = Diabetes mellitus Typ 2, 
-2 = Brustkrebs, 
-3 = Koronare Herzkrankheit, 
-4 = Diabetes mellitus Typ 1, 
-5 = Asthma bronchiale, 
-6 = COPD (chronic obstructive pulmonary disease), 
-7 = Chronische Herzinsuffizienz, 
-8 = Depression, 
+1 = Diabetes mellitus Typ 2 
+2 = Brustkrebs 
+3 = Koronare Herzkrankheit
+4 = Diabetes mellitus Typ 1 
+5 = Asthma bronchiale 
+6 = COPD (chronic obstructive pulmonary disease)
+7 = Chronische Herzinsuffizienz
+8 = Depression
 9 = Rückenschmerz
 10 = Rheuma
 11 = Osteoporose
+12...29 = reserviert (nicht valider Wertebereich)
+30 = Diabetes Typ 2 und KHK
+31 = Asthma und Diabetes Typ 2
+32 = COPD und Diabetes Typ 2
+33 = COPD und KHK
+34 = COPD, Diabetes Typ 2 und KHK
+35 = Asthma und KHK
+36 = Asthma, Diabetes Typ 2 und KHK
+37 = Brustkrebs und Diabetes Typ 2
+38 = Diabetes Typ 1 und KHK
+39 = Asthma und Diabetes Typ 1
+40 = Asthma und Brustkrebs
+41 = Brustkrebs und KHK
+42 = Brustkrebs und COPD
+43 = COPD und Diabetes Typ 1
+44 = Brustkrebs, Diabetes Typ 2 und KHK
+45 = Asthma, Brustkrebs und Diabetes Typ 2
+46 = Brustkrebs und Diabetes Typ 1
+47 = COPD, Diabetes Typ 1 und KHK
+48 = Brustkrebs, COPD und Diabetes Typ 2
+49 = Asthma, Diabetes Typ 1 und KHK
+50 = Asthma, Brustkrebs und KHK
+51 = Brustkrebs, COPD und KHK
+52 = Brustkrebs, COPD, Diabetes Typ 2 und KHK
+53 = Asthma, Brustkrebs, Diabetes Typ 2 und KHK
+54 = Brustkrebs, Diabetes Typ 1 und KHK
+55 = Asthma, Brustkrebs und Diabetes Typ 1
+56 = Asthma, Brustkrebs, Diabetes Typ 1 und KHK
+57 = Brustkrebs, COPD und Diabetes Typ 1
+58 = Brustkrebs, COPD, Diabetes Typ 1 und KHK
+59...99 = reserviert (nicht valider Wertebereich)
 Das DMP-Kennzeichen findet derzeit aufgrund bilateraler vertraglicher Verpflichtungen von einzelnen Kostenträgern und Leistungserbringern noch Verwendung. Zur Abbildung dieser Verträge zu Disease-Management-Programmen kann das DMP-Kennzeichen weiterhin gemäß §291 Abs. 2a Satz 3 SGB V auf der eGK gespeichert werden, da es sich dabei um Angaben nach § 53 SGB V bzw. Angaben zum Nachweis von zusätzlichen Vertragsverhältnissen handelt.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
