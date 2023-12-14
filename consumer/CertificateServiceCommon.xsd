@@ -2,16 +2,25 @@
 <!-- Version History            
 			version: V1.0.0
 				* initiale Version
+			version: V2.0.0
+				* add types for ReadCardCertificate Operation
+				* fix character encoding
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" targetNamespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.0" targetNamespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
 	<annotation>
 		<documentation xml:lang="de">
-			Copyright (c) 2019, gematik - Gesellschaft fÃ¼r Telematikanwendungen der Gesundheitskarte mbH.
+			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH.
 				Alle Rechte vorbehalten.
-			Beschreibung: Schema fÃ¼r gemeinsam nutzbare Elemente des Zertifikatsdienstes des Basis Consumer
+			Beschreibung: Schema für gemeinsam nutzbare Elemente des Zertifikatsdienstes des Consumer
 		</documentation>
 	</annotation>
-	<!-- ====== Definiert die reservierten Werte fÃ¼r Zertifikatsreferenzen ========= -->
+	<!-- ====== Definiert die reservierten Werte für Zertifikatsreferenzen ========= -->
+	<simpleType name="CertRefEnum">
+		<restriction base="token">
+			<enumeration value="C.AUT"/>
+		</restriction>
+	</simpleType>
+	<element name="X509DataInfoList" type="CERTCMN:X509DataInfoListType"/>
 	<simpleType name="CheckCertificateDetailEnum">
 		<restriction base="token">
 			<enumeration value="CERT_SIG_ERROR"/>
@@ -36,5 +45,32 @@
 		</sequence>
 	</complexType>
 	<element name="CheckCertificateDetails" type="CERTCMN:CheckCertificateDetailsType"/>
+	<complexType name="X509DataInfoListType">
+		<sequence>
+			<element name="X509DataInfo" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="CertRef" type="CERTCMN:CertRefEnum"/>
+						<element name="X509Data" minOccurs="0">
+							<complexType>
+								<sequence>
+									<element name="X509IssuerSerial">
+										<complexType>
+											<sequence>
+												<element name="X509IssuerName" type="string"/>
+												<element name="X509SerialNumber" type="string"/>
+											</sequence>
+										</complexType>
+									</element>
+									<element name="X509SubjectName" type="string"/>
+									<element ref="CERTCMN:X509Certificate"/>
+								</sequence>
+							</complexType>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
 	<element name="X509Certificate" type="base64Binary"/>
 </schema>
