@@ -2,6 +2,9 @@
  
 # Release Notes api-telematik
 
+## Release Consumer 1.0.0
+- Extend Consumer Operations for "ePA für alle"
+
 ## Release 5.0.7
 - VSDM: add new DMP elements to documentation in xsd schema
 - (editorial) refine project readme
