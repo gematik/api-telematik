@@ -63,7 +63,7 @@
 	<binding name="SignatureServiceBinding" type="SIGW:SignatureServicePortType">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<operation name="VerifyDocument">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v1.0#VerifyDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.0#VerifyDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -75,7 +75,7 @@
 			</fault>
 		</operation>
 		<operation name="SignDocument">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v1.0#SignDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.0#SignDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -87,7 +87,7 @@
 			</fault>
 		</operation>
 		<operation name="ExternalAuthenticate">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v1.0#ExternalAuthenticate"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.0#ExternalAuthenticate"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
