@@ -6,6 +6,8 @@
 			changed namespace CERT,CERTW
 		version: V3.0.0
 			C_11647: change namespace CERT,CERTW
+		version: V3.0.0-1
+			fix: add missing SOAP operations for ReadCertificate
 	 End of Version History-->
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:CERT="http://ws.gematik.de/consumer/CertificateService/v3.0" xmlns:CERTW="http://ws.gematik.de/consumer/CertificateService/WSDL/v3.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/CertificateService/WSDL/v3.0">
 	<documentation>
@@ -18,6 +20,12 @@
 			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
 		</xs:schema>
 	</types>
+	<message name="ReadCertificateRequestMessage">
+		<part name="parameter" element="CERT:ReadCertificate"/>
+	</message>
+	<message name="ReadCertificateResponseMessage">
+		<part name="parameter" element="CERT:ReadCertificateResponse"/>
+	</message>
 	<message name="VerifyCertificateRequestMessage">
 		<part name="parameter" element="CERT:VerifyCertificate"/>
 	</message>
@@ -28,6 +36,11 @@
 		<part name="parameter" element="GERROR:Error"/>
 	</message>
 	<portType name="CertificateServicePortType">
+		<operation name="ReadCertificate">
+			<input message="CERTW:ReadCertificateRequestMessage"/>
+			<output message="CERTW:ReadCertificateResponseMessage"/>
+			<fault name="FaultMessage" message="CERTW:FaultMessage"/>
+		</operation>
 		<operation name="VerifyCertificate">
 			<input message="CERTW:VerifyCertificateRequestMessage"/>
 			<output message="CERTW:VerifyCertificateResponseMessage"/>
@@ -36,8 +49,20 @@
 	</portType>
 	<binding name="CertificateServiceBinding" type="CERTW:CertificateServicePortType">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="ReadCertificate">
+			<soap:operation soapAction="http://ws.gematik.de/consumer/CertificateService/v3.0#ReadCertificate"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="FaultMessage">
+				<soap:fault name="FaultMessage" use="literal"/>
+			</fault>
+		</operation>
 		<operation name="VerifyCertificate">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/CertificateService/v1.0#VerifyCertificate" style="document"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/CertificateService/v3.0#VerifyCertificate" style="document"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>

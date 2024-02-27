@@ -48,7 +48,7 @@
 	<binding name="EncryptionServiceBinding" type="CRYPTW:EncryptionServicePortType">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<operation name="EncryptDocument">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/EncryptionService/v1.0#EncryptDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/EncryptionService/v3.0#EncryptDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -60,7 +60,7 @@
 			</fault>
 		</operation>
 		<operation name="DecryptDocument">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/EncryptionService/v1.0#DecryptDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/EncryptionService/v3.0#DecryptDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>

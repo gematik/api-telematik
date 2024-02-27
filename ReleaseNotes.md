@@ -2,6 +2,10 @@
  
 # Release Notes api-telematik
 
+## Release Consumer 1.0.0-1
+- Fix: add missing SOAP operations for ReadCertificate
+- Fix: update Consumer SOAP actions to match correct WSDL namespace versions
+
 ## Release Consumer 1.0.0
 - Extend Consumer Operations for "ePA für alle"
 
