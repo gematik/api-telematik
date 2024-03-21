@@ -2,6 +2,10 @@
  
 # Release Notes api-telematik
 
+## Release 5.0.8
+
+- C_11600: Extend OperatingData with used TLS-Certificate Source and Algorithm at the Client System Interface
+
 ## Release Consumer 1.0.0-1
 - Fix: add missing SOAP operations for ReadCertificate
 - Fix: update Consumer SOAP actions to match correct WSDL namespace versions
