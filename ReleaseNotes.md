@@ -2,6 +2,12 @@
  
 # Release Notes api-telematik
 
+## Release 6.0.0
+- Extension of operating data in CertificateDataType with Cryptography
+- Clarification of how GetResourceInformation shall be called
+- Removal of Elements "TlsCertSource" and "TlsKeyCrypt" in order to avoid adaptations of OperatingData_vpnzugd_hardened.xsd
+- Support of PoPP-26 Feature by adding operation SecureSendAPDU in CardService
+
 ## Release 5.0.8
 
 - C_11600: Extend OperatingData with used TLS-Certificate Source and Algorithm at the Client System Interface
