@@ -2,6 +2,9 @@
  
 # Release Notes api-telematik
 
+## Release Consumer 1.1.0
+- Remove OptionalInputs from Operation ExternalAuthenticate
+
 ## Release 5.0.8
 
 - C_11600: Extend OperatingData with used TLS-Certificate Source and Algorithm at the Client System Interface
