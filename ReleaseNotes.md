@@ -2,6 +2,16 @@
  
 # Release Notes api-telematik
 
+## Release Consumer 1.1.0
+- Remove OptionalInputs from Operation ExternalAuthenticate
+
+## Release 6.0.0
+- Extension of operating data in CertificateDataType with Cryptography
+- Clarification of how GetResourceInformation shall be called
+- Removal of Elements "TlsCertSource" and "TlsKeyCrypt" in order to avoid adaptations of OperatingData_vpnzugd_hardened.xsd
+- Support of PoPP-26 Feature by adding operation SecureSendAPDU in CardService
+- Comfort Signature: Integrate error handling of error 4019 inside the operation ActivateComfortSignature
+
 ## Release 5.0.8
 
 - C_11600: Extend OperatingData with used TLS-Certificate Source and Algorithm at the Client System Interface
