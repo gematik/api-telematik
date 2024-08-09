@@ -2,6 +2,10 @@
  
 # Release Notes api-telematik
 
+## Release Consumer 1.1.0
+- Remove OptionalInputs from Operation ExternalAuthenticate
+- C_11771: Semantic Changes in EncryptionService
+
 ## Release 6.0.0
 - Extension of operating data in CertificateDataType with Cryptography
 - Clarification of connector status information format (similar to GetResourceInformation)

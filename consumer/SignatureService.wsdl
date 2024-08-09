@@ -10,15 +10,17 @@
 		version: V3.0.0
 			change namespace SIG
 			fix character encoding
+		version: V3.1.0
+			change namespace SIG
 	 End of Version History-->
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SIG="http://ws.gematik.de/consumer/SignatureService/v3.0" xmlns:SIGW="http://ws.gematik.de/consumer/SignatureService/WSDL/v3.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/SignatureService/WSDL/v3.0">
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SIG="http://ws.gematik.de/consumer/SignatureService/v3.1" xmlns:SIGW="http://ws.gematik.de/consumer/SignatureService/WSDL/v3.1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/SignatureService/WSDL/v3.1">
 	<documentation>
 		Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten.
 		Beschreibung: Basis-Consumer Signatur Basisanwendung
 	</documentation>
 	<types>
 		<xs:schema>
-			<xs:import schemaLocation="SignatureService.xsd" namespace="http://ws.gematik.de/consumer/SignatureService/v3.0"/>
+			<xs:import schemaLocation="SignatureService.xsd" namespace="http://ws.gematik.de/consumer/SignatureService/v3.1"/>
 			<xs:import schemaLocation="../tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
 		</xs:schema>
 	</types>
@@ -63,7 +65,7 @@
 	<binding name="SignatureServiceBinding" type="SIGW:SignatureServicePortType">
 		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 		<operation name="VerifyDocument">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.0#VerifyDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.1#VerifyDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -75,7 +77,7 @@
 			</fault>
 		</operation>
 		<operation name="SignDocument">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.0#SignDocument"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.1#SignDocument"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>
@@ -87,7 +89,7 @@
 			</fault>
 		</operation>
 		<operation name="ExternalAuthenticate">
-			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.0#ExternalAuthenticate"/>
+			<soap:operation soapAction="http://ws.gematik.de/consumer/SignatureService/v3.1#ExternalAuthenticate"/>
 			<input>
 				<soap:body use="literal"/>
 			</input>

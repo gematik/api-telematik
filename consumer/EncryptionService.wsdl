@@ -6,6 +6,9 @@
 			changed namespace CRYPT
 		version: V3.0.0
 			C_11647: change namespace CRYPT, CRYPTW
+		version: V3.0.1
+				* C_11771: semantic changes:
+				  * Functional robustness in preparation of RSA-Phaseout (ECC-Preferred behaviour)
 	 End of Version History-->
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:CRYPT="http://ws.gematik.de/consumer/EncryptionService/v3.0" xmlns:CRYPTW="http://ws.gematik.de/consumer/EncryptionService/WSDL/v3.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:ns="http://ws.gematik.de/consumer/EncryptionService/WSDL/v3.0" targetNamespace="http://ws.gematik.de/consumer/EncryptionService/WSDL/v3.0">
 	<documentation>
