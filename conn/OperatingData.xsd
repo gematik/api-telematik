@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Version History
+        version: V1.1.4
+        *** C_11600: Erweiterung der Betriebsdaten um Quelle und Kryptografie des TLS-Zertifikats an der Clientsystemschnittstelle
+        *** Entfernung von EBK-spezifischen Elementen
         version: V1.1.3
         *** C_11676: 
             * Erweiterung der Betriebsdaten in CertificateDataType um Kryptografie
@@ -13,14 +16,14 @@
         *** C_10701: Update SiteType Wertebereich, UpdateType optional, Standalone Modus entfernt
         initial: V1.0.0
      End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:CT="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" xmlns:OPD="http://ws.gematik.de/conn/OperatingData/v1.1" targetNamespace="http://ws.gematik.de/conn/OperatingData/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.3">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:PI="http://ws.gematik.de/int/version/ProductInformation/v1.1" xmlns:CT="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" xmlns:OPD="http://ws.gematik.de/conn/OperatingData/v1.1" targetNamespace="http://ws.gematik.de/conn/OperatingData/v1.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1.4">
     <import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0" schemaLocation="ConnectorCommon.xsd"/>
     <import namespace="http://ws.gematik.de/int/version/ProductInformation/v1.1" schemaLocation="../tel/version/ProductInformation.xsd"/>
     <import namespace="http://ws.gematik.de/conn/CardTerminalInfo/v8.0" schemaLocation="CardTerminalInfo.xsd"/>
     <annotation>
         <documentation>
             Copyright (c) 2021, gematik GmbH. Alle Rechte vorbehalten.
-            Beschreibung: Schema für Betriebsdaten der Konnektoren und Kartenterminals
+            Beschreibung: Schema für Betriebsdaten der virtuellen Instanzen der Highspeed-Konnektoren und Kartenterminals
         </documentation>
     </annotation>
     <element name="OperatingData">
@@ -32,24 +35,6 @@
         </annotation>
         <complexType>
             <sequence>
-                <element name="OperatingSite" minOccurs="0">
-                    <annotation>
-                        <documentation>Vom Konnektor bereitgestellte Informationen über die Betriebsumgebung</documentation>
-                    </annotation>
-                    <complexType>
-                        <sequence>
-                            <element name="ContractID" type="string">
-                                <annotation>
-                                    <documentation>
-                                        Vertragsnummer des TI-Teilnehmers beim VPN-Zugangsdienst. Wert von CONTRACT_ID_VPN_ZUGD.
-                                        Der Konnektor muss das Element ContractID befüllen.
-                                        Der VPN-ZugD muss das Element ContractID und dessen Inhalt löschen. 
-                                    </documentation>
-                                </annotation>
-                            </element>
-                        </sequence>
-                    </complexType>
-                </element>
                 <element ref="PI:ProductInformation">
                     <annotation>
                         <documentation>Produktinformationen des Konnektors (gemäß connector.sds)</documentation>
@@ -61,29 +46,6 @@
                     </annotation>
                     <complexType>
                         <sequence>
-                            <element name="TIConnectionMode" minOccurs="0">
-                                <annotation>
-                                    <documentation>Wert von ANLW_ANBINDUNGS_MODUS</documentation>
-                                </annotation>
-                                <simpleType>
-                                    <restriction base="string">
-                                        <enumeration value="PARALLEL"/>
-                                        <enumeration value="SERIAL"/>
-                                    </restriction>
-                                </simpleType>
-                            </element>
-                            <element name="InternetMode" minOccurs="0">
-                                <annotation>
-                                    <documentation>Wert von ANLW_INTERNET_MODUS</documentation>
-                                </annotation>
-                                <simpleType>
-                                    <restriction base="string">
-                                        <enumeration value="SIS"/>
-                                        <enumeration value="IAG"/>
-                                        <enumeration value="NONE"/>
-                                    </restriction>
-                                </simpleType>
-                            </element>
                             <element name="ClientConnectionMode" minOccurs="0">
                                 <annotation>
                                     <documentation>Anbindung der Clientsysteme</documentation>
@@ -125,33 +87,61 @@
                                                 <restriction base="boolean"/>
                                             </simpleType>
                                         </element>
-                                    </sequence>
-                                </complexType>
-                            </element>
-                            <element name="UpdateMode" minOccurs="0">
-                                <annotation>
-                                    <documentation>
-                                        Der Konnektor muss das Element UpdateMode befüllen.
-                                        Der VPN-ZugD muss das Element UpdateMode und dessen Inhalt löschen.
-                                    </documentation>
-                                </annotation>
-                                <complexType>
-                                    <sequence>
-                                        <element name="AutoDownload">
+                                        <element name="TlsCertSource">
                                             <annotation>
-                                                <documentation>Wert von MGM_KSR_AUTODOWNLOAD (ENABLED = true, DISABLED = false)</documentation>
+                                                <documentation> Quelle des verwendeten TLS-Zertifikats des Konnektors an der Clientsystemschnittstelle</documentation>
                                             </annotation>
                                             <simpleType>
-                                                <restriction base="boolean"/>
+                                                <restriction base="string">
+                                                    <enumeration value="SMC-K_ORIGINAL"/>
+                                                    <enumeration value="SMC-K_RENEWED"/>
+                                                    <enumeration value="SELFSIGNED"/>
+                                                    <enumeration value="IMPORTED"/>
+                                                </restriction>
                                             </simpleType>
                                         </element>
-                                        <element name="AutoUpdate">
+                                        <element name="TlsKeyCrypt">
                                             <annotation>
-                                                <documentation>Wert von MGM_KSR_AUTO_UPDATE (ENABLED = true, DISABLED = false)</documentation>
+                                                <documentation>
+                                                    Der Konnektor muss den kryptografischen Algorithmus des öffentlichen Schlüssels
+                                                    im aktiven TLS-Zertifikat des Konnektors an der Clientsystemschnittstelle übermitteln.
+                                                </documentation>
                                             </annotation>
-                                            <simpleType>
-                                                <restriction base="boolean"/>
-                                            </simpleType>
+                                            <complexType>
+                                                <sequence>
+                                                    <element name="Algorithm">
+                                                        <annotation>
+                                                            <documentation>
+                                                                Verwendeter kryptografischer Algorithmus im aktiven TLS-Zertifikat des
+                                                                Konnektors an der Clientsystemschnittstelle
+                                                            </documentation>
+                                                        </annotation>
+                                                        <simpleType>
+                                                            <restriction base="string">
+                                                                <enumeration value="RSA"/>
+                                                                <enumeration value="ECC-NIST"/>
+                                                                <enumeration value="ECC-BRAINPOOL"/>
+                                                            </restriction>
+                                                        </simpleType>
+                                                    </element>
+                                                    <element name="KeyLength">
+                                                        <annotation>
+                                                            <documentation>
+                                                                Schlüssellänge des verwendeten kryptografischen Algorithmus im aktiven
+                                                                TLS-Zertifikat des Konnektors an der Clientsystemschnittstelle
+                                                            </documentation>
+                                                        </annotation>
+                                                        <simpleType>
+                                                            <restriction base="string">
+                                                                <enumeration value="256"/>
+                                                                <enumeration value="384"/>
+                                                                <enumeration value="2048"/>
+                                                                <enumeration value="3072"/>
+                                                            </restriction>
+                                                        </simpleType>
+                                                    </element>
+                                                </sequence>
+                                            </complexType>
                                         </element>
                                     </sequence>
                                 </complexType>
@@ -174,11 +164,6 @@
                     </annotation>
                     <complexType>
                         <sequence>
-                            <element name="CRL" type="OPD:CRL_InfoType" minOccurs="0">
-                                <annotation>
-                                    <documentation>Informationen über die aktuelle Certificate Revocation List (CRL) im Konnektor</documentation>
-                                </annotation>
-                            </element>
                             <element name="TSL" type="OPD:TSL_InfoType" minOccurs="0">
                                 <annotation>
                                     <documentation>Informationen über die aktuelle Trust Service Status List (TSL) im Konnektor</documentation>
@@ -244,16 +229,14 @@
                 </element>
                 <element name="OperatingSiteExtension" minOccurs="0">
                     <annotation>
-                        <documentation>Vom VPN-Zugangsdienst bereitgestellte Informationen über die Betriebsumgebung</documentation>
+                        <documentation>Die aus der SM-B extrahierte oder im Management-UI eingegebene Informationen über die Betriebsumgebung</documentation>
                     </annotation>
                     <complexType>
                         <sequence>
                             <element name="SiteType">
                                 <annotation>
                                     <documentation>
-                                        Betriebsstättenart.
-                                        Der Konnektor darf das Element SiteType nicht befüllen.
-                                        Der VPN-ZugD muss das Element SiteType befüllen. 
+                                        Betriebsstättenart gem. A_23769-*.
                                     </documentation>
                                 </annotation>
                                 <simpleType>
@@ -307,25 +290,6 @@
             <element name="NextUpdate" type="dateTime">
                 <annotation>
                     <documentation>Nächste Aktualisierung der BNetzA_VL</documentation>
-                </annotation>
-            </element>
-        </sequence>
-    </complexType>
-    <complexType name="CRL_InfoType">
-        <sequence>
-            <element name="ListNumber" type="positiveInteger">
-                <annotation>
-                    <documentation>Sperrlistennummer der CRL</documentation>
-                </annotation>
-            </element>
-            <element name="ValidFrom" type="dateTime">
-                <annotation>
-                    <documentation>Gültigkeitsbeginn der CRL</documentation>
-                </annotation>
-            </element>
-            <element name="NextUpdate" type="dateTime">
-                <annotation>
-                    <documentation>Nächste Aktualisierung der CRL</documentation>
                 </annotation>
             </element>
         </sequence>
