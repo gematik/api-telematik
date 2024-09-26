@@ -130,6 +130,15 @@
             </extension>
         </complexContent>
     </complexType>
+    <complexType name="BinaryDocumentType">
+        <complexContent>
+            <extension base="dss:DocumentBaseType">
+                <all>
+                    <element ref="dss:Base64Data"/>
+                </all>
+            </extension>
+        </complexContent>
+    </complexType>
     <element name="Cards">
         <complexType>
             <sequence>
@@ -225,7 +234,7 @@
     <element name="SecureSendAPDU">
         <complexType>
             <sequence>
-                <element name="CARD:TransactionData" type="dss:Base64Data"/>
+                <element name="TransactionData" type="CARD:BinaryDocumentType"/>
                 <element ref="dss:SignatureObject"/>
                 <element ref="CERTCMN:X509Certificate"/>
             </sequence>
@@ -235,8 +244,8 @@
         <complexType>
             <sequence>
                 <element ref="CONN:Status"/>
-                <element name="CARD:TransactionResult" type="dss:Base64Data"/>
-                <element name="CARD:TimeSpan" type="nonNegativeInteger"/>
+                <element name="TransactionResult" type="CARD:BinaryDocumentType"/>
+                <element name="TimeSpan" type="nonNegativeInteger"/>
             </sequence>
         </complexType>
     </element>

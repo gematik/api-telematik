@@ -2,6 +2,9 @@
  
 # Release Notes api-telematik
 
+## Release 6.0.0-2
+- Fix of invalid Schema in CardService
+
 ## Release Consumer 1.1.0
 - Remove OptionalInputs from Operation ExternalAuthenticate
 - C_11771: Semantic Changes in EncryptionService
