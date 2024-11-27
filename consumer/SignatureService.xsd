@@ -20,8 +20,13 @@
 				* fix character encoding
 			version: V3.1.0
 				* Remove OptionalInputs from ExternalAuthenticate
+			version: V3.2.0
+				* Add plain ECDSA signature as new SignPlain operation
+				* Fixes in SignDocument operation
+			version: V3.2.1
+				* update reference to new version of CERTCMN
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/consumer/SignatureService/v3.1" xmlns:CRYPT="http://ws.gematik.de/consumer/EncryptionService/v3.0" xmlns:CONSUMER="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v1.0" xmlns:CCTX="http://ws.gematik.de/consumer/ConsumerContext/v1.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/SignatureService/v3.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:vr="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dss="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:SIG="http://ws.gematik.de/consumer/SignatureService/v3.2" xmlns:CRYPT="http://ws.gematik.de/consumer/EncryptionService/v3.0" xmlns:CONSUMER="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" xmlns:sp="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.1" xmlns:CCTX="http://ws.gematik.de/consumer/ConsumerContext/v1.0" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/SignatureService/v3.2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.2.1">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH. Alle Rechte vorbehalten. 
@@ -32,14 +37,13 @@
 	<import namespace="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" schemaLocation="../ext/oasis-dssx-1.0-profiles-sigpolicy-schema-cd01.xsd"/>
 	<import namespace="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" schemaLocation="../ext/oasis-dssx-1.0-profiles-vr-cd1.xsd"/>
 	<import namespace="urn:oasis:names:tc:dss:1.0:core:schema" schemaLocation="../ext/oasis-dss-core-schema-v1.0-os.xsd"/>
-	<import namespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.0" schemaLocation="CertificateServiceCommon.xsd"/>
+	<import namespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.1" schemaLocation="CertificateServiceCommon.xsd"/>
 	<import namespace="http://ws.gematik.de/consumer/EncryptionService/v3.0" schemaLocation="EncryptionService.xsd"/>
 	<import namespace="http://ws.gematik.de/consumer/ConsumerCommon/v2.0" schemaLocation="ConsumerCommon.xsd"/>
 	<import namespace="http://ws.gematik.de/tel/error/v2.0" schemaLocation="../tel/error/TelematikError.xsd"/>
 	<element name="SignDocument">
 		<complexType>
 			<sequence>
-				<!--				<element ref="CONSUMER:CardHandle"/> -->
 				<element ref="CRYPT:PrivateKeyOnCard"/>
 				<element ref="SIG:SignRequest" maxOccurs="unbounded"/>
 			</sequence>
@@ -51,7 +55,13 @@
 				<element name="OptionalInputs" minOccurs="0">
 					<complexType>
 						<all>
-							<element ref="dss:SignatureType" minOccurs="0"/>
+							<element name="SignatureType" minOccurs="0">
+								<simpleType>
+									<restriction base="anyURI">
+										<enumeration value="urn:ietf:rfc:5652"/>
+									</restriction>
+								</simpleType>
+							</element>
 							<element ref="dss:Properties" minOccurs="0"/>
 							<element ref="SIG:IncludeEContent" minOccurs="0"/>
 						</all>
@@ -129,6 +139,38 @@
 					</complexType>
 				</element>
 			</sequence>
+		</complexType>
+	</element>
+	<element name="SignPlain">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:CardHandle"/>
+				<element ref="SIG:PlainSignRequest" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SignPlainResponse">
+		<complexType>
+			<sequence>
+				<element ref="SIG:PlainSignResponse" maxOccurs="unbounded"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="PlainSignRequest">
+		<complexType>
+			<sequence>
+				<element ref="SIG:BinaryString"/>
+			</sequence>
+			<attribute name="RequestID" type="string" use="required"/>
+		</complexType>
+	</element>
+	<element name="PlainSignResponse">
+		<complexType>
+			<sequence>
+				<element ref="CONSUMER:Status"/>
+				<element ref="dss:SignatureObject" minOccurs="0"/>
+			</sequence>
+			<attribute name="RequestID" type="string" use="required"/>
 		</complexType>
 	</element>
 	<element name="ExternalAuthenticate">
