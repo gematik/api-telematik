@@ -5,8 +5,10 @@
 			version: V2.0.0
 				* add types for ReadCardCertificate Operation
 				* fix character encoding
+			version: V2.1.0
+				* add option in CertRefEnum
 	 End of Version History-->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.0" targetNamespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:CERTCMN="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.1" targetNamespace="http://ws.gematik.de/consumer/CertificateServiceCommon/v2.1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1.0">
 	<annotation>
 		<documentation xml:lang="de">
 			Copyright (c) 2019, gematik - Gesellschaft für Telematikanwendungen der Gesundheitskarte mbH.
@@ -18,6 +20,7 @@
 	<simpleType name="CertRefEnum">
 		<restriction base="token">
 			<enumeration value="C.AUT"/>
+			<enumeration value="C.OSIG"/>
 		</restriction>
 	</simpleType>
 	<element name="X509DataInfoList" type="CERTCMN:X509DataInfoListType"/>
