@@ -5,9 +5,6 @@
 ## Release Consumer 1.2.0
 - C_12110: Enable Consumer to sign an access permission to the ePA 3.0 using plain ECDSA signatures
 
-## Release 6.0.0-2
-- Fix of invalid Schema in CardService
-
 ## Release Consumer 1.1.0
 - Remove OptionalInputs from Operation ExternalAuthenticate
 - C_11771: Semantic Changes in EncryptionService
