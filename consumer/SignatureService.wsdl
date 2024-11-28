@@ -15,6 +15,8 @@
 		version: V3.2.0
 			add SignPlain operation
 			change namespace SIG
+		version: V3.2.1
+			add OptionalInputs to ExternalAuthenticate
 	 End of Version History-->
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:SIG="http://ws.gematik.de/consumer/SignatureService/v3.2" xmlns:SIGW="http://ws.gematik.de/consumer/SignatureService/WSDL/v3.2" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/consumer/SignatureService/WSDL/v3.2">
 	<documentation>

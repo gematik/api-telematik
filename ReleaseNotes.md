@@ -2,6 +2,9 @@
  
 # Release Notes api-telematik
 
+## Release Consumer 1.2.1
+- Add OptionalInputs to ExternalAuthenticate
+  
 ## Release Consumer 1.2.0
 - C_12110: Enable Consumer to sign an access permission to the ePA 3.0 using plain ECDSA signatures
 
