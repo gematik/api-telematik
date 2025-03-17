@@ -2,6 +2,10 @@
  
 # Release Notes api-telematik
 
+## Release 6.0.1
+- C_12154: Adaptations of schema in CardService to be compliant with api-popp 3.0.0
+- C_12203: New WSDL-version of CertificatService because of semantic change
+
 ## Release Consumer 1.2.1
 - Add OptionalInputs to ExternalAuthenticate
   
