@@ -1,6 +1,12 @@
 <img align="right" width="250" height="47" src="images/Gematik_Logo_Flag_With_Background.png"/> <br/>    
  
 # Release Notes api-telematik
+## Release HSK_2.0.1
+- C_12202: Added ProductVersionHSK as ProductVersion
+- C_12154: Adaptations of schema in CardService to be compliant with api-popp 3.0.0
+- C_12203: New WSDL-version of CertificatService because of semantic change
+- Fix of invalid Schema in CardService
+  
 ## Release HSK_2.0.0
 - Alignment of HSK interfaces equivalent to EBK PTV 6.0.0
 - C_11600: Extend OperatingData with used TLS-Certificate Source and Algorithm at the Client System Interface
