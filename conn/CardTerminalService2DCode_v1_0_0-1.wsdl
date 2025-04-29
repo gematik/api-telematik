@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0"
+             xmlns:CT2DCODE="http://ws.cgm.com/conn/CardTerminalService2DCode/v1.0.0"
+             xmlns:CT2DCODEW="http://ws.cgm.com/conn/CardTerminalService2DCode/WSDL/v1.0.0"
+             targetNamespace="http://ws.cgm.com/conn/CardTerminalService2DCode/WSDL/v1.0.0">
+    <documentation>
+        Beschreibung: Dienst zur Anzeige von 2D Codes auf Kartenterminals
+        version=1.0.0
+    </documentation>
+
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import schemaLocation="CardTerminalService2DCode_v1_0_0.xsd" namespace="http://ws.cgm.com/conn/CardTerminalService2DCode/v1.0.0"/>
+            <import schemaLocation="../../xsd/tel/error/TelematikError.xsd" namespace="http://ws.gematik.de/tel/error/v2.0"/>
+        </schema>
+    </types>
+
+    <message name="displayQRCodeRequestMessage">
+        <part name="parameter" element="CT2DCODE:DisplayQRCode"/>
+    </message>
+    <message name="displayQRCodeResponseMessage">
+        <part name="parameter" element="CT2DCODE:DisplayQRCodeResponse"/>
+    </message>
+    <message name="FaultMessage">
+        <part name="parameter" element="GERROR:Error"/>
+    </message>
+
+    <portType name="CardTerminalService2DCodePortType">
+        <operation name="display_qr_code">
+            <input message="CT2DCODEW:displayQRCodeRequestMessage"/>
+            <output message="CT2DCODEW:displayQRCodeResponseMessage"/>
+            <fault name="FaultMessage" message="CT2DCODEW:FaultMessage"/>
+        </operation>
+    </portType>
+
+    <binding name="CardTerminalService2DCodeBinding" type="CT2DCODEW:CardTerminalService2DCodePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="display_qr_code">
+            <soap:operation soapAction="http://ws.cgm.com/conn/CardTerminalService2DCode/v1.0.0#displayQRCode"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="FaultMessage">
+                <soap:fault name="FaultMessage" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="CardTerminalService2DCode">
+        <port name="CardTerminalService2DCodePort" binding="CT2DCODEW:CardTerminalService2DCodeBinding">
+            <soap:address location="http://ti-konnektor/service/cardterminal2dcodeservice"/>
+        </port>
+    </service>
+</definitions>
+

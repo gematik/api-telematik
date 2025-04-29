@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Version History
+            version: V1.0.0
+			* Initiale Erstellung
+	 End of Version History-->
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:CT2DCODE="http://ws.cgm.com/conn/CardTerminalService2DCode/v1.0.0"
+        xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0"
+        xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+        xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+        targetNamespace="http://ws.cgm.com/conn/CardTerminalService2DCode/v1.0.0"
+        elementFormDefault="qualified"
+        attributeFormDefault="unqualified"
+        version="1.0.0">
+    <annotation>
+        <documentation xml:lang="de">
+            Copyright (c) 2023, CGM Deutschland AG. Alle Rechte
+            vorbehalten.
+            Beschreibung: Dienst zur Anzeige von 2D Codes auf Kartenterminals
+        </documentation>
+    </annotation>
+    <import namespace="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            schemaLocation="../../xsd/conn/ConnectorCommon.xsd"/>
+    <import namespace="http://ws.gematik.de/conn/CardServiceCommon/v2.0"
+            schemaLocation="../../xsd/conn/CardServiceCommon.xsd"/>
+    <import namespace="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            schemaLocation="../../xsd/conn/ConnectorContext.xsd"/>
+
+    <element name="DisplayQRCode">
+        <complexType>
+            <sequence>
+                <element ref="CCTX:Context"/>
+                <element ref="CARDCMN:CtId"/>
+                <element name="DisplayMsg" type="CT2DCODE:DisplayMsgType"/>
+                <element name="TimeOut" type="CT2DCODE:TimeOutType" default="20"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="DisplayQRCodeResponse">
+        <complexType>
+            <sequence>
+                <element ref="CONN:Status"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="DisplayMsgType">
+        <simpleContent>
+            <extension base="CT2DCODE:BinaryMsgType">
+                <attribute ref="CT2DCODE:codetype"/>
+            </extension>
+        </simpleContent>
+    </complexType>
+
+    <simpleType name="BinaryMsgType">
+        <restriction base="base64Binary">
+            <maxLength value="512"/>
+        </restriction>
+    </simpleType>
+
+    <attribute name="codetype" default="QR_CODE">
+        <simpleType>
+            <restriction base="string">
+                <enumeration value="QR_CODE"/>
+                <enumeration value="DATA_MATRIX_CODE"/>
+            </restriction>
+        </simpleType>
+    </attribute>
+
+    <simpleType name="TimeOutType">
+        <restriction base="positiveInteger">
+            <minInclusive value="5"/>
+            <maxInclusive value="60"/>
+        </restriction>
+    </simpleType>
+</schema>
+
