@@ -3,15 +3,20 @@
 <!-- 	                    Copyright (C) 2025 gematik. Alle Rechte vorbehalten.                                 -->
 <!-- ===================================================================== -->
 <!-- Version History
+			version: V6.0.3
+            ===========
+            *** C_12405: Semantische Änderung: 
+				geändertes Verhalten der Durchführung/Rückgabe von CheckCertificateExpiration
             version: V6.0.2
             ===========
-            *** C_12203: Semantische Änderung: Defaultverhalten für Parameter Crypt abhängig von Kartengeneration
+            *** C_12203: Semantische Änderung: 
+				Defaultverhalten für Parameter Crypt abhängig von Kartengeneration
 	 End of Version History -->
 <definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:CERT="http://ws.gematik.de/conn/CertificateService/v6.0" xmlns:CERTW="http://ws.gematik.de/conn/CertificateService/WSDL/v6.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" targetNamespace="http://ws.gematik.de/conn/CertificateService/WSDL/v6.0">
 	<documentation>
 		Copyright (c) 2025, gematik GmbH. Alle Rechte vorbehalten.
 		Beschreibung: Zertifikatsdienst
-		version=6.0.2
+		version=6.0.3
 	</documentation>
 	<types>
 		<xs:schema>
