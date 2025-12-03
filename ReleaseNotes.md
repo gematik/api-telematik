@@ -1,6 +1,12 @@
 <img align="right" width="250" height="47" src="images/Gematik_Logo_Flag_With_Background.png"/> <br/>    
  
 # Release Notes api-telematik
+
+## Release HSK_2.0.2
+- C_12334: Extending the SiteType enums of OperatingSiteExtension as per definition of A_23769-02
+- C_12578: Remove some residing traces of ePA 2.x
+- C_12578: Remove redundant SignatureService_V7_5_7.xsd
+
 ## Release HSK_2.0.1
 - C_12154: Adaptations of schema in CardService to be compliant with api-popp 3.0.0
 - C_12203: New WSDL-version of CertificatService because of semantic change
