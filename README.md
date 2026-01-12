@@ -47,9 +47,6 @@ See [ReleaseNotes.md](./ReleaseNotes.md) for all information regarding the (newe
 |stoerungsampel\    |                   |__Störungsampel__
 |tel\               |                   |__Architektur und übergreifende Dokumente__
 |vzd\               |                   |__Verzeichnisdienst__
-### Hint WRT Moving the Interface of the 'ePA-Aktensystem'
-
-   > The interface of the 'ePA-Aktensystem' has been moved out of this repository over to https://github.com/gematik/api-ePA.git and thus will not be maintained any further here.
 
 ## Contributing
 If you want to contribute, please check our [CONTRIBUTING.md](./CONTRIBUTING.md). 
