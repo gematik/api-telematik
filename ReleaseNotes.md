@@ -2,6 +2,11 @@
  
 # Release Notes api-telematik
 
+## Release 6.0.3
+- C_12578: Remove obsolete ePA 2.x Schema as the providing Fachmodul has been removed from the Konnektor
+- C_12578: Remove redundant SignatureService_V7_5_7.xsd
+- C_12405: Semantic Change of CheckCertificateExpiration
+
 ## Release 6.0.1
 - C_12154: Adaptations of schema in CardService to be compliant with api-popp 3.0.0
 - C_12203: New WSDL-version of CertificatService because of semantic change
